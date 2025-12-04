@@ -19,7 +19,7 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <Search className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl text-gray-900">ServiceHub</span>
+              <span className="text-xl text-gray-900">HomeCare360</span>
             </button>
             
             <nav className="hidden md:flex gap-6">

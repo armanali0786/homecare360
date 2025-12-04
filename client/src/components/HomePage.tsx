@@ -130,7 +130,7 @@ export function HomePage({ onSearch, onBecomeProvider }: HomePageProps) {
 
       {/* Why Choose Us */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-3xl text-gray-900 mb-12 text-center">Why Choose ServiceHub</h2>
+        <h2 className="text-3xl text-gray-900 mb-12 text-center">Why Choose HomeCare360</h2>
         <div className="grid md:grid-cols-3 gap-8">
           <div className="flex gap-4">
             <div className="flex-shrink-0">
@@ -180,7 +180,7 @@ export function HomePage({ onSearch, onBecomeProvider }: HomePageProps) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-4xl mb-4">Grow Your Business with ServiceHub</h2>
+                <h2 className="text-4xl mb-4">Grow Your Business with HomeCare360</h2>
                 <p className="text-xl text-green-100 mb-6">
                   Join our network of professional service providers and connect with customers in your area.
                 </p>
