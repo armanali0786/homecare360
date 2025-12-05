@@ -1,6 +1,6 @@
 import { Search, User, Menu } from 'lucide-react';
 import { UserRole } from '../App';
-
+import Logo from '../styles/images/logo1.png'
 interface HeaderProps {
   currentView: string;
   setCurrentView: (view: 'home' | 'browse' | 'profile' | 'user-dashboard' | 'provider-dashboard' | 'packages' | 'quote-estimator' | 'tracking' | 'become-provider') => void;
@@ -15,13 +15,7 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-8">
-            <button onClick={onBackToHome} className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Search className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl text-gray-900">HomeCare360</span>
-            </button>
-            
+            <img src={Logo} alt="Logo HomeCare360" className="h-16 w-16"/>
             <nav className="hidden md:flex gap-6">
               <button 
                 onClick={() => setCurrentView('browse')}
