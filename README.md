@@ -1,4 +1,4 @@
-# Local Services Marketplace Web App
+# HomeCare360
 
 A one-stop platform for finding, booking, and reviewing local service providers like plumbers, electricians, cleaners, landscapers, and more. This web app simplifies the process of discovering reliable local services while ensuring transparency, convenience, and secure payments.
 
