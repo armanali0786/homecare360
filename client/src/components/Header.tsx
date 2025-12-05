@@ -15,54 +15,72 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-8">
-            <img src={Logo} alt="Logo HomeCare360" className="h-16 w-16"   title="HomeCare360"/>
+            <img src={Logo} alt="Logo HomeCare360" className="h-16 w-16 cursor-pointer" title="HomeCare360" onClick={onBackToHome}/>
             <nav className="hidden md:flex gap-6">
-              <button 
+              <button
                 onClick={() => setCurrentView('browse')}
-                className="text-gray-600 hover:text-gray-900"
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
               >
                 Browse Services
               </button>
-              <button 
-                onClick={() => setCurrentView('packages')}
-                className="text-gray-600 hover:text-gray-900"
-              >
-                Packages
-              </button>
-              <button 
+              <button
                 onClick={() => setCurrentView('quote-estimator')}
-                className="text-gray-600 hover:text-gray-900"
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
               >
                 Get Quote
               </button>
-              <button 
-                onClick={() => setCurrentView('become-provider')}
-                className="text-gray-600 hover:text-gray-900"
+              <button
+                onClick={() => setCurrentView('tracking')}
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
               >
+                Live Tracking
+              </button>
+              {/* <button
+                onClick={() => setCurrentView('become-provider')}
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
+                >
                 Become a Provider
+                </button>
+                <button
+                onClick={() => setCurrentView('provider-dashboard')}
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
+              >
+                Provider-dashboard
+                </button>
+                <button
+                onClick={() => setCurrentView('user-dashboard')}
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
+                >
+                User-dashboard
+                </button> */}
+              <button
+                onClick={() => setCurrentView('packages')}
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
+              >
+                Packages
               </button>
             </nav>
           </div>
-          
+
           <div className="flex items-center gap-4">
             {!userRole ? (
               <>
-                <button 
+                <button
                   onClick={() => {
                     setUserRole('customer');
                     setCurrentView('user-dashboard');
                   }}
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-gray-600 hover:text-gray-900 cursor-pointer"
                 >
                   Sign In
                 </button>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer">
                   Sign Up
                 </button>
-              </>
+              </> 
             ) : (
               <div className="flex items-center gap-2">
-                <button 
+                <button
                   onClick={() => {
                     if (userRole === 'customer') {
                       setCurrentView('user-dashboard');
