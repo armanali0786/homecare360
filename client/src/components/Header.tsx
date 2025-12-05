@@ -35,7 +35,7 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
               >
                 Live Tracking
               </button>
-              {/* <button
+              <button
                 onClick={() => setCurrentView('become-provider')}
                 className="text-gray-600 hover:text-gray-900 cursor-pointer"
                 >
@@ -52,7 +52,7 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
                 className="text-gray-600 hover:text-gray-900 cursor-pointer"
                 >
                 User-dashboard
-                </button> */}
+                </button>
               <button
                 onClick={() => setCurrentView('packages')}
                 className="text-gray-600 hover:text-gray-900 cursor-pointer"
