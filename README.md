@@ -121,5 +121,5 @@ The Local Services Marketplace platform provides:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/local-services-marketplace.git
-cd local-services-marketplace
+git clone https://github.com/armanali0786/homecare360.git
+cd homecare360
