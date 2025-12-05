@@ -9,10 +9,10 @@ The platform ensures transparency, reliability, and a seamless experience for bo
 
 Finding dependable local service providers is often challenging. Common issues include:
 
-- ❌ Lack of transparency  
-- ❌ Inconsistent service quality  
-- ❌ Limited ratings and reviews  
-- ❌ Inefficient booking and offline payment methods  
+- Lack of transparency  
+- Inconsistent service quality  
+- Limited ratings and reviews  
+- Inefficient booking and offline payment methods  
 
 **HomeCare360 solves these challenges** with a streamlined, online-first platform.
 
