@@ -120,11 +120,7 @@ This section of the app allows you to showcase images and videos of your platfor
 
   <img width="1440" height="888" alt="image" src="https://github.com/user-attachments/assets/770f22a4-8119-495e-bd20-c6df372c0198" />
 
-
-
-
-
-
+  <img width="1440" height="888" alt="image" src="https://github.com/user-attachments/assets/4457221c-487e-4170-9cde-952a5d5f4eee" />
 
 ---
 ## Monetization Strategies
