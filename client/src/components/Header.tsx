@@ -15,7 +15,7 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center gap-8">
-            <img src={Logo} alt="Logo HomeCare360" className="h-16 w-16"/>
+            <img src={Logo} alt="Logo HomeCare360" className="h-16 w-16"   title="HomeCare360"/>
             <nav className="hidden md:flex gap-6">
               <button 
                 onClick={() => setCurrentView('browse')}
