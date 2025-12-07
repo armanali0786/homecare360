@@ -24,6 +24,12 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
                 Browse Services
               </button>
               <button
+                onClick={() => setCurrentView('become-provider')}
+                className="text-gray-600 hover:text-gray-900 cursor-pointer"
+                >
+                Become a Provider
+                </button>
+              <button
                 onClick={() => setCurrentView('quote-estimator')}
                 className="text-gray-600 hover:text-gray-900 cursor-pointer"
               >
@@ -35,13 +41,8 @@ export function Header({ currentView, setCurrentView, userRole, setUserRole, onB
               >
                 Live Tracking
               </button> */}
-              {/* <button
-                onClick={() => setCurrentView('become-provider')}
-                className="text-gray-600 hover:text-gray-900 cursor-pointer"
-                >
-                Become a Provider
-                </button>
-                <button
+              
+                {/* <button
                 onClick={() => setCurrentView('provider-dashboard')}
                 className="text-gray-600 hover:text-gray-900 cursor-pointer"
               >
