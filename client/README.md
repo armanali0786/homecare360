@@ -1,7 +1,7 @@
 
-  # Local Services Marketplace
+  # Design Home Screen Layout
 
-  This is a code bundle for Local Services Marketplace. The original project is available at https://www.figma.com/design/UJNOjoFLnn0BXQYyiS5ogO/Local-Services-Marketplace.
+  This is a code bundle for Design Home Screen Layout. The original project is available at https://www.figma.com/design/NjQrjSHI0AcNapdQhKmUGm/Design-Home-Screen-Layout.
 
   ## Running the code
 

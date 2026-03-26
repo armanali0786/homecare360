@@ -1,33 +1,68 @@
 # Dependencies
+
 node_modules/
+.pnpm-store/
 
 # Production build
+
 dist/
 build/
-out/
 
 # Environment files
+
 .env
-.env.*.local
+.env.*
+!.env.example
 
 # Logs
+
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-*.log
 
-# Cache
-.cache/
-.temp/
-.vite/
-.next/
-.nuxt/
-.angular/
+# OS files
 
-# OS / Editor
 .DS_Store
 Thumbs.db
+
+# Editor folders
+
 .vscode/
 .idea/
-*.swp
+
+# TypeScript
+
+*.tsbuildinfo
+
+# Vite
+
+.vite/
+
+# Cache
+
+.cache/
+.eslintcache
+
+# Testing
+
+coverage/
+
+# Optional: Next.js (if used)
+
+.next/
+out/
+
+# Optional: Parcel
+
+.cache/
+
+# Optional: Storybook
+
+storybook-static/
+
+# Misc
+
+*.local
