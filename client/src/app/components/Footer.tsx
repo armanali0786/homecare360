@@ -11,12 +11,12 @@ export function Footer() {
     { name: "Painting", path: "/services?category=painting" },
   ];
 
-  const company = [
-    { name: "About Us", path: "/about-us" },
-    { name: "Careers", path: "/careers" },
-    { name: "Blog", path: "/blog" },
-    { name: "Contact", path: "/contact" },
-  ];
+  // const company = [
+  //   { name: "About Us", path: "/about-us" },
+  //   { name: "Careers", path: "/careers" },
+  //   { name: "Blog", path: "/blog" },
+  //   { name: "Contact", path: "/contact" },
+  // ];
 
   const support = [
     { name: "Help Center", path: "/help-center" },
@@ -72,7 +72,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* Company */}
+          {/* Company 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </motion.div> */}
 
           {/* Support */}
           <motion.div

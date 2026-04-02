@@ -10,42 +10,42 @@ interface ViewProfileProps {
 }
 
 const providerData = {
-  name: "Sarah Williams",
+  name: "Rajesh Sharma",
   service: "Electrical",
   image: "https://images.unsplash.com/photo-1467733238130-bb6846885316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2lhbiUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NjkxODc5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
   rating: 5.0,
   reviews: 89,
-  distance: "2.5 miles away",
+  distance: "3.5 km away",
   jobsCompleted: 266,
   availability: "Available Tomorrow",
-  hourlyRate: 95,
+  hourlyRate: 500,
   minimumBooking: "2 hours",
   responseTime: "Within 1 hour",
-  startingFrom: 190,
-  about: "Certified electrician offering residential and commercial electrical services. Expert in smart home installations.",
+  startingFrom: 1000,
+  about: "Certified electrician offering residential and commercial electrical services. Expert in smart home installations, LED lighting systems, and home automation solutions.",
   experience: "12 years",
-  location: "Midtown",
+  location: "Mumbai, MH",
   specializations: [
     { name: "Wiring & Rewiring", icon: "⚡" },
-    { name: "Panel Upgrades", icon: "🔌" },
+    { name: "Electrical Panel Upgrades", icon: "🔌" },
     { name: "Smart Home Installation", icon: "🏠" },
-    { name: "LED Lighting", icon: "💡" },
+    { name: "LED Lighting Systems", icon: "💡" },
   ],
   portfolio: [
     {
       title: "Smart Home Lighting System",
-      description: "Complete smart lighting installation with app control",
+      description: "Complete smart lighting installation with mobile app control for Andheri residential complex",
       image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
     },
     {
-      title: "Panel Upgrade Project",
-      description: "200A electrical panel upgrade for modern home",
+      title: "Electrical Panel Upgrade Project",
+      description: "Modern home electrical panel upgrade with advanced circuit breakers and safety systems",
       image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400",
     },
   ],
   certifications: [
-    { name: "Licensed Electrician", organization: "State Electrical Board", year: "2012" },
-    { name: "Smart Home Professional", organization: "CEDIA", year: "2021" },
+    { name: "Licensed Electrician", organization: "Maharashtra Electricity Regulatory Commission", year: "2012" },
+    { name: "Smart Home Professional", organization: "Indian Institute of Electrical Engineers", year: "2021" },
   ],
   reviewsData: {
     average: 5.0,
@@ -60,17 +60,17 @@ const providerData = {
   },
   recentReviews: [
     {
-      name: "Mark Thompson",
+      name: "Amit Kumar",
       date: "11/20/2024",
       rating: 5,
-      comment: "Sarah installed our entire smart home lighting system. Incredibly knowledgeable and delicate with all our questions!",
+      comment: "Rajesh installed our entire smart home lighting system. Incredibly knowledgeable and professional with all our requirements!",
       verified: true,
     },
     {
-      name: "Amanda Rodriguez",
+      name: "Priya Singh",
       date: "11/12/2024",
       rating: 5,
-      comment: "Great service, we are very pleased with. Tread our panel repairs and upgraded our wiring. Will definitely use again.",
+      comment: "Great service, very pleased with the work. He repaired our electrical panel and upgraded our wiring. Will definitely use again.",
       verified: true,
     },
   ],
@@ -85,7 +85,7 @@ export function ViewProfile() {
   };
 
   const handleBookNow = () => {
-    navigate("/bookings");
+    // navigate("/bookings");
   };
 
 
@@ -353,7 +353,7 @@ export function ViewProfile() {
               <div className="space-y-4 mb-6">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Hourly Rate</span>
-                  <span className="font-bold text-gray-900">${providerData.hourlyRate}</span>
+                  <span className="font-bold text-gray-900">₹{providerData.hourlyRate}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Minimum Booking</span>
@@ -368,7 +368,7 @@ export function ViewProfile() {
               <div className="bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl p-4 mb-6">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-700">Starting from</span>
-                  <span className="text-2xl font-bold text-gray-900">${providerData.startingFrom}</span>
+                  <span className="text-2xl font-bold text-gray-900">₹{providerData.startingFrom}</span>
                 </div>
               </div>
 

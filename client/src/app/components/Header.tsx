@@ -26,13 +26,13 @@ export function Header() {
         <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <motion.div
+            <motion.img
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.6 }}
-              className="w-10 h-10 bg-[#00B8A9] rounded-lg flex items-center justify-center"
-            >
-              <span className="text-white text-xl font-bold">H</span>
-            </motion.div>
+              src="/logo.png"
+              alt="HomeCare360 Logo"
+              className="w-10 h-10 rounded-lg"
+            />
             <span className="text-xl font-bold bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">
               HomeCare360
             </span>

@@ -22,14 +22,14 @@ export function InstantQuoteEstimator() {
   });
 
   const services = [
-    { id: "plumbing", name: "Plumbing", basePrice: 150, icon: "🔧" },
-    { id: "electrical", name: "Electrical", basePrice: 175, icon: "⚡" },
-    { id: "cleaning", name: "House Cleaning", basePrice: 120, icon: "🧹" },
-    { id: "landscaping", name: "Landscaping", basePrice: 200, icon: "🌿" },
-    { id: "painting", name: "Painting", basePrice: 300, icon: "🎨" },
-    { id: "hvac", name: "HVAC Service", basePrice: 180, icon: "❄️" },
-    { id: "carpentry", name: "Carpentry", basePrice: 160, icon: "🔨" },
-    { id: "appliance", name: "Appliance Repair", basePrice: 140, icon: "🔌" },
+    { id: "plumbing", name: "Plumbing", basePrice: 400, icon: "🔧" },
+    { id: "electrical", name: "Electrical", basePrice: 500, icon: "⚡" },
+    { id: "cleaning", name: "House Cleaning", basePrice: 300, icon: "🧹" },
+    { id: "landscaping", name: "Landscaping", basePrice: 800, icon: "🌿" },
+    { id: "painting", name: "Painting", basePrice: 1500, icon: "🎨" },
+    { id: "hvac", name: "HVAC Service", basePrice: 1000, icon: "❄️" },
+    { id: "carpentry", name: "Carpentry", basePrice: 600, icon: "🔨" },
+    { id: "appliance", name: "Appliance Repair", basePrice: 400, icon: "🔌" },
   ];
 
   const propertyTypes = [
@@ -54,10 +54,10 @@ export function InstantQuoteEstimator() {
   ];
 
   const additionalServices = [
-    { id: "warranty", name: "Extended Warranty", price: 50 },
-    { id: "eco", name: "Eco-Friendly Materials", price: 75 },
-    { id: "weekend", name: "Weekend Service", price: 100 },
-    { id: "inspection", name: "Full Inspection Report", price: 60 },
+    { id: "warranty", name: "Extended Warranty", price: 150 },
+    { id: "eco", name: "Eco-Friendly Materials", price: 200 },
+    { id: "weekend", name: "Weekend Service", price: 300 },
+    { id: "inspection", name: "Full Inspection Report", price: 200 },
   ];
 
   const calculateQuote = () => {
@@ -230,7 +230,7 @@ export function InstantQuoteEstimator() {
                     >
                       <div className="text-4xl mb-3">{service.icon}</div>
                       <div className="font-bold text-gray-900 mb-1">{service.name}</div>
-                      <div className="text-sm text-gray-600">From ${service.basePrice}</div>
+                      <div className="text-sm text-gray-600">From ₹{service.basePrice}</div>
                     </motion.button>
                   ))}
                 </div>
@@ -384,7 +384,7 @@ export function InstantQuoteEstimator() {
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="font-bold text-gray-900">{addon.name}</div>
-                          <div className="text-sm text-gray-600">+${addon.price}</div>
+                          <div className="text-sm text-gray-600">+₹{addon.price}</div>
                         </div>
                         {quoteData.additionalServices.includes(addon.id) && (
                           <CheckCircle className="text-[#00B8A9]" size={24} />
@@ -437,7 +437,7 @@ export function InstantQuoteEstimator() {
                       transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
                       className="text-6xl font-bold bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent my-6"
                     >
-                      ${calculateQuote()}
+                      ₹{calculateQuote()}
                     </motion.div>
                     <p className="text-gray-600">This is an estimated quote. Final price may vary based on specific requirements.</p>
                   </div>

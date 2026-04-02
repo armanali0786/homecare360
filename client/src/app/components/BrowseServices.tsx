@@ -23,99 +23,99 @@ interface Provider {
 const providers: Provider[] = [
   {
     id: "1",
-    name: "Sarah Williams",
+    name: "Faizal Khan",
     service: "Electrical",
     image: "https://images.unsplash.com/photo-1467733238130-bb6846885316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2lhbiUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NjkxODc5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
     rating: 5.0,
     reviews: 89,
-    distance: "2.5 miles away",
-    price: 95,
-    description: "Certified electrician offering residential and commercial electrical services. Expert in smart home installations.",
+    distance: "3.5 km away",
+    price: 500,
+    description: "Certified electrician with 12 years experience. Expertise in residential, commercial wiring, LED installations, and home automation setup.",
     availability: "Available Tomorrow",
-    tags: ["Wiring & Rewiring", "Panel Upgrades", "Smart Home Installation"],
+    tags: ["Wiring Installation", "LED Panel Setup", "Home Automation"],
     verified: true,
-    location: "New York, NY",
+    location: "Mumbai, MH",
   },
   {
     id: "2",
-    name: "Mike Johnson",
+    name: "Bunty Plumbing Co.",
     service: "Plumbing",
     image: "https://images.unsplash.com/photo-1635221798248-8a3452ad07cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwbHVtYmVyJTIwcHJvZmVzc2lvbmFsJTIwd29ya3xlbnwxfHx8fDE3NjkxNTA5ODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
     rating: 4.9,
     reviews: 127,
-    distance: "1.2 miles away",
-    price: 85,
-    description: "Licensed plumber with 15 years of experience. Specializing in emergency repairs, installation, and maintenance.",
+    distance: "2.1 km away",
+    price: 400,
+    description: "Professional plumber with 15 years expertise. Emergency repairs, pipe fitting, water tank maintenance, and RO system installation.",
     availability: "Available Today",
-    tags: ["Emergency Repairs", "Pipe Installation", "Water Heater Repair"],
+    tags: ["Emergency Repair", "Pipe Fitting", "Tank Maintenance"],
     verified: true,
-    location: "Brooklyn, NY",
+    location: "Bengaluru, KA",
   },
   {
     id: "3",
-    name: "David Martinez",
+    name: "Arjun Singh",
     service: "Painting",
-    image: "https://images.unsplash.com/photo-1688372199140-cade7ae820fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMHBhaW50aW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkwODAwMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "https://images.unsplash.com/photo-1688372199140-cade7ae820fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHhob3VzZSUyMHBhaW50aW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkwODAwMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
     rating: 4.8,
     reviews: 93,
-    distance: "1.8 miles away",
-    price: 70,
-    description: "Professional painter with expertise in interior and exterior painting. Attention to detail guaranteed.",
+    distance: "4.2 km away",
+    price: 600,
+    description: "Expert painter specializing in interior & exterior painting, wall textures, Asian paints application, and weatherproof finishes.",
     availability: "Available Today",
-    tags: ["Interior Painting", "Exterior Painting", "Cabinet Refinishing"],
+    tags: ["Interior Painting", "Exterior Work", "Texture Application"],
     verified: true,
-    location: "Queens, NY",
+    location: "Pune, MH",
   },
   {
     id: "4",
-    name: "Clean Pro Services",
+    name: "Priya Enterprises",
     service: "Cleaning",
     image: "https://images.unsplash.com/photo-1620563671147-979557991e5a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMGNsZWFuaW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkxODY0MzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
     rating: 4.8,
     reviews: 203,
-    distance: "3.1 miles away",
-    price: 65,
-    description: "Professional cleaning team providing residential and commercial cleaning services with eco-friendly products.",
+    distance: "5.8 km away",
+    price: 300,
+    description: "Professional cleaning services for homes & offices. Deep cleaning, carpet cleaning, pest control, and eco-friendly disinfection.",
     availability: "Available This Week",
-    tags: ["Deep Cleaning", "Move-in/Move-out", "Office Cleaning"],
+    tags: ["Deep Cleaning", "Carpet Care", "Disinfection"],
     verified: true,
-    location: "Staten Island, NY",
+    location: "Delhi, DL",
   },
   {
     id: "5",
-    name: "Green Thumb Landscaping",
+    name: "Ali Space Solutions",
     service: "Landscaping",
     image: "https://images.unsplash.com/photo-1626075218494-89e92b375502?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYW5kc2NhcGluZyUyMGdhcmRlbnxlbnwxfHx8fDE3NjkxODc5NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
     rating: 4.7,
     reviews: 145,
-    distance: "4.8 miles away",
-    price: 75,
-    description: "Full-service landscaping company specializing in garden design, lawn care, and outdoor maintenance.",
+    distance: "6.3 km away",
+    price: 800,
+    description: "Expert landscaping services with garden design, plant selection, maintenance, and outdoor space transformation.",
     availability: "Available Next Week",
-    tags: ["Lawn Maintenance", "Garden Design", "Tree Trimming"],
+    tags: ["Garden Design", "Lawn Care", "Plant Maintenance"],
     verified: true,
-    location: "Bronx, NY",
+    location: "Ahmedabad, GJ",
   },
   {
     id: "6",
-    name: "Fix-it-All Handyman",
+    name: "Shahid Handyman Services",
     service: "Handyman",
     image: "https://plus.unsplash.com/premium_photo-1770631383605-c14d188b1baa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     rating: 4.6,
     reviews: 176,
-    distance: "3.5 miles away",
-    price: 60,
-    description: "Skilled handyman for all sorts of home repairs and installations. No job too small!",
+    distance: "4.7 km away",
+    price: 350,
+    description: "All-in-one handyman services for furniture assembly, wall mounting, minor repairs, and general home maintenance.",
     availability: "Available This Week",
-    tags: ["Furniture Assembly", "Door/Window Repair", "Drywall Repair"],
+    tags: ["Furniture Assembly", "Wall Mounting", "General Repair"],
     verified: true,
-    location: "New York, NY",
+    location: "Bengaluru, KA",
   },
 ];
 
 
 export function BrowseServices() {
-  const [priceRange, setPriceRange] = useState([0, 150]);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedRating, setSelectedRating] = useState("all");
   const [sortBy, setSortBy] = useState("most-rated");
   const [showFilters, setShowFilters] = useState(true);
@@ -292,19 +292,19 @@ export function BrowseServices() {
               {/* Price Range */}
               <div className="mb-6">
                 <label className="block text-sm text-gray-700 mb-2">
-                  Max Price per Hour: ${priceRange[1]}
+                  Max Price per Hour: ₹{priceRange[1]}
                 </label>
                 <input
                   type="range"
                   min="0"
-                  max="150"
+                  max="1000"
                   value={priceRange[1]}
                   onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
                   className="w-full accent-cyan-600"
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>$0</span>
-                  <span>$150</span>
+                  <span>₹0</span>
+                  <span>₹1000</span>
                 </div>
               </div>
 
@@ -401,7 +401,7 @@ export function BrowseServices() {
                           <p className="text-gray-600 text-sm mb-3">{provider.description}</p>
                         </div>
                         <div className="text-right">
-                          <div className="text-2xl font-bold text-gray-900">${provider.price}</div>
+                          <div className="text-2xl font-bold text-gray-900">₹{provider.price}</div>
                           <div className="text-sm text-gray-500">per hour</div>
                         </div>
                       </div>
