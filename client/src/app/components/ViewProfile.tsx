@@ -1,103 +1,87 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Star, MapPin, CheckCircle2, Calendar, DollarSign, Clock } from "lucide-react";
+import { ArrowLeft, Star, MapPin, CheckCircle2, Calendar } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useNavigate, useParams } from "react-router-dom";
-
-interface ViewProfileProps {
-  providerId: string;
-  onBack: () => void;
-  onBookNow: () => void;
-}
-
-const providerData = {
-  name: "Rajesh Sharma",
-  service: "Electrical",
-  image: "https://images.unsplash.com/photo-1467733238130-bb6846885316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2lhbiUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NjkxODc5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  rating: 5.0,
-  reviews: 89,
-  distance: "3.5 km away",
-  jobsCompleted: 266,
-  availability: "Available Tomorrow",
-  hourlyRate: 500,
-  minimumBooking: "2 hours",
-  responseTime: "Within 1 hour",
-  startingFrom: 1000,
-  about: "Certified electrician offering residential and commercial electrical services. Expert in smart home installations, LED lighting systems, and home automation solutions.",
-  experience: "12 years",
-  location: "Mumbai, MH",
-  specializations: [
-    { name: "Wiring & Rewiring", icon: "⚡" },
-    { name: "Electrical Panel Upgrades", icon: "🔌" },
-    { name: "Smart Home Installation", icon: "🏠" },
-    { name: "LED Lighting Systems", icon: "💡" },
-  ],
-  portfolio: [
-    {
-      title: "Smart Home Lighting System",
-      description: "Complete smart lighting installation with mobile app control for Andheri residential complex",
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",
-    },
-    {
-      title: "Electrical Panel Upgrade Project",
-      description: "Modern home electrical panel upgrade with advanced circuit breakers and safety systems",
-      image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400",
-    },
-  ],
-  certifications: [
-    { name: "Licensed Electrician", organization: "Maharashtra Electricity Regulatory Commission", year: "2012" },
-    { name: "Smart Home Professional", organization: "Indian Institute of Electrical Engineers", year: "2021" },
-  ],
-  reviewsData: {
-    average: 5.0,
-    total: 89,
-    breakdown: [
-      { stars: 5, count: 82 },
-      { stars: 4, count: 5 },
-      { stars: 3, count: 2 },
-      { stars: 2, count: 0 },
-      { stars: 1, count: 0 },
-    ],
-  },
-  recentReviews: [
-    {
-      name: "Amit Kumar",
-      date: "11/20/2024",
-      rating: 5,
-      comment: "Rajesh installed our entire smart home lighting system. Incredibly knowledgeable and professional with all our requirements!",
-      verified: true,
-    },
-    {
-      name: "Priya Singh",
-      date: "11/12/2024",
-      rating: 5,
-      comment: "Great service, very pleased with the work. He repaired our electrical panel and upgraded our wiring. Will definitely use again.",
-      verified: true,
-    },
-  ],
-};
+import { useEffect, useState } from "react";
+import { getProviderById, createBooking } from "@/app/lib/api";
+import { toast } from "react-toastify";
 
 export function ViewProfile() {
   const { providerId } = useParams();
   const navigate = useNavigate();
+  const [provider, setProvider] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [bookingDate, setBookingDate] = useState("");
+  const [bookingTime, setBookingTime] = useState("");
+  const [bookingLocation, setBookingLocation] = useState("");
+  const [booking, setBooking] = useState(false);
 
-  const handleBack = () => {
-    navigate(-1);
+  useEffect(() => {
+    if (!providerId) return;
+    setLoading(true);
+    getProviderById(providerId)
+      .then((data) => setProvider(data.provider))
+      .catch(() => setProvider(null))
+      .finally(() => setLoading(false));
+  }, [providerId]);
+
+  const handleBookNow = async () => {
+    if (!bookingDate) { toast.error("Please select a date"); return; }
+    if (!bookingLocation) { toast.error("Please enter your location"); return; }
+    const token = localStorage.getItem("token");
+    if (!token) { toast.error("Please login to book a service"); navigate("/login"); return; }
+    setBooking(true);
+    try {
+      await createBooking({
+        providerId: provider._id,
+        serviceCategory: provider.serviceCategory,
+        date: bookingDate,
+        time: bookingTime,
+        location: bookingLocation,
+        totalAmount: provider.hourlyRate * 2,
+      });
+      toast.success("Booking created successfully!");
+      navigate("/bookings");
+    } catch (err: any) {
+      toast.error(err.message || "Booking failed");
+    } finally {
+      setBooking(false);
+    }
   };
 
-  const handleBookNow = () => {
-    // navigate("/bookings");
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50 pt-12 pb-16 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600" />
+      </div>
+    );
+  }
 
+  if (!provider) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50 pt-12 pb-16 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-500 text-xl mb-4">Provider not found</p>
+          <button onClick={() => navigate(-1)} className="text-cyan-600 hover:underline">Go back</button>
+        </div>
+      </div>
+    );
+  }
+
+  const displayName = provider.businessName || `${provider.firstName} ${provider.lastName}`.trim();
+  const imageSrc = provider.profileImage ? `http://localhost:5000/uploads/${provider.profileImage}` : "";
+  const locationStr = [provider.city, provider.state].filter(Boolean).join(", ");
+  const reviews: any[] = provider.reviews || [];
+  const breakdown: any[] = provider.reviewsBreakdown || [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50 pt-12 pb-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back Button */}
         <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          onClick={handleBack}
+          onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-gray-600 hover:text-cyan-600 transition-colors mb-6"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -116,227 +100,186 @@ export function ViewProfile() {
             >
               <div className="flex flex-col md:flex-row gap-6 p-6">
                 <div className="w-full md:w-48 h-48 rounded-xl overflow-hidden flex-shrink-0">
-                  <ImageWithFallback
-                    src={providerData.image}
-                    alt={providerData.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <ImageWithFallback src={imageSrc} alt={displayName} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-                          {providerData.name}
-                        </h1>
+                        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{displayName}</h1>
                         <div className="w-6 h-6 bg-cyan-600 rounded-full flex items-center justify-center">
                           <CheckCircle2 className="w-4 h-4 text-white" />
                         </div>
                       </div>
-                      <p className="text-cyan-600 font-medium text-lg mb-3">{providerData.service}</p>
+                      <p className="text-cyan-600 font-medium text-lg mb-3">{provider.serviceCategory}</p>
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-4 mb-4">
                     <div className="flex items-center gap-1">
                       <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      <span className="font-bold text-gray-900">{providerData.rating}</span>
-                      <span className="text-gray-600">({providerData.reviews} reviews)</span>
+                      <span className="font-bold text-gray-900">{provider.rating || "New"}</span>
+                      <span className="text-gray-600">({provider.reviewCount} reviews)</span>
                     </div>
-                    <div className="flex items-center gap-1 text-gray-600">
-                      <MapPin className="w-4 h-4" />
-                      <span>{providerData.distance}</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-gray-600">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                      <span>{providerData.jobsCompleted} jobs completed</span>
-                    </div>
+                    {locationStr && (
+                      <div className="flex items-center gap-1 text-gray-600">
+                        <MapPin className="w-4 h-4" />
+                        <span>{locationStr}</span>
+                      </div>
+                    )}
+                    {provider.yearsExperience && (
+                      <div className="flex items-center gap-1 text-gray-600">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                        <span>{provider.yearsExperience} years experience</span>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg">
-                    <Calendar className="w-4 h-4" />
-                    <span className="font-medium">{providerData.availability}</span>
-                  </div>
+                  {provider.availability && (
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-lg">
+                      <Calendar className="w-4 h-4" />
+                      <span className="font-medium">{provider.availability}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
 
             {/* About */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-white rounded-2xl shadow-lg p-6"
-            >
-              <h2 className="text-xl font-bold text-gray-900 mb-4">About</h2>
-              <p className="text-gray-600 leading-relaxed mb-6">{providerData.about}</p>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Experience</p>
-                  <p className="font-semibold text-gray-900">{providerData.experience}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Location</p>
-                  <p className="font-semibold text-gray-900">{providerData.location}</p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Specializations */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white rounded-2xl shadow-lg p-6"
-            >
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Specializations</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {providerData.specializations.map((spec, index) => (
-                  <motion.div
-                    key={spec.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                    className="flex items-center gap-3 p-4 bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl"
-                  >
-                    <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-2xl shadow-sm">
-                      {spec.icon}
+            {provider.description && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="bg-white rounded-2xl shadow-lg p-6"
+              >
+                <h2 className="text-xl font-bold text-gray-900 mb-4">About</h2>
+                <p className="text-gray-600 leading-relaxed mb-6">{provider.description}</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {provider.yearsExperience && (
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Experience</p>
+                      <p className="font-semibold text-gray-900">{provider.yearsExperience} years</p>
                     </div>
-                    <span className="font-medium text-gray-900">{spec.name}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+                  )}
+                  {locationStr && (
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Location</p>
+                      <p className="font-semibold text-gray-900">{locationStr}</p>
+                    </div>
+                  )}
+                  {provider.serviceRadius && (
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Service Radius</p>
+                      <p className="font-semibold text-gray-900">{provider.serviceRadius} km</p>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
 
-            {/* Portfolio */}
+            {/* Tags / Specializations */}
+            {provider.tags && provider.tags.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="bg-white rounded-2xl shadow-lg p-6"
+              >
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Specializations</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {provider.tags.map((tag: string, index: number) => (
+                    <motion.div
+                      key={tag}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.1 * index }}
+                      className="flex items-center gap-3 p-4 bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl"
+                    >
+                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                        <CheckCircle2 className="w-5 h-5 text-cyan-600" />
+                      </div>
+                      <span className="font-medium text-gray-900">{tag}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Reviews */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="bg-white rounded-2xl shadow-lg p-6"
             >
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Portfolio</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {providerData.portfolio.map((item, index) => (
-                  <motion.div
-                    key={item.title}
-                    whileHover={{ y: -5 }}
-                    className="group"
-                  >
-                    <div className="rounded-xl overflow-hidden mb-3 shadow-lg">
-                      <ImageWithFallback
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </div>
-                    <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
-                    <p className="text-sm text-gray-600">{item.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Certifications */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white rounded-2xl shadow-lg p-6"
-            >
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Certifications & Licenses</h2>
-              <div className="space-y-4">
-                {providerData.certifications.map((cert, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-4 p-4 bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl"
-                  >
-                    <div className="w-10 h-10 bg-cyan-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <CheckCircle2 className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{cert.name}</h3>
-                      <p className="text-sm text-gray-600">{cert.organization}</p>
-                    </div>
-                    <span className="text-sm font-medium text-gray-500">{cert.year}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Reviews */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="bg-white rounded-2xl shadow-lg p-6"
-            >
               <h2 className="text-xl font-bold text-gray-900 mb-6">Reviews</h2>
 
-              {/* Rating Summary */}
-              <div className="flex flex-col md:flex-row gap-8 mb-8 pb-8 border-b border-gray-200">
-                <div className="text-center">
-                  <div className="text-5xl font-bold text-gray-900 mb-2">
-                    {providerData.reviewsData.average}
+              {reviews.length === 0 ? (
+                <p className="text-gray-500 text-center py-8">No reviews yet.</p>
+              ) : (
+                <>
+                  <div className="flex flex-col md:flex-row gap-8 mb-8 pb-8 border-b border-gray-200">
+                    <div className="text-center">
+                      <div className="text-5xl font-bold text-gray-900 mb-2">{provider.rating}</div>
+                      <div className="flex items-center justify-center gap-1 mb-2">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-600">{provider.reviewCount} reviews</p>
+                    </div>
+                    <div className="flex-1">
+                      {breakdown.map((item: any) => (
+                        <div key={item.stars} className="flex items-center gap-4 mb-2">
+                          <span className="text-sm text-gray-600 w-12">{item.stars} star</span>
+                          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-yellow-400 to-yellow-500"
+                              style={{ width: provider.reviewCount ? `${(item.count / provider.reviewCount) * 100}%` : "0%" }}
+                            />
+                          </div>
+                          <span className="text-sm text-gray-600 w-8">{item.count}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex items-center justify-center gap-1 mb-2">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+
+                  <div className="space-y-6">
+                    {reviews.map((review: any, index: number) => (
+                      <motion.div
+                        key={review._id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.1 * index }}
+                        className="pb-6 border-b border-gray-200 last:border-0"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <div className="flex items-center gap-2 mb-1">
+                              <h4 className="font-semibold text-gray-900">
+                                {review.user?.fullName || "User"}
+                              </h4>
+                              <span className="px-2 py-1 bg-cyan-100 text-cyan-700 text-xs rounded-full">
+                                Verified
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              {Array.from({ length: review.rating }).map((_, i) => (
+                                <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                              ))}
+                            </div>
+                          </div>
+                          <span className="text-sm text-gray-500">
+                            {new Date(review.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <p className="text-gray-600 leading-relaxed">{review.comment}</p>
+                      </motion.div>
                     ))}
                   </div>
-                  <p className="text-sm text-gray-600">{providerData.reviewsData.total} reviews</p>
-                </div>
-
-                <div className="flex-1">
-                  {providerData.reviewsData.breakdown.map((item) => (
-                    <div key={item.stars} className="flex items-center gap-4 mb-2">
-                      <span className="text-sm text-gray-600 w-12">{item.stars} star</span>
-                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-yellow-400 to-yellow-500"
-                          style={{
-                            width: `${(item.count / providerData.reviewsData.total) * 100}%`,
-                          }}
-                        />
-                      </div>
-                      <span className="text-sm text-gray-600 w-8">{item.count}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Recent Reviews */}
-              <div className="space-y-6">
-                {providerData.recentReviews.map((review, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 * index }}
-                    className="pb-6 border-b border-gray-200 last:border-0"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <h4 className="font-semibold text-gray-900">{review.name}</h4>
-                          {review.verified && (
-                            <span className="px-2 py-1 bg-cyan-100 text-cyan-700 text-xs rounded-full">
-                              Verified Purchase
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          {Array.from({ length: review.rating }).map((_, i) => (
-                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          ))}
-                        </div>
-                      </div>
-                      <span className="text-sm text-gray-500">{review.date}</span>
-                    </div>
-                    <p className="text-gray-600 leading-relaxed">{review.comment}</p>
-                  </motion.div>
-                ))}
-              </div>
+                </>
+              )}
             </motion.div>
           </div>
 
@@ -353,37 +296,65 @@ export function ViewProfile() {
               <div className="space-y-4 mb-6">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">Hourly Rate</span>
-                  <span className="font-bold text-gray-900">₹{providerData.hourlyRate}</span>
+                  <span className="font-bold text-gray-900">₹{provider.hourlyRate}</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Minimum Booking</span>
-                  <span className="font-medium text-gray-900">{providerData?.minimumBooking}</span>
+                {provider.availability && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Availability</span>
+                    <span className="font-medium text-gray-900">{provider.availability}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-3 mb-6">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Date *</label>
+                  <input
+                    type="date"
+                    value={bookingDate}
+                    min={new Date().toISOString().split("T")[0]}
+                    onChange={(e) => setBookingDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  />
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Response Time</span>
-                  <span className="font-medium text-gray-900">{providerData.responseTime}</span>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Time (optional)</label>
+                  <input
+                    type="time"
+                    value={bookingTime}
+                    onChange={(e) => setBookingTime(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Your Address *</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your full address"
+                    value={bookingLocation}
+                    onChange={(e) => setBookingLocation(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  />
                 </div>
               </div>
 
               <div className="bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl p-4 mb-6">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-700">Starting from</span>
-                  <span className="text-2xl font-bold text-gray-900">₹{providerData.startingFrom}</span>
+                  <span className="text-2xl font-bold text-gray-900">₹{provider.hourlyRate * 2}</span>
                 </div>
+                <p className="text-xs text-gray-500 mt-1">(2 hour minimum)</p>
               </div>
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleBookNow}
-                className="w-full bg-gradient-to-r from-cyan-600 to-emerald-500 text-white py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mb-4"
+                disabled={booking}
+                className="w-full bg-gradient-to-r from-cyan-600 to-emerald-500 text-white py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mb-4 disabled:opacity-60"
               >
-                Book Now
+                {booking ? "Booking..." : "Book Now"}
               </motion.button>
-
-              <button className="w-full border-2 border-cyan-600 text-cyan-600 py-3 rounded-lg font-semibold hover:bg-cyan-50 transition-colors">
-                Send Message
-              </button>
             </motion.div>
           </div>
         </div>

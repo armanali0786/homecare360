@@ -27,12 +27,18 @@ export function Login() {
       toast.success("Login successful!");
       login(
         {
-          email: data.user.email
+          email: data.user.email,
+          fullName: data.user.fullName,
+          role: data.user.role,
         },
         data.token
       );
-      localStorage.setItem("token", data.token);
-      navigate("/");
+      const role = data.user.role;
+      if (role === "admin" || role === "superadmin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } else {
       toast.error(data.message || "Login failed. Please try again.");
     }

@@ -1,120 +1,30 @@
 import { motion } from "motion/react";
-import { Search, MapPin, Star, MapPinned, ChevronDown, Sliders, X } from "lucide-react";
+import { Search, MapPin, Star, MapPinned, Sliders, X } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { getProviders } from "@/app/lib/api";
 
 interface Provider {
-  id: string;
-  name: string;
-  service: string;
-  image: string;
+  _id: string;
+  firstName: string;
+  lastName: string;
+  businessName?: string;
+  serviceCategory: string;
+  profileImage?: string;
   rating: number;
-  reviews: number;
-  distance: string;
-  price: number;
-  description: string;
-  availability: string;
+  reviewCount: number;
+  hourlyRate: number;
+  description?: string;
+  availability?: string;
   tags: string[];
-  verified: boolean;
-  location: string;
+  city?: string;
+  state?: string;
 }
 
-const providers: Provider[] = [
-  {
-    id: "1",
-    name: "Faizal Khan",
-    service: "Electrical",
-    image: "https://images.unsplash.com/photo-1467733238130-bb6846885316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2lhbiUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NjkxODc5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    rating: 5.0,
-    reviews: 89,
-    distance: "3.5 km away",
-    price: 500,
-    description: "Certified electrician with 12 years experience. Expertise in residential, commercial wiring, LED installations, and home automation setup.",
-    availability: "Available Tomorrow",
-    tags: ["Wiring Installation", "LED Panel Setup", "Home Automation"],
-    verified: true,
-    location: "Mumbai, MH",
-  },
-  {
-    id: "2",
-    name: "Bunty Plumbing Co.",
-    service: "Plumbing",
-    image: "https://images.unsplash.com/photo-1635221798248-8a3452ad07cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwbHVtYmVyJTIwcHJvZmVzc2lvbmFsJTIwd29ya3xlbnwxfHx8fDE3NjkxNTA5ODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    rating: 4.9,
-    reviews: 127,
-    distance: "2.1 km away",
-    price: 400,
-    description: "Professional plumber with 15 years expertise. Emergency repairs, pipe fitting, water tank maintenance, and RO system installation.",
-    availability: "Available Today",
-    tags: ["Emergency Repair", "Pipe Fitting", "Tank Maintenance"],
-    verified: true,
-    location: "Bengaluru, KA",
-  },
-  {
-    id: "3",
-    name: "Arjun Singh",
-    service: "Painting",
-    image: "https://images.unsplash.com/photo-1688372199140-cade7ae820fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHhob3VzZSUyMHBhaW50aW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkwODAwMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    rating: 4.8,
-    reviews: 93,
-    distance: "4.2 km away",
-    price: 600,
-    description: "Expert painter specializing in interior & exterior painting, wall textures, Asian paints application, and weatherproof finishes.",
-    availability: "Available Today",
-    tags: ["Interior Painting", "Exterior Work", "Texture Application"],
-    verified: true,
-    location: "Pune, MH",
-  },
-  {
-    id: "4",
-    name: "Priya Enterprises",
-    service: "Cleaning",
-    image: "https://images.unsplash.com/photo-1620563671147-979557991e5a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMGNsZWFuaW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkxODY0MzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    rating: 4.8,
-    reviews: 203,
-    distance: "5.8 km away",
-    price: 300,
-    description: "Professional cleaning services for homes & offices. Deep cleaning, carpet cleaning, pest control, and eco-friendly disinfection.",
-    availability: "Available This Week",
-    tags: ["Deep Cleaning", "Carpet Care", "Disinfection"],
-    verified: true,
-    location: "Delhi, DL",
-  },
-  {
-    id: "5",
-    name: "Ali Space Solutions",
-    service: "Landscaping",
-    image: "https://images.unsplash.com/photo-1626075218494-89e92b375502?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYW5kc2NhcGluZyUyMGdhcmRlbnxlbnwxfHx8fDE3NjkxODc5NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    rating: 4.7,
-    reviews: 145,
-    distance: "6.3 km away",
-    price: 800,
-    description: "Expert landscaping services with garden design, plant selection, maintenance, and outdoor space transformation.",
-    availability: "Available Next Week",
-    tags: ["Garden Design", "Lawn Care", "Plant Maintenance"],
-    verified: true,
-    location: "Ahmedabad, GJ",
-  },
-  {
-    id: "6",
-    name: "Shahid Handyman Services",
-    service: "Handyman",
-    image: "https://plus.unsplash.com/premium_photo-1770631383605-c14d188b1baa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    rating: 4.6,
-    reviews: 176,
-    distance: "4.7 km away",
-    price: 350,
-    description: "All-in-one handyman services for furniture assembly, wall mounting, minor repairs, and general home maintenance.",
-    availability: "Available This Week",
-    tags: ["Furniture Assembly", "Wall Mounting", "General Repair"],
-    verified: true,
-    location: "Bengaluru, KA",
-  },
-];
-
-
 export function BrowseServices() {
+  const [providers, setProviders] = useState<Provider[]>([]);
+  const [loading, setLoading] = useState(true);
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [selectedRating, setSelectedRating] = useState("all");
   const [sortBy, setSortBy] = useState("most-rated");
@@ -127,9 +37,29 @@ export function BrowseServices() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const handleViewProfile = (id: string) => {
-    navigate(`/profile/${id}`);
+  const fetchProviders = async () => {
+    setLoading(true);
+    try {
+      const data = await getProviders();
+      setProviders(data.providers || []);
+    } catch {
+      setProviders([]);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchProviders();
+  }, []);
+
+  useEffect(() => {
+    const serviceFromUrl = searchParams.get("service");
+    if (serviceFromUrl) {
+      setSearchInput(serviceFromUrl);
+      setSearchService(serviceFromUrl);
+    }
+  }, [searchParams]);
 
   const handleSearch = () => {
     setSearchService(searchInput);
@@ -143,65 +73,35 @@ export function BrowseServices() {
     setLocation("");
   };
 
+  const getDisplayName = (p: Provider) =>
+    p.businessName || `${p.firstName} ${p.lastName}`.trim();
+
+  const getImageSrc = (p: Provider) =>
+    p.profileImage ? `http://localhost:5000/uploads/${p.profileImage}` : "";
+
   const filteredProviders = providers
     .filter((provider) => {
+      const name = getDisplayName(provider);
       const matchesSearch =
         searchService === "" ||
-        provider.name.toLowerCase().includes(searchService.toLowerCase()) ||
-        provider.service.toLowerCase().includes(searchService.toLowerCase()) ||
-        provider.tags.some((tag) =>
-          tag.toLowerCase().includes(searchService.toLowerCase())
-        );
-      const matchesPrice = provider.price <= priceRange[1];
-
+        name.toLowerCase().includes(searchService.toLowerCase()) ||
+        provider.serviceCategory.toLowerCase().includes(searchService.toLowerCase()) ||
+        provider.tags.some((tag) => tag.toLowerCase().includes(searchService.toLowerCase()));
+      const matchesPrice = provider.hourlyRate <= priceRange[1];
       const matchesRating =
-        selectedRating === "all"
-          ? true
-          : provider.rating >= parseInt(selectedRating);
-
+        selectedRating === "all" ? true : provider.rating >= parseInt(selectedRating);
+      const locationStr = `${provider.city || ""} ${provider.state || ""}`.toLowerCase();
       const matchesLocation =
-        location === "" ||
-        provider.location.toLowerCase().includes(location.toLowerCase());
-
+        location === "" || locationStr.includes(location.toLowerCase());
       return matchesSearch && matchesPrice && matchesRating && matchesLocation;
     })
     .sort((a, b) => {
       switch (sortBy) {
-        case "price-low":
-          return a.price - b.price;
-        case "price-high":
-          return b.price - a.price;
-        case "distance":
-          return parseFloat(a.distance) - parseFloat(b.distance);
-        default:
-          return b.reviews - a.reviews;
+        case "price-low": return a.hourlyRate - b.hourlyRate;
+        case "price-high": return b.hourlyRate - a.hourlyRate;
+        default: return b.rating - a.rating;
       }
     });
-
-  useEffect(() => {
-    const serviceFromUrl = searchParams.get("service");
-    if (serviceFromUrl) {
-      setSearchInput(serviceFromUrl);
-      setSearchService(serviceFromUrl);
-    }
-  }, [searchParams]);
-
-  const fetchServices = async () => {
-    const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:5000/api/v1/provider/services", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await response.json();
-    
-    console.log("Fetched services:", data);
-  };
-
-  useEffect(() => {
-    fetchServices();
-  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50 pt-12 pb-16">
@@ -222,6 +122,7 @@ export function BrowseServices() {
                   placeholder="What service do you need?"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
@@ -232,6 +133,7 @@ export function BrowseServices() {
                   placeholder="Enter your location"
                   value={locationInput}
                   onChange={(e) => setLocationInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
@@ -243,11 +145,9 @@ export function BrowseServices() {
                   <X className="w-4 h-4" />
                 </button>
               )}
-              <button className="bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-8 py-3 rounded-lg hover:shadow-lg transition-all duration-300"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleSearch();
-                }}
+              <button
                 onClick={handleSearch}
+                className="bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-8 py-3 rounded-lg hover:shadow-lg transition-all duration-300"
               >
                 Search
               </button>
@@ -266,15 +166,11 @@ export function BrowseServices() {
             <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="font-semibold text-gray-900">Filters</h3>
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="lg:hidden"
-                >
+                <button onClick={() => setShowFilters(!showFilters)} className="lg:hidden">
                   <Sliders className="w-5 h-5 text-gray-600" />
                 </button>
               </div>
 
-              {/* Sort By */}
               <div className="mb-6">
                 <label className="block text-sm text-gray-700 mb-2">Sort By</label>
                 <select
@@ -285,11 +181,9 @@ export function BrowseServices() {
                   <option value="most-rated">Most Rated</option>
                   <option value="price-low">Price: Low to High</option>
                   <option value="price-high">Price: High to Low</option>
-                  <option value="distance">Nearest First</option>
                 </select>
               </div>
 
-              {/* Price Range */}
               <div className="mb-6">
                 <label className="block text-sm text-gray-700 mb-2">
                   Max Price per Hour: ₹{priceRange[1]}
@@ -308,7 +202,6 @@ export function BrowseServices() {
                 </div>
               </div>
 
-              {/* Minimum Rating */}
               <div className="mb-6">
                 <label className="block text-sm text-gray-700 mb-3">Minimum Rating</label>
                 <div className="space-y-2">
@@ -316,10 +209,11 @@ export function BrowseServices() {
                     <button
                       key={rating}
                       onClick={() => setSelectedRating(rating)}
-                      className={`w-full px-4 py-2 rounded-lg text-left transition-all ${selectedRating === rating
-                        ? "bg-gradient-to-r from-cyan-600 to-emerald-500 text-white"
-                        : "bg-gray-50 text-gray-700 hover:bg-gray-100"
-                        }`}
+                      className={`w-full px-4 py-2 rounded-lg text-left transition-all ${
+                        selectedRating === rating
+                          ? "bg-gradient-to-r from-cyan-600 to-emerald-500 text-white"
+                          : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                      }`}
                     >
                       {rating === "all" ? "All Ratings" : `${rating.replace("+", "")} Stars & Up`}
                       {rating !== "all" && (
@@ -358,93 +252,94 @@ export function BrowseServices() {
               </div>
             </motion.div>
 
-            {filteredProviders.length === 0 && (
+            {loading ? (
+              <div className="space-y-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-white rounded-2xl shadow-lg h-48 animate-pulse" />
+                ))}
+              </div>
+            ) : filteredProviders.length === 0 ? (
               <div className="bg-white rounded-xl p-10 text-center shadow">
                 <p className="text-gray-500">No providers found.</p>
               </div>
-            )}
+            ) : (
+              <div className="space-y-6">
+                {filteredProviders.map((provider, index) => (
+                  <motion.div
+                    key={provider._id}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 * index }}
+                    whileHover={{ y: -5 }}
+                    className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+                  >
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-64 h-48 md:h-auto relative overflow-hidden flex-shrink-0">
+                        <ImageWithFallback
+                          src={getImageSrc(provider)}
+                          alt={getDisplayName(provider)}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                      </div>
 
-            <div className="space-y-6">
-              {filteredProviders.map((provider, index) => (
-                <motion.div
-                  key={provider.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 * index }}
-                  whileHover={{ y: -5 }}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
-                >
-                  <div className="flex flex-col md:flex-row">
-                    {/* Image */}
-                    <div className="md:w-64 h-48 md:h-auto relative overflow-hidden flex-shrink-0">
-                      <ImageWithFallback
-                        src={provider.image}
-                        alt={provider.name}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 p-6">
-                      <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="text-xl font-semibold text-gray-900">{provider.name}</h3>
-                            {provider.verified && (
+                      <div className="flex-1 p-6">
+                        <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
+                          <div>
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="text-xl font-semibold text-gray-900">{getDisplayName(provider)}</h3>
                               <div className="w-5 h-5 bg-cyan-600 rounded-full flex items-center justify-center">
                                 <span className="text-white text-xs">✓</span>
                               </div>
-                            )}
+                            </div>
+                            <p className="text-cyan-600 font-medium mb-2">{provider.serviceCategory}</p>
+                            <p className="text-gray-600 text-sm mb-3">{provider.description}</p>
                           </div>
-                          <p className="text-cyan-600 font-medium mb-2">{provider.service}</p>
-                          <p className="text-gray-600 text-sm mb-3">{provider.description}</p>
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-gray-900">₹{provider.hourlyRate}</div>
+                            <div className="text-sm text-gray-500">per hour</div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-gray-900">₹{provider.price}</div>
-                          <div className="text-sm text-gray-500">per hour</div>
-                        </div>
-                      </div>
 
-                      <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          <span className="font-semibold">{provider.rating}</span>
-                          <span className="text-gray-500">({provider.reviews} reviews)</span>
+                        <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-semibold">{provider.rating || "New"}</span>
+                            <span className="text-gray-500">({provider.reviewCount} reviews)</span>
+                          </div>
+                          {(provider.city || provider.state) && (
+                            <div className="flex items-center gap-1 text-gray-600">
+                              <MapPinned className="w-4 h-4" />
+                              <span>{[provider.city, provider.state].filter(Boolean).join(", ")}</span>
+                            </div>
+                          )}
                         </div>
-                        <div className="flex items-center gap-1 text-gray-600">
-                          <MapPinned className="w-4 h-4" />
-                          <span>{provider.distance} | {provider.location}</span>
-                        </div>
-                      </div>
 
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {provider.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-3 py-1 bg-cyan-50 text-cyan-700 rounded-full text-sm"
-                          >
-                            {tag}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {provider.tags.map((tag) => (
+                            <span key={tag} className="px-3 py-1 bg-cyan-50 text-cyan-700 rounded-full text-sm">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <span className="text-emerald-600 font-medium text-sm">
+                            {provider.availability || "Contact for availability"}
                           </span>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between">
-                        <span className="text-emerald-600 font-medium text-sm">
-                          {provider.availability}
-                        </span>
-                        <button
-                          onClick={() => handleViewProfile(provider.id)}
-                          className="bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300"
-                        >
-                          View Profile
-                        </button>
+                          <button
+                            onClick={() => navigate(`/profile/${provider._id}`)}
+                            className="bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300"
+                          >
+                            View Profile
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

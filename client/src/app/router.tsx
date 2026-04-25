@@ -22,6 +22,8 @@ import { TermsOfService } from "./pages/TermsOfService";
 import { InstantQuoteEstimator } from "./pages/InstantQuoteEstimator";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { GuestRoute } from "./components/GuestRoute";
+import { AdminRoute } from "./components/AdminRoute";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -46,8 +48,10 @@ export const router = createBrowserRouter([
         Component: BecomeProvider,
       },
       {
-        path: "bookings",
-        Component: MyBookings,
+        element: <ProtectedRoute />,
+        children: [
+          { path: "bookings", Component: MyBookings },
+        ],
       },
       {
         element: <GuestRoute />,
@@ -68,8 +72,10 @@ export const router = createBrowserRouter([
       { path: "safety", Component: Safety },
       { path: "terms-of-service", Component: TermsOfService },
       {
-        path: "admin/*",
-        Component: Admin,
+        element: <AdminRoute />,
+        children: [
+          { path: "admin/*", Component: Admin },
+        ],
       },
     ],
   },

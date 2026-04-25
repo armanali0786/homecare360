@@ -2,6 +2,8 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 interface User {
   email: string;
+  fullName: string;
+  role: "user" | "provider" | "admin" | "superadmin";
 }
 
 interface UserContextType {

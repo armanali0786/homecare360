@@ -2,45 +2,55 @@ const providerService = require("../services/provider-service");
 
 exports.applyProvider = async (req, res) => {
   try {
-    const application = await providerService.createApplication(
-      req.user.id,
-      req.body,
-      req.files
-    );
-
-    res.status(201).json({
-      success: true,
-      message: "Application submitted successfully",
-      application,
-    });
+    const application = await providerService.createApplication(req.user.id, req.body, req.files);
+    res.status(201).json({ success: true, message: "Application submitted successfully", application });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: error.message,
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
-exports.getAllServices = async (req, res) => {
-  const apps = await providerService.getApplications();
+exports.getApprovedProviders = async (req, res) => {
+  try {
+    const providers = await providerService.getApprovedProviders(req.query);
+    res.json({ success: true, providers });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
-  res.json({
-    success: true,
-    services: apps,
-  });
+exports.getProviderById = async (req, res) => {
+  try {
+    const provider = await providerService.getProviderById(req.params.id);
+    res.json({ success: true, provider });
+  } catch (error) {
+    res.status(404).json({ success: false, message: error.message });
+  }
+};
+
+exports.getAllProviders = async (req, res) => {
+  try {
+    const providers = await providerService.getAllProviders();
+    res.json({ success: true, providers });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+exports.getApplications = async (req, res) => {
+  try {
+    const applications = await providerService.getApplications();
+    res.json({ success: true, applications });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 exports.updateApplicationStatus = async (req, res) => {
-  const { status } = req.body;
-
-  const app = await providerService.updateStatus(
-    req.params.id,
-    status,
-    req.user.id
-  );
-
-  res.json({
-    success: true,
-    application: app,
-  });
+  try {
+    const { status } = req.body;
+    const app = await providerService.updateStatus(req.params.id, status, req.user.id);
+    res.json({ success: true, application: app });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
 };

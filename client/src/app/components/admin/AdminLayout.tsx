@@ -14,6 +14,8 @@ import {
   LogOut,
 } from "lucide-react";
 import { useState } from "react";
+import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -21,16 +23,16 @@ interface AdminLayoutProps {
   onSectionChange: (section: string) => void;
 }
 
-const menuItems = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { id: "services", label: "Services Management", icon: Wrench },
-  { id: "providers", label: "Service Providers", icon: UserCog },
-  { id: "applications", label: "Provider Applications", icon: FileText },
-  { id: "users", label: "User Management", icon: Users },
-  { id: "bookings", label: "Booking Management", icon: Calendar },
-  { id: "payments", label: "Payments & Escrow", icon: DollarSign },
-  { id: "reviews", label: "Reviews & Ratings", icon: Star },
-  { id: "notifications", label: "Notifications & CMS", icon: Bell },
+const allMenuItems = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "superadmin", "provider"] },
+  { id: "services", label: "Services Management", icon: Wrench, roles: ["admin", "superadmin"] },
+  { id: "providers", label: "Service Providers", icon: UserCog, roles: ["admin", "superadmin"] },
+  { id: "applications", label: "Provider Applications", icon: FileText, roles: ["admin", "superadmin"] },
+  { id: "users", label: "User Management", icon: Users, roles: ["admin", "superadmin"] },
+  { id: "bookings", label: "Booking Management", icon: Calendar, roles: ["admin", "superadmin", "provider"] },
+  { id: "payments", label: "Payments & Escrow", icon: DollarSign, roles: ["admin", "superadmin"] },
+  { id: "reviews", label: "Reviews & Ratings", icon: Star, roles: ["admin", "superadmin", "provider"] },
+  { id: "notifications", label: "Notifications & CMS", icon: Bell, roles: ["admin", "superadmin"] },
 ];
 
 export function AdminLayout({
@@ -39,6 +41,20 @@ export function AdminLayout({
   onSectionChange,
 }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, logout } = useUser();
+  const navigate = useNavigate();
+
+  const isProvider = user?.role === "provider";
+  const panelLabel = isProvider ? "Provider Panel" : "Admin Panel";
+
+  const menuItems = allMenuItems.filter((item) =>
+    user?.role ? item.roles.includes(user.role) : false
+  );
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-slate-50 via-cyan-50 to-teal-50">
@@ -58,7 +74,7 @@ export function AdminLayout({
       {/* Sidebar */}
       <motion.aside
       initial={false}
-      className={`fixed lg:static top-0 left-0 z-40 w-64 h-screen 
+      className={`fixed lg:static top-0 left-0 z-40 w-64 h-screen
       bg-gradient-to-b from-cyan-600 to-teal-700 shadow-2xl
       transform transition-transform duration-300
       ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -74,9 +90,22 @@ export function AdminLayout({
               </div>
               <div>
                 <h2 className="text-white font-semibold">HomeCare360</h2>
-                <p className="text-cyan-100 text-xs">Admin Panel</p>
+                <p className="text-cyan-100 text-xs">{panelLabel}</p>
               </div>
             </div>
+
+            {/* Logged-in user info */}
+            {user && (
+              <div className="mt-4 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white text-xs font-bold">
+                  {user.fullName?.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase() || "U"}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-white text-xs font-medium truncate">{user.fullName}</p>
+                  <p className="text-cyan-200 text-xs truncate">{user.email}</p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Navigation */}
@@ -106,7 +135,10 @@ export function AdminLayout({
 
           {/* Logout */}
           <div className="p-4 border-t border-white/20">
-            <button className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-white/10 rounded-lg">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors"
+            >
               <LogOut className="w-5 h-5" />
               <span className="text-sm font-medium">Logout</span>
             </button>
