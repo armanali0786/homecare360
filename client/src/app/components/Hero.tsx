@@ -42,7 +42,7 @@ export function Hero() {
               className="inline-flex items-center gap-2 bg-cyan-50 border border-cyan-200 text-cyan-700 text-sm font-medium px-4 py-2 rounded-full mb-6"
             >
               <Star className="w-4 h-4 fill-cyan-500 text-cyan-500" />
-              Trusted by 1000+ homeowners across India
+              Trusted by 100+ homeowners across India
             </motion.div>
 
             <motion.h1
