@@ -6,10 +6,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const stats = [
-  { icon: Users, value: "500+", label: "Verified Providers" },
-  { icon: CheckCircle, value: "10K+", label: "Jobs Completed" },
-  { icon: Star, value: "4.8", label: "Average Rating" },
-  { icon: Award, value: "50+", label: "Cities Covered" },
+  { icon: Users, value: "50+", label: "Verified Providers" },
+  { icon: CheckCircle, value: "1K+", label: "Jobs Completed" },
+  { icon: Star, value: "3.8", label: "Average Rating" },
+  { icon: Award, value: "5+", label: "Cities Covered" },
 ];
 
 export function Hero() {
@@ -42,7 +42,7 @@ export function Hero() {
               className="inline-flex items-center gap-2 bg-cyan-50 border border-cyan-200 text-cyan-700 text-sm font-medium px-4 py-2 rounded-full mb-6"
             >
               <Star className="w-4 h-4 fill-cyan-500 text-cyan-500" />
-              Trusted by 10,000+ homeowners across India
+              Trusted by 1000+ homeowners across India
             </motion.div>
 
             <motion.h1

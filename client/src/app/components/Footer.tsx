@@ -54,15 +54,15 @@ export function Footer() {
             <div className="space-y-2 text-sm text-gray-400">
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>+91 98765 43210</span>
+                <span>+91 7319977276</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>support@homecare360.in</span>
+                <span>armanali.shaikh77@gmail.com</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>Mumbai, Maharashtra, India</span>
+                <span>Bengaluru, karnataka, India</span>
               </div>
             </div>
           </motion.div>
@@ -159,7 +159,7 @@ export function Footer() {
                 <Twitter className="w-4 h-4" />
               </a>
               <a
-                href="https://www.instagram.com/itz_arman_official__"
+                href="https://www.instagram.com/a4armanali"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
