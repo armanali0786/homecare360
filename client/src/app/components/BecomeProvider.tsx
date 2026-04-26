@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { User, Mail, Phone, MapPin, Briefcase, FileText, Upload, CheckCircle2, Calendar } from "lucide-react";
+import { User, Mail, Phone, MapPin, Briefcase, FileText, Upload, CheckCircle2, Calendar, TrendingUp, Star, IndianRupee } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -711,21 +711,43 @@ export function BecomeProvider() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-12 grid md:grid-cols-3 gap-6"
+          className="mt-10 grid md:grid-cols-3 gap-5"
         >
           {[
-            { icon: "📈", title: "Grow Your Business", description: "Reach thousands of customers" },
-            { icon: "⭐", title: "Build Your Reputation", description: "Get verified reviews" },
-            { icon: "💰", title: "Earn More", description: "Set your own rates" },
+            {
+              icon: TrendingUp,
+              color: "text-emerald-600",
+              bg: "bg-emerald-50",
+              title: "Grow Your Business",
+              description: "Reach thousands of verified customers across your city",
+            },
+            {
+              icon: Star,
+              color: "text-amber-500",
+              bg: "bg-amber-50",
+              title: "Build Your Reputation",
+              description: "Collect real reviews and earn your Verified badge",
+            },
+            {
+              icon: IndianRupee,
+              color: "text-[#00B8A9]",
+              bg: "bg-cyan-50",
+              title: "Earn on Your Terms",
+              description: "Set your own hourly rate and schedule. Weekly payouts.",
+            },
           ].map((benefit, index) => (
             <motion.div
               key={index}
-              whileHover={{ y: -5 }}
-              className="bg-white rounded-xl shadow-lg p-6 text-center"
+              whileHover={{ y: -4 }}
+              className="bg-white rounded-xl border border-gray-100 p-6 flex gap-4"
             >
-              <div className="text-4xl mb-3">{benefit.icon}</div>
-              <h3 className="font-semibold text-gray-900 mb-2">{benefit.title}</h3>
-              <p className="text-sm text-gray-600">{benefit.description}</p>
+              <div className={`w-11 h-11 ${benefit.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
+                <benefit.icon className={`w-5 h-5 ${benefit.color}`} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">{benefit.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{benefit.description}</p>
+              </div>
             </motion.div>
           ))}
         </motion.div>

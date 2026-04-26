@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Calculator, Home, MapPin, Calendar, DollarSign, CheckCircle, ArrowRight } from "lucide-react";
+import { Calculator, Home, MapPin, Calendar, IndianRupee, CheckCircle, ArrowRight } from "lucide-react";
 
 interface QuoteData {
   service: string;
@@ -400,7 +400,7 @@ export function InstantQuoteEstimator() {
                     onClick={handleGetQuote}
                     className="px-8 py-4 bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
                   >
-                    <DollarSign size={24} />
+                    <IndianRupee size={24} />
                     Get My Instant Quote
                   </motion.button>
                   <div>
@@ -428,7 +428,7 @@ export function InstantQuoteEstimator() {
                       transition={{ type: "spring", stiffness: 200 }}
                       className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-[#00B8A9] to-[#2B5F5F] rounded-full mb-6"
                     >
-                      <DollarSign size={40} className="text-white" />
+                      <IndianRupee size={40} className="text-white" />
                     </motion.div>
                     <h2 className="text-3xl font-bold text-gray-900 mb-2">Your Estimated Quote</h2>
                     <motion.div
@@ -520,7 +520,7 @@ export function InstantQuoteEstimator() {
                 description: "Transparent pricing with all costs clearly outlined upfront",
               },
               {
-                icon: <DollarSign size={32} />,
+                icon: <IndianRupee size={32} />,
                 title: "Best Value",
                 description: "Compare quotes and choose the option that fits your budget",
               },
