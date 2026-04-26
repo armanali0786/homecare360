@@ -19,7 +19,7 @@ export function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/v1/auth/register", {
+    const res = await fetch("https://homecare360.onrender.com/api/v1/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -62,7 +62,7 @@ export function MyBookings() {
 
   const getProviderImage = (booking: any) =>
     booking.provider?.profileImage
-      ? `http://localhost:5000/uploads/${booking.provider.profileImage}`
+      ? `https://homecare360.onrender.com/uploads/${booking.provider.profileImage}`
       : "";
 
   return (

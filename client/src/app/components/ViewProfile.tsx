@@ -69,7 +69,7 @@ export function ViewProfile() {
   }
 
   const displayName = provider.businessName || `${provider.firstName} ${provider.lastName}`.trim();
-  const imageSrc = provider.profileImage ? `http://localhost:5000/uploads/${provider.profileImage}` : "";
+  const imageSrc = provider.profileImage ? `https://homecare360.onrender.com/uploads/${provider.profileImage}` : "";
   const locationStr = [provider.city, provider.state].filter(Boolean).join(", ");
   const reviews: any[] = provider.reviews || [];
   const breakdown: any[] = provider.reviewsBreakdown || [];

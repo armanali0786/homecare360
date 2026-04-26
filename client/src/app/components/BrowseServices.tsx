@@ -77,7 +77,7 @@ export function BrowseServices() {
     p.businessName || `${p.firstName} ${p.lastName}`.trim();
 
   const getImageSrc = (p: Provider) =>
-    p.profileImage ? `http://localhost:5000/uploads/${p.profileImage}` : "";
+    p.profileImage ? `https://homecare360.onrender.com/uploads/${p.profileImage}` : "";
 
   const filteredProviders = providers
     .filter((provider) => {
