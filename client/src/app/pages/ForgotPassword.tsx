@@ -6,9 +6,12 @@ import { toast } from "react-toastify";
 
 export function ForgotPassword() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+    setLoading(true);
 
     try {
       const res = await fetch("https://homecare360.onrender.com/api/v1/auth/forgot-password", {
@@ -29,6 +32,8 @@ export function ForgotPassword() {
       }
     } catch (error) {
       toast.error("Server error. Try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,9 +112,10 @@ export function ForgotPassword() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Send Reset Link
+              {loading ? "Sending..." : "Send Reset Link"}
             </motion.button>
           </form>
 

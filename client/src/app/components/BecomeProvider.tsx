@@ -18,6 +18,7 @@ const serviceCategories = [
 
 export function BecomeProvider() {
   const [formStep, setFormStep] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -103,6 +104,9 @@ export function BecomeProvider() {
       return;
     }
 
+    if (submitting) return;
+    setSubmitting(true);
+
     const token = localStorage.getItem("token");
 
     const formPayload = new FormData();
@@ -178,6 +182,7 @@ export function BecomeProvider() {
     } else {
       toast.error(data.message);
     }
+    setSubmitting(false);
   };
 
   return (
@@ -692,9 +697,10 @@ export function BecomeProvider() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-emerald-500 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all"
+                disabled={formStep === 3 && submitting}
+                className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-emerald-500 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {formStep === 3 ? "Submit Application" : "Continue"}
+                {formStep === 3 && submitting ? "Submitting..." : formStep === 3 ? "Submit Application" : "Continue"}
               </motion.button>
             </div>
           </form>
