@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { User, Mail, Phone, MapPin, Briefcase, FileText, Upload, CheckCircle2, DollarSign, Calendar } from "lucide-react";
+import { User, Mail, Phone, MapPin, Briefcase, FileText, Upload, CheckCircle2, Calendar } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -479,10 +479,10 @@ export function BecomeProvider() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Hourly Rate ($) *
+                    Hourly Rate (₹) *
                   </label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-medium">₹</span>
                     <input
                       type="number"
                       name="hourlyRate"
