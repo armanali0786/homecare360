@@ -6,9 +6,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const stats = [
-  { icon: Users, value: "50+", label: "Verified Providers" },
-  { icon: CheckCircle, value: "1K+", label: "Jobs Completed" },
-  { icon: Star, value: "3.8", label: "Average Rating" },
+  { icon: Users, value: "10+", label: "Verified Providers" },
+  { icon: CheckCircle, value: "25+", label: "Jobs Completed" },
+  { icon: Star, value: "4.2", label: "Average Rating" },
   { icon: Award, value: "5+", label: "Cities Covered" },
 ];
 
