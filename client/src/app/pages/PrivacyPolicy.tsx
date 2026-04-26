@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { SEO } from "@/app/components/SEO";
 
 export function PrivacyPolicy() {
   const sections = [
@@ -74,6 +75,13 @@ export function PrivacyPolicy() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Privacy Policy"
+        url="/privacy-policy"
+        description="Read Homecare360's Privacy Policy to understand how we collect, use, and protect your personal information when using our home care platform."
+        keywords="homecare360 privacy policy, data protection, personal information, privacy"
+        noIndex={false}
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

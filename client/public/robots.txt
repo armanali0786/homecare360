@@ -1,12 +1,12 @@
-# Allow all robots to crawl the site
 User-agent: *
 Allow: /
 
-# Disallow admin pages
+# Block authenticated/private routes
 Disallow: /admin
+Disallow: /bookings
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
 
-# Sitemap location
+# Sitemap
 Sitemap: https://homecare360.netlify.app/sitemap.xml
-
-# Crawl delay (optional - prevents server overload)
-Crawl-delay: 1

@@ -1,92 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      
-      <!-- Primary Meta Tags for SEO -->
-      <title>Homecare360 - Professional Home Care Services at Your Doorstep</title>
-      <meta name="title" content="Homecare360 - Professional Home Care Services at Your Doorstep" />
-      <meta name="description" content="Homecare360 connects you with trusted home care providers for professional, affordable, and reliable services. Book caregivers, companions, and health services today." />
-      <meta name="keywords" content="home care, caregiving, healthcare services, in-home care, elder care, companion care, healthcare providers" />
-      <meta name="author" content="Homecare360" />
-      <meta name="robots" content="index, follow" />
-      <meta name="language" content="English" />
-      <meta name="revisit-after" content="7 days" />
-      
-      <!-- Canonical URL -->
-      <link rel="canonical" href="https://homecare360.netlify.app/" />
-      
-      <!-- Open Graph Meta Tags for Social Sharing -->
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://homecare360.netlify.app/" />
-      <meta property="og:title" content="Homecare360 - Professional Home Care Services at Your Doorstep" />
-      <meta property="og:description" content="Homecare360 connects you with trusted home care providers for professional, affordable, and reliable services. Book caregivers, companions, and health services today." />
-      <meta property="og:image" content="https://homecare360.netlify.app/logo.png" />
-      <meta property="og:site_name" content="Homecare360" />
-      <meta property="og:locale" content="en_US" />
-      
-      <!-- Twitter Card Meta Tags -->
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content="https://homecare360.netlify.app/" />
-      <meta property="twitter:title" content="Homecare360 - Professional Home Care Services at Your Doorstep" />
-      <meta property="twitter:description" content="Homecare360 connects you with trusted home care providers for professional, affordable, and reliable services. Book caregivers, companions, and health services today." />
-      <meta property="twitter:image" content="https://homecare360.netlify.app/logo.png" />
-      
-      <!-- Additional SEO Meta Tags -->
-      <meta name="theme-color" content="#0891b2" />
-      <meta name="mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-      <meta name="apple-mobile-web-app-title" content="Homecare360" />
-      
-      <!-- Structured Data (JSON-LD) for Rich Snippets -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
+    <!-- ===================== Primary SEO ===================== -->
+    <title>Homecare360 - Professional Home Care Services at Your Doorstep</title>
+    <meta name="title" content="Homecare360 - Professional Home Care Services at Your Doorstep" />
+    <meta name="description" content="Homecare360 connects you with trusted home care providers for professional, affordable, and reliable services. Book caregivers, companions, and health services today." />
+    <meta name="keywords" content="home care, caregiving, healthcare services, in-home care, elder care, companion care, book caregiver, home health aide" />
+    <meta name="author" content="Homecare360" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="general" />
+    <link rel="canonical" href="https://homecare360.netlify.app/" />
+
+    <!-- ===================== Open Graph ===================== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://homecare360.netlify.app/" />
+    <meta property="og:title" content="Homecare360 - Professional Home Care Services at Your Doorstep" />
+    <meta property="og:description" content="Homecare360 connects you with trusted home care providers for professional, affordable, and reliable services. Book caregivers, companions, and health services today." />
+    <meta property="og:image" content="https://homecare360.netlify.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Homecare360 - Professional Home Care Services" />
+    <meta property="og:site_name" content="Homecare360" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ===================== Twitter Card ===================== -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@homecare360" />
+    <meta name="twitter:creator" content="@homecare360" />
+    <meta name="twitter:url" content="https://homecare360.netlify.app/" />
+    <meta name="twitter:title" content="Homecare360 - Professional Home Care Services at Your Doorstep" />
+    <meta name="twitter:description" content="Homecare360 connects you with trusted home care providers for professional, affordable, and reliable services." />
+    <meta name="twitter:image" content="https://homecare360.netlify.app/og-image.png" />
+    <meta name="twitter:image:alt" content="Homecare360 - Professional Home Care Services" />
+
+    <!-- ===================== PWA & App Metadata ===================== -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0891b2" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Homecare360" />
+    <meta name="application-name" content="Homecare360" />
+    <meta name="msapplication-TileColor" content="#0891b2" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- ===================== Icons & Favicons ===================== -->
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
+    <link rel="shortcut icon" href="/logo.png" />
+
+    <!-- ===================== Performance Hints ===================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://homecare360.netlify.app" />
+
+    <!-- ===================== Structured Data: Organization ===================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Homecare360",
+      "legalName": "Homecare360",
+      "description": "Professional home care services connecting users with trusted, verified caregivers and health service providers.",
+      "url": "https://homecare360.netlify.app",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://homecare360.netlify.app/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://homecare360.netlify.app/og-image.png",
+      "email": "support@homecare360.com",
+      "sameAs": [
+        "https://www.facebook.com/homecare360",
+        "https://www.twitter.com/homecare360",
+        "https://www.linkedin.com/company/homecare360",
+        "https://www.instagram.com/homecare360"
+      ]
+    }
+    </script>
+
+    <!-- ===================== Structured Data: WebSite + SearchAction ===================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Homecare360",
+      "url": "https://homecare360.netlify.app",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://homecare360.netlify.app/services?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- ===================== Structured Data: LocalBusiness / MedicalBusiness ===================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MedicalBusiness",
+      "name": "Homecare360",
+      "description": "Professional in-home care services including caregiving, companion care, elder care, and health services",
+      "url": "https://homecare360.netlify.app",
+      "image": "https://homecare360.netlify.app/og-image.png",
+      "priceRange": "$$",
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "hasMap": "https://homecare360.netlify.app/services",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "support@homecare360.com",
+        "availableLanguage": "English"
+      }
+    }
+    </script>
+
+    <!-- ===================== Structured Data: Service ===================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Home Care Services",
+      "description": "Professional in-home care services including caregiving, companion care, and health services",
+      "provider": {
         "@type": "Organization",
         "name": "Homecare360",
-        "description": "Professional home care services connecting users with trusted caregivers and health service providers",
-        "url": "https://homecare360.netlify.app",
-        "logo": "https://homecare360.netlify.app/logo.png",
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": "+1-XXX-XXX-XXXX",
-          "contactType": "Customer Service"
-        },
-        "sameAs": [
-          "https://www.facebook.com/homecare360",
-          "https://www.twitter.com/homecare360",
-          "https://www.linkedin.com/company/homecare360"
-        ]
+        "url": "https://homecare360.netlify.app"
+      },
+      "serviceType": "Home Care",
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceUrl": "https://homecare360.netlify.app",
+        "servicePhone": "support@homecare360.com",
+        "availableLanguage": "English"
+      },
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "INR",
+        "lowPrice": "500",
+        "highPrice": "5000"
       }
-      </script>
-      
-      <!-- Structured Data for Service -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": "Home Care Services",
-        "description": "Professional in-home care services including caregiving, companion care, and health services",
-        "provider": {
-          "@type": "Organization",
-          "name": "Homecare360"
-        },
-        "serviceType": "Home Care",
-        "areaServed": "US",
-        "availableChannel": {
-          "@type": "ServiceChannel",
-          "serviceUrl": "https://homecare360.netlify.app"
-        }
-      }
-      </script>
-    </head>
+    }
+    </script>
+  </head>
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

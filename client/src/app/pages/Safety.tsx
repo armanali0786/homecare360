@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Shield, CheckCircle, Lock, Users, AlertCircle, FileCheck } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 
 export function Safety() {
   const safetyFeatures = [
@@ -76,6 +77,12 @@ export function Safety() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Safety & Trust"
+        url="/safety"
+        description="Your safety is our priority. Learn how Homecare360 verifies caregivers through background checks, certifications, and ongoing quality assurance."
+        keywords="home care safety, caregiver background check, trusted caregivers, home care verification, safety standards"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Calendar, User, ArrowRight } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 
 export function Blog() {
   const posts = [
@@ -57,6 +58,12 @@ export function Blog() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Blog"
+        url="/blog"
+        description="Explore home care tips, guides, and expert advice on elder care, home maintenance, and caregiver best practices from the Homecare360 team."
+        keywords="home care blog, caregiving tips, elder care guide, home maintenance tips, caregiver advice"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

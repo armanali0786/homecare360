@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Search, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import { SEO } from "@/app/components/SEO";
 
 export function HelpCenter() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
@@ -51,6 +52,12 @@ export function HelpCenter() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Help Center"
+        url="/help-center"
+        description="Find answers to frequently asked questions about Homecare360 services, bookings, payments, and caregiver verification. We're here to help."
+        keywords="homecare360 help, FAQ, home care questions, booking help, caregiver FAQ"
+      />
       {/* Hero Section with Search */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

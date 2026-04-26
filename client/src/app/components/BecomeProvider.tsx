@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { User, Mail, Phone, MapPin, Briefcase, FileText, Upload, CheckCircle2, Calendar, TrendingUp, Star, IndianRupee } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -187,6 +188,12 @@ export function BecomeProvider() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50 pt-12 pb-16">
+      <SEO
+        title="Become a Care Provider"
+        url="/become-provider"
+        description="Join Homecare360 as a verified care provider. Grow your caregiving business, set your own schedule, and connect with families who need your expertise."
+        keywords="become home care provider, caregiver jobs, register as caregiver, home care business, join homecare360 provider"
+      />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         {/* Header */}
         <motion.div

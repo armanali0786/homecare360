@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { SEO } from "@/app/components/SEO";
 
 export function TermsOfService() {
   const sections = [
@@ -58,6 +59,12 @@ export function TermsOfService() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Terms of Service"
+        url="/terms-of-service"
+        description="Review Homecare360's Terms of Service governing the use of our home care platform, including user responsibilities, bookings, and service agreements."
+        keywords="homecare360 terms, terms of service, user agreement, service terms"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Briefcase, MapPin, Clock } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 
 export function Careers() {
   const openings = [
@@ -54,6 +55,12 @@ export function Careers() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Careers"
+        url="/careers"
+        description="Join the Homecare360 team and help transform home care. Explore open positions and build a meaningful career connecting families with trusted care professionals."
+        keywords="homecare360 careers, home care jobs, caregiver jobs, healthcare jobs, join homecare360"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

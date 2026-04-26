@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -46,6 +47,12 @@ export function Contact() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Contact Us"
+        url="/contact"
+        description="Get in touch with Homecare360. Reach our support team for questions about booking home care services, becoming a provider, or any other inquiries."
+        keywords="contact homecare360, home care support, customer service, home care help"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

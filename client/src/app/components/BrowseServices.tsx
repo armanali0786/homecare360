@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Search, MapPin, Star, MapPinned, SlidersHorizontal, X, BadgeCheck } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -123,6 +124,12 @@ export function BrowseServices() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SEO
+        title="Browse Home Care Services"
+        url="/services"
+        description="Browse and book trusted home care services near you. Find caregivers, elder care specialists, companion care, and health service providers in your area."
+        keywords="browse home care services, find caregiver, book elder care, companion care near me, home health aide"
+      />
       {/* Page Header */}
       <div className="bg-white border-b border-gray-100 pt-20 pb-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

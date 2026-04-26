@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Calculator, Home, MapPin, Calendar, IndianRupee, CheckCircle, ArrowRight } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 
 interface QuoteData {
   service: string;
@@ -130,6 +131,12 @@ export function InstantQuoteEstimator() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="Instant Quote Estimator"
+        url="/quote-estimator"
+        description="Get an instant price estimate for home care services. Enter your location and service needs to see transparent, competitive pricing from Homecare360 providers."
+        keywords="home care cost estimator, caregiver price calculator, home care quote, how much does home care cost"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">

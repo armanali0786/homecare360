@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Users, Target, Award, Heart } from "lucide-react";
+import { SEO } from "@/app/components/SEO";
 
 export function AboutUs() {
   const values = [
@@ -27,6 +28,12 @@ export function AboutUs() {
 
   return (
     <div className="w-full">
+      <SEO
+        title="About Us"
+        url="/about-us"
+        description="Learn about Homecare360's mission to connect families with trusted, verified home care professionals. Compassionate care delivered to your doorstep."
+        keywords="about homecare360, our mission, home care team, trusted caregivers, home care values"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">
