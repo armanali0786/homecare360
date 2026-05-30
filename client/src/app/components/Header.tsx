@@ -148,12 +148,18 @@ export function Header() {
               <ProfileMenu />
             ) : (
               <>
-                <Link to="/login" className="px-4 py-2 text-[#00B8A9] hover:text-[#2B5F5F]">
+                <Link
+                  to="/become-provider"
+                  className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-[#00B8A9] hover:text-[#00B8A9] transition-colors"
+                >
+                  Become a Pro
+                </Link>
+                <Link to="/login" className="px-4 py-2 text-sm text-[#00B8A9] hover:text-[#2B5F5F] transition-colors">
                   Sign In
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-6 py-2.5 bg-[#00B8A9] text-white rounded-lg hover:bg-[#2B5F5F] transition-colors"
+                  className="px-6 py-2.5 text-sm bg-[#00B8A9] text-white rounded-lg hover:bg-[#009e96] transition-colors"
                 >
                   Get Started
                 </Link>

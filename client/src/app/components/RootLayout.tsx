@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from "react-router";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { FloatingButtons } from "./FloatingButtons";
 
 export function RootLayout() {
   const location = useLocation();
@@ -13,6 +14,7 @@ export function RootLayout() {
         <Outlet />
       </main>
       {!isAdminRoute && <Footer />}
+      {!isAdminRoute && <FloatingButtons />}
     </div>
   );
 }

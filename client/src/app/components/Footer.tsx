@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Facebook, Twitter, Instagram, Linkedin, Phone, Mail, MapPin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Phone, Mail, MapPin, ShieldCheck, BadgeIndianRupee } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function Footer() {
@@ -9,19 +9,31 @@ export function Footer() {
     { name: "House Cleaning", path: "/services?service=House+Cleaning" },
     { name: "AC & Appliance Repair", path: "/services?service=AC+%26+Appliance+Repair" },
     { name: "Painting", path: "/services?service=Painting" },
-    { name: "Outdoor Services", path: "/services?service=Outdoor+Services" },
+    { name: "Pest Control", path: "/services?service=Pest+Control" },
+    { name: "Carpentry", path: "/services?service=Carpentry" },
   ];
 
   const company = [
     { name: "About Us", path: "/about-us" },
-    { name: "Careers", path: "/careers" },
     { name: "Blog", path: "/blog" },
+    { name: "Careers", path: "/careers" },
+    { name: "Press", path: "/about-us" },
     { name: "Contact Us", path: "/contact" },
+  ];
+
+  const cities = [
+    { name: "Bangalore", path: "/services?location=Bangalore" },
+    { name: "Hyderabad", path: "/services?location=Hyderabad" },
+    { name: "Chennai", path: "/services?location=Chennai" },
+    { name: "Pune", path: "/services?location=Pune" },
+    { name: "Mumbai", path: "/services?location=Mumbai" },
+    { name: "Delhi NCR", path: "/services?location=Delhi" },
   ];
 
   const support = [
     { name: "Help Center", path: "/help-center" },
     { name: "Safety", path: "/safety" },
+    { name: "Cancellation Policy", path: "/terms-of-service" },
     { name: "Privacy Policy", path: "/privacy-policy" },
     { name: "Terms of Service", path: "/terms-of-service" },
   ];
@@ -29,9 +41,9 @@ export function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main footer grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 py-16">
-          {/* Brand — takes 2 cols on large */}
+        {/* Main grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 py-16">
+          {/* Brand — 2 cols */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -50,19 +62,31 @@ export function Footer() {
               India's trusted marketplace for professional home services. Verified providers, secure payments, guaranteed quality.
             </p>
 
-            {/* Contact info */}
-            <div className="space-y-2 text-sm text-gray-400">
+            {/* Contact */}
+            <div className="space-y-2.5 text-sm text-gray-400 mb-6">
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>+91 7319977276</span>
+                <span>+91 73199 77276</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>armanali.shaikh77@gmail.com</span>
+                <span>support@homecare360.in</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>Bengaluru, karnataka, India</span>
+                <span>Bengaluru, Karnataka, India</span>
+              </div>
+            </div>
+
+            {/* Trust badges */}
+            <div className="flex gap-3">
+              <div className="inline-flex items-center gap-1.5 bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#00B8A9]" />
+                <span className="text-xs text-gray-400">SSL Secure</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg">
+                <BadgeIndianRupee className="w-3.5 h-3.5 text-[#00B8A9]" />
+                <span className="text-xs text-gray-400">GST Registered</span>
               </div>
             </div>
           </motion.div>
@@ -74,15 +98,15 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="font-semibold text-white mb-5">Services</h4>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Services</h4>
             <ul className="space-y-2.5">
-              {services.map((service) => (
-                <li key={service.name}>
+              {services.map((item) => (
+                <li key={item.name}>
                   <Link
-                    to={service.path}
-                    className="text-sm text-gray-400 hover:text-[#00B8A9] transition-colors"
+                    to={item.path}
+                    className="text-sm text-gray-400 hover:text-[#00B8A9] transition-colors duration-150"
                   >
-                    {service.name}
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -94,15 +118,37 @@ export function Footer() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
           >
-            <h4 className="font-semibold text-white mb-5">Company</h4>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Company</h4>
             <ul className="space-y-2.5">
               {company.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.path}
-                    className="text-sm text-gray-400 hover:text-[#00B8A9] transition-colors"
+                    className="text-sm text-gray-400 hover:text-[#00B8A9] transition-colors duration-150"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Cities */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Cities</h4>
+            <ul className="space-y-2.5">
+              {cities.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.path}
+                    className="text-sm text-gray-400 hover:text-[#00B8A9] transition-colors duration-150"
                   >
                     {item.name}
                   </Link>
@@ -116,15 +162,15 @@ export function Footer() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
           >
-            <h4 className="font-semibold text-white mb-5">Support</h4>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Support</h4>
             <ul className="space-y-2.5">
               {support.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.path}
-                    className="text-sm text-gray-400 hover:text-[#00B8A9] transition-colors"
+                    className="text-sm text-gray-400 hover:text-[#00B8A9] transition-colors duration-150"
                   >
                     {item.name}
                   </Link>
@@ -153,7 +199,7 @@ export function Footer() {
                 href="https://x.com/Arman_Ali_01"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Twitter"
+                aria-label="Twitter / X"
                 className="w-9 h-9 bg-gray-800 hover:bg-[#00B8A9] rounded-full flex items-center justify-center transition-colors duration-200"
               >
                 <Twitter className="w-4 h-4" />
