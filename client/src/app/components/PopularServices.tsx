@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Wrench, Zap, Sparkles, Trees, Paintbrush, AirVent, ChevronRight } from "lucide-react";
+import { Wrench, Zap, Sparkles, Paintbrush, AirVent, Bug, ChevronRight } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useNavigate } from "react-router-dom";
 
@@ -8,15 +8,15 @@ const SERVICES = [
     name: "Deep Home Cleaning",
     icon: Sparkles,
     image: "https://images.unsplash.com/photo-1620563671147-979557991e5a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMGNsZWFuaW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkxODY0MzZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    description: "3BHK deep clean with sofa and kitchen",
-    price: "₹1,499",
+    description: "Full home scrub — kitchen, bathrooms, bedrooms & balcony. 2BHK in 4 hrs.",
+    price: "₹1,199",
     badge: "Most Booked",
   },
   {
     name: "Plumbing Repair",
     icon: Wrench,
     image: "https://images.unsplash.com/photo-1635221798248-8a3452ad07cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwbHVtYmVyJTIwcHJvZmVzc2lvbmFsJTIwd29ya3xlbnwxfHx8fDE3NjkxNTA5ODl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    description: "Leaks, pipe repairs, drain cleaning",
+    description: "Leaking taps, drain blockage, pipe bursts, flush repair. Same-day slots available.",
     price: "₹299",
     badge: null,
   },
@@ -24,32 +24,32 @@ const SERVICES = [
     name: "Electrical Work",
     icon: Zap,
     image: "https://images.unsplash.com/photo-1467733238130-bb6846885316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2lhbiUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NjkxODc5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    description: "Wiring, switchboards, fitting installation",
+    description: "Switchboard repair, fan/light installation, wiring, MCB and DB work.",
     price: "₹349",
     badge: "Top Rated",
   },
   {
-    name: "AC Service & Repair",
+    name: "AC Service & Gas Refill",
     icon: AirVent,
     image: "https://plus.unsplash.com/premium_photo-1682126009570-3fe2399162f7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0",
-    description: "AC service, gas refill, cooling issues",
-    price: "₹499",
-    badge: null,
+    description: "Deep coil cleaning, filter wash, gas top-up, cooling check. 1-ton split AC.",
+    price: "₹599",
+    badge: "Summer Deal",
   },
   {
     name: "Interior Painting",
     icon: Paintbrush,
     image: "https://images.unsplash.com/photo-1688372199140-cade7ae820fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMHBhaW50aW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkwODAwMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    description: "1BHK from ₹2,999 · includes labour + material",
-    price: "₹2,999",
+    description: "Wall putty + 2-coat premium emulsion. 1BHK (450 sq ft) in 2 days. Labour included.",
+    price: "₹8,999",
     badge: null,
   },
   {
-    name: "Outdoor & Masonry",
-    icon: Trees,
-    image: "https://media.istockphoto.com/id/2197662613/photo/construction-worker-repairing-a-house-siding.jpg?s=1024x1024&w=is&k=20&c=FVus-jYKho667zG62I9OIPnej9OrL6tgOpwDgrCPScM=",
-    description: "Waterproofing, tiling, exterior repairs",
-    price: "₹499",
+    name: "Pest Control",
+    icon: Bug,
+    image: "https://images.unsplash.com/photo-1632923057155-dd35366c9f48?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0",
+    description: "Cockroach, ant, lizard & mosquito treatment. Odourless spray, safe for kids & pets.",
+    price: "₹799",
     badge: null,
   },
 ];
@@ -72,7 +72,7 @@ export function PopularServices() {
               Popular service packages
             </h2>
             <p className="text-gray-500 mt-2 text-sm md:text-base">
-              Fixed prices, top-rated pros, available today
+              Fixed prices, verified pros, slots available today
             </p>
           </div>
           <button
@@ -102,28 +102,26 @@ export function PopularServices() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-
-                {/* Badge */}
                 {service.badge && (
                   <span className="absolute top-3 left-3 text-xs font-semibold bg-white text-gray-800 px-2.5 py-1 rounded-full shadow-sm">
                     {service.badge}
                   </span>
                 )}
-
-                {/* Icon pill */}
                 <div className="absolute bottom-3 left-3 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-lg flex items-center justify-center shadow-sm">
                   <service.icon className="w-4 h-4 text-[#00B8A9]" />
                 </div>
               </div>
 
-              {/* Card body */}
+              {/* Body */}
               <div className="p-5">
                 <div className="flex items-start justify-between gap-2 mb-1.5">
                   <h3 className="text-sm font-semibold text-gray-900 leading-snug">{service.name}</h3>
-                  <span className="text-xs text-gray-400 whitespace-nowrap flex-shrink-0">from {service.price}</span>
+                  <span className="text-xs font-semibold text-[#00B8A9] whitespace-nowrap flex-shrink-0">
+                    from {service.price}
+                  </span>
                 </div>
                 <p className="text-xs text-gray-500 mb-4 leading-relaxed">{service.description}</p>
-                <div className="flex items-center gap-1 text-xs font-medium text-[#00B8A9] group-hover:gap-2 transition-all">
+                <div className="flex items-center gap-1 text-xs font-semibold text-[#00B8A9] group-hover:gap-2 transition-all">
                   Book Now <ChevronRight className="w-3.5 h-3.5" />
                 </div>
               </div>

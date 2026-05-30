@@ -1,21 +1,15 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Star, MapPin, CheckCircle2, Calendar } from "lucide-react";
+import { ArrowLeft, Star, MapPin, CheckCircle2, Calendar, ShieldCheck, Clock, IndianRupee } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProviderById, createBooking } from "@/app/lib/api";
-import { toast } from "react-toastify";
+import { getProviderById } from "@/app/lib/api";
 
 export function ViewProfile() {
   const { providerId } = useParams();
   const navigate = useNavigate();
   const [provider, setProvider] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [bookingDate, setBookingDate] = useState("");
-  const [bookingTime, setBookingTime] = useState("");
-  const [bookingLocation, setBookingLocation] = useState("");
-  const [booking, setBooking] = useState(false);
-
   useEffect(() => {
     if (!providerId) return;
     setLoading(true);
@@ -24,30 +18,6 @@ export function ViewProfile() {
       .catch(() => setProvider(null))
       .finally(() => setLoading(false));
   }, [providerId]);
-
-  const handleBookNow = async () => {
-    if (!bookingDate) { toast.error("Please select a date"); return; }
-    if (!bookingLocation) { toast.error("Please enter your location"); return; }
-    const token = localStorage.getItem("token");
-    if (!token) { toast.error("Please login to book a service"); navigate("/login"); return; }
-    setBooking(true);
-    try {
-      await createBooking({
-        providerId: provider._id,
-        serviceCategory: provider.serviceCategory,
-        date: bookingDate,
-        time: bookingTime,
-        location: bookingLocation,
-        totalAmount: provider.hourlyRate * 2,
-      });
-      toast.success("Booking created successfully!");
-      navigate("/bookings");
-    } catch (err: any) {
-      toast.error(err.message || "Booking failed");
-    } finally {
-      setBooking(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -291,70 +261,44 @@ export function ViewProfile() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-white rounded-2xl shadow-lg p-6 sticky top-24"
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Book This Service</h3>
-
-              <div className="space-y-4 mb-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Hourly Rate</span>
-                  <span className="font-bold text-gray-900">₹{provider.hourlyRate}</span>
-                </div>
-                {provider.availability && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Availability</span>
-                    <span className="font-medium text-gray-900">{provider.availability}</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="space-y-3 mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm text-gray-500">Starting from</span>
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">Date *</label>
-                  <input
-                    type="date"
-                    value={bookingDate}
-                    min={new Date().toISOString().split("T")[0]}
-                    onChange={(e) => setBookingDate(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Time (optional)</label>
-                  <input
-                    type="time"
-                    value={bookingTime}
-                    onChange={(e) => setBookingTime(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Your Address *</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your full address"
-                    value={bookingLocation}
-                    onChange={(e) => setBookingLocation(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                  />
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl p-4 mb-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-700">Starting from</span>
                   <span className="text-2xl font-bold text-gray-900">₹{provider.hourlyRate * 2}</span>
+                  <span className="text-xs text-gray-400 ml-1">/ visit</span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">(2 hour minimum)</p>
               </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleBookNow}
-                disabled={booking}
-                className="w-full bg-gradient-to-r from-cyan-600 to-emerald-500 text-white py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mb-4 disabled:opacity-60"
+              {provider.availability && (
+                <div className="flex items-center gap-2 mb-5 px-3 py-2 bg-emerald-50 text-emerald-700 rounded-lg text-sm">
+                  <Calendar className="w-4 h-4" />
+                  {provider.availability}
+                </div>
+              )}
+
+              <div className="space-y-2 mb-5">
+                {[
+                  { icon: ShieldCheck,  text: "Verified & background checked" },
+                  { icon: IndianRupee, text: "Fixed transparent pricing"      },
+                  { icon: Clock,       text: "On-time guarantee"              },
+                ].map(({ icon: Icon, text }) => (
+                  <div key={text} className="flex items-center gap-2 text-sm text-gray-600">
+                    <Icon className="w-4 h-4 text-[#00B8A9]" />
+                    {text}
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => navigate(`/booking/${provider._id}`)}
+                className="w-full bg-[#00B8A9] text-white py-3.5 rounded-xl font-semibold hover:bg-[#009e96] transition-colors"
               >
-                {booking ? "Booking..." : "Book Now"}
-              </motion.button>
+                Book Now
+              </button>
+
+              <p className="text-xs text-gray-400 text-center mt-3">
+                Free cancellation · No hidden charges
+              </p>
             </motion.div>
           </div>
         </div>

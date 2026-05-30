@@ -1,0 +1,881 @@
+import { motion } from "motion/react";
+import {
+  ArrowLeft, Check, Calendar, Clock, MapPin, ShieldCheck, Star, Tag,
+  Home, Banknote, CheckCircle2, ChevronRight, X, CreditCard,
+} from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getProviderById, createBooking } from "@/app/lib/api";
+import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { useUser } from "@/app/context/UserContext";
+import { toast } from "react-toastify";
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+const ADD_ONS_MAP: Record<string, Array<{ id: string; label: string; price: number }>> = {
+  "Home Cleaning": [
+    { id: "fridge",   label: "Inside fridge cleaning",   price: 299 },
+    { id: "oven",     label: "Inside oven cleaning",     price: 199 },
+    { id: "balcony",  label: "Balcony deep clean",       price: 149 },
+    { id: "sofa",     label: "Sofa vacuuming",           price: 249 },
+    { id: "cupboard", label: "Inside cupboard cleaning", price: 199 },
+  ],
+  "Plumbing": [
+    { id: "drain",  label: "Drain unblocking",      price: 349 },
+    { id: "heater", label: "Water heater check",    price: 199 },
+    { id: "toilet", label: "Flush mechanism repair", price: 249 },
+  ],
+  "Electrical": [
+    { id: "fan",   label: "Ceiling fan installation", price: 199 },
+    { id: "light", label: "Light / fixture fitting",  price: 149 },
+    { id: "mcb",   label: "MCB / circuit breaker",    price: 299 },
+  ],
+  "AC Repair": [
+    { id: "deep_coil",  label: "Deep coil cleaning",       price: 399  },
+    { id: "gas",        label: "Gas top-up (refrigerant)", price: 1499 },
+    { id: "stabilizer", label: "PCB / stabilizer check",   price: 199  },
+  ],
+  "Painting": [
+    { id: "putty",   label: "Extra wall putty (100 sqft)", price: 999 },
+    { id: "primer",  label: "Premium primer coat",         price: 599 },
+    { id: "ceiling", label: "Ceiling painting",            price: 799 },
+  ],
+  "Pest Control": [
+    { id: "bed_bug", label: "Bed bug treatment", price: 499 },
+    { id: "termite", label: "Termite control",   price: 699 },
+    { id: "rodent",  label: "Rodent control",    price: 399 },
+  ],
+  "Carpentry": [
+    { id: "polish",   label: "Wood polish / finishing",    price: 399 },
+    { id: "hardware", label: "Hardware replacement (5 pcs)", price: 249 },
+  ],
+};
+
+const FALLBACK_ADD_ONS = [
+  { id: "express", label: "Express / same-day booking", price: 299 },
+  { id: "weekend", label: "Weekend / holiday slot",     price: 200 },
+];
+
+const TIME_GROUPS = [
+  { label: "Morning",   slots: ["7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM"] },
+  { label: "Afternoon", slots: ["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"]  },
+  { label: "Evening",   slots: ["5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"]              },
+];
+
+const PROPERTY_TYPES = [
+  { id: "apartment", label: "Apartment / Flat"  },
+  { id: "villa",     label: "Villa / Bungalow"  },
+  { id: "house",     label: "Independent House" },
+];
+
+const PROPERTY_SIZES = ["Studio", "1BHK", "2BHK", "3BHK", "4BHK+"];
+
+const PROMOS: Record<string, { type: "percent" | "flat"; value: number; label: string }> = {
+  "WELCOME10": { type: "percent", value: 10, label: "10% off for new users"   },
+  "HC50":      { type: "flat",    value: 50, label: "₹50 instant discount"    },
+  "NEWUSER":   { type: "percent", value: 15, label: "15% off — welcome offer" },
+};
+
+const STEPS = ["Service Details", "Schedule", "Address", "Review & Pay"];
+
+// ── Step bar ──────────────────────────────────────────────────────────────────
+
+function StepBar({ current }: { current: number }) {
+  return (
+    <div className="flex items-start mb-8">
+      {STEPS.map((label, i) => {
+        const num    = i + 1;
+        const done   = num < current;
+        const active = num === current;
+        return (
+          <div key={label} className="flex items-center flex-1 last:flex-none">
+            <div className="flex flex-col items-center">
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200 ${
+                  done    ? "bg-[#00B8A9] text-white" :
+                  active  ? "bg-[#00B8A9] text-white ring-4 ring-[#00B8A9]/20" :
+                            "bg-gray-100 text-gray-400"
+                }`}
+              >
+                {done ? <Check className="w-4 h-4" /> : num}
+              </div>
+              <p className={`text-[11px] mt-1.5 font-medium whitespace-nowrap hidden sm:block ${
+                active ? "text-[#00B8A9]" : done ? "text-gray-500" : "text-gray-400"
+              }`}>
+                {label}
+              </p>
+            </div>
+            {i < STEPS.length - 1 && (
+              <div className={`flex-1 h-0.5 mx-2 mt-[-14px] ${done ? "bg-[#00B8A9]" : "bg-gray-200"}`} />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Provider summary strip ────────────────────────────────────────────────────
+
+function ProviderSummary({ provider }: { provider: any }) {
+  const name     = provider.businessName || `${provider.firstName} ${provider.lastName}`.trim();
+  const imageSrc = provider.profileImage
+    ? `https://homecare360.onrender.com/uploads/${provider.profileImage}`
+    : "";
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 p-4 mb-6 flex items-center gap-4">
+      <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
+        <ImageWithFallback src={imageSrc} alt={name} className="w-full h-full object-cover" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-gray-900 truncate">{name}</p>
+        <p className="text-xs text-[#00B8A9] font-medium">{provider.serviceCategory}</p>
+        <div className="flex items-center gap-1 mt-0.5">
+          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+          <span className="text-xs text-gray-500">
+            {provider.rating || "New"} ({provider.reviewCount || 0} reviews)
+          </span>
+        </div>
+      </div>
+      <div className="text-right flex-shrink-0">
+        <p className="text-[11px] text-gray-400">Starting from</p>
+        <p className="text-lg font-bold text-gray-900">
+          ₹{(provider.hourlyRate * 2).toLocaleString("en-IN")}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
+
+export function BookingPage() {
+  const { providerId } = useParams();
+  const navigate       = useNavigate();
+  const { user }       = useUser();
+  const today          = new Date().toISOString().split("T")[0];
+
+  const [provider, setProvider] = useState<any>(null);
+  const [loading, setLoading]   = useState(true);
+  const [step, setStep]         = useState(1);
+  const [direction, setDirection] = useState(1);
+
+  // Step 1
+  const [propertyType, setPropertyType]               = useState("apartment");
+  const [propertySize, setPropertySize]               = useState("2BHK");
+  const [addOnIds, setAddOnIds]                       = useState<string[]>([]);
+  const [specialInstructions, setSpecialInstructions] = useState("");
+
+  // Step 2
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState("");
+
+  // Step 3
+  const [address, setAddress]               = useState("");
+  const [floorLandmark, setFloorLandmark]   = useState("");
+  const [phone, setPhone]                   = useState("");
+
+  // Step 4
+  const [promoInput, setPromoInput]     = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<null | {
+    type: "percent" | "flat"; value: number; label: string
+  }>(null);
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "upi">("cod");
+  const [submitting, setSubmitting]       = useState(false);
+  const [confirmed, setConfirmed]         = useState<any>(null);
+
+  useEffect(() => {
+    if (!providerId) return;
+    getProviderById(providerId)
+      .then((d) => setProvider(d.provider))
+      .catch(() => setProvider(null))
+      .finally(() => setLoading(false));
+  }, [providerId]);
+
+  // ── Derived pricing ──────────────────────────────────────────────────────────
+  const allAddOns   = provider ? (ADD_ONS_MAP[provider.serviceCategory] || FALLBACK_ADD_ONS) : [];
+  const activeAddOns = allAddOns.filter((a) => addOnIds.includes(a.id));
+  const basePrice   = provider ? provider.hourlyRate * 2 : 0;
+  const addOnsTotal = activeAddOns.reduce((s, a) => s + a.price, 0);
+  const subtotal    = basePrice + addOnsTotal;
+  const discountAmt = appliedPromo
+    ? appliedPromo.type === "percent"
+      ? Math.round((subtotal * appliedPromo.value) / 100)
+      : Math.min(appliedPromo.value, subtotal)
+    : 0;
+  const afterDiscount = subtotal - discountAmt;
+  const gstAmt        = Math.round(afterDiscount * 0.18);
+  const totalAmount   = afterDiscount + gstAmt;
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  const applyPromo = () => {
+    const p = PROMOS[promoInput.trim().toUpperCase()];
+    if (!p) { toast.error("Invalid promo code"); return; }
+    setAppliedPromo(p);
+    toast.success(`Promo applied: ${p.label}`);
+  };
+
+  const validateStep = (s: number): boolean => {
+    if (s === 2 && !selectedDate) { toast.error("Please select a date"); return false; }
+    if (s === 2 && !selectedSlot) { toast.error("Please select a time slot"); return false; }
+    if (s === 3 && !address.trim()) { toast.error("Please enter your service address"); return false; }
+    if (s === 3 && !phone.trim()) { toast.error("Please enter your contact number"); return false; }
+    return true;
+  };
+
+  const next = () => {
+    if (!validateStep(step)) return;
+    setDirection(1);
+    setStep((s) => Math.min(s + 1, 4));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const back = () => {
+    setDirection(-1);
+    setStep((s) => Math.max(s - 1, 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSubmit = async () => {
+    if (!user) {
+      toast.info("Please log in to confirm your booking");
+      navigate("/login");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const result = await createBooking({
+        providerId: provider._id,
+        serviceCategory: provider.serviceCategory,
+        date: selectedDate,
+        time: selectedSlot,
+        location: address,
+        totalAmount,
+        propertyType,
+        propertySize,
+        addOns: activeAddOns.map((a) => ({ name: a.label, price: a.price })),
+        specialInstructions,
+        floorLandmark,
+        paymentMethod,
+        promoCode: appliedPromo ? promoInput.trim().toUpperCase() : "",
+        discountAmount: discountAmt,
+        gstAmount: gstAmt,
+      });
+      setConfirmed(result.booking);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err: any) {
+      toast.error(err.message || "Booking failed. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // ── Loading / error ──────────────────────────────────────────────────────────
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-20">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#00B8A9]" />
+      </div>
+    );
+  }
+
+  if (!provider) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-20">
+        <div className="text-center">
+          <p className="text-gray-500 mb-3">Provider not found.</p>
+          <button onClick={() => navigate(-1)} className="text-[#00B8A9] hover:underline text-sm">
+            Go back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Confirmation screen ──────────────────────────────────────────────────────
+  if (confirmed) {
+    const providerName = provider.businessName || `${provider.firstName} ${provider.lastName}`.trim();
+    const bookingRef   = `HC-${(confirmed._id || "").slice(-8).toUpperCase()}`;
+    const gcalDate     = selectedDate.replace(/-/g, "");
+    const gcalUrl      = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`${provider.serviceCategory} — HomeCare360`)}&dates=${gcalDate}/${gcalDate}&details=${encodeURIComponent(`Booking: ${bookingRef}\nProvider: ${providerName}\nAddress: ${address}`)}&location=${encodeURIComponent(address)}`;
+
+    return (
+      <div className="min-h-screen bg-gray-50 pt-12 pb-16">
+        <div className="max-w-lg mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+            className="bg-white rounded-3xl border border-gray-100 shadow-lg overflow-hidden"
+          >
+            {/* Success banner */}
+            <div className="bg-[#00B8A9] px-8 py-10 text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 220, delay: 0.2 }}
+                className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4"
+              >
+                <CheckCircle2 className="w-10 h-10 text-white" />
+              </motion.div>
+              <h1 className="text-2xl font-bold text-white mb-1">Booking Confirmed!</h1>
+              <p className="text-white/80 text-sm">Your service has been scheduled</p>
+            </div>
+
+            <div className="p-6 space-y-4">
+              {/* Booking ref */}
+              <div className="bg-gray-50 rounded-xl p-4 text-center">
+                <p className="text-xs text-gray-400 mb-1">Booking Reference</p>
+                <p className="text-xl font-bold text-gray-900 tracking-widest">{bookingRef}</p>
+              </div>
+
+              {/* Detail rows */}
+              {[
+                { icon: Home,     label: "Service",  value: provider.serviceCategory                                    },
+                { icon: Star,     label: "Provider", value: providerName                                                },
+                { icon: Calendar, label: "Date",     value: selectedDate                                                },
+                { icon: Clock,    label: "Time",     value: selectedSlot                                                },
+                { icon: MapPin,   label: "Address",  value: address                                                     },
+                { icon: Banknote, label: "Payment",  value: "Pay on service completion (Cash / UPI to provider)"        },
+              ].map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Icon className="w-4 h-4 text-gray-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 font-medium">{label}</p>
+                    <p className="text-sm font-semibold text-gray-900">{value}</p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Total */}
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span className="text-sm text-gray-500">Total Amount</span>
+                <span className="text-xl font-bold text-gray-900">
+                  ₹{totalAmount.toLocaleString("en-IN")}
+                </span>
+              </div>
+
+              {/* What to expect */}
+              <div className="bg-cyan-50 border border-cyan-100 rounded-xl p-4">
+                <p className="text-sm font-semibold text-cyan-700 mb-1.5">What happens next</p>
+                <ul className="space-y-1 text-xs text-cyan-600">
+                  <li>• Provider will confirm within 1 hour</li>
+                  <li>• You'll receive an SMS confirmation shortly</li>
+                  <li>• Provider calls 30 minutes before arrival</li>
+                </ul>
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col gap-3 pt-1">
+                <a
+                  href={gcalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-xl hover:border-[#00B8A9] hover:text-[#00B8A9] transition-colors"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Add to Google Calendar
+                </a>
+                <button
+                  onClick={() => navigate("/bookings")}
+                  className="w-full py-3 bg-[#00B8A9] text-white text-sm font-semibold rounded-xl hover:bg-[#009e96] transition-colors"
+                >
+                  View My Bookings
+                </button>
+                <button
+                  onClick={() => navigate("/")}
+                  className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  Back to home
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Booking wizard ───────────────────────────────────────────────────────────
+  return (
+    <div className="min-h-screen bg-gray-50 pt-8 pb-16">
+      <div className="max-w-2xl mx-auto px-4">
+
+        {/* Back */}
+        <button
+          onClick={() => (step > 1 ? back() : navigate(`/profile/${providerId}`))}
+          className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors mb-6"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          {step > 1 ? "Back" : "Back to profile"}
+        </button>
+
+        <StepBar current={step} />
+        <ProviderSummary provider={provider} />
+
+        <motion.div
+          key={step}
+          initial={{ opacity: 0, x: direction * 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.22 }}
+        >
+
+          {/* ─ Step 1: Service Details ─────────────────────────────────────── */}
+          {step === 1 && (
+            <div className="bg-white rounded-2xl border border-gray-100 p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-5">Customize your service</h2>
+
+              {/* Property type */}
+              <div className="mb-5">
+                <label className="text-sm font-medium text-gray-700 block mb-2">Property type</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {PROPERTY_TYPES.map((pt) => (
+                    <button
+                      key={pt.id}
+                      type="button"
+                      onClick={() => setPropertyType(pt.id)}
+                      className={`py-2.5 px-3 rounded-xl border text-sm font-medium text-center transition-all ${
+                        propertyType === pt.id
+                          ? "border-[#00B8A9] bg-cyan-50 text-[#00B8A9]"
+                          : "border-gray-200 text-gray-600 hover:border-gray-300"
+                      }`}
+                    >
+                      {pt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Property size */}
+              <div className="mb-5">
+                <label className="text-sm font-medium text-gray-700 block mb-2">Property size</label>
+                <div className="flex flex-wrap gap-2">
+                  {PROPERTY_SIZES.map((sz) => (
+                    <button
+                      key={sz}
+                      type="button"
+                      onClick={() => setPropertySize(sz)}
+                      className={`py-2 px-4 rounded-full border text-sm font-medium transition-all ${
+                        propertySize === sz
+                          ? "border-[#00B8A9] bg-cyan-50 text-[#00B8A9]"
+                          : "border-gray-200 text-gray-600 hover:border-gray-300"
+                      }`}
+                    >
+                      {sz}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Add-ons */}
+              {allAddOns.length > 0 && (
+                <div className="mb-5">
+                  <label className="text-sm font-medium text-gray-700 block mb-1">
+                    Add-on services
+                  </label>
+                  <p className="text-xs text-gray-400 mb-3">
+                    Optionally include extra tasks in your booking
+                  </p>
+                  <div className="space-y-2">
+                    {allAddOns.map((addon) => {
+                      const sel = addOnIds.includes(addon.id);
+                      return (
+                        <button
+                          key={addon.id}
+                          type="button"
+                          onClick={() =>
+                            setAddOnIds((ids) =>
+                              sel ? ids.filter((id) => id !== addon.id) : [...ids, addon.id]
+                            )
+                          }
+                          className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border text-sm transition-all ${
+                            sel ? "border-[#00B8A9] bg-cyan-50" : "border-gray-200 hover:border-gray-300"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div
+                              className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-all ${
+                                sel ? "border-[#00B8A9] bg-[#00B8A9]" : "border-gray-300"
+                              }`}
+                            >
+                              {sel && <Check className="w-3 h-3 text-white" />}
+                            </div>
+                            <span className="font-medium text-gray-800">{addon.label}</span>
+                          </div>
+                          <span className={`font-semibold text-xs ${sel ? "text-[#00B8A9]" : "text-gray-500"}`}>
+                            +₹{addon.price}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Special instructions */}
+              <div className="mb-6">
+                <label className="text-sm font-medium text-gray-700 block mb-2">
+                  Special instructions{" "}
+                  <span className="text-gray-400 font-normal">(optional)</span>
+                </label>
+                <textarea
+                  value={specialInstructions}
+                  onChange={(e) => setSpecialInstructions(e.target.value)}
+                  placeholder="E.g. please bring eco-friendly products, dog in house, ring bell twice…"
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9] resize-none"
+                />
+              </div>
+
+              {activeAddOns.length > 0 && (
+                <div className="bg-gray-50 rounded-xl px-4 py-3 mb-5 flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Base + {activeAddOns.length} add-on(s)</span>
+                  <span className="font-bold text-gray-900">₹{subtotal.toLocaleString("en-IN")}</span>
+                </div>
+              )}
+
+              <button
+                onClick={next}
+                className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2"
+              >
+                Continue to Schedule <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {/* ─ Step 2: Schedule ────────────────────────────────────────────── */}
+          {step === 2 && (
+            <div className="bg-white rounded-2xl border border-gray-100 p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-5">Pick a date and time</h2>
+
+              {/* Date */}
+              <div className="mb-6">
+                <label className="text-sm font-medium text-gray-700 block mb-2">Service date</label>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  min={today}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9]"
+                />
+                {selectedDate === today && (
+                  <p className="flex items-center gap-1.5 mt-2 text-xs text-amber-600">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Same-day booking — subject to provider confirmation
+                  </p>
+                )}
+              </div>
+
+              {/* Time slots */}
+              <div className="mb-6">
+                <label className="text-sm font-medium text-gray-700 block mb-3">
+                  Preferred time slot
+                </label>
+                <div className="space-y-5">
+                  {TIME_GROUPS.map((group) => (
+                    <div key={group.label}>
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                        {group.label}
+                      </p>
+                      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                        {group.slots.map((slot) => (
+                          <button
+                            key={slot}
+                            type="button"
+                            onClick={() => setSelectedSlot(slot)}
+                            className={`py-2 rounded-xl border text-xs font-medium text-center transition-all ${
+                              selectedSlot === slot
+                                ? "border-[#00B8A9] bg-cyan-50 text-[#00B8A9]"
+                                : "border-gray-200 text-gray-600 hover:border-gray-300"
+                            }`}
+                          >
+                            {slot}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Duration note */}
+              <div className="bg-gray-50 rounded-xl px-4 py-3 mb-6 flex items-center gap-3">
+                <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                <p className="text-sm text-gray-600">
+                  Estimated duration:{" "}
+                  <span className="font-semibold text-gray-900">2–4 hours</span>
+                  <span className="text-gray-400"> (may vary based on add-ons)</span>
+                </p>
+              </div>
+
+              <button
+                onClick={next}
+                className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2"
+              >
+                Continue to Address <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {/* ─ Step 3: Address ─────────────────────────────────────────────── */}
+          {step === 3 && (
+            <div className="bg-white rounded-2xl border border-gray-100 p-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-5">
+                Service address & contact
+              </h2>
+
+              <div className="space-y-4 mb-6">
+                {/* Address */}
+                <div>
+                  <label className="text-sm font-medium text-gray-700 block mb-1.5">
+                    Full address <span className="text-red-400">*</span>
+                  </label>
+                  <textarea
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="House no., street, area, city, pincode"
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9] resize-none"
+                  />
+                </div>
+
+                {/* Floor / landmark */}
+                <div>
+                  <label className="text-sm font-medium text-gray-700 block mb-1.5">
+                    Floor / Building / Landmark{" "}
+                    <span className="text-gray-400 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={floorLandmark}
+                    onChange={(e) => setFloorLandmark(e.target.value)}
+                    placeholder="E.g. Floor 3, Tower B, near City Mall"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9]"
+                  />
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="text-sm font-medium text-gray-700 block mb-1.5">
+                    Contact number <span className="text-red-400">*</span>
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="flex items-center px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-600 flex-shrink-0 gap-1.5">
+                      <span>🇮🇳</span>
+                      <span>+91</span>
+                    </div>
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="10-digit mobile number"
+                      maxLength={10}
+                      className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9]"
+                    />
+                  </div>
+                  <p className="flex items-center gap-1 text-xs text-gray-400 mt-1.5">
+                    <ShieldCheck className="w-3 h-3" />
+                    Provider will call 30 minutes before arrival
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={next}
+                className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2"
+              >
+                Continue to Review <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {/* ─ Step 4: Review & Pay ────────────────────────────────────────── */}
+          {step === 4 && (
+            <div className="space-y-4">
+              {/* Order summary */}
+              <div className="bg-white rounded-2xl border border-gray-100 p-6">
+                <h2 className="text-lg font-bold text-gray-900 mb-4">Order summary</h2>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">
+                      {provider.serviceCategory} — {propertySize}{" "}
+                      {PROPERTY_TYPES.find((p) => p.id === propertyType)?.label}
+                    </span>
+                    <span className="font-medium text-gray-900">
+                      ₹{basePrice.toLocaleString("en-IN")}
+                    </span>
+                  </div>
+                  {activeAddOns.map((addon) => (
+                    <div key={addon.id} className="flex justify-between">
+                      <span className="text-gray-500">{addon.label}</span>
+                      <span className="font-medium text-gray-700">+₹{addon.price}</span>
+                    </div>
+                  ))}
+                  {discountAmt > 0 && (
+                    <div className="flex justify-between text-emerald-600">
+                      <span className="flex items-center gap-1">
+                        <Tag className="w-3.5 h-3.5" />
+                        Promo: {promoInput.toUpperCase()}
+                      </span>
+                      <span className="font-medium">−₹{discountAmt}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-gray-500">
+                    <span>GST (18%)</span>
+                    <span>₹{gstAmt.toLocaleString("en-IN")}</span>
+                  </div>
+                  <div className="flex justify-between border-t border-gray-100 pt-3 mt-1">
+                    <span className="font-bold text-gray-900">Total payable</span>
+                    <span className="text-xl font-bold text-gray-900">
+                      ₹{totalAmount.toLocaleString("en-IN")}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-400 text-center">
+                    No hidden charges — this is the final amount
+                  </p>
+                </div>
+              </div>
+
+              {/* Promo code */}
+              <div className="bg-white rounded-2xl border border-gray-100 p-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-3">Promo / discount code</h3>
+                {appliedPromo ? (
+                  <div className="flex items-center justify-between bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      <Tag className="w-4 h-4 text-emerald-600" />
+                      <span className="text-sm font-semibold text-emerald-700">
+                        {promoInput.toUpperCase()}
+                      </span>
+                      <span className="text-xs text-emerald-600">({appliedPromo.label})</span>
+                    </div>
+                    <button
+                      onClick={() => { setAppliedPromo(null); setPromoInput(""); }}
+                      className="text-gray-400 hover:text-gray-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => setPromoInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && applyPromo()}
+                      placeholder="Enter promo code"
+                      className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9]"
+                    />
+                    <button
+                      onClick={applyPromo}
+                      className="px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-700 transition-colors"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Payment method */}
+              <div className="bg-white rounded-2xl border border-gray-100 p-6">
+                <h3 className="text-sm font-bold text-gray-900 mb-3">Payment method</h3>
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("cod")}
+                    className={`w-full flex items-center gap-3 px-4 py-4 rounded-xl border transition-all ${
+                      paymentMethod === "cod"
+                        ? "border-[#00B8A9] bg-cyan-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                        paymentMethod === "cod" ? "border-[#00B8A9]" : "border-gray-300"
+                      }`}
+                    >
+                      {paymentMethod === "cod" && (
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#00B8A9]" />
+                      )}
+                    </div>
+                    <Banknote className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="text-sm font-semibold text-gray-900">
+                        Pay on service completion
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        Cash / UPI to provider after the job is done
+                      </p>
+                    </div>
+                    <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full flex-shrink-0">
+                      Recommended
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    disabled
+                    className="w-full flex items-center gap-3 px-4 py-4 rounded-xl border border-gray-200 opacity-50 cursor-not-allowed"
+                  >
+                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0" />
+                    <CreditCard className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <div className="text-left flex-1">
+                      <p className="text-sm font-semibold text-gray-700">
+                        Online Payment (Card / UPI)
+                      </p>
+                      <p className="text-xs text-gray-400">Secure prepaid online payment</p>
+                    </div>
+                    <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">
+                      Coming soon
+                    </span>
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-center gap-1.5 mt-4 text-xs text-gray-400">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Secure booking · Your data is encrypted
+                </div>
+              </div>
+
+              {/* Cancellation policy */}
+              <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 text-xs text-amber-700 space-y-1">
+                <p className="font-semibold">Cancellation policy</p>
+                <p>Free cancellation before 24 hours. Late cancellations may incur a ₹100 fee.</p>
+                <p>
+                  Not satisfied? HomeCare360 will redo the service or issue a full refund.
+                </p>
+              </div>
+
+              {/* Booking summary strip */}
+              <div className="bg-white rounded-2xl border border-gray-100 p-4 flex items-center gap-3 text-xs text-gray-500">
+                <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                <span>{selectedDate}</span>
+                <Clock className="w-4 h-4 text-gray-400 flex-shrink-0 ml-2" />
+                <span>{selectedSlot}</span>
+                <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0 ml-2" />
+                <span className="truncate">{address}</span>
+              </div>
+
+              {/* Confirm button */}
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                className="w-full py-4 bg-[#00B8A9] text-white font-bold text-base rounded-xl hover:bg-[#009e96] transition-colors disabled:opacity-70 flex items-center justify-center gap-2"
+              >
+                {submitting ? (
+                  <>
+                    <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                    Processing…
+                  </>
+                ) : (
+                  `Confirm & Book — ₹${totalAmount.toLocaleString("en-IN")}`
+                )}
+              </button>
+            </div>
+          )}
+        </motion.div>
+      </div>
+    </div>
+  );
+}

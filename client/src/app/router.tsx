@@ -4,6 +4,7 @@ import { RootLayout } from "./components/RootLayout";
 import { HomePage } from "./components/HomePage";
 import { BrowseServices } from "./components/BrowseServices";
 import { ViewProfile } from "./components/ViewProfile";
+import { BookingPage } from "./components/BookingPage";
 import { BecomeProvider } from "./components/BecomeProvider";
 import { MyBookings } from "./components/MyBookings";
 import { Admin } from "./components/admin/Admin";
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "profile/:providerId",
         Component: ViewProfile,
+      },
+      {
+        path: "booking/:providerId",
+        Component: BookingPage,
       },
       {
         path: "quote-estimator",

@@ -3,19 +3,32 @@ const Booking = require("../models/booking");
 const PLATFORM_FEE_PERCENT = 0.15;
 
 exports.createBooking = async (userId, data) => {
-  const platformFee = Math.round(data.totalAmount * PLATFORM_FEE_PERCENT * 100) / 100;
-  const providerPayout = Math.round((data.totalAmount - platformFee) * 100) / 100;
+  const totalAmount  = data.totalAmount;
+  const platformFee  = Math.round(totalAmount * PLATFORM_FEE_PERCENT * 100) / 100;
+  const providerPayout = Math.round((totalAmount - platformFee) * 100) / 100;
 
   return Booking.create({
-    user: userId,
-    provider: data.providerId,
+    user:            userId,
+    provider:        data.providerId,
     serviceCategory: data.serviceCategory,
-    date: data.date,
-    time: data.time || "",
-    location: data.location || "",
-    totalAmount: data.totalAmount,
+    date:            data.date,
+    time:            data.time            || "",
+    location:        data.location        || "",
+    totalAmount,
     platformFee,
     providerPayout,
+
+    // Extended fields
+    propertyType:        data.propertyType        || "",
+    propertySize:        data.propertySize        || "",
+    addOns:              data.addOns              || [],
+    specialInstructions: data.specialInstructions || "",
+    floorLandmark:       data.floorLandmark       || "",
+    promoCode:           data.promoCode           || "",
+    discountAmount:      data.discountAmount       || 0,
+    gstAmount:           data.gstAmount            || 0,
+    paymentMethod:       data.paymentMethod        || "cod",
+    paymentStatus:       "pending",
   });
 };
 
@@ -35,7 +48,7 @@ exports.cancelBooking = async (id, userId) => {
 
 exports.getAllBookings = async () => {
   return Booking.find()
-    .populate("user", "fullName email")
+    .populate("user",     "fullName email")
     .populate("provider", "firstName lastName businessName serviceCategory profileImage")
     .sort({ createdAt: -1 });
 };

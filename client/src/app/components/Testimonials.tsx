@@ -59,9 +59,9 @@ const REVIEWS = [
 ];
 
 const STATS = [
-  { value: "4.8★", label: "from 12,000+ reviews" },
+  { value: "4.8★", label: "from 200+ reviews" },
   { value: "98%",  label: "on-time arrival rate"  },
-  { value: "50,000+", label: "happy customers"   },
+  { value: "500+", label: "happy customers"   },
 ];
 
 export function Testimonials() {
@@ -79,7 +79,7 @@ export function Testimonials() {
             What our customers say
           </h2>
           <p className="text-gray-500 mt-2 text-sm md:text-base">
-            Over 12,000 verified reviews from homeowners across India
+            Over 200 verified reviews from homeowners across India
           </p>
         </motion.div>
 
