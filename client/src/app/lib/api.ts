@@ -9,13 +9,13 @@ function authHeaders() {
 }
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const res = await fetch(`${BASE_URL}${path}`, options);
+  const res  = await fetch(`${BASE_URL}${path}`, options);
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Request failed");
   return data;
 }
 
-// ── Providers ──────────────────────────────────────────────────────────────
+// ── Providers ──────────────────────────────────────────────────────────────────
 export const getProviders = (params?: { serviceCategory?: string; city?: string }) => {
   const qs = params ? "?" + new URLSearchParams(params as Record<string, string>).toString() : "";
   return request<any>(`/provider/list${qs}`);
@@ -29,6 +29,9 @@ export const applyProvider = (formData: FormData) =>
     headers: { Authorization: `Bearer ${getToken()}` },
     body: formData,
   }).then((r) => r.json());
+
+export const getMyProviderProfile = () =>
+  request<any>("/provider/me", { headers: authHeaders() });
 
 // Admin provider routes
 export const getAdminApplications = () =>
@@ -44,7 +47,7 @@ export const updateApplicationStatus = (id: string, status: string) =>
     body: JSON.stringify({ status }),
   });
 
-// ── Services (categories) ──────────────────────────────────────────────────
+// ── Services (categories) ─────────────────────────────────────────────────────
 export const getServices = () => request<any>("/services");
 
 export const createService = (data: object) =>
@@ -56,16 +59,27 @@ export const updateService = (id: string, data: object) =>
 export const deleteService = (id: string) =>
   request<any>(`/services/${id}`, { method: "DELETE", headers: authHeaders() });
 
-// ── Bookings ───────────────────────────────────────────────────────────────
+// ── Bookings ──────────────────────────────────────────────────────────────────
 export const createBooking = (data: object) =>
   request<any>("/bookings", { method: "POST", headers: authHeaders(), body: JSON.stringify(data) });
 
 export const getMyBookings = () =>
   request<any>("/bookings/my", { headers: authHeaders() });
 
+export const getCancellationPolicy = (id: string) =>
+  request<any>(`/bookings/${id}/cancel-policy`, { headers: authHeaders() });
+
 export const cancelBooking = (id: string) =>
   request<any>(`/bookings/${id}/cancel`, { method: "PUT", headers: authHeaders() });
 
+// Provider
+export const getProviderBookings = () =>
+  request<any>("/bookings/provider/mine", { headers: authHeaders() });
+
+export const providerCancelBooking = (id: string) =>
+  request<any>(`/bookings/${id}/provider-cancel`, { method: "PUT", headers: authHeaders() });
+
+// Admin
 export const getAdminBookings = () =>
   request<any>("/bookings", { headers: authHeaders() });
 
@@ -76,9 +90,12 @@ export const updateBookingStatus = (id: string, status: string) =>
     body: JSON.stringify({ status }),
   });
 
-// ── Reviews ────────────────────────────────────────────────────────────────
+// ── Reviews ───────────────────────────────────────────────────────────────────
 export const createReview = (data: object) =>
   request<any>("/reviews", { method: "POST", headers: authHeaders(), body: JSON.stringify(data) });
+
+export const checkReviewed = (bookingId: string) =>
+  request<any>(`/reviews/check/${bookingId}`, { headers: authHeaders() });
 
 export const getProviderReviews = (providerId: string) =>
   request<any>(`/reviews/provider/${providerId}`);
@@ -93,7 +110,25 @@ export const updateReviewStatus = (id: string, status: string) =>
     body: JSON.stringify({ status }),
   });
 
-// ── Admin ──────────────────────────────────────────────────────────────────
+// ── Chat ──────────────────────────────────────────────────────────────────────
+export const getChatMessages = (bookingId: string) =>
+  request<any>(`/chat/${bookingId}/messages`, { headers: authHeaders() });
+
+export const sendChatMessage = (bookingId: string, text: string) =>
+  request<any>(`/chat/${bookingId}/messages`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify({ text }),
+  });
+
+// ── Stripe ────────────────────────────────────────────────────────────────────
+export const createStripeSession = (bookingId: string) =>
+  request<any>(`/stripe/session/${bookingId}`, { method: "POST", headers: authHeaders() });
+
+export const getStripeBooking = (bookingId: string) =>
+  request<any>(`/stripe/booking/${bookingId}`, { headers: authHeaders() });
+
+// ── Admin ─────────────────────────────────────────────────────────────────────
 export const getDashboard = () =>
   request<any>("/admin/dashboard", { headers: authHeaders() });
 

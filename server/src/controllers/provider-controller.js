@@ -45,6 +45,17 @@ exports.getApplications = async (req, res) => {
   }
 };
 
+exports.getMyProfile = async (req, res) => {
+  try {
+    const ProviderApplication = require("../models/provider-application");
+    const provider = await ProviderApplication.findOne({ user: req.user.id });
+    if (!provider) return res.status(404).json({ success: false, message: "Provider profile not found" });
+    res.json({ success: true, provider });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 exports.updateApplicationStatus = async (req, res) => {
   try {
     const { status } = req.body;

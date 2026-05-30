@@ -1,21 +1,83 @@
-const express = require('express');
-const cors = require('cors');
+const http    = require("http");
+const express = require("express");
+const cors    = require("cors");
+const { Server } = require("socket.io");
 
-const { ServerConfig } = require('./config');
-const apiRoutes = require('./routes');
-
-const app = express();
-
+const { ServerConfig } = require("./config");
+const apiRoutes = require("./routes");
 const connectDB = require("./config/db");
+
+const app    = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: { origin: "*", methods: ["GET", "POST"] },
+});
+
 app.use(cors());
 app.use(express.json());
-
 app.use("/uploads", express.static("uploads"));
-app.use('/api', apiRoutes);
+app.use("/api", apiRoutes);
 
+// ── Socket.io real-time chat ──────────────────────────────────────────────────
+const chatService = require("./services/chat-service");
+const Booking     = require("./models/booking");
+const ProviderApplication = require("./models/provider-application");
+const jwt = require("jsonwebtoken");
+
+io.use(async (socket, next) => {
+  try {
+    const token = socket.handshake.auth?.token;
+    if (!token) return next(new Error("No token"));
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    socket.userId = payload.id;
+    socket.userFullName = payload.fullName || "";
+    next();
+  } catch {
+    next(new Error("Invalid token"));
+  }
+});
+
+io.on("connection", (socket) => {
+  socket.on("join-room", async ({ bookingId }) => {
+    try {
+      const booking = await Booking.findById(bookingId);
+      if (!booking) return;
+
+      let role = null;
+      if (booking.user.toString() === socket.userId) {
+        role = "customer";
+      } else {
+        const pApp = await ProviderApplication.findOne({ user: socket.userId });
+        if (pApp && booking.provider.toString() === pApp._id.toString()) role = "provider";
+      }
+      if (!role) return;
+
+      socket.join(`booking-${bookingId}`);
+      socket.bookingId = bookingId;
+      socket.chatRole  = role;
+    } catch {}
+  });
+
+  socket.on("send-message", async ({ bookingId, text }) => {
+    if (!text?.trim() || !bookingId) return;
+    try {
+      const msg = await chatService.saveMessage({
+        bookingId,
+        senderId:   socket.userId,
+        senderRole: socket.chatRole,
+        senderName: socket.userFullName,
+        text:       text.trim(),
+      });
+      io.to(`booking-${bookingId}`).emit("new-message", msg);
+    } catch {}
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 connectDB();
 
-app.listen(ServerConfig.PORT, () => {
-    console.log(`Successfully started the server on PORT : ${ServerConfig.PORT}`);
+server.listen(ServerConfig.PORT, () => {
+  console.log(`Server started on PORT ${ServerConfig.PORT}`);
 });

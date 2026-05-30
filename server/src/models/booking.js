@@ -30,7 +30,7 @@ const bookingSchema = new mongoose.Schema(
     // Payment
     paymentMethod: {
       type:    String,
-      enum:    ["cod", "upi", "card"],
+      enum:    ["cod", "upi", "card", "stripe"],
       default: "cod",
     },
     paymentStatus: {
@@ -38,6 +38,12 @@ const bookingSchema = new mongoose.Schema(
       enum:    ["pending", "paid", "refunded"],
       default: "pending",
     },
+    stripeSessionId:       { type: String, default: "" },
+    stripePaymentIntentId: { type: String, default: "" },
+
+    // Cancellation
+    cancelledBy:        { type: String, enum: ["customer", "provider", "admin", ""], default: "" },
+    cancellationReason: { type: String, default: "" },
   },
   { timestamps: true }
 );

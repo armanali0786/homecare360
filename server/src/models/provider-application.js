@@ -47,8 +47,13 @@ const providerApplicationSchema = new mongoose.Schema(
   reviewedBy:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"User"
-  }
+  },
 
+  penaltyCount: { type: Number, default: 0 },
+
+  // Stripe Connect payout
+  stripeAccountId:     { type: String, default: "" },
+  stripeAccountStatus: { type: String, enum: ["none","pending","active"], default: "none" },
 },
 {timestamps:true}
 );

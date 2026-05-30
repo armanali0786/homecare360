@@ -1,0 +1,47 @@
+const twilio = require("twilio");
+
+let client = null;
+
+function getClient() {
+  if (client) return client;
+  const sid   = process.env.TWILIO_ACCOUNT_SID;
+  const token = process.env.TWILIO_AUTH_TOKEN;
+  if (!sid || !token) return null;
+  client = twilio(sid, token);
+  return client;
+}
+
+async function sendSMS(to, body) {
+  const c    = getClient();
+  const from = process.env.TWILIO_PHONE_NUMBER;
+  if (!c || !from) return;
+
+  // E.164 format: ensure +91 prefix for Indian numbers
+  let formatted = to.replace(/\D/g, "");
+  if (formatted.length === 10) formatted = `+91${formatted}`;
+  else if (!formatted.startsWith("+")) formatted = `+${formatted}`;
+
+  try {
+    await c.messages.create({ from, to: formatted, body });
+  } catch (err) {
+    console.error("[Twilio]", err.message);
+  }
+}
+
+exports.bookingConfirmed = (phone, d) =>
+  sendSMS(
+    phone,
+    `HomeCare360: Booking ${d.ref} confirmed! ${d.service} on ${d.date} at ${d.time}. Total: ₹${d.total}. Cancel free before 24h.`
+  );
+
+exports.bookingCancelled = (phone, d) =>
+  sendSMS(
+    phone,
+    `HomeCare360: Booking ${d.ref} has been cancelled. ${d.refundNote || "Contact support for queries."}`
+  );
+
+exports.providerAssigned = (phone, d) =>
+  sendSMS(
+    phone,
+    `HomeCare360: New booking ${d.ref} assigned to you — ${d.service} on ${d.date} at ${d.time}. Address: ${d.address}`
+  );

@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProviderById, createBooking } from "@/app/lib/api";
+import { getProviderById, createBooking, createStripeSession } from "@/app/lib/api";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useUser } from "@/app/context/UserContext";
 import { toast } from "react-toastify";
@@ -180,7 +180,7 @@ export function BookingPage() {
   const [appliedPromo, setAppliedPromo] = useState<null | {
     type: "percent" | "flat"; value: number; label: string
   }>(null);
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "upi">("cod");
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod");
   const [submitting, setSubmitting]       = useState(false);
   const [confirmed, setConfirmed]         = useState<any>(null);
 
@@ -261,6 +261,16 @@ export function BookingPage() {
         discountAmount: discountAmt,
         gstAmount: gstAmt,
       });
+
+      // For Stripe: redirect to checkout
+      if (paymentMethod === "stripe") {
+        const session = await createStripeSession(result.booking._id);
+        if (session.url) {
+          window.location.href = session.url;
+          return;
+        }
+      }
+
       setConfirmed(result.booking);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err: any) {
@@ -815,19 +825,31 @@ export function BookingPage() {
 
                   <button
                     type="button"
-                    disabled
-                    className="w-full flex items-center gap-3 px-4 py-4 rounded-xl border border-gray-200 opacity-50 cursor-not-allowed"
+                    onClick={() => setPaymentMethod("stripe")}
+                    className={`w-full flex items-center gap-3 px-4 py-4 rounded-xl border transition-all ${
+                      paymentMethod === "stripe"
+                        ? "border-violet-400 bg-violet-50"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
                   >
-                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0" />
-                    <CreditCard className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                        paymentMethod === "stripe" ? "border-violet-500" : "border-gray-300"
+                      }`}
+                    >
+                      {paymentMethod === "stripe" && (
+                        <div className="w-2.5 h-2.5 rounded-full bg-violet-500" />
+                      )}
+                    </div>
+                    <CreditCard className="w-5 h-5 text-violet-400 flex-shrink-0" />
                     <div className="text-left flex-1">
-                      <p className="text-sm font-semibold text-gray-700">
+                      <p className="text-sm font-semibold text-gray-900">
                         Online Payment (Card / UPI)
                       </p>
-                      <p className="text-xs text-gray-400">Secure prepaid online payment</p>
+                      <p className="text-xs text-gray-400">Powered by Stripe · SSL secured</p>
                     </div>
-                    <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-1 rounded-full flex-shrink-0">
-                      Coming soon
+                    <span className="text-xs font-medium text-violet-600 bg-violet-50 border border-violet-100 px-2 py-1 rounded-full flex-shrink-0">
+                      Secure
                     </span>
                   </button>
                 </div>
@@ -868,6 +890,8 @@ export function BookingPage() {
                     <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
                     Processing…
                   </>
+                ) : paymentMethod === "stripe" ? (
+                  `Confirm & Pay Online — ₹${totalAmount.toLocaleString("en-IN")}`
                 ) : (
                   `Confirm & Book — ₹${totalAmount.toLocaleString("en-IN")}`
                 )}

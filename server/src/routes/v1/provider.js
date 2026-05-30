@@ -9,6 +9,9 @@ const upload = require("../../middlewares/upload");
 router.get("/list", providerController.getApprovedProviders);
 router.get("/profile/:id", providerController.getProviderById);
 
+// Provider — own profile
+router.get("/me", verifyToken, authorizeRoles("provider"), providerController.getMyProfile);
+
 // User - apply as provider
 router.post(
   "/apply",

@@ -9,6 +9,15 @@ exports.createReview = async (req, res) => {
   }
 };
 
+exports.checkReviewed = async (req, res) => {
+  try {
+    const result = await reviewService.checkReviewed(req.params.bookingId, req.user.id);
+    res.json({ success: true, ...result });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 exports.getProviderReviews = async (req, res) => {
   try {
     const reviews = await reviewService.getProviderReviews(req.params.providerId);
