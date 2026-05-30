@@ -2,6 +2,7 @@ const stripeService  = require("../services/stripe-service");
 const bookingService = require("../services/booking-service");
 const Booking        = require("../models/booking");
 const ProviderApplication = require("../models/provider-application");
+const User           = require("../models/user");
 
 exports.createSession = async (req, res) => {
   try {
@@ -10,13 +11,17 @@ exports.createSession = async (req, res) => {
     if (booking.user.toString() !== req.user.id)
       return res.status(403).json({ success: false, message: "Not your booking" });
 
-    const provider = await ProviderApplication.findById(booking.provider);
+    const [provider, user] = await Promise.all([
+      ProviderApplication.findById(booking.provider),
+      User.findById(req.user.id, "fullName email"),
+    ]);
+
     const providerName = provider
       ? (provider.businessName || `${provider.firstName} ${provider.lastName}`.trim())
       : "Provider";
 
     const session = await stripeService.createCheckoutSession(
-      { ...booking.toObject(), userEmail: req.user.email },
+      { ...booking.toObject(), userName: user?.fullName, userEmail: user?.email },
       providerName
     );
 

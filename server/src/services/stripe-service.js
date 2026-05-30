@@ -11,10 +11,21 @@ exports.createCheckoutSession = async (booking, providerName) => {
 
   const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
 
+  // Indian export regulations require customer name and billing address
+  let customerId;
+  if (booking.userEmail) {
+    const customer = await stripe.customers.create({
+      name:  booking.userName || undefined,
+      email: booking.userEmail,
+    });
+    customerId = customer.id;
+  }
+
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    customer_email: booking.userEmail || undefined,
+    ...(customerId ? { customer: customerId } : {}),
+    billing_address_collection: "required",
     line_items: [
       {
         price_data: {
@@ -23,7 +34,7 @@ exports.createCheckoutSession = async (booking, providerName) => {
             name: `${booking.serviceCategory} — HomeCare360`,
             description: `Provider: ${providerName} · ${booking.date} at ${booking.time}`,
           },
-          unit_amount: Math.round(booking.totalAmount * 100), // paise
+          unit_amount: Math.round(booking.totalAmount * 100),
         },
         quantity: 1,
       },
