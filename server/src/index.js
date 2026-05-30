@@ -10,11 +10,29 @@ const connectDB = require("./config/db");
 const app    = express();
 const server = http.createServer(app);
 
+const ALLOWED_ORIGINS = [
+  "https://homecare360.netlify.app",
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // allow requests with no origin (mobile apps, curl, Postman) or known origins
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
 const io = new Server(server, {
-  cors: { origin: "*", methods: ["GET", "POST"] },
+  cors: { origin: ALLOWED_ORIGINS, methods: ["GET", "POST"], credentials: true },
 });
 
-app.use(cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // handle preflight for all routes
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 app.use("/api", apiRoutes);
