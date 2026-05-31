@@ -298,6 +298,13 @@ export function ProviderDashboard() {
                             {accepting === booking._id ? "Accepting…" : "Accept Request"}
                           </button>
                           <button
+                            onClick={() => { setChatBooking(booking); setChatOpen(true); }}
+                            className="flex items-center gap-1.5 px-4 py-2 border border-[#00B8A9] text-[#00B8A9] text-sm font-medium rounded-lg hover:bg-cyan-50 transition-colors"
+                          >
+                            <MessageSquare className="w-3.5 h-3.5" />
+                            Message
+                          </button>
+                          <button
                             onClick={() => handleProviderCancel(booking._id, true)}
                             disabled={cancelling === booking._id}
                             className="px-4 py-2 border border-red-200 text-red-500 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"

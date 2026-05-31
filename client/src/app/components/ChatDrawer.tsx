@@ -5,7 +5,7 @@ import { io, Socket } from "socket.io-client";
 import { getChatMessages, sendChatMessage } from "@/app/lib/api";
 import { useUser } from "@/app/context/UserContext";
 
-const SOCKET_URL = "https://homecare360.onrender.com";
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "https://homecare360.onrender.com";
 
 interface Message {
   _id:        string;

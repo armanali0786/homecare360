@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Search, Calendar, MapPin, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { Search, Calendar, MapPin, CheckCircle2, XCircle, AlertCircle, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   getAdminBookings, updateBookingStatus,
@@ -7,6 +7,7 @@ import {
 } from "@/app/lib/api";
 import { useUser } from "@/app/context/UserContext";
 import { toast } from "react-toastify";
+import { ChatDrawer } from "@/app/components/ChatDrawer";
 
 export function BookingManagement() {
   const { user } = useUser();
@@ -17,6 +18,8 @@ export function BookingManagement() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [acting, setActing] = useState<string | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatBooking, setChatBooking] = useState<any>(null);
 
   const fetchBookings = async () => {
     setLoading(true);
@@ -184,11 +187,14 @@ export function BookingManagement() {
                   </div>
 
                   {isProvider ? (
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {booking.status === "pending" && (
                         <>
                           <button disabled={acting === booking._id} onClick={() => handleAccept(booking._id)} className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm font-medium flex items-center gap-1 disabled:opacity-50">
                             <CheckCircle2 className="w-4 h-4" /> {acting === booking._id ? "…" : "Accept"}
+                          </button>
+                          <button onClick={() => { setChatBooking(booking); setChatOpen(true); }} className="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-lg hover:bg-cyan-200 text-sm font-medium flex items-center gap-1">
+                            <MessageSquare className="w-4 h-4" /> Message
                           </button>
                           <button disabled={acting === booking._id} onClick={() => handleProviderCancel(booking._id, true)} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium flex items-center gap-1 disabled:opacity-50">
                             <XCircle className="w-4 h-4" /> Decline
@@ -196,9 +202,14 @@ export function BookingManagement() {
                         </>
                       )}
                       {booking.status === "upcoming" && (
-                        <button disabled={acting === booking._id} onClick={() => handleProviderCancel(booking._id, false)} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium flex items-center gap-1 disabled:opacity-50">
-                          <XCircle className="w-4 h-4" /> Cancel Job
-                        </button>
+                        <>
+                          <button onClick={() => { setChatBooking(booking); setChatOpen(true); }} className="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-lg hover:bg-cyan-200 text-sm font-medium flex items-center gap-1">
+                            <MessageSquare className="w-4 h-4" /> Message Customer
+                          </button>
+                          <button disabled={acting === booking._id} onClick={() => handleProviderCancel(booking._id, false)} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium flex items-center gap-1 disabled:opacity-50">
+                            <XCircle className="w-4 h-4" /> Cancel Job
+                          </button>
+                        </>
                       )}
                     </div>
                   ) : (
@@ -219,6 +230,13 @@ export function BookingManagement() {
           })}
         </div>
       )}
+
+      <ChatDrawer
+        open={chatOpen}
+        onClose={() => { setChatOpen(false); setChatBooking(null); }}
+        booking={chatBooking}
+        myRole="provider"
+      />
     </motion.div>
   );
 }
