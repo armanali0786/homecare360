@@ -32,7 +32,7 @@ export function ProviderSection() {
               Grow your business with HomeCare360.
             </h2>
             <p className="mt-4 max-w-lg text-[#0d1f1f]/70">
-              Join 45+ professionals earning more, working flexibly, and building reputation on India's most trusted home services network.
+              Join 10+ professionals earning more, working flexibly, and building reputation on India's most trusted home services network.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button

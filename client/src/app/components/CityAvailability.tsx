@@ -6,36 +6,36 @@ const live = [
   {
     name: "Bangalore",
     img: "https://images.unsplash.com/photo-1596176530529-78163a4f7af2?w=600&q=80",
-    services: 30, pros: 38,
+    services: 5, pros: 8,
   },
   {
     name: "Mumbai",
     img: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=600&q=80",
-    services: 28, pros: 29,
+    services: 8, pros: 10,
   },
   {
     name: "Delhi NCR",
     img: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=600&q=80",
-    services: 30, pros: 34,
+    services: 9, pros: 14,
   },
   {
     name: "Hyderabad",
     img: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80",
-    services: 25, pros: 21,
+    services: 5, pros: 4,
   },
   {
-    name: "Chennai",
+    name: "Ahmedabad",
     img: "https://images.unsplash.com/photo-1597056978991-01b7a0c80b54?w=600&q=80",
-    services: 24, pros: 19,
+    services: 3, pros: 2,
   },
   {
     name: "Pune",
     img: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600&q=80",
-    services: 22, pros: 17,
+    services: 8, pros: 9,
   },
 ];
 
-const soon = ["Kolkata", "Ahmedabad", "Jaipur", "Kochi", "Chandigarh", "Surat"];
+const soon = ["Kolkata", "Jaipur", "Chandigarh", "Surat"];
 
 export function CityAvailability() {
   return (

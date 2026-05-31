@@ -60,7 +60,7 @@ const REVIEWS = [
 
 export function Testimonials() {
   const avgRating = "4.9";
-  const totalReviews = "200+";
+  const totalReviews = "20+";
 
   return (
     <section className="py-20 bg-gray-50">

@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { ShieldCheck, BadgeIndianRupee, Lock, Headphones } from "lucide-react";
 
 const features = [
-  { icon: ShieldCheck,        title: "Verified professionals", stat: "45+",          statSub: "background-checked pros",   text: "Background-checked, trained and rated by real customers." },
+  { icon: ShieldCheck,        title: "Verified professionals", stat: "5+",          statSub: "background-checked pros",   text: "Background-checked, trained and rated by real customers." },
   { icon: BadgeIndianRupee,   title: "Transparent pricing",    stat: "0 hidden fees", statSub: "what you see, you pay",      text: "Fixed quotes before you book — no surprises at the door." },
   { icon: Lock,               title: "Secure payments",        stat: "4.9 ★",        statSub: "avg satisfaction",           text: "Pay only after the job is done. Escrow protected." },
   { icon: Headphones,         title: "24/7 support",           stat: "24/7",         statSub: "always available",           text: "Real humans available around the clock to help you." },

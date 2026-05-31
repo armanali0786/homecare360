@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const stats = [
-  { value: 85, suffix: "+", label: "Happy customers"   },
-  { value: 45, suffix: "+", label: "Verified providers" },
+  { value: 7, suffix: "+", label: "Happy customers"   },
+  { value: 5, suffix: "+", label: "Verified providers" },
   { value: 6,  suffix: "",  label: "Cities live"        },
-  { value: 92, suffix: "+", label: "Jobs completed"     },
+  { value: 5, suffix: "+", label: "Jobs completed"     },
 ];
 
 function format(n: number) {

@@ -33,7 +33,7 @@ export function ServiceCategoriesGrid() {
             onClick={() => navigate("/services")}
             className="text-sm font-semibold text-[#00B8A9] hover:text-[#007a73] transition-colors whitespace-nowrap"
           >
-            View all 60+ services →
+            View all 5+ services →
           </button>
         </div>
 

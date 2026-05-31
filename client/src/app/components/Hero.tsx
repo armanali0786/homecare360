@@ -142,12 +142,12 @@ export function Hero() {
                   <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <span className="text-sm font-semibold text-[#0d1f1f]">4.9</span>
+              <span className="text-sm font-semibold text-[#0d1f1f]">4.2</span>
               <span className="text-sm text-gray-400">Rating</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <BadgeCheck className="h-4 w-4 text-[#00B8A9]" />
-              <span className="font-semibold text-[#0d1f1f]">95+</span>
+              <span className="font-semibold text-[#0d1f1f]">5+</span>
               <span className="text-gray-400">Jobs done</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
