@@ -1,19 +1,27 @@
 import { motion } from "motion/react";
 import { Search, Calendar, MapPin, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getAdminBookings, updateBookingStatus } from "@/app/lib/api";
+import {
+  getAdminBookings, updateBookingStatus,
+  getProviderBookings, providerAcceptBooking, providerCancelBooking,
+} from "@/app/lib/api";
+import { useUser } from "@/app/context/UserContext";
 import { toast } from "react-toastify";
 
 export function BookingManagement() {
+  const { user } = useUser();
+  const isProvider = user?.role === "provider";
+
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
+  const [acting, setActing] = useState<string | null>(null);
 
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const data = await getAdminBookings();
+      const data = isProvider ? await getProviderBookings() : await getAdminBookings();
       setBookings(data.bookings || []);
     } catch {
       setBookings([]);
@@ -22,7 +30,7 @@ export function BookingManagement() {
     }
   };
 
-  useEffect(() => { fetchBookings(); }, []);
+  useEffect(() => { fetchBookings(); }, [isProvider]);
 
   const handleStatusChange = async (id: string, status: string) => {
     try {
@@ -31,6 +39,34 @@ export function BookingManagement() {
       fetchBookings();
     } catch (err: any) {
       toast.error(err.message || "Failed to update");
+    }
+  };
+
+  const handleAccept = async (id: string) => {
+    setActing(id);
+    try {
+      await providerAcceptBooking(id);
+      toast.success("Booking accepted! Customer notified.");
+      fetchBookings();
+    } catch (err: any) {
+      toast.error(err.message || "Failed to accept");
+    } finally {
+      setActing(null);
+    }
+  };
+
+  const handleProviderCancel = async (id: string, isPending: boolean) => {
+    const msg = isPending ? "Decline this booking request?" : "Cancel this booking? A penalty will be recorded.";
+    if (!confirm(msg)) return;
+    setActing(id);
+    try {
+      await providerCancelBooking(id);
+      toast.success(isPending ? "Request declined." : "Booking cancelled.");
+      fetchBookings();
+    } catch (err: any) {
+      toast.error(err.message || "Failed to cancel");
+    } finally {
+      setActing(null);
     }
   };
 
@@ -52,10 +88,11 @@ export function BookingManagement() {
 
   const getStatusConfig = (status: string) => {
     switch (status) {
-      case "upcoming": return { icon: AlertCircle, color: "text-cyan-600", bg: "bg-cyan-50", label: "Upcoming" };
-      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", label: "Completed" };
-      case "cancelled": return { icon: XCircle, color: "text-red-600", bg: "bg-red-50", label: "Cancelled" };
-      default: return { icon: AlertCircle, color: "text-gray-600", bg: "bg-gray-50", label: status };
+      case "pending":   return { icon: AlertCircle,  color: "text-amber-600",   bg: "bg-amber-50",   label: "New Request" };
+      case "upcoming":  return { icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50",    label: "Upcoming"    };
+      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", label: "Completed"   };
+      case "cancelled": return { icon: XCircle,      color: "text-red-600",     bg: "bg-red-50",     label: "Cancelled"   };
+      default:          return { icon: AlertCircle,  color: "text-gray-600",    bg: "bg-gray-50",    label: status        };
     }
   };
 
@@ -70,12 +107,17 @@ export function BookingManagement() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-        {[
-          { label: "Total", value: bookings.length, color: "from-blue-500 to-cyan-600" },
-          { label: "Upcoming", value: bookings.filter((b) => b.status === "upcoming").length, color: "from-cyan-500 to-teal-600" },
-          { label: "Completed", value: bookings.filter((b) => b.status === "completed").length, color: "from-green-500 to-emerald-600" },
-          { label: "Cancelled", value: bookings.filter((b) => b.status === "cancelled").length, color: "from-red-500 to-orange-600" },
-        ].map((stat, index) => (
+        {(isProvider ? [
+          { label: "New Requests", value: bookings.filter((b) => b.status === "pending").length,   color: "from-amber-500 to-orange-500" },
+          { label: "Upcoming",     value: bookings.filter((b) => b.status === "upcoming").length,   color: "from-cyan-500 to-teal-600"   },
+          { label: "Completed",    value: bookings.filter((b) => b.status === "completed").length,  color: "from-green-500 to-emerald-600"},
+          { label: "Total",        value: bookings.length,                                          color: "from-blue-500 to-cyan-600"   },
+        ] : [
+          { label: "Total",     value: bookings.length,                                             color: "from-blue-500 to-cyan-600"   },
+          { label: "Upcoming",  value: bookings.filter((b) => b.status === "upcoming").length,      color: "from-cyan-500 to-teal-600"   },
+          { label: "Completed", value: bookings.filter((b) => b.status === "completed").length,     color: "from-green-500 to-emerald-600"},
+          { label: "Cancelled", value: bookings.filter((b) => b.status === "cancelled").length,     color: "from-red-500 to-orange-600"  },
+        ]).map((stat, index) => (
           <motion.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} className="bg-white rounded-xl shadow-lg p-6">
             <div className={`inline-flex px-3 py-1 rounded-full bg-gradient-to-r ${stat.color} text-white text-sm font-medium mb-2`}>{stat.label}</div>
             <div className="text-3xl font-bold text-gray-800">{stat.value}</div>
@@ -90,9 +132,12 @@ export function BookingManagement() {
           <input type="text" placeholder="Search bookings..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 shadow-sm" />
         </div>
         <div className="flex gap-3 flex-wrap">
-          {["all", "upcoming", "completed", "cancelled"].map((f) => (
+          {(isProvider
+            ? ["all", "pending", "upcoming", "completed", "cancelled"]
+            : ["all", "upcoming", "completed", "cancelled"]
+          ).map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2 rounded-lg font-medium transition-all ${filter === f ? "bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"}`}>
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {f === "pending" ? `Requests (${bookings.filter(b => b.status === "pending").length})` : f.charAt(0).toUpperCase() + f.slice(1)}
             </button>
           ))}
         </div>
@@ -138,15 +183,35 @@ export function BookingManagement() {
                     </div>
                   </div>
 
-                  {booking.status === "upcoming" && (
+                  {isProvider ? (
                     <div className="flex gap-2">
-                      <button onClick={() => handleStatusChange(booking._id, "completed")} className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm font-medium flex items-center gap-1">
-                        <CheckCircle2 className="w-4 h-4" /> Complete
-                      </button>
-                      <button onClick={() => handleStatusChange(booking._id, "cancelled")} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium flex items-center gap-1">
-                        <XCircle className="w-4 h-4" /> Cancel
-                      </button>
+                      {booking.status === "pending" && (
+                        <>
+                          <button disabled={acting === booking._id} onClick={() => handleAccept(booking._id)} className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm font-medium flex items-center gap-1 disabled:opacity-50">
+                            <CheckCircle2 className="w-4 h-4" /> {acting === booking._id ? "…" : "Accept"}
+                          </button>
+                          <button disabled={acting === booking._id} onClick={() => handleProviderCancel(booking._id, true)} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium flex items-center gap-1 disabled:opacity-50">
+                            <XCircle className="w-4 h-4" /> Decline
+                          </button>
+                        </>
+                      )}
+                      {booking.status === "upcoming" && (
+                        <button disabled={acting === booking._id} onClick={() => handleProviderCancel(booking._id, false)} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium flex items-center gap-1 disabled:opacity-50">
+                          <XCircle className="w-4 h-4" /> Cancel Job
+                        </button>
+                      )}
                     </div>
+                  ) : (
+                    booking.status === "upcoming" && (
+                      <div className="flex gap-2">
+                        <button onClick={() => handleStatusChange(booking._id, "completed")} className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm font-medium flex items-center gap-1">
+                          <CheckCircle2 className="w-4 h-4" /> Complete
+                        </button>
+                        <button onClick={() => handleStatusChange(booking._id, "cancelled")} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium flex items-center gap-1">
+                          <XCircle className="w-4 h-4" /> Cancel
+                        </button>
+                      </div>
+                    )
                   )}
                 </div>
               </motion.div>
