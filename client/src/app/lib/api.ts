@@ -76,6 +76,9 @@ export const cancelBooking = (id: string) =>
 export const getProviderBookings = () =>
   request<any>("/bookings/provider/mine", { headers: authHeaders() });
 
+export const providerAcceptBooking = (id: string) =>
+  request<any>(`/bookings/${id}/provider-accept`, { method: "PUT", headers: authHeaders() });
+
 export const providerCancelBooking = (id: string) =>
   request<any>(`/bookings/${id}/provider-cancel`, { method: "PUT", headers: authHeaders() });
 

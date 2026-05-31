@@ -1,5 +1,6 @@
 const ProviderApplication = require("../models/provider-application");
 const Review = require("../models/review");
+const User   = require("../models/user");
 
 exports.createApplication = async (userId, data, files) => {
   const application = await ProviderApplication.create({
@@ -80,9 +81,17 @@ exports.getAllProviders = async () => {
 };
 
 exports.updateStatus = async (id, status, adminId) => {
-  return ProviderApplication.findByIdAndUpdate(
+  const application = await ProviderApplication.findByIdAndUpdate(
     id,
     { status, reviewedBy: adminId },
     { new: true }
   );
+
+  if (application?.user) {
+    // Sync User.role with application status so provider-gated routes work immediately
+    const newRole = status === "approved" ? "provider" : "user";
+    await User.findByIdAndUpdate(application.user, { role: newRole });
+  }
+
+  return application;
 };

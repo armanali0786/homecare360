@@ -99,11 +99,40 @@ exports.getUserBookings = async (userId) => {
     .sort({ createdAt: -1 });
 };
 
+// ── Provider accept ───────────────────────────────────────────────────────────
+exports.acceptBooking = async (id, userId) => {
+  const providerApp = await ProviderApplication.findOne({ user: userId });
+  if (!providerApp) throw new Error("Provider profile not found");
+
+  const booking = await Booking.findOne({ _id: id, provider: providerApp._id });
+  if (!booking) throw new Error("Booking not found");
+  if (booking.status !== "pending") throw new Error("Only pending bookings can be accepted");
+
+  booking.status = "upcoming";
+  await booking.save();
+
+  // Notify customer that provider accepted
+  const ref  = bookingRef(booking._id);
+  const user = await User.findById(booking.user);
+  if (user?.email)
+    emailSvc.bookingConfirmed(user.email, {
+      ref,
+      service:  booking.serviceCategory,
+      date:     booking.date,
+      time:     booking.time || "",
+      address:  booking.location || "",
+      total:    booking.totalAmount,
+    });
+
+  return booking;
+};
+
 // ── Customer cancel ───────────────────────────────────────────────────────────
 exports.cancelBooking = async (id, userId) => {
   const booking = await Booking.findOne({ _id: id, user: userId });
   if (!booking) throw new Error("Booking not found");
-  if (booking.status !== "upcoming") throw new Error("Only upcoming bookings can be cancelled");
+  if (!["pending", "upcoming"].includes(booking.status))
+    throw new Error("Only pending or upcoming bookings can be cancelled");
 
   const policy = getCancellationPolicy(booking);
   if (!policy.allowed) throw new Error("This booking cannot be cancelled (service starts within 2 hours)");
@@ -128,10 +157,11 @@ exports.providerCancelBooking = async (id, userId) => {
 
   const booking = await Booking.findOne({ _id: id, provider: providerApp._id });
   if (!booking) throw new Error("Booking not found");
-  if (booking.status !== "upcoming") throw new Error("Only upcoming bookings can be cancelled");
+  if (!["pending", "upcoming"].includes(booking.status))
+    throw new Error("Only pending or upcoming bookings can be cancelled");
 
   booking.status = "cancelled";
-  booking.cancelledBy     = "provider";
+  booking.cancelledBy        = "provider";
   booking.cancellationReason = "Provider cancelled";
   await booking.save();
 

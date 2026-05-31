@@ -12,6 +12,7 @@ router.put( "/:id/cancel",        verifyToken, bookingController.cancelBooking);
 
 // Provider
 router.get("/provider/mine",        verifyToken, authorizeRoles("provider"), bookingController.getProviderBookings);
+router.put("/:id/provider-accept",  verifyToken, authorizeRoles("provider"), bookingController.acceptBooking);
 router.put("/:id/provider-cancel",  verifyToken, authorizeRoles("provider"), bookingController.providerCancelBooking);
 
 // Admin

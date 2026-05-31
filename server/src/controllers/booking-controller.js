@@ -36,6 +36,15 @@ exports.checkCancellationPolicy = async (req, res) => {
   }
 };
 
+exports.acceptBooking = async (req, res) => {
+  try {
+    const booking = await bookingService.acceptBooking(req.params.id, req.user.id);
+    res.json({ success: true, booking });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 exports.providerCancelBooking = async (req, res) => {
   try {
     const result = await bookingService.providerCancelBooking(req.params.id, req.user.id);

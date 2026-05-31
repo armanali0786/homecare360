@@ -3,21 +3,20 @@ import {
   Calendar, Clock, MapPin, CheckCircle2, XCircle, AlertCircle,
   IndianRupee, Star, TrendingUp, AlertTriangle, MessageSquare,
 } from "lucide-react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useEffect, useState } from "react";
-import { getProviderBookings, getMyProviderProfile, providerCancelBooking } from "@/app/lib/api";
+import { getProviderBookings, getMyProviderProfile, providerCancelBooking, providerAcceptBooking } from "@/app/lib/api";
 import { toast } from "react-toastify";
 import { ChatDrawer } from "@/app/components/ChatDrawer";
-import { Link } from "react-router-dom";
 
 export function ProviderDashboard() {
   const [profile,   setProfile]   = useState<any>(null);
   const [bookings,  setBookings]  = useState<any[]>([]);
   const [loading,   setLoading]   = useState(true);
-  const [filter,    setFilter]    = useState<"all" | "upcoming" | "completed" | "cancelled">("all");
+  const [filter,    setFilter]    = useState<"all" | "pending" | "upcoming" | "completed" | "cancelled">("all");
   const [chatOpen,  setChatOpen]  = useState(false);
   const [chatBooking, setChatBooking] = useState<any>(null);
-  const [cancelling, setCancelling] = useState<string | null>(null);
+  const [cancelling,  setCancelling]  = useState<string | null>(null);
+  const [accepting,   setAccepting]   = useState<string | null>(null);
 
   const fetchAll = async () => {
     setLoading(true);
@@ -41,6 +40,7 @@ export function ProviderDashboard() {
 
   const stats = {
     total:     bookings.length,
+    pending:   bookings.filter((b) => b.status === "pending").length,
     upcoming:  bookings.filter((b) => b.status === "upcoming").length,
     completed: bookings.filter((b) => b.status === "completed").length,
     earned:    bookings
@@ -48,12 +48,28 @@ export function ProviderDashboard() {
       .reduce((s, b) => s + (b.providerPayout || 0), 0),
   };
 
-  const handleProviderCancel = async (bookingId: string) => {
-    if (!confirm("Cancel this booking? A penalty will be recorded on your profile.")) return;
+  const handleAccept = async (bookingId: string) => {
+    setAccepting(bookingId);
+    try {
+      await providerAcceptBooking(bookingId);
+      toast.success("Booking accepted! Customer has been notified.");
+      fetchAll();
+    } catch (err: any) {
+      toast.error(err.message || "Failed to accept booking");
+    } finally {
+      setAccepting(null);
+    }
+  };
+
+  const handleProviderCancel = async (bookingId: string, isPending: boolean) => {
+    const msg = isPending
+      ? "Decline this booking request?"
+      : "Cancel this booking? A penalty will be recorded on your profile.";
+    if (!confirm(msg)) return;
     setCancelling(bookingId);
     try {
       await providerCancelBooking(bookingId);
-      toast.success("Booking cancelled. Customer has been notified.");
+      toast.success(isPending ? "Booking request declined." : "Booking cancelled. Customer has been notified.");
       fetchAll();
     } catch (err: any) {
       toast.error(err.message || "Failed to cancel");
@@ -64,10 +80,11 @@ export function ProviderDashboard() {
 
   const getStatusConfig = (status: string) => {
     switch (status) {
-      case "upcoming":  return { icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50",    border: "border-cyan-200",    label: "Upcoming"  };
-      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Completed" };
-      case "cancelled": return { icon: XCircle,      color: "text-red-500",     bg: "bg-red-50",     border: "border-red-200",     label: "Cancelled" };
-      default:          return { icon: AlertCircle,  color: "text-gray-500",    bg: "bg-gray-50",    border: "border-gray-200",    label: "Unknown"   };
+      case "pending":   return { icon: AlertCircle,  color: "text-amber-600",   bg: "bg-amber-50",   border: "border-amber-200",   label: "New Request" };
+      case "upcoming":  return { icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50",    border: "border-cyan-200",    label: "Upcoming"    };
+      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Completed"   };
+      case "cancelled": return { icon: XCircle,      color: "text-red-500",     bg: "bg-red-50",     border: "border-red-200",     label: "Cancelled"   };
+      default:          return { icon: AlertCircle,  color: "text-gray-500",    bg: "bg-gray-50",    border: "border-gray-200",    label: "Unknown"     };
     }
   };
 
@@ -109,12 +126,12 @@ export function ProviderDashboard() {
             className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5"
           >
             {[
-              { label: "Total Jobs",  value: stats.total,     icon: Calendar,     color: "text-gray-700",    bg: "bg-gray-100"   },
-              { label: "Upcoming",    value: stats.upcoming,  icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50"    },
-              { label: "Completed",   value: stats.completed, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
+              { label: "New Requests", value: stats.pending,   icon: AlertCircle,  color: "text-amber-600",   bg: "bg-amber-50"   },
+              { label: "Upcoming",     value: stats.upcoming,  icon: Calendar,     color: "text-cyan-600",    bg: "bg-cyan-50"    },
+              { label: "Completed",    value: stats.completed, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
               { label: "Total Earned",
                 value: `₹${stats.earned.toLocaleString("en-IN")}`,
-                icon: IndianRupee,  color: "text-violet-600",  bg: "bg-violet-50" },
+                icon: IndianRupee, color: "text-violet-600", bg: "bg-violet-50" },
             ].map((stat) => (
               <div key={stat.label} className="bg-white rounded-xl border border-gray-100 px-4 py-3 flex items-center gap-3">
                 <div className={`w-9 h-9 ${stat.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
@@ -176,10 +193,11 @@ export function ProviderDashboard() {
         {/* Filter tabs */}
         <div className="flex gap-2 mb-5 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
           {[
-            { id: "all",       label: "All Jobs"  },
-            { id: "upcoming",  label: "Upcoming"  },
-            { id: "completed", label: "Completed" },
-            { id: "cancelled", label: "Cancelled" },
+            { id: "all",       label: "All Jobs"                                                      },
+            { id: "pending",   label: `Requests${stats.pending ? ` (${stats.pending})` : ""}`         },
+            { id: "upcoming",  label: "Upcoming"                                                      },
+            { id: "completed", label: "Completed"                                                     },
+            { id: "cancelled", label: "Cancelled"                                                     },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -269,6 +287,25 @@ export function ProviderDashboard() {
 
                     {/* Actions */}
                     <div className="flex flex-wrap items-center gap-2 pt-3 border-t border-gray-100">
+                      {booking.status === "pending" && (
+                        <>
+                          <button
+                            onClick={() => handleAccept(booking._id)}
+                            disabled={accepting === booking._id}
+                            className="flex items-center gap-1.5 px-4 py-2 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors disabled:opacity-50"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            {accepting === booking._id ? "Accepting…" : "Accept Request"}
+                          </button>
+                          <button
+                            onClick={() => handleProviderCancel(booking._id, true)}
+                            disabled={cancelling === booking._id}
+                            className="px-4 py-2 border border-red-200 text-red-500 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
+                          >
+                            {cancelling === booking._id ? "Declining…" : "Decline"}
+                          </button>
+                        </>
+                      )}
                       {booking.status === "upcoming" && (
                         <>
                           <button
@@ -279,7 +316,7 @@ export function ProviderDashboard() {
                             Message Customer
                           </button>
                           <button
-                            onClick={() => handleProviderCancel(booking._id)}
+                            onClick={() => handleProviderCancel(booking._id, false)}
                             disabled={cancelling === booking._id}
                             className="px-4 py-2 border border-red-200 text-red-500 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
                           >

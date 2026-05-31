@@ -13,8 +13,8 @@ const bookingSchema = new mongoose.Schema(
     providerPayout:  { type: Number, default: 0 },
     status: {
       type:    String,
-      enum:    ["upcoming", "completed", "cancelled"],
-      default: "upcoming",
+      enum:    ["pending", "upcoming", "completed", "cancelled"],
+      default: "pending",
     },
 
     // Extended booking details
