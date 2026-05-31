@@ -11,11 +11,6 @@ const CATEGORIES = [
   { name: "Electrician",   price: "₹349", time: "1–3 hr", rating: 4.9, icon: Zap,       tint: "from-amber-200/60 to-yellow-100/60" },
   { name: "AC Service",    price: "₹299", time: "1–2 hr", rating: 4.7, icon: AirVent,  tint: "from-sky-200/60 to-cyan-100/60" },
   { name: "Painting",      price: "₹799", time: "1–3 day",rating: 4.8, icon: Paintbrush,tint: "from-rose-200/60 to-pink-100/60" },
-  { name: "Pest Control",  price: "₹499", time: "2–3 hr", rating: 4.9, icon: Bug,       tint: "from-emerald-200/60 to-green-100/60" },
-  { name: "Carpentry",     price: "₹399", time: "1–4 hr", rating: 4.8, icon: Hammer,   tint: "from-orange-200/60 to-amber-100/60" },
-  { name: "Appliances",    price: "₹249", time: "1–2 hr", rating: 4.7, icon: Settings, tint: "from-violet-200/60 to-purple-100/60" },
-  { name: "Moving",        price: "₹999", time: "Half day",rating: 4.8, icon: Truck,   tint: "from-red-200/60 to-rose-100/60" },
-  { name: "Beauty",        price: "₹299", time: "1–2 hr", rating: 4.9, icon: Scissors, tint: "from-fuchsia-200/60 to-pink-100/60" },
 ];
 
 export function ServiceCategoriesGrid() {
