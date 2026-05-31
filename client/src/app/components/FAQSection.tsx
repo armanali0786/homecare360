@@ -1,86 +1,78 @@
+import { useState } from "react";
+import { Plus } from "lucide-react";
 import { motion } from "motion/react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/app/components/ui/accordion";
 
 const faqs = [
-  {
-    q: "How are professionals verified on HomeCare360?",
-    a: "Every provider on our platform goes through a multi-step verification — government ID check, address verification, professional skill assessment, and reference checks. Only providers who pass all stages receive our verified badge.",
-  },
-  {
-    q: "What if I'm not satisfied with the service?",
-    a: "We offer a 100% satisfaction guarantee. If the work isn't done to your expectations, contact our support team within 24 hours and we'll arrange a free redo or issue a full refund — no questions asked.",
-  },
-  {
-    q: "Can I reschedule or cancel my booking?",
-    a: "Yes, you can reschedule or cancel for free up to 4 hours before the scheduled appointment. Cancellations within 4 hours may incur a small convenience fee to compensate the provider for their reserved slot.",
-  },
-  {
-    q: "How does payment work? Is it safe?",
-    a: "We use an escrow payment system — your money is held securely and only released to the provider after you confirm the job is completed to your satisfaction. We support UPI, debit/credit cards, net banking, and wallets.",
-  },
-  {
-    q: "What if the professional doesn't show up?",
-    a: "If your scheduled provider doesn't show up, our system automatically alerts our support team. We'll arrange a replacement provider at the earliest available slot or issue a full refund — whichever you prefer.",
-  },
-  {
-    q: "Are there any hidden charges?",
-    a: "No. The price you see when you confirm your booking is exactly what you pay. We show all applicable taxes and charges upfront before you complete the booking. No surprise fees, ever.",
-  },
-  {
-    q: "How do I contact support if there's an issue?",
-    a: "Our support team is available 24/7 via live chat in the app, WhatsApp at +91 73199 77276, or email at support@homecare360.in. We typically respond within 5 minutes during business hours.",
-  },
+  { q: "How do I book a service?",               a: "Pick the service you need, choose a slot, confirm your address — done. Our verified pro arrives at the scheduled time." },
+  { q: "Are your professionals background verified?", a: "Yes. Every provider goes through ID verification, skill testing, and ongoing performance ratings." },
+  { q: "What if I'm not happy with the work?",   a: "We offer a HomeCare360 Service Guarantee. If something's off, we'll send another pro at no extra cost or refund you." },
+  { q: "Is there a cancellation fee?",            a: "Cancellations are free up to 4 hours before the booking. After that a small fee may apply to cover the provider's time." },
+  { q: "How do payments work?",                   a: "Pay after the job is done via UPI, card, or wallet. All payments are held in escrow until you confirm completion." },
+  { q: "How do I contact support if there's an issue?", a: "We're available 24/7 over chat, phone, and email. Average response time under 2 minutes." },
 ];
 
 export function FAQSection() {
+  const [open, setOpen] = useState(0);
+
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-gray-50 py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+        {/* Left */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.5 }}
         >
-          <span className="inline-block text-sm font-semibold text-[#00B8A9] bg-cyan-50 border border-cyan-200 px-4 py-1.5 rounded-full mb-4">
-            FAQ
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            Frequently Asked Questions
+          <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">FAQ</span>
+          <h2 className="mt-3 text-4xl font-extrabold text-[#0d1f1f] md:text-5xl">
+            Questions, answered.
           </h2>
-          <p className="text-gray-500">
-            Everything you need to know before booking your first service
+          <p className="mt-4 max-w-sm text-gray-500">
+            Can't find what you're looking for? Our team is just a tap away — 24/7.
           </p>
+          <a
+            href="/contact"
+            className="mt-6 inline-block rounded-full bg-[#0d1f1f] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0d1f1f]/90"
+          >
+            Contact support
+          </a>
         </motion.div>
 
+        {/* Right */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="space-y-3"
         >
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm px-6 data-[state=open]:border-cyan-100 data-[state=open]:shadow-md transition-all duration-200"
+          {faqs.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div
+                key={f.q}
+                className={`overflow-hidden rounded-2xl border bg-white transition-all ${isOpen ? "shadow-md" : ""}`}
               >
-                <AccordionTrigger className="text-left text-sm font-semibold text-gray-900 py-5 hover:no-underline hover:text-[#00B8A9] transition-colors">
-                  {faq.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm text-gray-500 leading-relaxed pb-5">
-                  {faq.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                <button
+                  onClick={() => setOpen(isOpen ? -1 : i)}
+                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                >
+                  <span className="text-base font-semibold text-[#0d1f1f]">{f.q}</span>
+                  <Plus
+                    className={`h-5 w-5 shrink-0 text-[#00B8A9] transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}
+                  />
+                </button>
+                <div
+                  className={`grid transition-all duration-300 ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-6 pb-6 text-sm leading-relaxed text-gray-500">{f.a}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

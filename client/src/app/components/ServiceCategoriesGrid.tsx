@@ -1,103 +1,82 @@
 import { motion } from "motion/react";
 import {
-  Sparkles, Wrench, Zap, AirVent, Paintbrush, Bug,
-  Hammer, Settings, Truck, Scissors, ChevronRight,
+  ArrowUpRight, Sparkles, Wrench, Zap, AirVent,
+  Paintbrush, Bug, Hammer, Settings, Truck, Scissors, Star,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const CATEGORIES = [
-  { name: "Cleaning",         icon: Sparkles,   price: "₹199", color: "#0891b2", bg: "#f0f9ff" },
-  { name: "Plumbing",         icon: Wrench,     price: "₹299", color: "#2563eb", bg: "#eff6ff" },
-  { name: "Electrician",      icon: Zap,        price: "₹349", color: "#d97706", bg: "#fffbeb" },
-  { name: "AC Service",       icon: AirVent,    price: "₹299", color: "#7c3aed", bg: "#f5f3ff" },
-  { name: "Painting",         icon: Paintbrush, price: "₹799", color: "#e11d48", bg: "#fff1f2" },
-  { name: "Pest Control",     icon: Bug,        price: "₹499", color: "#16a34a", bg: "#f0fdf4" },
-  { name: "Carpentry",        icon: Hammer,     price: "₹399", color: "#b45309", bg: "#fefce8" },
-  { name: "Appliances",       icon: Settings,   price: "₹249", color: "#9333ea", bg: "#faf5ff" },
-  { name: "Moving",           icon: Truck,      price: "₹999", color: "#ea580c", bg: "#fff7ed" },
-  { name: "Beauty & Wellness",icon: Scissors,   price: "₹299", color: "#db2777", bg: "#fdf2f8" },
+  { name: "Deep Cleaning", price: "₹199", time: "2–4 hr", rating: 4.9, icon: Sparkles, tint: "from-cyan-200/60 to-cyan-100/60" },
+  { name: "Plumbing",      price: "₹299", time: "1–2 hr", rating: 4.8, icon: Wrench,   tint: "from-blue-200/60 to-indigo-100/60" },
+  { name: "Electrician",   price: "₹349", time: "1–3 hr", rating: 4.9, icon: Zap,       tint: "from-amber-200/60 to-yellow-100/60" },
+  { name: "AC Service",    price: "₹299", time: "1–2 hr", rating: 4.7, icon: AirVent,  tint: "from-sky-200/60 to-cyan-100/60" },
+  { name: "Painting",      price: "₹799", time: "1–3 day",rating: 4.8, icon: Paintbrush,tint: "from-rose-200/60 to-pink-100/60" },
+  { name: "Pest Control",  price: "₹499", time: "2–3 hr", rating: 4.9, icon: Bug,       tint: "from-emerald-200/60 to-green-100/60" },
+  { name: "Carpentry",     price: "₹399", time: "1–4 hr", rating: 4.8, icon: Hammer,   tint: "from-orange-200/60 to-amber-100/60" },
+  { name: "Appliances",    price: "₹249", time: "1–2 hr", rating: 4.7, icon: Settings, tint: "from-violet-200/60 to-purple-100/60" },
+  { name: "Moving",        price: "₹999", time: "Half day",rating: 4.8, icon: Truck,   tint: "from-red-200/60 to-rose-100/60" },
+  { name: "Beauty",        price: "₹299", time: "1–2 hr", rating: 4.9, icon: Scissors, tint: "from-fuchsia-200/60 to-pink-100/60" },
 ];
 
 export function ServiceCategoriesGrid() {
   const navigate = useNavigate();
 
   return (
-    <section className="py-16 bg-white border-t border-gray-100">
+    <section className="py-24 bg-white border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Header */}
-        <div className="flex items-end justify-between mb-10">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">What do you need?</h2>
-            <p className="text-gray-500 mt-1.5 text-sm md:text-base">
-              From quick fixes to full home makeovers — we've got you covered
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end mb-12">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">Popular services</span>
+            <h2 className="mt-3 text-4xl font-extrabold text-[#0d1f1f] md:text-5xl">
+              What do you need today?
+            </h2>
+            <p className="mt-3 text-gray-500">
+              From quick fixes to full home makeovers — verified pros, fixed prices, same-day slots.
             </p>
           </div>
           <button
             onClick={() => navigate("/services")}
-            className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-[#00B8A9] hover:text-[#007a73] transition-colors flex-shrink-0"
+            className="text-sm font-semibold text-[#00B8A9] hover:text-[#007a73] transition-colors whitespace-nowrap"
           >
-            View all <ChevronRight className="w-4 h-4" />
+            View all 60+ services →
           </button>
         </div>
 
-        {/* Desktop grid */}
-        <div className="hidden sm:grid grid-cols-5 lg:grid-cols-10 gap-2">
-          {CATEGORIES.map((cat, i) => (
-            <motion.button
-              key={cat.name}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: i * 0.04 }}
-              whileHover={{ y: -4, transition: { duration: 0.15 } }}
-              onClick={() => navigate(`/services?service=${encodeURIComponent(cat.name)}`)}
-              className="group flex flex-col items-center gap-3 p-4 rounded-2xl hover:bg-gray-50 transition-colors duration-200 text-center"
-            >
-              <div
-                className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow duration-200"
-                style={{ backgroundColor: cat.bg }}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {CATEGORIES.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <motion.button
+                key={s.name}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: i * 0.04 }}
+                whileHover={{ y: -4, transition: { duration: 0.15 } }}
+                onClick={() => navigate(`/services?service=${encodeURIComponent(s.name)}`)}
+                className="group relative overflow-hidden rounded-3xl border bg-white p-5 transition-all duration-300 hover:border-[#00B8A9]/40 hover:shadow-lg text-left"
               >
-                <cat.icon className="w-7 h-7" style={{ color: cat.color }} />
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-gray-800 leading-tight">{cat.name}</p>
-                <p className="text-xs text-gray-400 mt-0.5">from {cat.price}</p>
-              </div>
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Mobile: 3-col grid */}
-        <div className="grid grid-cols-3 gap-3 sm:hidden">
-          {CATEGORIES.slice(0, 9).map((cat, i) => (
-            <motion.button
-              key={cat.name}
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: i * 0.04 }}
-              onClick={() => navigate(`/services?service=${encodeURIComponent(cat.name)}`)}
-              className="flex flex-col items-center gap-2 p-3 rounded-2xl bg-gray-50 hover:bg-teal-50 transition-colors duration-200 text-center"
-            >
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center"
-                style={{ backgroundColor: cat.bg }}
-              >
-                <cat.icon className="w-6 h-6" style={{ color: cat.color }} />
-              </div>
-              <p className="text-[11px] font-semibold text-gray-700 leading-tight">{cat.name}</p>
-            </motion.button>
-          ))}
-        </div>
-
-        <div className="sm:hidden mt-5 text-center">
-          <button
-            onClick={() => navigate("/services")}
-            className="text-sm font-medium text-[#00B8A9]"
-          >
-            View all services →
-          </button>
+                <div className={`mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br ${s.tint}`}>
+                  <Icon className="h-6 w-6 text-[#0d1f1f]" strokeWidth={2.2} />
+                </div>
+                <h3 className="text-base font-bold text-[#0d1f1f]">{s.name}</h3>
+                <div className="mt-1 flex items-center gap-2 text-xs text-gray-400">
+                  <span>from <span className="font-semibold text-[#0d1f1f]">{s.price}</span></span>
+                  <span className="h-1 w-1 rounded-full bg-gray-300" />
+                  <span>{s.time}</span>
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  <div className="flex items-center gap-1 text-xs">
+                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <span className="font-semibold text-[#0d1f1f]">{s.rating}</span>
+                  </div>
+                  <span className="grid h-8 w-8 place-items-center rounded-full bg-gray-100 text-gray-400 transition group-hover:bg-[#00B8A9] group-hover:text-white">
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
     </section>

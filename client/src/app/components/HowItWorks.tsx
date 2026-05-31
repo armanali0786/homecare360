@@ -1,93 +1,55 @@
 import { motion } from "motion/react";
-import { Search, CalendarCheck, ThumbsUp } from "lucide-react";
+import { Search, UserCheck, CalendarCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const STEPS = [
-  {
-    num: "01",
-    icon: Search,
-    title: "Find your service",
-    desc: "Search or browse categories. Filter by price, rating, and availability to find your match.",
-    color: "#00B8A9",
-    bg: "#f0fdfa",
-    borderColor: "#99f6e4",
-  },
-  {
-    num: "02",
-    icon: CalendarCheck,
-    title: "Pick a time slot",
-    desc: "Choose a date and time that fits your schedule. Get instant booking confirmation.",
-    color: "#6366f1",
-    bg: "#eef2ff",
-    borderColor: "#c7d2fe",
-  },
-  {
-    num: "03",
-    icon: ThumbsUp,
-    title: "Job done right",
-    desc: "A verified professional arrives on time. Pay only after you're fully satisfied.",
-    color: "#f59e0b",
-    bg: "#fffbeb",
-    borderColor: "#fde68a",
-  },
+const steps = [
+  { n: "01", icon: Search,       title: "Choose service", text: "Pick from 30+ professional home services with fixed, transparent pricing." },
+  { n: "02", icon: UserCheck,    title: "Select provider", text: "Browse verified pros, real reviews, ratings, and live availability." },
+  { n: "03", icon: CalendarCheck,title: "Book & relax",   text: "Confirm a slot, pay securely, and we'll handle the rest — guaranteed." },
 ];
 
 export function HowItWorks() {
   const navigate = useNavigate();
 
   return (
-    <section id="how-it-works" className="py-20 bg-gray-50">
+    <section className="relative overflow-hidden bg-gray-50 py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="max-w-xl mb-14"
-        >
-          <p className="text-xs font-bold text-[#00B8A9] uppercase tracking-widest mb-3">How it works</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            Book in 3 easy steps
+        <div className="text-center">
+          <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">How it works</span>
+          <h2 className="mx-auto mt-3 max-w-2xl text-4xl font-extrabold text-[#0d1f1f] md:text-5xl">
+            Book in three simple steps
           </h2>
-          <p className="text-gray-500 text-base">
-            No calls, no guesswork, no hidden fees — just fast, reliable service at your door.
+          <p className="mx-auto mt-4 max-w-xl text-gray-500">
+            No calls, no guesswork, no hidden fees. Just fast, reliable service at your door.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-6 relative">
-          {/* Connecting dashed line on desktop */}
-          <div className="hidden md:block absolute top-[52px] left-[calc(16.7%+28px)] right-[calc(16.7%+28px)] border-t-2 border-dashed border-gray-200 z-0" />
+        <div className="relative mt-16 grid gap-6 md:grid-cols-3">
+          {/* Connector */}
+          <div className="pointer-events-none absolute left-[10%] right-[10%] top-16 hidden h-px bg-gradient-to-r from-transparent via-[#00B8A9]/60 to-transparent md:block" />
 
-          {STEPS.map((step, i) => (
-            <motion.div
-              key={step.num}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: i * 0.12 }}
-              className="relative bg-white rounded-2xl p-7 border border-gray-100 hover:shadow-md transition-shadow duration-200 z-10"
-            >
-              {/* Number badge */}
-              <div
-                className="w-12 h-12 rounded-full flex items-center justify-center text-white text-sm font-bold mb-6 shadow-sm"
-                style={{ backgroundColor: step.color }}
+          {steps.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <motion.div
+                key={s.n}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.12 }}
+                className="group relative rounded-3xl border bg-white p-8 transition-all hover:-translate-y-1 hover:shadow-xl"
               >
-                {step.num}
-              </div>
-
-              {/* Icon */}
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border"
-                style={{ backgroundColor: step.bg, borderColor: step.borderColor }}
-              >
-                <step.icon className="w-6 h-6" style={{ color: step.color }} />
-              </div>
-
-              <h3 className="text-base font-semibold text-gray-900 mb-2">{step.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{step.desc}</p>
-            </motion.div>
-          ))}
+                <div className="absolute -top-4 right-6 rounded-full bg-[#0d1f1f] px-3 py-1 text-[11px] font-bold tracking-widest text-[#00B8A9]">
+                  STEP {s.n}
+                </div>
+                <div className="relative mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-teal-50 text-[#0d1f1f] shadow-md">
+                  <Icon className="h-7 w-7 text-[#00B8A9]" strokeWidth={2.2} />
+                </div>
+                <h3 className="mt-6 text-center text-2xl font-bold text-[#0d1f1f]">{s.title}</h3>
+                <p className="mt-3 text-center text-sm leading-relaxed text-gray-500">{s.text}</p>
+              </motion.div>
+            );
+          })}
         </div>
 
         <motion.div
@@ -95,7 +57,7 @@ export function HowItWorks() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.45 }}
-          className="mt-10"
+          className="mt-12 text-center"
         >
           <button
             onClick={() => navigate("/services")}
@@ -104,7 +66,6 @@ export function HowItWorks() {
             Browse Services →
           </button>
         </motion.div>
-
       </div>
     </section>
   );

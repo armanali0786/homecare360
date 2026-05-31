@@ -1,80 +1,56 @@
 import { motion } from "motion/react";
-import { Star, ChevronRight, Clock } from "lucide-react";
+import { Clock, Star, ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useNavigate } from "react-router-dom";
 
 const SERVICES = [
   {
-    name: "Deep Home Cleaning",
-    category: "Cleaning",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800&auto=format&fit=crop",
-    description: "Full home scrub — kitchen, bathrooms, bedrooms & balcony. 2BHK in 4 hrs.",
-    price: "₹1,199",
-    rating: 4.9,
-    reviews: 128,
-    badge: "Most Booked",
-    badgeColor: "bg-teal-500",
-    duration: "3–4 hrs",
+    badge: "Most booked",   badgeTone: "bg-[#00B8A9] text-white",
+    cat: "Cleaning",        title: "Deep Home Cleaning",
+    price: "₹1,199",       rating: 4.9, reviews: 34,  duration: "3–4 hrs",
+    desc: "Full home scrub — kitchen, bathrooms, bedrooms & balcony. 2BHK in 4 hrs.",
+    img: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&q=80",
+    avatar: "PS",
   },
   {
-    name: "Plumbing Repair",
-    category: "Plumbing",
-    image: "https://images.unsplash.com/photo-1635221798248-8a3452ad07cd?q=80&w=800&auto=format&fit=crop",
-    description: "Leaking taps, drain blockage, pipe bursts, flush repair. Same-day slots.",
-    price: "₹299",
-    rating: 4.8,
-    reviews: 84,
-    badge: null,
-    badgeColor: "",
-    duration: "1–2 hrs",
+    badge: "Top rated",     badgeTone: "bg-amber-400 text-[#0d1f1f]",
+    cat: "Electrical",      title: "Electrical Work",
+    price: "₹349",         rating: 4.9, reviews: 28, duration: "1–3 hrs",
+    desc: "Switchboard repair, fan/light installation, wiring, MCB and DB work.",
+    img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=900&q=80",
+    avatar: "RM",
   },
   {
-    name: "Electrical Work",
-    category: "Electrical",
-    image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?q=80&w=800&auto=format&fit=crop",
-    description: "Switchboard repair, fan/light installation, wiring, MCB and DB work.",
-    price: "₹349",
-    rating: 4.9,
-    reviews: 96,
-    badge: "Top Rated",
-    badgeColor: "bg-amber-500",
-    duration: "1–3 hrs",
+    badge: "Summer deal",   badgeTone: "bg-[#0d1f1f] text-[#00B8A9]",
+    cat: "AC Service",      title: "AC Deep Service",
+    price: "₹499",         rating: 4.8, reviews: 47,  duration: "1–2 hrs",
+    desc: "Anti-bacterial foam wash, gas check, coil clean — runs cooler instantly.",
+    img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=900&q=80",
+    avatar: "AV",
   },
   {
-    name: "AC Service & Gas Refill",
-    category: "AC Service",
-    image: "https://plus.unsplash.com/premium_photo-1682126009570-3fe2399162f7?q=80&w=800&auto=format&fit=crop",
-    description: "Deep coil cleaning, filter wash, gas top-up, cooling check. 1-ton split AC.",
-    price: "₹599",
-    rating: 4.8,
-    reviews: 72,
-    badge: "Summer Deal",
-    badgeColor: "bg-blue-500",
-    duration: "1–2 hrs",
+    badge: "Trending",      badgeTone: "bg-rose-500 text-white",
+    cat: "Plumbing",        title: "Plumbing Repair",
+    price: "₹299",         rating: 4.8, reviews: 22, duration: "1–2 hrs",
+    desc: "Leaking taps, drain blockage, pipe bursts, flush repair — same-day slots.",
+    img: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=900&q=80",
+    avatar: "VK",
   },
   {
-    name: "Interior Painting",
-    category: "Painting",
-    image: "https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?q=80&w=800&auto=format&fit=crop",
-    description: "Wall putty + 2-coat premium emulsion. 1BHK (450 sq ft) in 2 days. Labour included.",
-    price: "₹8,999",
-    rating: 4.7,
-    reviews: 58,
-    badge: null,
-    badgeColor: "",
-    duration: "2–3 days",
+    badge: "New",           badgeTone: "bg-violet-500 text-white",
+    cat: "Painting",        title: "Wall Painting",
+    price: "₹799",         rating: 4.7, reviews: 18, duration: "1–3 days",
+    desc: "Premium emulsion, primer, putty work — covered furniture, clean handover.",
+    img: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=900&q=80",
+    avatar: "SK",
   },
   {
-    name: "Pest Control",
-    category: "Pest Control",
-    image: "https://images.unsplash.com/photo-1632923057155-dd35366c9f48?q=80&w=800&auto=format&fit=crop",
-    description: "Cockroach, ant, lizard & mosquito treatment. Odourless spray, safe for kids & pets.",
-    price: "₹799",
-    rating: 4.8,
-    reviews: 63,
-    badge: null,
-    badgeColor: "",
-    duration: "1–2 hrs",
+    badge: "Verified",      badgeTone: "bg-emerald-500 text-white",
+    cat: "Pest Control",    title: "General Pest Control",
+    price: "₹599",         rating: 4.9, reviews: 31, duration: "2–3 hrs",
+    desc: "Cockroach, ant & spider treatment with odourless, pet-safe chemicals.",
+    img: "https://images.unsplash.com/photo-1632210037135-04786b2b3f51?w=900&q=80",
+    avatar: "NK",
   },
 ];
 
@@ -82,93 +58,76 @@ export function PopularServices() {
   const navigate = useNavigate();
 
   return (
-    <section id="services" className="py-20 bg-white">
+    <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-10"
-        >
-          <div>
-            <p className="text-xs font-bold text-[#00B8A9] uppercase tracking-widest mb-2">Services</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Trending right now</h2>
-            <p className="text-gray-500 mt-1.5 text-sm md:text-base">
-              Fixed prices, verified pros, same-day slots available
-            </p>
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end mb-12">
+          <div className="max-w-2xl">
+            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">Trending right now</span>
+            <h2 className="mt-3 text-4xl font-extrabold text-[#0d1f1f] md:text-5xl">
+              Loved by homeowners this week
+            </h2>
+            <p className="mt-3 text-gray-500">Fixed prices, verified pros, same-day slots available.</p>
           </div>
           <button
             onClick={() => navigate("/services")}
-            className="inline-flex items-center gap-1 text-sm font-medium text-[#00B8A9] hover:text-[#007a73] transition-colors whitespace-nowrap flex-shrink-0"
+            className="text-sm font-semibold text-[#00B8A9] hover:text-[#007a73] transition-colors whitespace-nowrap"
           >
-            View all <ChevronRight className="w-4 h-4" />
+            View all →
           </button>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((svc, i) => (
-            <motion.div
-              key={svc.name}
+            <motion.article
+              key={svc.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.07 }}
-              onClick={() => navigate(`/services?service=${encodeURIComponent(svc.name)}`)}
-              className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all duration-300 cursor-pointer"
+              onClick={() => navigate(`/services?service=${encodeURIComponent(svc.title)}`)}
+              className="group overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
             >
-              {/* Image */}
-              <div className="relative h-48 overflow-hidden bg-gray-100">
+              <div className="relative aspect-[16/11] overflow-hidden">
                 <ImageWithFallback
-                  src={svc.image}
-                  alt={svc.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  src={svc.img}
+                  alt={svc.title}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
-
-                {svc.badge && (
-                  <span className={`absolute top-3 left-3 text-[11px] font-bold text-white px-2.5 py-1 rounded-full ${svc.badgeColor}`}>
-                    {svc.badge}
-                  </span>
-                )}
-
-                <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-gray-700 text-[11px] font-medium px-2.5 py-1 rounded-full">
-                  {svc.category}
-                </span>
-              </div>
-
-              {/* Body */}
-              <div className="p-5">
-                <div className="flex items-start justify-between gap-2 mb-1.5">
-                  <h3 className="text-sm font-semibold text-gray-900 leading-snug">{svc.name}</h3>
-                  <span className="text-sm font-bold text-[#00B8A9] whitespace-nowrap flex-shrink-0">
-                    {svc.price}
-                  </span>
+                <div className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] font-bold ${svc.badgeTone}`}>
+                  {svc.badge}
                 </div>
-
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    <span className="text-xs font-semibold text-gray-700">{svc.rating}</span>
-                    <span className="text-xs text-gray-400">({svc.reviews})</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <Clock className="w-3 h-3" />
-                    {svc.duration}
-                  </div>
-                </div>
-
-                <p className="text-xs text-gray-500 mb-4 leading-relaxed">{svc.description}</p>
-
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#00B8A9] group-hover:gap-2 transition-all">
-                    Book Now <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                  <span className="text-[11px] text-gray-400 font-medium">Verified Pro</span>
+                <div className="absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-[#0d1f1f] backdrop-blur">
+                  {svc.cat}
                 </div>
               </div>
-            </motion.div>
+              <div className="p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-xl font-bold text-[#0d1f1f]">{svc.title}</h3>
+                  <span className="whitespace-nowrap text-xl font-extrabold text-[#00B8A9]">{svc.price}</span>
+                </div>
+                <div className="mt-2 flex items-center gap-4 text-xs text-gray-400">
+                  <span className="inline-flex items-center gap-1">
+                    <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <span className="font-semibold text-[#0d1f1f]">{svc.rating}</span> ({svc.reviews})
+                  </span>
+                  <span className="inline-flex items-center gap-1">
+                    <Clock className="h-3.5 w-3.5" /> {svc.duration}
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-gray-500">{svc.desc}</p>
+                <div className="mt-5 flex items-center justify-between border-t pt-4">
+                  <div className="flex items-center gap-2">
+                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#0d1f1f] text-[10px] font-bold text-[#00B8A9]">
+                      {svc.avatar}
+                    </span>
+                    <span className="text-xs text-gray-400">Verified pro</span>
+                  </div>
+                  <button className="inline-flex items-center gap-1.5 rounded-full bg-[#0d1f1f] px-4 py-2 text-xs font-semibold text-white transition group-hover:bg-[#00B8A9] group-hover:text-[#0d1f1f]">
+                    Book now <ArrowRight className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>

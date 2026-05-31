@@ -2,13 +2,13 @@ import { Hero }                 from "@/app/components/Hero";
 import { ServiceCategoriesGrid } from "@/app/components/ServiceCategoriesGrid";
 import { HowItWorks }            from "@/app/components/HowItWorks";
 import { PopularServices }       from "@/app/components/PopularServices";
-import { Testimonials }          from "@/app/components/Testimonials";
 import { WhyChoose }             from "@/app/components/WhyChoose";
-import { CityAvailability }      from "@/app/components/CityAvailability";
-import { PressLogos }            from "@/app/components/PressLogos";
+import { TrustedStats }          from "@/app/components/TrustedStats";
+import { Testimonials }          from "@/app/components/Testimonials";
 import { ProviderSection }       from "@/app/components/ProviderSection";
-import { AppDownloadBanner }     from "@/app/components/AppDownloadBanner";
+import { CityAvailability }      from "@/app/components/CityAvailability";
 import { FAQSection }            from "@/app/components/FAQSection";
+import { AppDownloadBanner }     from "@/app/components/AppDownloadBanner";
 import { SEO }                   from "@/app/components/SEO";
 
 const homeSchema = {
@@ -41,38 +41,38 @@ export function HomePage() {
         structuredData={homeSchema}
       />
 
-      {/* bg-gray-50 */}
+      {/* bg-white */}
       <Hero />
 
-      {/* bg-white */}
+      {/* bg-white border-t — What do you need today? */}
       <ServiceCategoriesGrid />
 
-      {/* bg-gray-50 */}
+      {/* bg-gray-50 — Book in three simple steps */}
       <HowItWorks />
 
-      {/* bg-white */}
+      {/* bg-white — Loved by homeowners this week */}
       <PopularServices />
 
-      {/* bg-gray-50 */}
-      <Testimonials />
-
-      {/* bg-white */}
+      {/* bg-white — Built for trust at every step */}
       <WhyChoose />
 
-      {/* bg-gray-50 */}
-      <CityAvailability />
+      {/* bg-[#0d1f1f] — Trusted across India */}
+      <TrustedStats />
 
-      {/* bg-white border-y */}
-      <PressLogos />
+      {/* bg-gray-50 — Customers love us */}
+      <Testimonials />
 
-      {/* bg-[#00B8A9] */}
+      {/* bg-gradient teal — Grow your business */}
       <ProviderSection />
 
-      {/* bg-white */}
-      <AppDownloadBanner />
+      {/* bg-white — Live across India */}
+      <CityAvailability />
 
-      {/* bg-gray-50 */}
+      {/* bg-gray-50 — Questions, answered */}
       <FAQSection />
+
+      {/* bg-[#0d1f1f] — Get 10% off */}
+      <AppDownloadBanner />
     </>
   );
 }

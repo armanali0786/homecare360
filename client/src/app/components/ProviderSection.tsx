@@ -1,46 +1,23 @@
+import { TrendingUp, CalendarClock, Wallet, ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion } from "motion/react";
-import { TrendingUp, Calendar, Star, Shield, IndianRupee, Clock, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const FEATURES = [
-  { icon: TrendingUp, text: "Grow your bookings and monthly revenue" },
-  { icon: Calendar,   text: "Full control over your schedule and availability" },
-  { icon: Star,       text: "Build a verified reputation with customer reviews" },
-  { icon: Shield,     text: "Payments protected by escrow — always get paid" },
-];
-
-const BENEFITS = [
-  {
-    icon: IndianRupee,
-    title: "Low 15% Platform Fee",
-    description: "Keep more of what you earn — lower than any competitor",
-    iconClass: "text-emerald-600",
-    bgClass: "bg-emerald-100",
-  },
-  {
-    icon: Shield,
-    title: "Verified Pro Badge",
-    description: "Stand out with our trust verification system",
-    iconClass: "text-cyan-100",
-    bgClass: "bg-white/20",
-  },
-  {
-    icon: Clock,
-    title: "Fast Weekly Payouts",
-    description: "Direct bank transfer every week, no delays",
-    iconClass: "text-purple-200",
-    bgClass: "bg-white/20",
-  },
+const perks = [
+  { icon: TrendingUp,   title: "Get steady leads",   text: "Quality jobs delivered weekly in your city and skillset." },
+  { icon: CalendarClock,title: "Flexible schedule",  text: "Accept what fits — you control your week and your pace." },
+  { icon: Wallet,       title: "Secure payments",    text: "Get paid weekly via escrow. Zero chargebacks, zero stress." },
 ];
 
 export function ProviderSection() {
   const navigate = useNavigate();
 
   return (
-    <section id="providers" className="py-20 bg-[#00B8A9]">
+    <section className="bg-white py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
+      <div className="relative overflow-hidden rounded-[44px] bg-teal-50 p-10 shadow-xl md:p-16">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[#00B8A9]/20 blur-3xl" />
 
+        <div className="relative grid items-center gap-12 lg:grid-cols-2">
           {/* Left */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -48,76 +25,66 @@ export function ProviderSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-white/70 text-sm font-medium uppercase tracking-wide mb-4">
-              For Service Providers
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-5 leading-tight">
-              Grow your business with HomeCare360
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#00B8A9]/15 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#00897b]">
+              For service providers
+            </span>
+            <h2 className="mt-5 text-4xl font-extrabold leading-tight text-[#0d1f1f] md:text-5xl">
+              Grow your business with HomeCare360.
             </h2>
-            <p className="text-white/80 text-base mb-8 max-w-md leading-relaxed">
-              Join our network of verified professionals. Get discovered, get booked, and get paid faster — with tools built for independent pros.
+            <p className="mt-4 max-w-lg text-[#0d1f1f]/70">
+              Join 45+ professionals earning more, working flexibly, and building reputation on India's most trusted home services network.
             </p>
-
-            <ul className="space-y-3 mb-10">
-              {FEATURES.map((feature, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ opacity: 0, x: -12 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.07 }}
-                  className="flex items-center gap-3 text-white/90"
-                >
-                  <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <feature.icon className="w-4 h-4 text-white" />
-                  </div>
-                  <span className="text-sm">{feature.text}</span>
-                </motion.li>
-              ))}
-            </ul>
-
-            <button
-              onClick={() => navigate("/become-provider")}
-              className="inline-flex items-center gap-2 bg-white text-[#00B8A9] px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors shadow-lg"
-            >
-              Join as a Pro <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={() => navigate("/become-provider")}
+                className="inline-flex items-center gap-2 rounded-full bg-[#0d1f1f] px-7 py-4 text-sm font-semibold text-white transition hover:bg-[#0d1f1f]/90"
+              >
+                Become a provider <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => navigate("/become-provider")}
+                className="inline-flex items-center gap-2 rounded-full border border-[#0d1f1f]/20 bg-white/60 px-6 py-4 text-sm font-semibold text-[#0d1f1f] backdrop-blur transition hover:bg-white/80"
+              >
+                Watch how it works
+              </button>
+            </div>
+            <div className="mt-8 flex items-center gap-2 text-xs text-[#0d1f1f]/60">
+              <CheckCircle2 className="h-4 w-4" /> Free to join · Average pro earns ₹45,000/mo
+            </div>
           </motion.div>
 
-          {/* Right — benefit cards */}
+          {/* Right */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="space-y-4"
+            className="grid gap-4"
           >
-            <p className="text-white/70 text-sm font-semibold uppercase tracking-wide mb-5">
-              Provider Benefits
-            </p>
-
-            {BENEFITS.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="bg-white/10 border border-white/15 rounded-2xl p-5 hover:bg-white/15 transition-colors duration-200"
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 ${benefit.bgClass} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                    <benefit.icon className={`w-5 h-5 ${benefit.iconClass}`} />
+            {perks.map((p, i) => {
+              const Icon = p.icon;
+              return (
+                <motion.div
+                  key={p.title}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="flex items-start gap-4 rounded-2xl bg-[#0d1f1f] p-5 text-white shadow-xl transition hover:-translate-y-0.5"
+                >
+                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#00B8A9] text-[#0d1f1f]">
+                    <Icon className="h-6 w-6" strokeWidth={2.2} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold text-white mb-0.5">{benefit.title}</h4>
-                    <p className="text-xs text-white/65">{benefit.description}</p>
+                    <h3 className="text-lg font-bold">{p.title}</h3>
+                    <p className="mt-1 text-sm text-white/65">{p.text}</p>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
+      </div>
       </div>
     </section>
   );

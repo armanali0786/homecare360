@@ -1,29 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  Search, MapPin, Star, Shield, Clock,
-  CheckCircle, ChevronDown,
+  Search, MapPin, Star, ShieldCheck, BadgeCheck,
+  Sparkles, CheckCircle2, Clock, ChevronDown,
 } from "lucide-react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useNavigate } from "react-router-dom";
 
-const QUICK = [
-  { label: "Home Cleaning", emoji: "🧹" },
-  { label: "Plumbing",      emoji: "🔧" },
-  { label: "Electrician",   emoji: "⚡" },
-  { label: "AC Repair",     emoji: "❄️" },
-  { label: "Painting",      emoji: "🖌️" },
-  { label: "Pest Control",  emoji: "🐜" },
-];
-
-const CITIES = ["Bangalore", "Mumbai", "Delhi", "Hyderabad", "Chennai", "Pune"];
+const chips = ["Cleaning", "Plumbing", "Electrical", "Painting", "AC Repair", "Carpentry"];
+const CITIES = ["Bangalore", "Mumbai", "Delhi NCR", "Hyderabad", "Chennai", "Pune"];
 
 export function Hero() {
-  const [city, setCity]             = useState("Bangalore");
+  const [city, setCity] = useState("Bangalore");
   const [showCities, setShowCities] = useState(false);
-  const [query, setQuery]           = useState("");
-  const navigate                    = useNavigate();
-  const dropdownRef                 = useRef<HTMLDivElement>(null);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -44,23 +35,49 @@ export function Hero() {
   };
 
   return (
-    <section className="bg-white pt-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-[58%_42%] items-end min-h-[600px] max-h-[700px]">
+    <section className="relative overflow-hidden bg-gradient-to-br from-teal-50/60 via-white to-cyan-50/40">
+      <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-[#00B8A9]/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 top-40 h-72 w-72 rounded-full bg-[#00B8A9]/15 blur-3xl" />
 
-          {/* ── Left ── */}
-          <div className="py-12 lg:py-16 space-y-6 self-center pr-0 lg:pr-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid items-center gap-16 pb-24 pt-12 lg:grid-cols-[1.05fr_1fr] lg:pt-16">
+        {/* LEFT */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#00B8A9]/30 bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-[#0d1f1f] shadow-md backdrop-blur">
+            <Sparkles className="h-3.5 w-3.5 text-[#00B8A9]" />
+            Trusted by 100+ homeowners across India
+          </span>
 
-            {/* City selector */}
-            <div className="relative inline-block" ref={dropdownRef}>
+          <h1 className="mt-6 text-5xl font-extrabold leading-[1.02] tracking-tight text-[#0d1f1f] sm:text-6xl lg:text-[72px]">
+            Find trusted home services
+            <br />
+            <span className="bg-gradient-to-r from-[#00B8A9] to-emerald-500 bg-clip-text text-transparent">
+              within minutes.
+            </span>
+          </h1>
+
+          <p className="mt-6 max-w-xl text-lg text-gray-500">
+            Book background-verified professionals for cleaning, plumbing, electrical,
+            appliance repair and more — at your door, on your schedule.
+          </p>
+
+          {/* Search */}
+          <form
+            onSubmit={handleSearch}
+            className="mt-8 flex flex-col items-stretch gap-2 rounded-2xl border bg-white/80 p-2 shadow-xl backdrop-blur md:flex-row md:items-center md:rounded-full md:p-2"
+          >
+            <div className="relative flex items-center gap-2 rounded-full px-4 py-3 md:border-r" ref={dropdownRef}>
+              <MapPin className="h-4 w-4 text-[#00B8A9] flex-shrink-0" />
               <button
                 type="button"
                 onClick={() => setShowCities(v => !v)}
-                className="inline-flex items-center gap-1.5 bg-teal-50 border border-teal-100 rounded-full px-4 py-2 text-sm font-medium text-teal-700 hover:bg-teal-100 transition-colors"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-[#0d1f1f] bg-transparent focus:outline-none"
               >
-                <MapPin className="w-3.5 h-3.5" />
                 {city}
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showCities ? "rotate-180" : ""}`} />
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${showCities ? "rotate-180" : ""}`} />
               </button>
               <AnimatePresence>
                 {showCities && (
@@ -69,14 +86,14 @@ export function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full mt-1.5 left-0 bg-white border border-gray-100 rounded-xl shadow-lg py-1.5 z-20 min-w-[160px]"
+                    className="absolute top-full left-0 mt-1.5 bg-white border border-gray-100 rounded-xl shadow-lg py-1.5 z-20 min-w-[160px]"
                   >
                     {CITIES.map(c => (
                       <button
                         key={c}
                         type="button"
                         onClick={() => { setCity(c); setShowCities(false); }}
-                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${c === city ? "font-semibold text-teal-600" : "text-gray-700"}`}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${c === city ? "font-semibold text-[#00B8A9]" : "text-gray-700"}`}
                       >
                         {c}
                       </button>
@@ -85,141 +102,113 @@ export function Hero() {
                 )}
               </AnimatePresence>
             </div>
-
-            {/* Headline */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h1 className="text-5xl md:text-[3.25rem] lg:text-[3.6rem] font-bold text-gray-900 leading-[1.07] tracking-tight">
-                Expert home services,<br />
-                <span className="text-[#00B8A9]">on your schedule</span>
-              </h1>
-              <p className="mt-4 text-lg text-gray-500 max-w-[460px] leading-relaxed">
-                Background-verified professionals for cleaning, plumbing, electrical, AC repair, and more — all at your doorstep.
-              </p>
-            </motion.div>
-
-            {/* Search */}
-            <motion.form
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              onSubmit={handleSearch}
-              className="flex bg-white rounded-2xl shadow-[0_4px_28px_rgba(0,0,0,0.10)] border border-gray-100 p-1.5 gap-1 max-w-[520px]"
-            >
-              <div className="flex-1 flex items-center gap-3 px-4 py-3">
-                <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  placeholder="Search for a service..."
-                  className="w-full text-sm text-gray-800 placeholder-gray-400 bg-transparent focus:outline-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-[#00B8A9] hover:bg-[#009e96] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap"
-              >
-                Search
-              </button>
-            </motion.form>
-
-            {/* Quick chips */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              className="flex flex-wrap gap-2"
-            >
-              <span className="text-xs font-medium text-gray-400 self-center">Popular:</span>
-              {QUICK.map(s => (
-                <button
-                  key={s.label}
-                  type="button"
-                  onClick={() => navigate(`/services?service=${encodeURIComponent(s.label)}`)}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium px-3.5 py-1.5 rounded-full bg-gray-50 border border-gray-200 text-gray-600 hover:bg-teal-50 hover:border-teal-200 hover:text-teal-700 transition-colors"
-                >
-                  <span>{s.emoji}</span>{s.label}
-                </button>
-              ))}
-            </motion.div>
-
-            {/* Trust bar */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-5 pt-1"
-            >
-              <div className="flex items-center gap-1.5">
-                <div className="flex gap-px">
-                  {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
-                </div>
-                <span className="text-sm font-semibold text-gray-800">4.9</span>
-                <span className="text-sm text-gray-400">(200+ reviews)</span>
-              </div>
-              <div className="h-4 w-px bg-gray-200" />
-              <div className="flex items-center gap-1.5 text-sm text-gray-600">
-                <Shield className="w-4 h-4 text-[#00B8A9]" />
-                Verified Pros
-              </div>
-              <div className="hidden sm:flex items-center gap-1.5">
-                <div className="h-4 w-px bg-gray-200" />
-                <div className="flex items-center gap-1.5 text-sm text-gray-600">
-                  <Clock className="w-4 h-4 text-[#00B8A9]" />
-                  Same-day booking
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* ── Right: professional image ── */}
-          <div className="hidden lg:flex items-end h-[600px] relative">
-            <div className="w-full h-full rounded-t-[2rem] overflow-hidden relative bg-teal-50">
-              <ImageWithFallback
-                src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=800&auto=format&fit=crop"
-                alt="Professional home service"
-                className="w-full h-full object-cover object-center"
+            <div className="flex flex-1 items-center gap-2 px-4">
+              <Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
+              <input
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                placeholder="What service do you need today?"
+                className="w-full bg-transparent py-3 text-sm placeholder:text-gray-400 focus:outline-none"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/25 via-transparent to-transparent" />
             </div>
-
-            {/* Floating: booking confirmed */}
-            <motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.85 }}
-              className="absolute -left-5 top-[38%] bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3.5 z-10"
+            <button
+              type="submit"
+              className="rounded-full bg-[#0d1f1f] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0d1f1f]/90"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-teal-50 rounded-full flex items-center justify-center flex-shrink-0">
-                  <CheckCircle className="w-5 h-5 text-[#00B8A9]" />
-                </div>
-                <div>
-                  <p className="text-[11px] text-gray-400 font-medium">Booking confirmed</p>
-                  <p className="text-sm font-bold text-gray-900 leading-tight">Today at 3:00 PM</p>
-                </div>
-              </div>
-            </motion.div>
+              Search
+            </button>
+          </form>
 
-            {/* Floating: review */}
-            <motion.div
-              initial={{ opacity: 0, x: 16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 1.05 }}
-              className="absolute right-2 bottom-14 bg-white rounded-2xl shadow-xl border border-gray-100 p-4 z-10 max-w-[186px]"
-            >
-              <div className="flex gap-0.5 mb-1.5">
-                {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />)}
-              </div>
-              <p className="text-xs font-semibold text-gray-800 leading-snug">"Arrived on time, great work!"</p>
-              <p className="text-[11px] text-gray-400 mt-1.5">— Priya S., Bangalore</p>
-            </motion.div>
+          {/* Chips */}
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-medium text-gray-400">Popular:</span>
+            {chips.map(c => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => navigate(`/services?service=${encodeURIComponent(c)}`)}
+                className="rounded-full border bg-white/70 px-3.5 py-1.5 text-xs font-medium text-[#0d1f1f] backdrop-blur transition hover:border-[#00B8A9] hover:text-[#00B8A9] hover:shadow-md"
+              >
+                {c}
+              </button>
+            ))}
           </div>
 
+          {/* Trust bar */}
+          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <span className="text-sm font-semibold text-[#0d1f1f]">4.9</span>
+              <span className="text-sm text-gray-400">Rating</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <BadgeCheck className="h-4 w-4 text-[#00B8A9]" />
+              <span className="font-semibold text-[#0d1f1f]">95+</span>
+              <span className="text-gray-400">Jobs done</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <ShieldCheck className="h-4 w-4 text-[#00B8A9]" />
+              <span className="text-gray-400">Verified professionals</span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* RIGHT */}
+        <div className="relative mx-auto hidden w-full max-w-[540px] lg:block">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[36px] shadow-xl ring-1 ring-black/5">
+            <img
+              src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1024&q=80"
+              alt="Verified home service professional"
+              className="h-full w-full object-cover"
+              width={1024}
+              height={1280}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0d1f1f]/40 via-transparent to-transparent" />
+          </div>
+
+          {/* Booking confirmed */}
+          <motion.div
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.85 }}
+            className="absolute -left-6 top-10 w-[230px] rounded-2xl bg-white/85 backdrop-blur-sm p-4 shadow-xl border border-gray-100"
+          >
+            <div className="flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-teal-50 flex-shrink-0">
+                <CheckCircle2 className="h-5 w-5 text-[#00B8A9]" />
+              </div>
+              <div>
+                <p className="text-[11px] font-medium text-gray-400">Booking confirmed</p>
+                <p className="text-sm font-bold text-[#0d1f1f]">Today at 3:00 PM</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Rating card */}
+          <motion.div
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 1.05 }}
+            className="absolute -right-4 bottom-16 w-[260px] rounded-2xl bg-white/85 backdrop-blur-sm p-4 shadow-xl border border-gray-100"
+          >
+            <div className="flex items-center gap-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <p className="mt-2 text-sm font-semibold text-[#0d1f1f]">"Arrived on time, great work!"</p>
+            <p className="mt-1 text-xs text-gray-400">— Priya S., Bangalore</p>
+          </motion.div>
+
+          {/* Same-day badge */}
+          <div className="absolute -bottom-4 left-8 flex items-center gap-2 rounded-full bg-[#0d1f1f] px-4 py-2.5 text-white shadow-xl">
+            <Clock className="h-4 w-4 text-[#00B8A9]" />
+            <span className="text-xs font-semibold">Same-day booking available</span>
+          </div>
         </div>
       </div>
     </section>
