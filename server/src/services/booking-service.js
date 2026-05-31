@@ -221,6 +221,7 @@ exports.updateBookingStatus = async (id, status) => {
       : "your provider";
     if (user?.email)
       emailSvc.reviewReminder(user.email, {
+        name:     user.fullName,
         service:  booking.serviceCategory,
         provider: providerName,
       });
