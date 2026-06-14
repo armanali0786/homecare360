@@ -1,6 +1,9 @@
 # HomeCare360
 
 > A full-stack home care services marketplace connecting homeowners with trusted service providers.
+>
+> <img width="1856" height="888" alt="image" src="https://github.com/user-attachments/assets/1c520c18-be13-4b5c-b51c-b5eed5673464" />
+
 
 **Live:** [https://homecare360.netlify.app](https://homecare360.netlify.app)
 
