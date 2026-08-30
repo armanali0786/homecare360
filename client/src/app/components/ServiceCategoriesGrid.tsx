@@ -1,18 +1,18 @@
 import { motion } from "motion/react";
 import {
   ArrowUpRight, Sparkles, Wrench, Zap, AirVent,
-  Paintbrush, Bug, Hammer, Settings, Truck, Scissors, Star,
+  Paintbrush, Star,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLocale } from "../context/LocaleContext";
 
 const CATEGORIES = [
-  { id: "deepCleaning", priceINR: 199, icon: Sparkles, tint: "from-cyan-200/60 to-cyan-100/60", rating: 4.9 },
-  { id: "plumbing",     priceINR: 299, icon: Wrench,   tint: "from-blue-200/60 to-indigo-100/60", rating: 4.8 },
-  { id: "electrician",  priceINR: 349, icon: Zap,       tint: "from-amber-200/60 to-yellow-100/60", rating: 4.9 },
-  { id: "acService",    priceINR: 299, icon: AirVent,  tint: "from-sky-200/60 to-cyan-100/60", rating: 4.7 },
-  { id: "painting",     priceINR: 799, icon: Paintbrush,tint: "from-rose-200/60 to-pink-100/60", rating: 4.8 },
+  { id: "deepCleaning", catId: "houseCleaning", priceINR: 199, icon: Sparkles, tint: "from-cyan-200/60 to-cyan-100/60", rating: 4.9 },
+  { id: "plumbing",     catId: "plumbing",      priceINR: 299, icon: Wrench,   tint: "from-blue-200/60 to-indigo-100/60", rating: 4.8 },
+  { id: "electrician",  catId: "electrical",    priceINR: 349, icon: Zap,       tint: "from-amber-200/60 to-yellow-100/60", rating: 4.9 },
+  { id: "acService",    catId: "acApplianceRepair", priceINR: 299, icon: AirVent, tint: "from-sky-200/60 to-cyan-100/60", rating: 4.7 },
+  { id: "painting",     catId: "painting",      priceINR: 799, icon: Paintbrush,tint: "from-rose-200/60 to-pink-100/60", rating: 4.8 },
 ];
 
 export function ServiceCategoriesGrid() {
@@ -35,7 +35,7 @@ export function ServiceCategoriesGrid() {
           </div>
           <button
             onClick={() => navigate("/services")}
-            className="text-sm font-semibold text-[#00B8A9] hover:text-[#007a73] transition-colors whitespace-nowrap"
+            className="text-sm font-semibold text-[#00B8A9] hover:text-[#007a73] transition-colors whitespace-nowrap cursor-pointer"
           >
             {t("categories.viewAll")} →
           </button>
@@ -53,8 +53,8 @@ export function ServiceCategoriesGrid() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.04 }}
                 whileHover={{ y: -4, transition: { duration: 0.15 } }}
-                onClick={() => navigate(`/services?service=${encodeURIComponent(name)}`)}
-                className="group relative overflow-hidden rounded-3xl border bg-white p-5 transition-all duration-300 hover:border-[#00B8A9]/40 hover:shadow-lg text-left"
+                onClick={() => navigate(`/services?category=${s.catId}&service=${encodeURIComponent(name)}`)}
+                className="group relative overflow-hidden rounded-3xl border bg-white p-5 transition-all duration-300 hover:border-[#00B8A9]/40 hover:shadow-lg text-left rtl:text-right cursor-pointer"
               >
                 <div className={`mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br ${s.tint}`}>
                   <Icon className="h-6 w-6 text-[#0d1f1f]" strokeWidth={2.2} />
@@ -71,7 +71,7 @@ export function ServiceCategoriesGrid() {
                     <span className="font-semibold text-[#0d1f1f]">{s.rating}</span>
                   </div>
                   <span className="grid h-8 w-8 place-items-center rounded-full bg-gray-100 text-gray-400 transition group-hover:bg-[#00B8A9] group-hover:text-white">
-                    <ArrowUpRight className="h-4 w-4" />
+                    <ArrowUpRight className="h-4 w-4 rtl:rotate-90" />
                   </span>
                 </div>
               </motion.button>

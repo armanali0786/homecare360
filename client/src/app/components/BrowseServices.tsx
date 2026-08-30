@@ -491,6 +491,34 @@ function FilterPanel({
   );
 }
 
+const CATEGORY_MAP: Record<string, string[]> = {
+  houseCleaning: ["House Cleaning", "Cleaning", "Domestic Help"],
+  plumbing: ["Plumbing"],
+  electrical: ["Electrical"],
+  acApplianceRepair: ["AC & Appliance Repair", "AC", "Appliance"],
+  painting: ["Painting"],
+  carpentry: ["Carpentry"],
+  outdoorServices: ["Landscaping", "Outdoor", "Garden"],
+  pestControl: ["Pest Control"],
+};
+
+const CATEGORY_ALIAS_MAP: Record<string, string> = {
+  deepcleaning: "houseCleaning",
+  housecleaning: "houseCleaning",
+  cleaning: "houseCleaning",
+  plumbing: "plumbing",
+  electrician: "electrical",
+  electrical: "electrical",
+  acservice: "acApplianceRepair",
+  ac: "acApplianceRepair",
+  acappliancerepair: "acApplianceRepair",
+  painting: "painting",
+  carpentry: "carpentry",
+  pestcontrol: "pestControl",
+  landscaping: "outdoorServices",
+  outdoorservices: "outdoorServices",
+};
+
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export function BrowseServices() {
   const { t } = useTranslation("home");
@@ -531,9 +559,30 @@ export function BrowseServices() {
   }, []);
 
   useEffect(() => {
+    const catParam = searchParams.get("category");
     const svc = searchParams.get("service");
     const loc = searchParams.get("location");
-    if (svc) {
+
+    let matchedCatId = catParam;
+
+    if (!matchedCatId && svc) {
+      const norm = svc.toLowerCase().replace(/[^a-z0-9]/g, "");
+      for (const [alias, id] of Object.entries(CATEGORY_ALIAS_MAP)) {
+        if (norm.includes(alias) || alias.includes(norm)) {
+          matchedCatId = id;
+          break;
+        }
+      }
+    }
+
+    if (matchedCatId && CATEGORY_IDS.includes(matchedCatId)) {
+      const catTitle = t(`browseServices.categories.${matchedCatId}`);
+      if (catTitle) {
+        setActiveCategory(catTitle);
+        setSearchService("");
+        setSearchInput("");
+      }
+    } else if (svc) {
       setSearchInput(svc);
       setSearchService(svc);
       const matched = CATEGORIES.find(
@@ -541,6 +590,7 @@ export function BrowseServices() {
       );
       if (matched) setActiveCategory(matched);
     }
+
     if (loc) {
       setLocationInput(loc);
       setLocationFilter(loc);
@@ -577,37 +627,57 @@ export function BrowseServices() {
       setSearchService("");
       setSearchInput("");
     } else {
-      setSearchService(cat);
-      setSearchInput(cat);
+      setSearchService("");
+      setSearchInput("");
     }
   };
 
   const getDisplayName = (p: Provider) =>
     p.businessName || `${p.firstName} ${p.lastName}`.trim();
 
+  // Find active category ID
+  const activeCatIndex = CATEGORIES.indexOf(activeCategory);
+  const activeCatId = activeCatIndex >= 0 ? CATEGORY_IDS[activeCatIndex] : null;
+
   const filtered = providers
     .filter((p) => {
       const name = getDisplayName(p);
+
+      // Match category selection
+      let matchCat = true;
+      if (activeCatId && activeCatId !== "allServices") {
+        const dbNames = CATEGORY_MAP[activeCatId] || [];
+        matchCat =
+          dbNames.some((dbCat) => p.serviceCategory.toLowerCase().includes(dbCat.toLowerCase())) ||
+          p.serviceCategory.toLowerCase().includes(activeCategory.toLowerCase()) ||
+          p.tags.some((t) => t.toLowerCase().includes(activeCategory.toLowerCase()));
+      }
+
       const matchSearch =
         searchService === "" ||
         name.toLowerCase().includes(searchService.toLowerCase()) ||
         p.serviceCategory.toLowerCase().includes(searchService.toLowerCase()) ||
         p.tags.some((t) => t.toLowerCase().includes(searchService.toLowerCase()));
+
       const matchPrice =
         priceFilter === "any" ? true :
         priceFilter === "under500" ? p.hourlyRate < 500 :
         p.hourlyRate >= 500;
+
       const matchRating =
         selectedRating === "all" ? true :
         selectedRating === "4.5" ? p.rating >= 4.5 :
         p.rating >= parseInt(selectedRating);
+
       const locStr = `${p.city || ""} ${p.state || ""}`.toLowerCase();
       const matchLocation = locationFilter === "" || locStr.includes(locationFilter.toLowerCase());
+
       const matchAvailability =
         availability.length === 0 ||
         (p.availability != null &&
           availability.some((a) => p.availability!.toLowerCase().includes(a.toLowerCase())));
-      return matchSearch && matchPrice && matchRating && matchLocation && matchAvailability;
+
+      return matchCat && matchSearch && matchPrice && matchRating && matchLocation && matchAvailability;
     })
     .sort((a, b) => {
       switch (sortBy) {

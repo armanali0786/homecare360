@@ -8,6 +8,7 @@ import { useLocale } from "../context/LocaleContext";
 const SERVICES = [
   {
     id: "deepCleaning",
+    catId: "houseCleaning",
     badgeTone: "bg-[#043A35] text-[#D4AF37] border border-[#D4AF37]/30",
     hasFemalePro: true,
     priceINR: 1199, rating: 4.9, reviews: 342,
@@ -16,6 +17,7 @@ const SERVICES = [
   },
   {
     id: "acService",
+    catId: "acApplianceRepair",
     badgeTone: "bg-teal-700 text-white",
     hasFemalePro: false,
     priceINR: 499, rating: 4.9, reviews: 512,
@@ -24,6 +26,7 @@ const SERVICES = [
   },
   {
     id: "electricalWork",
+    catId: "electrical",
     badgeTone: "bg-[#0D1F1F] text-amber-300",
     hasFemalePro: false,
     priceINR: 349, rating: 4.8, reviews: 218,
@@ -32,6 +35,7 @@ const SERVICES = [
   },
   {
     id: "plumbingRepair",
+    catId: "plumbing",
     badgeTone: "bg-blue-900 text-white",
     hasFemalePro: false,
     priceINR: 299, rating: 4.8, reviews: 194,
@@ -40,6 +44,7 @@ const SERVICES = [
   },
   {
     id: "wallPainting",
+    catId: "painting",
     badgeTone: "bg-amber-800 text-white",
     hasFemalePro: false,
     priceINR: 799, rating: 4.9, reviews: 156,
@@ -48,6 +53,7 @@ const SERVICES = [
   },
   {
     id: "pestControl",
+    catId: "pestControl",
     badgeTone: "bg-emerald-900 text-emerald-200",
     hasFemalePro: true,
     priceINR: 599, rating: 4.9, reviews: 289,
@@ -73,10 +79,12 @@ export function PopularServices() {
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end mb-12">
           <div className="max-w-2xl">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#00B8A9]">{t("popular.tag")}</span>
-            <h2 className="mt-3 text-3xl font-black text-[#0D1F1F] md:text-5xl">
+            <h2 className="mt-3 text-3xl font-extrabold text-[#0D1F1F] md:text-5xl">
               {t("popular.title")}
             </h2>
-            <p className="mt-3 text-base text-gray-500">{t("popular.subtitle")}</p>
+            <p className="mt-3 text-sm md:text-base text-gray-500">
+              {t("popular.subtitle")}
+            </p>
           </div>
           <button
             onClick={() => navigate("/services")}
@@ -96,7 +104,7 @@ export function PopularServices() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
-                onClick={() => navigate(`/services?service=${encodeURIComponent(title)}`)}
+                onClick={() => navigate(`/services?category=${svc.catId}&service=${encodeURIComponent(title)}`)}
                 className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#00B8A9]/40 cursor-pointer flex flex-col justify-between"
               >
                 <div>

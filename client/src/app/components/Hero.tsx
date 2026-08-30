@@ -9,12 +9,12 @@ import { useTranslation } from "react-i18next";
 import { useLocale } from "../context/LocaleContext";
 
 const chipList = [
-  { id: "deepCleaning", labelKey: "hero.chips.deepCleaning", fallback: "Deep Cleaning" },
-  { id: "acService", labelKey: "hero.chips.acService", fallback: "AC Repair & Wash" },
-  { id: "plumbing", labelKey: "hero.chips.plumbing", fallback: "Plumbing" },
-  { id: "electrician", labelKey: "hero.chips.electrician", fallback: "Electrician" },
-  { id: "painting", labelKey: "hero.chips.painting", fallback: "Wall Painting" },
-  { id: "pestControl", labelKey: "hero.chips.pestControl", fallback: "Pest Control" },
+  { id: "deepCleaning", catId: "houseCleaning", labelKey: "hero.chips.deepCleaning", fallback: "Deep Cleaning" },
+  { id: "acService", catId: "acApplianceRepair", labelKey: "hero.chips.acService", fallback: "AC Repair & Wash" },
+  { id: "plumbing", catId: "plumbing", labelKey: "hero.chips.plumbing", fallback: "Plumbing" },
+  { id: "electrician", catId: "electrical", labelKey: "hero.chips.electrician", fallback: "Electrician" },
+  { id: "painting", catId: "painting", labelKey: "hero.chips.painting", fallback: "Wall Painting" },
+  { id: "pestControl", catId: "pestControl", labelKey: "hero.chips.pestControl", fallback: "Pest Control" },
 ];
 
 export function Hero() {
@@ -184,7 +184,7 @@ export function Hero() {
                   <button
                     key={c.id}
                     type="button"
-                    onClick={() => navigate(`/services?service=${encodeURIComponent(label)}`)}
+                    onClick={() => navigate(`/services?category=${c.catId}&service=${encodeURIComponent(label)}`)}
                     className="rounded-full border border-gray-200 bg-white/80 px-3.5 py-1.5 text-xs font-medium text-[#0D1F1F] shadow-sm backdrop-blur transition-all hover:border-[#00B8A9] hover:text-[#00B8A9] hover:shadow cursor-pointer"
                   >
                     {label}
