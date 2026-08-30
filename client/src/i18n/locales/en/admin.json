@@ -1,0 +1,424 @@
+{
+  "layout": {
+    "panelAdmin": "Admin Panel",
+    "panelProvider": "Provider Panel",
+    "menu": {
+      "dashboard": "Dashboard",
+      "services": "Services Management",
+      "providers": "Service Providers",
+      "applications": "Provider Applications",
+      "compliance": "Sponsorship Compliance",
+      "users": "User Management",
+      "bookings": "Booking Management",
+      "payments": "Payments & Escrow",
+      "reviews": "Reviews & Ratings",
+      "notifications": "Notifications & CMS"
+    },
+    "logout": "Logout"
+  },
+  "dashboard": {
+    "title": "Dashboard Overview",
+    "subtitle": "Welcome back! Here's what's happening with your platform today.",
+    "metrics": {
+      "totalUsers": "Total Users",
+      "totalProviders": "Service Providers",
+      "totalBookings": "Total Bookings",
+      "totalRevenue": "Total Revenue"
+    },
+    "pendingAlert": {
+      "title": "Pending Provider Verifications",
+      "description_one": "{{count}} provider awaiting verification",
+      "description_other": "{{count}} providers awaiting verification",
+      "reviewNow": "Review Now"
+    },
+    "charts": {
+      "bookingsOverTime": "Bookings Over Time",
+      "noBookingData": "No booking data yet",
+      "revenueAnalytics": "Revenue Analytics",
+      "noRevenueData": "No revenue data yet"
+    },
+    "topServices": {
+      "title": "Top Services by Demand",
+      "noData": "No data yet"
+    },
+    "recentActivity": {
+      "title": "Recent Activity",
+      "empty": "No recent activity"
+    }
+  },
+  "bookings": {
+    "title": "Booking Management",
+    "subtitle": "Monitor and manage all bookings on the platform",
+    "statsProvider": {
+      "newRequests": "New Requests",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "total": "Total"
+    },
+    "statsAdmin": {
+      "total": "Total",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "searchPlaceholder": "Search bookings...",
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "requestsCount": "Requests ({{count}})"
+    },
+    "statusLabel": {
+      "pending": "New Request",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "defaultUser": "User",
+    "defaultProvider": "Provider",
+    "empty": "No bookings found.",
+    "actions": {
+      "accept": "Accept",
+      "loading": "…",
+      "message": "Message",
+      "decline": "Decline",
+      "messageCustomer": "Message Customer",
+      "cancelJob": "Cancel Job",
+      "complete": "Complete",
+      "cancel": "Cancel"
+    },
+    "confirm": {
+      "decline": "Decline this booking request?",
+      "cancel": "Cancel this booking? A penalty will be recorded."
+    },
+    "toast": {
+      "updated": "Booking updated",
+      "updateFailed": "Failed to update",
+      "accepted": "Booking accepted! Customer notified.",
+      "acceptFailed": "Failed to accept",
+      "declined": "Request declined.",
+      "cancelled": "Booking cancelled.",
+      "cancelFailed": "Failed to cancel"
+    }
+  },
+  "payments": {
+    "title": "Payments & Escrow",
+    "subtitle": "Manage payment transactions and provider payouts",
+    "stats": {
+      "totalRevenue": "Total Platform Revenue",
+      "inEscrow": "Funds in Escrow",
+      "paidToProviders": "Paid to Providers"
+    },
+    "searchPlaceholder": "Search transactions...",
+    "filters": {
+      "all": "All",
+      "held": "Held",
+      "released": "Released",
+      "refunded": "Refunded"
+    },
+    "statusLabel": {
+      "held": "held",
+      "released": "released",
+      "refunded": "refunded"
+    },
+    "empty": "No transactions found.",
+    "defaultUser": "User",
+    "defaultProvider": "Provider",
+    "bookedOn": "Booked {{date}}",
+    "labels": {
+      "totalAmount": "Total Amount",
+      "platformFee": "Platform Fee (15%)",
+      "providerPayout": "Provider Payout"
+    },
+    "actions": {
+      "release": "Release Funds"
+    },
+    "toast": {
+      "released": "Payment released to provider",
+      "releaseFailed": "Failed to release"
+    }
+  },
+  "applications": {
+    "title": "Provider Applications",
+    "subtitle": "Review and process new provider applications",
+    "stats": {
+      "pendingReview": "Pending Review",
+      "approved": "Approved",
+      "total": "Total Applications"
+    },
+    "empty": "No applications found.",
+    "documents": {
+      "title": "Documents",
+      "id": "ID Document",
+      "license": "License",
+      "insurance": "Insurance",
+      "uploaded": "Uploaded",
+      "missing": "Missing"
+    },
+    "statusLabel": {
+      "pending": "pending",
+      "approved": "approved",
+      "rejected": "rejected"
+    },
+    "submittedOn": "Submitted {{date}}",
+    "actions": {
+      "review": "Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "close": "Close"
+    },
+    "modal": {
+      "title": "Application Review",
+      "description": "Description",
+      "uploadedDocuments": "Uploaded Documents",
+      "docShortId": "ID",
+      "docShortLicense": "License",
+      "docShortInsurance": "Insurance"
+    },
+    "toast": {
+      "statusUpdated": "Application {{status}}",
+      "updateFailed": "Failed to update"
+    }
+  },
+  "providers": {
+    "title": "Provider Management",
+    "subtitle": "Manage service providers on the platform",
+    "stats": {
+      "total": "Total",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "searchPlaceholder": "Search providers...",
+    "filters": {
+      "all": "All",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "empty": "No providers found.",
+    "statusLabel": {
+      "approved": "approved",
+      "pending": "pending",
+      "rejected": "rejected"
+    },
+    "perHour": "{{amount}}/hr",
+    "yearsExp": "{{category}} • {{years}} yrs exp",
+    "joinedOn": "Joined {{date}}",
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "suspend": "Suspend",
+      "reinstate": "Reinstate"
+    },
+    "toast": {
+      "statusUpdated": "Provider {{status}}",
+      "updateFailed": "Failed to update"
+    }
+  },
+  "reviews": {
+    "title": "Reviews Moderation",
+    "subtitle": "Monitor and moderate user reviews",
+    "stats": {
+      "total": "Total Reviews",
+      "approved": "Approved",
+      "flagged": "Flagged",
+      "hidden": "Hidden"
+    },
+    "searchPlaceholder": "Search reviews...",
+    "filters": {
+      "all": "All",
+      "approved": "Approved",
+      "flagged": "Flagged",
+      "hidden": "Hidden"
+    },
+    "empty": "No reviews found.",
+    "statusLabel": {
+      "approved": "approved",
+      "flagged": "flagged",
+      "hidden": "hidden"
+    },
+    "defaultUser": "User",
+    "defaultProvider": "Provider",
+    "actions": {
+      "approve": "Approve",
+      "flag": "Flag",
+      "hide": "Hide"
+    },
+    "toast": {
+      "statusUpdated": "Review {{status}}",
+      "updateFailed": "Failed to update"
+    }
+  },
+  "services": {
+    "title": "Services Management",
+    "subtitle": "Manage service categories and settings",
+    "addNew": "Add New Service",
+    "empty": "No services yet. Add your first service category.",
+    "addService": "Add Service",
+    "statusLabel": {
+      "active": "Active",
+      "disabled": "Disabled"
+    },
+    "actions": {
+      "disable": "Disable",
+      "enable": "Enable"
+    },
+    "modal": {
+      "editTitle": "Edit Service",
+      "addTitle": "Add New Service",
+      "nameLabel": "Service Name",
+      "namePlaceholder": "e.g., HVAC Services",
+      "iconLabel": "Icon (Emoji)",
+      "iconPlaceholder": "🛠️",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe the service...",
+      "priceLabel": "Base Price ({{currency}})",
+      "pricePlaceholder": "150",
+      "cancel": "Cancel",
+      "update": "Update Service",
+      "add": "Add Service",
+      "saving": "Saving..."
+    },
+    "confirm": {
+      "delete": "Delete this service?"
+    },
+    "toast": {
+      "disabled": "Service disabled",
+      "enabled": "Service enabled",
+      "updateFailed": "Failed to update",
+      "deleted": "Service deleted",
+      "deleteFailed": "Failed to delete",
+      "nameRequired": "Service name is required",
+      "updated": "Service updated",
+      "created": "Service created",
+      "saveFailed": "Failed to save"
+    }
+  },
+  "users": {
+    "title": "User Management",
+    "subtitle": "Manage registered users and their activity",
+    "stats": {
+      "total": "Total Users",
+      "active": "Active Users",
+      "blocked": "Blocked Users"
+    },
+    "searchPlaceholder": "Search users by name or email...",
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "blocked": "Blocked"
+    },
+    "empty": "No users found.",
+    "statusLabel": {
+      "active": "active",
+      "blocked": "blocked"
+    },
+    "joinedOn": "Joined {{date}}",
+    "role": {
+      "admin": "Admin",
+      "superadmin": "Super Admin",
+      "provider": "Provider",
+      "user": "Customer"
+    },
+    "toast": {
+      "updated": "User status updated",
+      "updateFailed": "Failed to update status"
+    }
+  },
+  "notifications": {
+    "title": "Notifications & Content Management",
+    "subtitle": "Manage platform notifications, emails, and content",
+    "tabs": {
+      "notifications": "Platform Notifications",
+      "emails": "Email Templates",
+      "content": "Content Management"
+    },
+    "form": {
+      "title": "Send Platform Notification",
+      "recipientGroup": "Recipient Group",
+      "recipients": {
+        "allUsers": "All Users",
+        "allProviders": "All Providers",
+        "newUsers": "New Users (Last 30 days)",
+        "activeProviders": "Active Providers",
+        "custom": "Custom Selection"
+      },
+      "titleLabel": "Notification Title",
+      "titlePlaceholder": "Enter notification title...",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Enter notification message...",
+      "pushCheckbox": "Send as push notification",
+      "emailCheckbox": "Send as email",
+      "send": "Send Notification"
+    },
+    "recent": {
+      "title": "Recent Notifications",
+      "toLabel": "To: {{recipients}}",
+      "samples": {
+        "item1": { "title": "New Feature Launch", "message": "Check out our new instant booking feature!" },
+        "item2": { "title": "Maintenance Notice", "message": "Scheduled maintenance on Jan 30" },
+        "item3": { "title": "New Provider Benefits", "message": "Earn 20% more this month!" }
+      }
+    },
+    "emailTemplates": {
+      "subjectPrefix": "Subject: {{subject}}",
+      "items": {
+        "bookingConfirmation": {
+          "name": "Booking Confirmation",
+          "subject": "Your booking has been confirmed!",
+          "description": "Sent to users when they successfully book a service"
+        },
+        "providerApproval": {
+          "name": "Provider Approval",
+          "subject": "Welcome to HomeCare360 - You're approved!",
+          "description": "Sent to providers when their application is approved"
+        },
+        "paymentConfirmation": {
+          "name": "Payment Confirmation",
+          "subject": "Payment received - Thank you!",
+          "description": "Sent to users after successful payment"
+        },
+        "bookingReminder": {
+          "name": "Booking Reminder",
+          "subject": "Reminder: Your service is tomorrow",
+          "description": "Sent 24 hours before scheduled service"
+        }
+      }
+    },
+    "modal": {
+      "subjectLabel": "Subject Line",
+      "bodyLabel": "Email Body",
+      "sampleBody": "Hi [[user_name]],\n\nYour booking has been confirmed!\n\nBooking Details:\n- Service: [[service_name]]\n- Provider: [[provider_name]]\n- Date: [[booking_date]]\n- Time: [[booking_time]]\n\nThank you for choosing HomeCare360!\n\nBest regards,\nThe HomeCare360 Team",
+      "availableVariables": "Available Variables:",
+      "close": "Close",
+      "saveChanges": "Save Changes"
+    },
+    "content": {
+      "homepageTitle": "Homepage Content",
+      "heroTitleLabel": "Hero Section Title",
+      "heroTitleValue": "Find Trusted Local Service Providers",
+      "heroSubtitleLabel": "Hero Section Subtitle",
+      "heroSubtitleValue": "Connect with verified professionals for all your home service needs. Book, pay, and review - all in one place.",
+      "howItWorksLabel": "\"How It Works\" Content",
+      "steps": {
+        "step1": "Search & Compare",
+        "step2": "Book & Pay Securely",
+        "step3": "Review & Repeat"
+      },
+      "benefitsLabel": "Benefits Section",
+      "benefitsValue": "• Verified professionals with real reviews\n• Secure payment with escrow protection\n• 24/7 customer support\n• Money-back guarantee",
+      "saveButton": "Save Content Changes",
+      "editContentButton": "Edit Content",
+      "lastUpdatedSample": "Last updated: Jan 15, 2026",
+      "cards": {
+        "terms": { "title": "Terms & Conditions" },
+        "privacy": { "title": "Privacy Policy" },
+        "faq": { "title": "FAQ Section", "subtitle": "23 questions", "button": "Manage FAQs" },
+        "about": { "title": "About Us", "subtitle": "Company information" }
+      }
+    }
+  }
+}

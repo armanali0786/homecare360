@@ -5,9 +5,11 @@ import {
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getProviderById, createBooking, createStripeSession } from "@/app/lib/api";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useUser } from "@/app/context/UserContext";
+import { useLocale } from "@/app/context/LocaleContext";
 import { toast } from "react-toastify";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -57,38 +59,40 @@ const FALLBACK_ADD_ONS = [
 ];
 
 const TIME_GROUPS = [
-  { label: "Morning",   slots: ["7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM"] },
-  { label: "Afternoon", slots: ["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"]  },
-  { label: "Evening",   slots: ["5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"]              },
+  { key: "morning",   slots: ["7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM"] },
+  { key: "afternoon", slots: ["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"]  },
+  { key: "evening",   slots: ["5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM"]              },
 ];
 
 const PROPERTY_TYPES = [
-  { id: "apartment", label: "Apartment / Flat"  },
-  { id: "villa",     label: "Villa / Bungalow"  },
-  { id: "house",     label: "Independent House" },
+  { id: "apartment" },
+  { id: "villa"     },
+  { id: "house"     },
 ];
 
-const PROPERTY_SIZES = ["Studio", "1BHK", "2BHK", "3BHK", "4BHK+"];
+const PROPERTY_SIZES = ["studio", "1br", "2br", "3br", "4brplus"];
 
-const PROMOS: Record<string, { type: "percent" | "flat"; value: number; label: string }> = {
-  "WELCOME10": { type: "percent", value: 10, label: "10% off for new users"   },
-  "HC50":      { type: "flat",    value: 50, label: "₹50 instant discount"    },
-  "NEWUSER":   { type: "percent", value: 15, label: "15% off — welcome offer" },
+const PROMOS: Record<string, { type: "percent" | "flat"; value: number }> = {
+  "WELCOME10": { type: "percent", value: 10 },
+  "HC50":      { type: "flat",    value: 50 },
+  "NEWUSER":   { type: "percent", value: 15 },
 };
 
-const STEPS = ["Service Details", "Schedule", "Address", "Review & Pay"];
+const STEP_KEYS = ["serviceDetails", "schedule", "address", "reviewPay"];
 
 // ── Step bar ──────────────────────────────────────────────────────────────────
 
 function StepBar({ current }: { current: number }) {
+  const { t } = useTranslation("booking");
   return (
     <div className="flex items-start mb-8">
-      {STEPS.map((label, i) => {
+      {STEP_KEYS.map((key, i) => {
+        const label  = t(`bookingPage.steps.${key}`);
         const num    = i + 1;
         const done   = num < current;
         const active = num === current;
         return (
-          <div key={label} className="flex items-center flex-1 last:flex-none">
+          <div key={key} className="flex items-center flex-1 last:flex-none">
             <div className="flex flex-col items-center">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200 ${
@@ -105,7 +109,7 @@ function StepBar({ current }: { current: number }) {
                 {label}
               </p>
             </div>
-            {i < STEPS.length - 1 && (
+            {i < STEP_KEYS.length - 1 && (
               <div className={`flex-1 h-0.5 mx-2 mt-[-14px] ${done ? "bg-[#00B8A9]" : "bg-gray-200"}`} />
             )}
           </div>
@@ -118,6 +122,8 @@ function StepBar({ current }: { current: number }) {
 // ── Provider summary strip ────────────────────────────────────────────────────
 
 function ProviderSummary({ provider }: { provider: any }) {
+  const { t } = useTranslation("booking");
+  const { formatCurrency } = useLocale();
   const name     = provider.businessName || `${provider.firstName} ${provider.lastName}`.trim();
   const imageSrc = provider.profileImage
     ? `https://homecare360.onrender.com/uploads/${provider.profileImage}`
@@ -133,14 +139,14 @@ function ProviderSummary({ provider }: { provider: any }) {
         <div className="flex items-center gap-1 mt-0.5">
           <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
           <span className="text-xs text-gray-500">
-            {provider.rating || "New"} ({provider.reviewCount || 0} reviews)
+            {provider.rating || "New"} ({provider.reviewCount || 0})
           </span>
         </div>
       </div>
       <div className="text-right flex-shrink-0">
-        <p className="text-[11px] text-gray-400">Starting from</p>
+        <p className="text-[11px] text-gray-400">{t("bookingPage.startingFrom")}</p>
         <p className="text-lg font-bold text-gray-900">
-          ₹{(provider.hourlyRate * 2).toLocaleString("en-IN")}
+          {formatCurrency(provider.hourlyRate * 2)}
         </p>
       </div>
     </div>
@@ -150,10 +156,13 @@ function ProviderSummary({ provider }: { provider: any }) {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export function BookingPage() {
-  const { providerId } = useParams();
-  const navigate       = useNavigate();
-  const { user }       = useUser();
-  const today          = new Date().toISOString().split("T")[0];
+  const { t }           = useTranslation("booking");
+  const { region, regionConfig, formatCurrency } = useLocale();
+  const { providerId }  = useParams();
+  const navigate        = useNavigate();
+  const { user }        = useUser();
+  const today           = new Date().toISOString().split("T")[0];
+  const isIndia         = region === "IN";
 
   const [provider, setProvider] = useState<any>(null);
   const [loading, setLoading]   = useState(true);
@@ -162,7 +171,7 @@ export function BookingPage() {
 
   // Step 1
   const [propertyType, setPropertyType]               = useState("apartment");
-  const [propertySize, setPropertySize]               = useState("2BHK");
+  const [propertySize, setPropertySize]               = useState("2br");
   const [addOnIds, setAddOnIds]                       = useState<string[]>([]);
   const [specialInstructions, setSpecialInstructions] = useState("");
 
@@ -178,9 +187,9 @@ export function BookingPage() {
   // Step 4
   const [promoInput, setPromoInput]     = useState("");
   const [appliedPromo, setAppliedPromo] = useState<null | {
-    type: "percent" | "flat"; value: number; label: string
+    type: "percent" | "flat"; value: number; code: string
   }>(null);
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod");
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">(isIndia ? "cod" : "stripe");
   const [submitting, setSubmitting]       = useState(false);
   const [confirmed, setConfirmed]         = useState<any>(null);
 
@@ -204,22 +213,26 @@ export function BookingPage() {
       : Math.min(appliedPromo.value, subtotal)
     : 0;
   const afterDiscount = subtotal - discountAmt;
-  const gstAmt        = Math.round(afterDiscount * 0.18);
+  const gstAmt        = Math.round(afterDiscount * regionConfig.vatRate);
   const totalAmount   = afterDiscount + gstAmt;
+
+  const getPromoLabel = (code: string, p: { type: "percent" | "flat"; value: number }) =>
+    p.type === "flat" ? t(`promo.${code}`, { amount: formatCurrency(p.value) }) : t(`promo.${code}`);
 
   // ── Helpers ──────────────────────────────────────────────────────────────────
   const applyPromo = () => {
-    const p = PROMOS[promoInput.trim().toUpperCase()];
-    if (!p) { toast.error("Invalid promo code"); return; }
-    setAppliedPromo(p);
-    toast.success(`Promo applied: ${p.label}`);
+    const code = promoInput.trim().toUpperCase();
+    const p = PROMOS[code];
+    if (!p) { toast.error(t("bookingPage.errors.invalidPromo")); return; }
+    setAppliedPromo({ ...p, code });
+    toast.success(t("bookingPage.promoApplied", { label: getPromoLabel(code, p) }));
   };
 
   const validateStep = (s: number): boolean => {
-    if (s === 2 && !selectedDate) { toast.error("Please select a date"); return false; }
-    if (s === 2 && !selectedSlot) { toast.error("Please select a time slot"); return false; }
-    if (s === 3 && !address.trim()) { toast.error("Please enter your service address"); return false; }
-    if (s === 3 && !phone.trim()) { toast.error("Please enter your contact number"); return false; }
+    if (s === 2 && !selectedDate) { toast.error(t("bookingPage.errors.selectDate")); return false; }
+    if (s === 2 && !selectedSlot) { toast.error(t("bookingPage.errors.selectSlot")); return false; }
+    if (s === 3 && !address.trim()) { toast.error(t("bookingPage.errors.enterAddress")); return false; }
+    if (s === 3 && !phone.trim()) { toast.error(t("bookingPage.errors.enterPhone")); return false; }
     return true;
   };
 
@@ -238,7 +251,7 @@ export function BookingPage() {
 
   const handleSubmit = async () => {
     if (!user) {
-      toast.info("Please log in to confirm your booking");
+      toast.info(t("bookingPage.errors.loginRequired"));
       navigate("/login");
       return;
     }
@@ -257,7 +270,7 @@ export function BookingPage() {
         specialInstructions,
         floorLandmark,
         paymentMethod,
-        promoCode: appliedPromo ? promoInput.trim().toUpperCase() : "",
+        promoCode: appliedPromo ? appliedPromo.code : "",
         discountAmount: discountAmt,
         gstAmount: gstAmt,
       });
@@ -274,7 +287,7 @@ export function BookingPage() {
       setConfirmed(result.booking);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err: any) {
-      toast.error(err.message || "Booking failed. Please try again.");
+      toast.error(err.message || t("bookingPage.errors.bookingFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -293,9 +306,9 @@ export function BookingPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-20">
         <div className="text-center">
-          <p className="text-gray-500 mb-3">Provider not found.</p>
+          <p className="text-gray-500 mb-3">{t("bookingPage.providerNotFound")}</p>
           <button onClick={() => navigate(-1)} className="text-[#00B8A9] hover:underline text-sm">
-            Go back
+            {t("bookingPage.goBack")}
           </button>
         </div>
       </div>
@@ -328,25 +341,27 @@ export function BookingPage() {
               >
                 <CheckCircle2 className="w-10 h-10 text-white" />
               </motion.div>
-              <h1 className="text-2xl font-bold text-white mb-1">Booking Confirmed!</h1>
-              <p className="text-white/80 text-sm">Your service has been scheduled</p>
+              <h1 className="text-2xl font-bold text-white mb-1">{t("bookingPage.confirmation.title")}</h1>
+              <p className="text-white/80 text-sm">{t("bookingPage.confirmation.subtitle")}</p>
             </div>
 
             <div className="p-6 space-y-4">
               {/* Booking ref */}
               <div className="bg-gray-50 rounded-xl p-4 text-center">
-                <p className="text-xs text-gray-400 mb-1">Booking Reference</p>
+                <p className="text-xs text-gray-400 mb-1">{t("bookingPage.confirmation.bookingReference")}</p>
                 <p className="text-xl font-bold text-gray-900 tracking-widest">{bookingRef}</p>
               </div>
 
               {/* Detail rows */}
               {[
-                { icon: Home,     label: "Service",  value: provider.serviceCategory                                    },
-                { icon: Star,     label: "Provider", value: providerName                                                },
-                { icon: Calendar, label: "Date",     value: selectedDate                                                },
-                { icon: Clock,    label: "Time",     value: selectedSlot                                                },
-                { icon: MapPin,   label: "Address",  value: address                                                     },
-                { icon: Banknote, label: "Payment",  value: "Pay on service completion (Cash / UPI to provider)"        },
+                { icon: Home,     label: t("bookingPage.confirmation.service"),  value: provider.serviceCategory },
+                { icon: Star,     label: t("bookingPage.confirmation.provider"), value: providerName             },
+                { icon: Calendar, label: t("bookingPage.confirmation.date"),     value: selectedDate             },
+                { icon: Clock,    label: t("bookingPage.confirmation.time"),     value: selectedSlot             },
+                { icon: MapPin,   label: t("bookingPage.confirmation.address"),  value: address                  },
+                { icon: Banknote, label: t("bookingPage.confirmation.payment"),  value: isIndia
+                    ? t("bookingPage.confirmation.paymentValueCODIN")
+                    : t("bookingPage.confirmation.paymentValueCOD") },
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -361,19 +376,19 @@ export function BookingPage() {
 
               {/* Total */}
               <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                <span className="text-sm text-gray-500">Total Amount</span>
+                <span className="text-sm text-gray-500">{t("bookingPage.confirmation.totalAmount")}</span>
                 <span className="text-xl font-bold text-gray-900">
-                  ₹{totalAmount.toLocaleString("en-IN")}
+                  {formatCurrency(totalAmount)}
                 </span>
               </div>
 
               {/* What to expect */}
               <div className="bg-cyan-50 border border-cyan-100 rounded-xl p-4">
-                <p className="text-sm font-semibold text-cyan-700 mb-1.5">What happens next</p>
+                <p className="text-sm font-semibold text-cyan-700 mb-1.5">{t("bookingPage.confirmation.whatNext")}</p>
                 <ul className="space-y-1 text-xs text-cyan-600">
-                  <li>• Provider will confirm within 1 hour</li>
-                  <li>• You'll receive an SMS confirmation shortly</li>
-                  <li>• Provider calls 30 minutes before arrival</li>
+                  <li>• {t("bookingPage.confirmation.whatNext1")}</li>
+                  <li>• {t("bookingPage.confirmation.whatNext2")}</li>
+                  <li>• {t("bookingPage.confirmation.whatNext3")}</li>
                 </ul>
               </div>
 
@@ -386,19 +401,19 @@ export function BookingPage() {
                   className="flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-xl hover:border-[#00B8A9] hover:text-[#00B8A9] transition-colors"
                 >
                   <Calendar className="w-4 h-4" />
-                  Add to Google Calendar
+                  {t("bookingPage.confirmation.addToCalendar")}
                 </a>
                 <button
                   onClick={() => navigate("/bookings")}
                   className="w-full py-3 bg-[#00B8A9] text-white text-sm font-semibold rounded-xl hover:bg-[#009e96] transition-colors"
                 >
-                  View My Bookings
+                  {t("bookingPage.confirmation.viewBookings")}
                 </button>
                 <button
                   onClick={() => navigate("/")}
                   className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  Back to home
+                  {t("bookingPage.confirmation.backHome")}
                 </button>
               </div>
             </div>
@@ -419,7 +434,7 @@ export function BookingPage() {
           className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
-          {step > 1 ? "Back" : "Back to profile"}
+          {step > 1 ? t("bookingPage.back") : t("bookingPage.backToProfile")}
         </button>
 
         <StepBar current={step} />
@@ -435,11 +450,11 @@ export function BookingPage() {
           {/* ─ Step 1: Service Details ─────────────────────────────────────── */}
           {step === 1 && (
             <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-5">Customize your service</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-5">{t("bookingPage.step1.title")}</h2>
 
               {/* Property type */}
               <div className="mb-5">
-                <label className="text-sm font-medium text-gray-700 block mb-2">Property type</label>
+                <label className="text-sm font-medium text-gray-700 block mb-2">{t("bookingPage.step1.propertyType")}</label>
                 <div className="grid grid-cols-3 gap-2">
                   {PROPERTY_TYPES.map((pt) => (
                     <button
@@ -452,7 +467,7 @@ export function BookingPage() {
                           : "border-gray-200 text-gray-600 hover:border-gray-300"
                       }`}
                     >
-                      {pt.label}
+                      {t(`bookingPage.propertyType.${pt.id}`)}
                     </button>
                   ))}
                 </div>
@@ -460,7 +475,7 @@ export function BookingPage() {
 
               {/* Property size */}
               <div className="mb-5">
-                <label className="text-sm font-medium text-gray-700 block mb-2">Property size</label>
+                <label className="text-sm font-medium text-gray-700 block mb-2">{t("bookingPage.step1.propertySize")}</label>
                 <div className="flex flex-wrap gap-2">
                   {PROPERTY_SIZES.map((sz) => (
                     <button
@@ -473,7 +488,7 @@ export function BookingPage() {
                           : "border-gray-200 text-gray-600 hover:border-gray-300"
                       }`}
                     >
-                      {sz}
+                      {t(`bookingPage.propertySize.${sz}`)}
                     </button>
                   ))}
                 </div>
@@ -483,10 +498,10 @@ export function BookingPage() {
               {allAddOns.length > 0 && (
                 <div className="mb-5">
                   <label className="text-sm font-medium text-gray-700 block mb-1">
-                    Add-on services
+                    {t("bookingPage.step1.addOns")}
                   </label>
                   <p className="text-xs text-gray-400 mb-3">
-                    Optionally include extra tasks in your booking
+                    {t("bookingPage.step1.addOnsHint")}
                   </p>
                   <div className="space-y-2">
                     {allAddOns.map((addon) => {
@@ -512,10 +527,10 @@ export function BookingPage() {
                             >
                               {sel && <Check className="w-3 h-3 text-white" />}
                             </div>
-                            <span className="font-medium text-gray-800">{addon.label}</span>
+                            <span className="font-medium text-gray-800">{t(`bookingPage.addOn.${addon.id}`)}</span>
                           </div>
                           <span className={`font-semibold text-xs ${sel ? "text-[#00B8A9]" : "text-gray-500"}`}>
-                            +₹{addon.price}
+                            +{formatCurrency(addon.price)}
                           </span>
                         </button>
                       );
@@ -527,13 +542,13 @@ export function BookingPage() {
               {/* Special instructions */}
               <div className="mb-6">
                 <label className="text-sm font-medium text-gray-700 block mb-2">
-                  Special instructions{" "}
-                  <span className="text-gray-400 font-normal">(optional)</span>
+                  {t("bookingPage.step1.specialInstructions")}{" "}
+                  <span className="text-gray-400 font-normal">{t("bookingPage.step1.optional")}</span>
                 </label>
                 <textarea
                   value={specialInstructions}
                   onChange={(e) => setSpecialInstructions(e.target.value)}
-                  placeholder="E.g. please bring eco-friendly products, dog in house, ring bell twice…"
+                  placeholder={t("bookingPage.step1.specialInstructionsPlaceholder")}
                   rows={3}
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9] resize-none"
                 />
@@ -541,8 +556,8 @@ export function BookingPage() {
 
               {activeAddOns.length > 0 && (
                 <div className="bg-gray-50 rounded-xl px-4 py-3 mb-5 flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Base + {activeAddOns.length} add-on(s)</span>
-                  <span className="font-bold text-gray-900">₹{subtotal.toLocaleString("en-IN")}</span>
+                  <span className="text-gray-500">{t("bookingPage.step1.baseAndAddons", { count: activeAddOns.length })}</span>
+                  <span className="font-bold text-gray-900">{formatCurrency(subtotal)}</span>
                 </div>
               )}
 
@@ -550,7 +565,7 @@ export function BookingPage() {
                 onClick={next}
                 className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2"
               >
-                Continue to Schedule <ChevronRight className="w-4 h-4" />
+                {t("bookingPage.step1.continue")} <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           )}
@@ -558,11 +573,11 @@ export function BookingPage() {
           {/* ─ Step 2: Schedule ────────────────────────────────────────────── */}
           {step === 2 && (
             <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-5">Pick a date and time</h2>
+              <h2 className="text-lg font-bold text-gray-900 mb-5">{t("bookingPage.step2.title")}</h2>
 
               {/* Date */}
               <div className="mb-6">
-                <label className="text-sm font-medium text-gray-700 block mb-2">Service date</label>
+                <label className="text-sm font-medium text-gray-700 block mb-2">{t("bookingPage.step2.serviceDate")}</label>
                 <input
                   type="date"
                   value={selectedDate}
@@ -573,7 +588,7 @@ export function BookingPage() {
                 {selectedDate === today && (
                   <p className="flex items-center gap-1.5 mt-2 text-xs text-amber-600">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Same-day booking — subject to provider confirmation
+                    {t("bookingPage.step2.sameDayWarning")}
                   </p>
                 )}
               </div>
@@ -581,13 +596,13 @@ export function BookingPage() {
               {/* Time slots */}
               <div className="mb-6">
                 <label className="text-sm font-medium text-gray-700 block mb-3">
-                  Preferred time slot
+                  {t("bookingPage.step2.preferredTimeSlot")}
                 </label>
                 <div className="space-y-5">
                   {TIME_GROUPS.map((group) => (
-                    <div key={group.label}>
+                    <div key={group.key}>
                       <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
-                        {group.label}
+                        {t(`bookingPage.timeGroup.${group.key}`)}
                       </p>
                       <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                         {group.slots.map((slot) => (
@@ -614,9 +629,9 @@ export function BookingPage() {
               <div className="bg-gray-50 rounded-xl px-4 py-3 mb-6 flex items-center gap-3">
                 <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
                 <p className="text-sm text-gray-600">
-                  Estimated duration:{" "}
-                  <span className="font-semibold text-gray-900">2–4 hours</span>
-                  <span className="text-gray-400"> (may vary based on add-ons)</span>
+                  {t("bookingPage.step2.durationLabel")}{" "}
+                  <span className="font-semibold text-gray-900">{t("bookingPage.step2.durationValue")}</span>
+                  <span className="text-gray-400"> {t("bookingPage.step2.durationHint")}</span>
                 </p>
               </div>
 
@@ -624,7 +639,7 @@ export function BookingPage() {
                 onClick={next}
                 className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2"
               >
-                Continue to Address <ChevronRight className="w-4 h-4" />
+                {t("bookingPage.step2.continue")} <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           )}
@@ -633,19 +648,19 @@ export function BookingPage() {
           {step === 3 && (
             <div className="bg-white rounded-2xl border border-gray-100 p-6">
               <h2 className="text-lg font-bold text-gray-900 mb-5">
-                Service address & contact
+                {t("bookingPage.step3.title")}
               </h2>
 
               <div className="space-y-4 mb-6">
                 {/* Address */}
                 <div>
                   <label className="text-sm font-medium text-gray-700 block mb-1.5">
-                    Full address <span className="text-red-400">*</span>
+                    {t("bookingPage.step3.fullAddress")} <span className="text-red-400">*</span>
                   </label>
                   <textarea
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    placeholder="House no., street, area, city, pincode"
+                    placeholder={t("bookingPage.step3.addressPlaceholder")}
                     rows={3}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9] resize-none"
                   />
@@ -654,14 +669,14 @@ export function BookingPage() {
                 {/* Floor / landmark */}
                 <div>
                   <label className="text-sm font-medium text-gray-700 block mb-1.5">
-                    Floor / Building / Landmark{" "}
-                    <span className="text-gray-400 font-normal">(optional)</span>
+                    {t("bookingPage.step3.floorLandmark")}{" "}
+                    <span className="text-gray-400 font-normal">{t("bookingPage.step1.optional")}</span>
                   </label>
                   <input
                     type="text"
                     value={floorLandmark}
                     onChange={(e) => setFloorLandmark(e.target.value)}
-                    placeholder="E.g. Floor 3, Tower B, near City Mall"
+                    placeholder={t("bookingPage.step3.floorLandmarkPlaceholder")}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9]"
                   />
                 </div>
@@ -669,25 +684,24 @@ export function BookingPage() {
                 {/* Phone */}
                 <div>
                   <label className="text-sm font-medium text-gray-700 block mb-1.5">
-                    Contact number <span className="text-red-400">*</span>
+                    {t("bookingPage.step3.contactNumber")} <span className="text-red-400">*</span>
                   </label>
                   <div className="flex gap-2">
                     <div className="flex items-center px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-600 flex-shrink-0 gap-1.5">
-                      <span>🇮🇳</span>
-                      <span>+91</span>
+                      <span>{regionConfig.phoneCode}</span>
                     </div>
                     <input
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="10-digit mobile number"
+                      placeholder={t("bookingPage.step3.phonePlaceholder")}
                       maxLength={10}
                       className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9]"
                     />
                   </div>
                   <p className="flex items-center gap-1 text-xs text-gray-400 mt-1.5">
                     <ShieldCheck className="w-3 h-3" />
-                    Provider will call 30 minutes before arrival
+                    {t("bookingPage.step3.callNote")}
                   </p>
                 </div>
               </div>
@@ -696,7 +710,7 @@ export function BookingPage() {
                 onClick={next}
                 className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2"
               >
-                Continue to Review <ChevronRight className="w-4 h-4" />
+                {t("bookingPage.step3.continue")} <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           )}
@@ -706,51 +720,51 @@ export function BookingPage() {
             <div className="space-y-4">
               {/* Order summary */}
               <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Order summary</h2>
+                <h2 className="text-lg font-bold text-gray-900 mb-4">{t("bookingPage.step4.orderSummary")}</h2>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">
-                      {provider.serviceCategory} — {propertySize}{" "}
-                      {PROPERTY_TYPES.find((p) => p.id === propertyType)?.label}
+                      {provider.serviceCategory} — {t(`bookingPage.propertySize.${propertySize}`)}{" "}
+                      {t(`bookingPage.propertyType.${propertyType}`)}
                     </span>
                     <span className="font-medium text-gray-900">
-                      ₹{basePrice.toLocaleString("en-IN")}
+                      {formatCurrency(basePrice)}
                     </span>
                   </div>
                   {activeAddOns.map((addon) => (
                     <div key={addon.id} className="flex justify-between">
-                      <span className="text-gray-500">{addon.label}</span>
-                      <span className="font-medium text-gray-700">+₹{addon.price}</span>
+                      <span className="text-gray-500">{t(`bookingPage.addOn.${addon.id}`)}</span>
+                      <span className="font-medium text-gray-700">+{formatCurrency(addon.price)}</span>
                     </div>
                   ))}
                   {discountAmt > 0 && (
                     <div className="flex justify-between text-emerald-600">
                       <span className="flex items-center gap-1">
                         <Tag className="w-3.5 h-3.5" />
-                        Promo: {promoInput.toUpperCase()}
+                        {t("bookingPage.step4.promoPrefix")} {promoInput.toUpperCase()}
                       </span>
-                      <span className="font-medium">−₹{discountAmt}</span>
+                      <span className="font-medium">−{formatCurrency(discountAmt)}</span>
                     </div>
                   )}
                   <div className="flex justify-between text-gray-500">
-                    <span>GST (18%)</span>
-                    <span>₹{gstAmt.toLocaleString("en-IN")}</span>
+                    <span>{t("bookingPage.step4.vatLabel", { label: regionConfig.vatLabel, rate: Math.round(regionConfig.vatRate * 100) })}</span>
+                    <span>{formatCurrency(gstAmt)}</span>
                   </div>
                   <div className="flex justify-between border-t border-gray-100 pt-3 mt-1">
-                    <span className="font-bold text-gray-900">Total payable</span>
+                    <span className="font-bold text-gray-900">{t("bookingPage.step4.totalPayable")}</span>
                     <span className="text-xl font-bold text-gray-900">
-                      ₹{totalAmount.toLocaleString("en-IN")}
+                      {formatCurrency(totalAmount)}
                     </span>
                   </div>
                   <p className="text-xs text-gray-400 text-center">
-                    No hidden charges — this is the final amount
+                    {t("bookingPage.step4.noHiddenCharges")}
                   </p>
                 </div>
               </div>
 
               {/* Promo code */}
               <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                <h3 className="text-sm font-bold text-gray-900 mb-3">Promo / discount code</h3>
+                <h3 className="text-sm font-bold text-gray-900 mb-3">{t("bookingPage.step4.promoTitle")}</h3>
                 {appliedPromo ? (
                   <div className="flex items-center justify-between bg-emerald-50 border border-emerald-100 rounded-xl px-4 py-3">
                     <div className="flex items-center gap-2">
@@ -758,7 +772,7 @@ export function BookingPage() {
                       <span className="text-sm font-semibold text-emerald-700">
                         {promoInput.toUpperCase()}
                       </span>
-                      <span className="text-xs text-emerald-600">({appliedPromo.label})</span>
+                      <span className="text-xs text-emerald-600">({getPromoLabel(appliedPromo.code, appliedPromo)})</span>
                     </div>
                     <button
                       onClick={() => { setAppliedPromo(null); setPromoInput(""); }}
@@ -774,14 +788,14 @@ export function BookingPage() {
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && applyPromo()}
-                      placeholder="Enter promo code"
+                      placeholder={t("bookingPage.step4.promoPlaceholder")}
                       className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9]"
                     />
                     <button
                       onClick={applyPromo}
                       className="px-5 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-gray-700 transition-colors"
                     >
-                      Apply
+                      {t("bookingPage.step4.apply")}
                     </button>
                   </div>
                 )}
@@ -789,8 +803,9 @@ export function BookingPage() {
 
               {/* Payment method */}
               <div className="bg-white rounded-2xl border border-gray-100 p-6">
-                <h3 className="text-sm font-bold text-gray-900 mb-3">Payment method</h3>
+                <h3 className="text-sm font-bold text-gray-900 mb-3">{t("bookingPage.step4.paymentMethod")}</h3>
                 <div className="space-y-2">
+                  {isIndia && (
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("cod")}
@@ -812,16 +827,17 @@ export function BookingPage() {
                     <Banknote className="w-5 h-5 text-gray-400 flex-shrink-0" />
                     <div className="text-left flex-1">
                       <p className="text-sm font-semibold text-gray-900">
-                        Pay on service completion
+                        {t("bookingPage.step4.codTitle")}
                       </p>
                       <p className="text-xs text-gray-400">
-                        Cash / UPI to provider after the job is done
+                        {t("bookingPage.step4.codDescIN")}
                       </p>
                     </div>
                     <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full flex-shrink-0">
-                      Recommended
+                      {t("bookingPage.step4.recommended")}
                     </span>
                   </button>
+                  )}
 
                   <button
                     type="button"
@@ -844,28 +860,28 @@ export function BookingPage() {
                     <CreditCard className="w-5 h-5 text-violet-400 flex-shrink-0" />
                     <div className="text-left flex-1">
                       <p className="text-sm font-semibold text-gray-900">
-                        Online Payment (Card / UPI)
+                        {isIndia ? t("bookingPage.step4.onlineTitleIN") : t("bookingPage.step4.onlineTitle")}
                       </p>
-                      <p className="text-xs text-gray-400">Powered by Stripe · SSL secured</p>
+                      <p className="text-xs text-gray-400">{t("bookingPage.step4.onlineDesc")}</p>
                     </div>
                     <span className="text-xs font-medium text-violet-600 bg-violet-50 border border-violet-100 px-2 py-1 rounded-full flex-shrink-0">
-                      Secure
+                      {t("bookingPage.step4.secure")}
                     </span>
                   </button>
                 </div>
 
                 <div className="flex items-center justify-center gap-1.5 mt-4 text-xs text-gray-400">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  Secure booking · Your data is encrypted
+                  {t("bookingPage.step4.secureBooking")}
                 </div>
               </div>
 
               {/* Cancellation policy */}
               <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 text-xs text-amber-700 space-y-1">
-                <p className="font-semibold">Cancellation policy</p>
-                <p>Free cancellation before 24 hours. Late cancellations may incur a ₹100 fee.</p>
+                <p className="font-semibold">{t("bookingPage.step4.cancellationPolicy")}</p>
+                <p>{t("bookingPage.step4.cancellationText", { fee: formatCurrency(regionConfig.lateFee) })}</p>
                 <p>
-                  Not satisfied? HomeCare360 will redo the service or issue a full refund.
+                  {t("bookingPage.step4.redoOrRefund")}
                 </p>
               </div>
 
@@ -888,12 +904,12 @@ export function BookingPage() {
                 {submitting ? (
                   <>
                     <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                    Processing…
+                    {t("bookingPage.step4.processing")}
                   </>
                 ) : paymentMethod === "stripe" ? (
-                  `Confirm & Pay Online — ₹${totalAmount.toLocaleString("en-IN")}`
+                  t("bookingPage.step4.confirmPayOnline", { amount: formatCurrency(totalAmount) })
                 ) : (
-                  `Confirm & Book — ₹${totalAmount.toLocaleString("en-IN")}`
+                  t("bookingPage.step4.confirmBook", { amount: formatCurrency(totalAmount) })
                 )}
               </button>
             </div>

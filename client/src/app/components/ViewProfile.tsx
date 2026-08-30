@@ -1,11 +1,16 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Star, MapPin, CheckCircle2, Calendar, ShieldCheck, Clock, IndianRupee } from "lucide-react";
+import { ArrowLeft, Star, MapPin, CheckCircle2, Calendar, ShieldCheck, Clock, DollarSign } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getProviderById } from "@/app/lib/api";
+import { useLocale } from "../context/LocaleContext";
+import { SponsorshipBadge } from "./SponsorshipBadge";
 
 export function ViewProfile() {
+  const { t } = useTranslation("home");
+  const { formatCurrency } = useLocale();
   const { providerId } = useParams();
   const navigate = useNavigate();
   const [provider, setProvider] = useState<any>(null);
@@ -31,8 +36,8 @@ export function ViewProfile() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50 pt-12 pb-16 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-500 text-xl mb-4">Provider not found</p>
-          <button onClick={() => navigate(-1)} className="text-cyan-600 hover:underline">Go back</button>
+          <p className="text-gray-500 text-xl mb-4">{t("viewProfile.notFound")}</p>
+          <button onClick={() => navigate(-1)} className="text-cyan-600 hover:underline">{t("viewProfile.goBack")}</button>
         </div>
       </div>
     );
@@ -55,7 +60,7 @@ export function ViewProfile() {
           className="flex items-center gap-2 text-gray-600 hover:text-cyan-600 transition-colors mb-6"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back to Results</span>
+          <span>{t("viewProfile.backToResults")}</span>
         </motion.button>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -82,14 +87,15 @@ export function ViewProfile() {
                         </div>
                       </div>
                       <p className="text-cyan-600 font-medium text-lg mb-3">{provider.serviceCategory}</p>
+                      {provider.complianceStatus === "verified" && <SponsorshipBadge />}
                     </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-4 mb-4">
                     <div className="flex items-center gap-1">
                       <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      <span className="font-bold text-gray-900">{provider.rating || "New"}</span>
-                      <span className="text-gray-600">({provider.reviewCount} reviews)</span>
+                      <span className="font-bold text-gray-900">{provider.rating || t("viewProfile.new")}</span>
+                      <span className="text-gray-600">({t("viewProfile.reviewsCount", { count: provider.reviewCount })})</span>
                     </div>
                     {locationStr && (
                       <div className="flex items-center gap-1 text-gray-600">
@@ -100,7 +106,7 @@ export function ViewProfile() {
                     {provider.yearsExperience && (
                       <div className="flex items-center gap-1 text-gray-600">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                        <span>{provider.yearsExperience} years experience</span>
+                        <span>{t("viewProfile.yearsExperience", { count: provider.yearsExperience })}</span>
                       </div>
                     )}
                   </div>
@@ -123,25 +129,25 @@ export function ViewProfile() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="bg-white rounded-2xl shadow-lg p-6"
               >
-                <h2 className="text-xl font-bold text-gray-900 mb-4">About</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{t("viewProfile.about")}</h2>
                 <p className="text-gray-600 leading-relaxed mb-6">{provider.description}</p>
                 <div className="grid md:grid-cols-2 gap-4">
                   {provider.yearsExperience && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Experience</p>
-                      <p className="font-semibold text-gray-900">{provider.yearsExperience} years</p>
+                      <p className="text-sm text-gray-500 mb-1">{t("viewProfile.experience")}</p>
+                      <p className="font-semibold text-gray-900">{t("viewProfile.yearsExperience", { count: provider.yearsExperience })}</p>
                     </div>
                   )}
                   {locationStr && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Location</p>
+                      <p className="text-sm text-gray-500 mb-1">{t("viewProfile.location")}</p>
                       <p className="font-semibold text-gray-900">{locationStr}</p>
                     </div>
                   )}
                   {provider.serviceRadius && (
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Service Radius</p>
-                      <p className="font-semibold text-gray-900">{provider.serviceRadius} km</p>
+                      <p className="text-sm text-gray-500 mb-1">{t("viewProfile.serviceRadius")}</p>
+                      <p className="font-semibold text-gray-900">{t("viewProfile.km", { count: provider.serviceRadius })}</p>
                     </div>
                   )}
                 </div>
@@ -156,7 +162,7 @@ export function ViewProfile() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="bg-white rounded-2xl shadow-lg p-6"
               >
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Specializations</h2>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{t("viewProfile.specializations")}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {provider.tags.map((tag: string, index: number) => (
                     <motion.div
@@ -183,10 +189,10 @@ export function ViewProfile() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="bg-white rounded-2xl shadow-lg p-6"
             >
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Reviews</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">{t("viewProfile.reviews")}</h2>
 
               {reviews.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No reviews yet.</p>
+                <p className="text-gray-500 text-center py-8">{t("viewProfile.noReviews")}</p>
               ) : (
                 <>
                   <div className="flex flex-col md:flex-row gap-8 mb-8 pb-8 border-b border-gray-200">
@@ -197,12 +203,12 @@ export function ViewProfile() {
                           <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                         ))}
                       </div>
-                      <p className="text-sm text-gray-600">{provider.reviewCount} reviews</p>
+                      <p className="text-sm text-gray-600">{t("viewProfile.reviewsCount", { count: provider.reviewCount })}</p>
                     </div>
                     <div className="flex-1">
                       {breakdown.map((item: any) => (
                         <div key={item.stars} className="flex items-center gap-4 mb-2">
-                          <span className="text-sm text-gray-600 w-12">{item.stars} star</span>
+                          <span className="text-sm text-gray-600 w-12">{t("viewProfile.starLabel", { count: item.stars })}</span>
                           <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                             <div
                               className="h-full bg-gradient-to-r from-yellow-400 to-yellow-500"
@@ -228,10 +234,10 @@ export function ViewProfile() {
                           <div>
                             <div className="flex items-center gap-2 mb-1">
                               <h4 className="font-semibold text-gray-900">
-                                {review.user?.fullName || "User"}
+                                {review.user?.fullName || t("viewProfile.user")}
                               </h4>
                               <span className="px-2 py-1 bg-cyan-100 text-cyan-700 text-xs rounded-full">
-                                Verified
+                                {t("viewProfile.verified")}
                               </span>
                             </div>
                             <div className="flex items-center gap-1">
@@ -262,10 +268,10 @@ export function ViewProfile() {
               className="bg-white rounded-2xl shadow-lg p-6 sticky top-24"
             >
               <div className="flex items-center justify-between mb-4">
-                <span className="text-sm text-gray-500">Starting from</span>
+                <span className="text-sm text-gray-500">{t("viewProfile.startingFrom")}</span>
                 <div>
-                  <span className="text-2xl font-bold text-gray-900">₹{provider.hourlyRate * 2}</span>
-                  <span className="text-xs text-gray-400 ml-1">/ visit</span>
+                  <span className="text-2xl font-bold text-gray-900">{formatCurrency(provider.hourlyRate * 2)}</span>
+                  <span className="text-xs text-gray-400 ml-1">{t("viewProfile.perVisit")}</span>
                 </div>
               </div>
 
@@ -278,9 +284,9 @@ export function ViewProfile() {
 
               <div className="space-y-2 mb-5">
                 {[
-                  { icon: ShieldCheck,  text: "Verified & background checked" },
-                  { icon: IndianRupee, text: "Fixed transparent pricing"      },
-                  { icon: Clock,       text: "On-time guarantee"              },
+                  { icon: ShieldCheck, text: t("viewProfile.perks.verified") },
+                  { icon: DollarSign,  text: t("viewProfile.perks.pricing") },
+                  { icon: Clock,       text: t("viewProfile.perks.onTime")  },
                 ].map(({ icon: Icon, text }) => (
                   <div key={text} className="flex items-center gap-2 text-sm text-gray-600">
                     <Icon className="w-4 h-4 text-[#00B8A9]" />
@@ -293,11 +299,11 @@ export function ViewProfile() {
                 onClick={() => navigate(`/booking/${provider._id}`)}
                 className="w-full bg-[#00B8A9] text-white py-3.5 rounded-xl font-semibold hover:bg-[#009e96] transition-colors"
               >
-                Book Now
+                {t("viewProfile.bookNow")}
               </button>
 
               <p className="text-xs text-gray-400 text-center mt-3">
-                Free cancellation · No hidden charges
+                {t("viewProfile.freeCancellation")}
               </p>
             </motion.div>
           </div>

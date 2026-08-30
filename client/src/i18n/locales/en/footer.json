@@ -1,0 +1,20 @@
+{
+  "tagline": "The Gulf's trusted marketplace for professional home services. Verified providers, secure payments, guaranteed quality.",
+  "servicesHeading": "Services",
+  "companyHeading": "Company",
+  "citiesHeading": "Cities",
+  "supportHeading": "Support",
+  "aboutUs": "About Us",
+  "blog": "Blog",
+  "careers": "Careers",
+  "press": "Press",
+  "contactUs": "Contact Us",
+  "helpCenter": "Help Center",
+  "safety": "Safety",
+  "cancellationPolicy": "Cancellation Policy",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "sslSecure": "SSL Secure",
+  "vatRegistered": "{{vatLabel}} Registered",
+  "copyright": "© 2026 HomeCare360. All rights reserved."
+}

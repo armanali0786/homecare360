@@ -1,23 +1,32 @@
 import { motion } from "motion/react";
-import { User, Mail, Phone, MapPin, Briefcase, FileText, Upload, CheckCircle2, Calendar, TrendingUp, Star, IndianRupee } from "lucide-react";
+import { User, Mail, Phone, MapPin, Briefcase, FileText, Upload, CheckCircle2, Calendar, TrendingUp, Star, Wallet } from "lucide-react";
 import { SEO } from "@/app/components/SEO";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { useLocale } from "@/app/context/LocaleContext";
 
-const serviceCategories = [
-  "Plumbing",
-  "Electrical",
-  "Cleaning",
-  "Landscaping",
-  "Painting",
-  "Photography",
-  "Carpentry",
-  "HVAC",
-  "Handyman",
-  "Other",
+const SERVICE_CATEGORIES = [
+  { value: "Plumbing",    key: "plumbing"    },
+  { value: "Electrical",  key: "electrical"  },
+  { value: "Cleaning",    key: "cleaning"    },
+  { value: "Landscaping", key: "landscaping" },
+  { value: "Painting",    key: "painting"    },
+  { value: "Photography", key: "photography" },
+  { value: "Carpentry",   key: "carpentry"   },
+  { value: "HVAC",        key: "hvac"        },
+  { value: "Handyman",    key: "handyman"    },
+  { value: "Domestic Help", key: "domesticHelp" },
+  { value: "Other",       key: "other"       },
 ];
 
+const DOMESTIC_HELP_KEYWORDS = ["domestic help", "maid", "nanny", "caregiver", "babysit", "housekeep"];
+const isDomesticHelpCategory = (category: string) =>
+  DOMESTIC_HELP_KEYWORDS.some((k) => category.toLowerCase().includes(k));
+
 export function BecomeProvider() {
+  const { t } = useTranslation("provider");
+  const { regionConfig } = useLocale();
   const [formStep, setFormStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,7 +52,11 @@ export function BecomeProvider() {
     idDocument: null as File | null,
     licenseDocument: null as File | null,
     insuranceDocument: null as File | null,
+    visaDocument: null as File | null,
+    sponsorshipDocument: null as File | null,
   });
+
+  const requiresSponsorshipDocs = isDomesticHelpCategory(formData.serviceCategory);
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +71,7 @@ export function BecomeProvider() {
       const allowedImageTypes = ["image/png", "image/jpeg", "image/jpg"];
 
       if (!allowedImageTypes.includes(file.type)) {
-        toast.error("Profile image must be PNG, JPG or JPEG");
+        toast.error(t("becomeProvider.errors.imageType"));
         return;
       }
     }
@@ -73,14 +86,14 @@ export function BecomeProvider() {
       ];
 
       if (!allowedDocTypes.includes(file.type)) {
-        toast.error("Documents must be PNG, JPG, JPEG or PDF");
+        toast.error(t("becomeProvider.errors.docType"));
         return;
       }
     }
 
     // Size validation (5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("File must be less than 5MB");
+      toast.error(t("becomeProvider.errors.fileSize"));
       return;
     }
 
@@ -138,6 +151,12 @@ export function BecomeProvider() {
     if (files.insuranceDocument)
       formPayload.append("insuranceDocument", files.insuranceDocument);
 
+    if (files.visaDocument)
+      formPayload.append("visaDocument", files.visaDocument);
+
+    if (files.sponsorshipDocument)
+      formPayload.append("sponsorshipDocument", files.sponsorshipDocument);
+
     const res = await fetch(
       "https://homecare360.onrender.com/api/v1/provider/apply",
       {
@@ -152,9 +171,7 @@ export function BecomeProvider() {
     const data = await res.json();
 
     if (res.ok) {
-      toast.success(
-        "Application submitted successfully! We'll review your information within 2-3 business days."
-      );
+      toast.success(t("becomeProvider.successMessage"));
       setFormStep(1);
       setFormData({
         firstName: "",
@@ -179,6 +196,8 @@ export function BecomeProvider() {
         idDocument: null,
         licenseDocument: null,
         insuranceDocument: null,
+        visaDocument: null,
+        sponsorshipDocument: null,
       });
     } else {
       toast.error(data.message);
@@ -189,10 +208,10 @@ export function BecomeProvider() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-cyan-50 pt-12 pb-16">
       <SEO
-        title="Become a Care Provider"
+        title={t("becomeProvider.seoTitle")}
         url="/become-provider"
-        description="Join Homecare360 as a verified care provider. Grow your caregiving business, set your own schedule, and connect with families who need your expertise."
-        keywords="become home care provider, caregiver jobs, register as caregiver, home care business, join homecare360 provider"
+        description={t("becomeProvider.seoDescription")}
+        keywords={t("becomeProvider.seoKeywords")}
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         {/* Header */}
@@ -203,13 +222,13 @@ export function BecomeProvider() {
           className="text-center mb-12"
         >
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Become a{" "}
+            {t("becomeProvider.heroTitlePrefix")}{" "}
             <span className="bg-gradient-to-r from-cyan-600 to-emerald-500 bg-clip-text text-transparent">
-              Service Provider
+              {t("becomeProvider.heroTitleHighlight")}
             </span>
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Join our network of trusted professionals and start growing your business today
+            {t("becomeProvider.heroSubtitle")}
           </p>
         </motion.div>
 
@@ -234,7 +253,7 @@ export function BecomeProvider() {
                     {formStep > step ? <CheckCircle2 className="w-6 h-6" /> : step}
                   </motion.div>
                   <span className="text-xs mt-2 font-medium text-gray-600">
-                    {step === 1 ? "Personal Info" : step === 2 ? "Business Details" : "Verification"}
+                    {step === 1 ? t("becomeProvider.steps.personalInfo") : step === 2 ? t("becomeProvider.steps.businessDetails") : t("becomeProvider.steps.verification")}
                   </span>
                 </div>
                 {step < 3 && (
@@ -264,12 +283,12 @@ export function BecomeProvider() {
                 transition={{ duration: 0.4 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Personal Information</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("becomeProvider.step1.title")}</h2>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      First Name *
+                      {t("becomeProvider.step1.firstName")}
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -280,14 +299,14 @@ export function BecomeProvider() {
                         onChange={handleInputChange}
                         required
                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                        placeholder="John"
+                        placeholder={t("becomeProvider.step1.firstNamePlaceholder")}
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Last Name *
+                      {t("becomeProvider.step1.lastName")}
                     </label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -298,7 +317,7 @@ export function BecomeProvider() {
                         onChange={handleInputChange}
                         required
                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                        placeholder="Doe"
+                        placeholder={t("becomeProvider.step1.lastNamePlaceholder")}
                       />
                     </div>
                   </div>
@@ -306,7 +325,7 @@ export function BecomeProvider() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
+                    {t("becomeProvider.step1.email")}
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -317,14 +336,14 @@ export function BecomeProvider() {
                       onChange={handleInputChange}
                       required
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="john.doe@example.com"
+                      placeholder={t("becomeProvider.step1.emailPlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number *
+                    {t("becomeProvider.step1.phone")}
                   </label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -335,14 +354,14 @@ export function BecomeProvider() {
                       onChange={handleInputChange}
                       required
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="(555) 123-4567"
+                      placeholder={`${regionConfig.phoneCode} ${t("becomeProvider.step1.phonePlaceholder")}`}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Street Address *
+                    {t("becomeProvider.step1.address")}
                   </label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -353,14 +372,14 @@ export function BecomeProvider() {
                       onChange={handleInputChange}
                       required
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="123 Main Street"
+                      placeholder={t("becomeProvider.step1.addressPlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{t("becomeProvider.step1.city")}</label>
                     <input
                       type="text"
                       name="city"
@@ -368,12 +387,12 @@ export function BecomeProvider() {
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="New York"
+                      placeholder={regionConfig.cities[0] || t("becomeProvider.step1.cityPlaceholder")}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">State *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{t("becomeProvider.step1.state")}</label>
                     <input
                       type="text"
                       name="state"
@@ -381,12 +400,12 @@ export function BecomeProvider() {
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="NY"
+                      placeholder={t("becomeProvider.step1.statePlaceholder")}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">ZIP Code *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{t("becomeProvider.step1.zipCode")}</label>
                     <input
                       type="text"
                       name="zipCode"
@@ -394,13 +413,13 @@ export function BecomeProvider() {
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="10001"
+                      placeholder={t("becomeProvider.step1.zipCodePlaceholder")}
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Profile Photo
+                      {t("becomeProvider.step1.profilePhoto")}
                     </label>
 
                     <input
@@ -413,7 +432,7 @@ export function BecomeProvider() {
 
                     {files.profileImage && (
                       <p className="text-xs text-gray-500 mt-1">
-                        Selected: {files.profileImage.name}
+                        {t("becomeProvider.step1.selected", { name: files.profileImage.name })}
                       </p>
                     )}
                   </div>
@@ -431,11 +450,11 @@ export function BecomeProvider() {
                 transition={{ duration: 0.4 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Business Details</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("becomeProvider.step2.title")}</h2>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Service Category *
+                    {t("becomeProvider.step2.serviceCategory")}
                   </label>
                   <div className="relative">
                     <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -446,10 +465,10 @@ export function BecomeProvider() {
                       required
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 appearance-none cursor-pointer"
                     >
-                      <option value="">Select a category</option>
-                      {serviceCategories.map((category) => (
-                        <option key={category} value={category}>
-                          {category}
+                      <option value="">{t("becomeProvider.step2.selectCategory")}</option>
+                      {SERVICE_CATEGORIES.map((category) => (
+                        <option key={category.value} value={category.value}>
+                          {t(`becomeProvider.categories.${category.key}`)}
                         </option>
                       ))}
                     </select>
@@ -458,7 +477,7 @@ export function BecomeProvider() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Business Name (Optional)
+                    {t("becomeProvider.step2.businessName")}
                   </label>
                   <input
                     type="text"
@@ -466,13 +485,13 @@ export function BecomeProvider() {
                     value={formData.businessName}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    placeholder="Your Business Name"
+                    placeholder={t("becomeProvider.step2.businessNamePlaceholder")}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Years of Experience *
+                    {t("becomeProvider.step2.yearsExperience")}
                   </label>
                   <div className="relative">
                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -484,17 +503,17 @@ export function BecomeProvider() {
                       required
                       min="0"
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="5"
+                      placeholder={t("becomeProvider.step2.yearsExperiencePlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Hourly Rate (₹) *
+                    {t("becomeProvider.step2.hourlyRate", { currency: regionConfig.currency })}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-medium">₹</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-xs">{regionConfig.currency}</span>
                     <input
                       type="number"
                       name="hourlyRate"
@@ -502,15 +521,15 @@ export function BecomeProvider() {
                       onChange={handleInputChange}
                       required
                       min="0"
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                      placeholder="75"
+                      className="w-full pl-14 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      placeholder={t("becomeProvider.step2.hourlyRatePlaceholder")}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Service Description *
+                    {t("becomeProvider.step2.description")}
                   </label>
                   <div className="relative">
                     <FileText className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
@@ -521,13 +540,13 @@ export function BecomeProvider() {
                       required
                       rows={5}
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
-                      placeholder="Describe your services, expertise, and what makes you stand out..."
+                      placeholder={t("becomeProvider.step2.descriptionPlaceholder")}
                     />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Skills / Services *
+                    {t("becomeProvider.step2.skills")}
                   </label>
 
                   <input
@@ -535,17 +554,17 @@ export function BecomeProvider() {
                     name="tags"
                     value={formData.tags}
                     onChange={handleInputChange}
-                    placeholder="Example: Wiring, Panel Upgrade, Smart Home"
+                    placeholder={t("becomeProvider.step2.skillsPlaceholder")}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg"
                   />
 
                   <p className="text-xs text-gray-500 mt-1">
-                    Comma separated skills
+                    {t("becomeProvider.step2.skillsHint")}
                   </p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Service Radius (km)
+                    {t("becomeProvider.step2.serviceRadius")}
                   </label>
                   <input
                     type="number"
@@ -553,13 +572,13 @@ export function BecomeProvider() {
                     value={formData.serviceRadius}
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                    placeholder="10"
+                    placeholder={t("becomeProvider.step2.serviceRadiusPlaceholder")}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Availability *
+                    {t("becomeProvider.step2.availability")}
                   </label>
                   <select
                     name="availability"
@@ -568,11 +587,11 @@ export function BecomeProvider() {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 appearance-none cursor-pointer"
                   >
-                    <option value="">Select availability</option>
-                    <option value="weekdays">Weekdays Only</option>
-                    <option value="weekends">Weekends Only</option>
-                    <option value="flexible">Flexible Schedule</option>
-                    <option value="24-7">24/7 Emergency Services</option>
+                    <option value="">{t("becomeProvider.step2.selectAvailability")}</option>
+                    <option value="weekdays">{t("becomeProvider.step2.availabilityOptions.weekdays")}</option>
+                    <option value="weekends">{t("becomeProvider.step2.availabilityOptions.weekends")}</option>
+                    <option value="flexible">{t("becomeProvider.step2.availabilityOptions.flexible")}</option>
+                    <option value="24-7">{t("becomeProvider.step2.availabilityOptions.247")}</option>
                   </select>
                 </div>
               </motion.div>
@@ -586,20 +605,20 @@ export function BecomeProvider() {
                 transition={{ duration: 0.4 }}
                 className="space-y-6"
               >
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Verification Documents</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("becomeProvider.step3.title")}</h2>
 
                 <div className="bg-gradient-to-r from-cyan-50 to-emerald-50 rounded-xl p-6 mb-6">
-                  <h3 className="font-semibold text-gray-900 mb-2">Why do we need these documents?</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">{t("becomeProvider.step3.whyTitle")}</h3>
                   <p className="text-sm text-gray-600">
-                    We verify all service providers to maintain the highest quality and safety standards for our customers.
+                    {t("becomeProvider.step3.whyText")}
                   </p>
                 </div>
 
                 <div className="space-y-4">
                   <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-cyan-500 transition-colors cursor-pointer">
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="font-semibold text-gray-900 mb-2">Upload ID or Driver's License</h3>
-                    <p className="text-sm text-gray-600 mb-4">PNG, JPG or PDF (max. 5MB)</p>
+                    <h3 className="font-semibold text-gray-900 mb-2">{t("becomeProvider.step3.idUploadTitle")}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{t("becomeProvider.step3.fileHint")}</p>
                     <input
                       type="file"
                       name="idDocument"
@@ -613,7 +632,7 @@ export function BecomeProvider() {
                       htmlFor="idUpload"
                       className="cursor-pointer bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-6 py-2 rounded-lg"
                     >
-                      Choose File
+                      {t("becomeProvider.step3.chooseFile")}
                     </label>
 
                     {files.idDocument && (
@@ -625,8 +644,8 @@ export function BecomeProvider() {
 
                   <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-cyan-500 transition-colors cursor-pointer">
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="font-semibold text-gray-900 mb-2">Upload Professional License/Certificate</h3>
-                    <p className="text-sm text-gray-600 mb-4">PNG, JPG or PDF (max. 5MB)</p>
+                    <h3 className="font-semibold text-gray-900 mb-2">{t("becomeProvider.step3.licenseUploadTitle")}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{t("becomeProvider.step3.fileHint")}</p>
                     <input
                       type="file"
                       name="licenseDocument"
@@ -640,7 +659,7 @@ export function BecomeProvider() {
                       htmlFor="licenseUpload"
                       className="cursor-pointer bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-6 py-2 rounded-lg"
                     >
-                      Choose File
+                      {t("becomeProvider.step3.chooseFile")}
                     </label>
 
                     {files.licenseDocument && (
@@ -652,8 +671,8 @@ export function BecomeProvider() {
 
                   <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-cyan-500 transition-colors cursor-pointer">
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="font-semibold text-gray-900 mb-2">Upload Insurance Certificate (Optional)</h3>
-                    <p className="text-sm text-gray-600 mb-4">PNG, JPG or PDF (max. 5MB)</p>
+                    <h3 className="font-semibold text-gray-900 mb-2">{t("becomeProvider.step3.insuranceUploadTitle")}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{t("becomeProvider.step3.fileHint")}</p>
                     <input
                       type="file"
                       name="insuranceDocument"
@@ -667,7 +686,7 @@ export function BecomeProvider() {
                       htmlFor="insuranceUpload"
                       className="cursor-pointer bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-6 py-2 rounded-lg"
                     >
-                      Choose File
+                      {t("becomeProvider.step3.chooseFile")}
                     </label>
 
                     {files.insuranceDocument && (
@@ -676,11 +695,73 @@ export function BecomeProvider() {
                       </p>
                     )}
                   </div>
+
+                  {requiresSponsorshipDocs && (
+                    <>
+                      <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 text-sm text-amber-800">
+                        {t("becomeProvider.step3.sponsorshipNotice")}
+                      </div>
+
+                      <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-cyan-500 transition-colors cursor-pointer">
+                        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                        <h3 className="font-semibold text-gray-900 mb-2">{t("becomeProvider.step3.visaUploadTitle")}</h3>
+                        <p className="text-sm text-gray-600 mb-4">{t("becomeProvider.step3.fileHint")}</p>
+                        <input
+                          type="file"
+                          name="visaDocument"
+                          accept=".png,.jpg,.jpeg,.pdf"
+                          onChange={handleFileChange}
+                          className="hidden"
+                          id="visaUpload"
+                        />
+
+                        <label
+                          htmlFor="visaUpload"
+                          className="cursor-pointer bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-6 py-2 rounded-lg"
+                        >
+                          {t("becomeProvider.step3.chooseFile")}
+                        </label>
+
+                        {files.visaDocument && (
+                          <p className="text-sm mt-3 text-gray-600">
+                            {files.visaDocument.name}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-cyan-500 transition-colors cursor-pointer">
+                        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                        <h3 className="font-semibold text-gray-900 mb-2">{t("becomeProvider.step3.sponsorshipUploadTitle")}</h3>
+                        <p className="text-sm text-gray-600 mb-4">{t("becomeProvider.step3.fileHint")}</p>
+                        <input
+                          type="file"
+                          name="sponsorshipDocument"
+                          accept=".png,.jpg,.jpeg,.pdf"
+                          onChange={handleFileChange}
+                          className="hidden"
+                          id="sponsorshipUpload"
+                        />
+
+                        <label
+                          htmlFor="sponsorshipUpload"
+                          className="cursor-pointer bg-gradient-to-r from-cyan-600 to-emerald-500 text-white px-6 py-2 rounded-lg"
+                        >
+                          {t("becomeProvider.step3.chooseFile")}
+                        </label>
+
+                        {files.sponsorshipDocument && (
+                          <p className="text-sm mt-3 text-gray-600">
+                            {files.sponsorshipDocument.name}
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
                   <p className="text-sm text-yellow-800">
-                    <strong>Note:</strong> All documents will be securely stored and reviewed within 2-3 business days. You'll receive an email once your application is approved.
+                    <strong>{t("becomeProvider.step3.noteTitle")}</strong> {t("becomeProvider.step3.noteText")}
                   </p>
                 </div>
               </motion.div>
@@ -696,7 +777,7 @@ export function BecomeProvider() {
                   onClick={() => setFormStep(formStep - 1)}
                   className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
                 >
-                  Back
+                  {t("becomeProvider.back")}
                 </motion.button>
               )}
               {formStep === 1 && <div />}
@@ -707,7 +788,7 @@ export function BecomeProvider() {
                 disabled={formStep === 3 && submitting}
                 className="px-8 py-3 bg-gradient-to-r from-cyan-600 to-emerald-500 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {formStep === 3 && submitting ? "Submitting..." : formStep === 3 ? "Submit Application" : "Continue"}
+                {formStep === 3 && submitting ? t("becomeProvider.submitting") : formStep === 3 ? t("becomeProvider.submitApplication") : t("becomeProvider.continue")}
               </motion.button>
             </div>
           </form>
@@ -722,25 +803,22 @@ export function BecomeProvider() {
         >
           {[
             {
+              key: "grow",
               icon: TrendingUp,
               color: "text-emerald-600",
               bg: "bg-emerald-50",
-              title: "Grow Your Business",
-              description: "Reach thousands of verified customers across your city",
             },
             {
+              key: "reputation",
               icon: Star,
               color: "text-amber-500",
               bg: "bg-amber-50",
-              title: "Build Your Reputation",
-              description: "Collect real reviews and earn your Verified badge",
             },
             {
-              icon: IndianRupee,
+              key: "earn",
+              icon: Wallet,
               color: "text-[#00B8A9]",
               bg: "bg-cyan-50",
-              title: "Earn on Your Terms",
-              description: "Set your own hourly rate and schedule. Weekly payouts.",
             },
           ].map((benefit, index) => (
             <motion.div
@@ -752,8 +830,8 @@ export function BecomeProvider() {
                 <benefit.icon className={`w-5 h-5 ${benefit.color}`} />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">{benefit.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{benefit.description}</p>
+                <h3 className="font-semibold text-gray-900 mb-1">{t(`becomeProvider.benefits.${benefit.key}.title`)}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{t(`becomeProvider.benefits.${benefit.key}.desc`)}</p>
               </div>
             </motion.div>
           ))}

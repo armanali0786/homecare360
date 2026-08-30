@@ -2,9 +2,13 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { CheckCircle2, Calendar, Clock, MapPin, Home, Banknote, CreditCard } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { getStripeBooking } from "@/app/lib/api";
+import { useLocale } from "@/app/context/LocaleContext";
 
 export function BookingSuccess() {
+  const { t } = useTranslation("booking");
+  const { formatCurrency } = useLocale();
   const [params]  = useSearchParams();
   const navigate  = useNavigate();
   const bookingId = params.get("bookingId");
@@ -24,7 +28,7 @@ export function BookingSuccess() {
   const providerName = booking?.provider
     ? (booking.provider.businessName ||
        `${booking.provider.firstName || ""} ${booking.provider.lastName || ""}`.trim())
-    : "Provider";
+    : t("bookingSuccess.provider");
 
   const ref = booking ? `HC-${booking._id.slice(-8).toUpperCase()}` : "";
 
@@ -56,29 +60,29 @@ export function BookingSuccess() {
               <CheckCircle2 className="w-10 h-10 text-white" />
             </motion.div>
             <h1 className="text-2xl font-bold text-white mb-1">
-              {paid ? "Payment Successful!" : "Booking Confirmed!"}
+              {paid ? t("bookingSuccess.paymentSuccessTitle") : t("bookingSuccess.bookingConfirmedTitle")}
             </h1>
             <p className="text-white/80 text-sm">
-              {paid ? "Your payment has been processed" : "Your service has been scheduled"}
+              {paid ? t("bookingSuccess.paymentSuccessSubtitle") : t("bookingSuccess.bookingConfirmedSubtitle")}
             </p>
           </div>
 
           <div className="p-6 space-y-4">
             {/* Ref */}
             <div className="bg-gray-50 rounded-xl p-4 text-center">
-              <p className="text-xs text-gray-400 mb-1">Booking Reference</p>
+              <p className="text-xs text-gray-400 mb-1">{t("bookingSuccess.bookingReference")}</p>
               <p className="text-xl font-bold text-gray-900 tracking-widest">{ref}</p>
             </div>
 
             {booking && (
               <>
                 {[
-                  { icon: Home,       label: "Service",  value: booking.serviceCategory                 },
-                  { icon: Home,       label: "Provider", value: providerName                            },
-                  { icon: Calendar,   label: "Date",     value: booking.date                            },
-                  { icon: Clock,      label: "Time",     value: booking.time                            },
-                  { icon: MapPin,     label: "Address",  value: booking.location                        },
-                  { icon: CreditCard, label: "Payment",  value: paid ? "Paid online (Stripe)" : "Pay on completion" },
+                  { icon: Home,       label: t("bookingSuccess.service"),  value: booking.serviceCategory },
+                  { icon: Home,       label: t("bookingSuccess.provider"), value: providerName             },
+                  { icon: Calendar,   label: t("bookingSuccess.date"),     value: booking.date             },
+                  { icon: Clock,      label: t("bookingSuccess.time"),     value: booking.time             },
+                  { icon: MapPin,     label: t("bookingSuccess.address"),  value: booking.location         },
+                  { icon: CreditCard, label: t("bookingSuccess.payment"),  value: paid ? t("bookingSuccess.paidOnline") : t("bookingSuccess.payOnCompletion") },
                 ].filter((r) => r.value).map(({ icon: Icon, label, value }) => (
                   <div key={label} className="flex items-start gap-3">
                     <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -92,20 +96,20 @@ export function BookingSuccess() {
                 ))}
 
                 <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                  <span className="text-sm text-gray-500">Total Amount</span>
+                  <span className="text-sm text-gray-500">{t("bookingSuccess.totalAmount")}</span>
                   <span className="text-xl font-bold text-gray-900">
-                    ₹{booking.totalAmount?.toLocaleString("en-IN")}
+                    {formatCurrency(booking.totalAmount || 0)}
                   </span>
                 </div>
               </>
             )}
 
             <div className="bg-cyan-50 border border-cyan-100 rounded-xl p-4">
-              <p className="text-sm font-semibold text-cyan-700 mb-1.5">What happens next</p>
+              <p className="text-sm font-semibold text-cyan-700 mb-1.5">{t("bookingSuccess.whatNext")}</p>
               <ul className="space-y-1 text-xs text-cyan-600">
-                <li>• Provider will confirm within 1 hour</li>
-                <li>• You'll receive an SMS confirmation shortly</li>
-                <li>• Provider calls 30 minutes before arrival</li>
+                <li>• {t("bookingSuccess.whatNext1")}</li>
+                <li>• {t("bookingSuccess.whatNext2")}</li>
+                <li>• {t("bookingSuccess.whatNext3")}</li>
               </ul>
             </div>
 
@@ -114,13 +118,13 @@ export function BookingSuccess() {
                 onClick={() => navigate("/bookings")}
                 className="w-full py-3 bg-[#00B8A9] text-white text-sm font-semibold rounded-xl hover:bg-[#009e96] transition-colors"
               >
-                View My Bookings
+                {t("bookingSuccess.viewBookings")}
               </button>
               <button
                 onClick={() => navigate("/")}
                 className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
               >
-                Back to home
+                {t("bookingSuccess.backHome")}
               </button>
             </div>
           </div>

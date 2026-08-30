@@ -1,0 +1,157 @@
+{
+  "becomeProvider": {
+    "seoTitle": "Become a Care Provider",
+    "seoDescription": "Join Homecare360 as a verified care provider. Grow your caregiving business, set your own schedule, and connect with families who need your expertise.",
+    "seoKeywords": "become home care provider, caregiver jobs, register as caregiver, home care business, join homecare360 provider",
+    "heroTitlePrefix": "Become a",
+    "heroTitleHighlight": "Service Provider",
+    "heroSubtitle": "Join our network of trusted professionals and start growing your business today",
+    "steps": {
+      "personalInfo": "Personal Info",
+      "businessDetails": "Business Details",
+      "verification": "Verification"
+    },
+    "step1": {
+      "title": "Personal Information",
+      "firstName": "First Name *",
+      "firstNamePlaceholder": "John",
+      "lastName": "Last Name *",
+      "lastNamePlaceholder": "Doe",
+      "email": "Email Address *",
+      "emailPlaceholder": "john.doe@example.com",
+      "phone": "Phone Number *",
+      "phonePlaceholder": "50 123 4567",
+      "address": "Street Address *",
+      "addressPlaceholder": "123 Main Street",
+      "city": "City *",
+      "cityPlaceholder": "Dubai",
+      "state": "Emirate / Region *",
+      "statePlaceholder": "Dubai",
+      "zipCode": "P.O. Box / Postal Code *",
+      "zipCodePlaceholder": "00000",
+      "profilePhoto": "Profile Photo",
+      "selected": "Selected: {{name}}"
+    },
+    "step2": {
+      "title": "Business Details",
+      "serviceCategory": "Service Category *",
+      "selectCategory": "Select a category",
+      "businessName": "Business Name (Optional)",
+      "businessNamePlaceholder": "Your Business Name",
+      "yearsExperience": "Years of Experience *",
+      "yearsExperiencePlaceholder": "5",
+      "hourlyRate": "Hourly Rate ({{currency}}) *",
+      "hourlyRatePlaceholder": "75",
+      "description": "Service Description *",
+      "descriptionPlaceholder": "Describe your services, expertise, and what makes you stand out...",
+      "skills": "Skills / Services *",
+      "skillsPlaceholder": "Example: Wiring, Panel Upgrade, Smart Home",
+      "skillsHint": "Comma separated skills",
+      "serviceRadius": "Service Radius (km)",
+      "serviceRadiusPlaceholder": "10",
+      "availability": "Availability *",
+      "selectAvailability": "Select availability",
+      "availabilityOptions": {
+        "weekdays": "Weekdays Only",
+        "weekends": "Weekends Only",
+        "flexible": "Flexible Schedule",
+        "247": "24/7 Emergency Services"
+      }
+    },
+    "categories": {
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "cleaning": "Cleaning",
+      "landscaping": "Landscaping",
+      "painting": "Painting",
+      "photography": "Photography",
+      "carpentry": "Carpentry",
+      "hvac": "HVAC",
+      "handyman": "Handyman",
+      "domesticHelp": "Domestic Help (Maid / Nanny / Caregiver)",
+      "other": "Other"
+    },
+    "step3": {
+      "title": "Verification Documents",
+      "whyTitle": "Why do we need these documents?",
+      "whyText": "We verify all service providers to maintain the highest quality and safety standards for our customers.",
+      "idUploadTitle": "Upload Emirates ID / National ID",
+      "fileHint": "PNG, JPG or PDF (max. 5MB)",
+      "chooseFile": "Choose File",
+      "licenseUploadTitle": "Upload Professional License/Certificate",
+      "insuranceUploadTitle": "Upload Insurance Certificate (Optional)",
+      "sponsorshipNotice": "Domestic-help roles (maids, nannies, caregivers) require sponsor-visa documentation for compliance with Gulf labour regulations.",
+      "visaUploadTitle": "Upload Visa Document",
+      "sponsorshipUploadTitle": "Upload Sponsorship Letter",
+      "noteTitle": "Note:",
+      "noteText": "All documents will be securely stored and reviewed within 2-3 business days. You'll receive an email once your application is approved."
+    },
+    "back": "Back",
+    "continue": "Continue",
+    "submitting": "Submitting...",
+    "submitApplication": "Submit Application",
+    "benefits": {
+      "grow": { "title": "Grow Your Business", "desc": "Reach thousands of verified customers across the region" },
+      "reputation": { "title": "Build Your Reputation", "desc": "Collect real reviews and earn your Verified badge" },
+      "earn": { "title": "Earn on Your Terms", "desc": "Set your own hourly rate and schedule. Weekly payouts." }
+    },
+    "errors": {
+      "imageType": "Profile image must be PNG, JPG or JPEG",
+      "docType": "Documents must be PNG, JPG, JPEG or PDF",
+      "fileSize": "File must be less than 5MB"
+    },
+    "successMessage": "Application submitted successfully! We'll review your information within 2-3 business days."
+  },
+  "dashboard": {
+    "badge": "Provider Dashboard",
+    "defaultTitle": "My Dashboard",
+    "penaltyCount": "{{count}} cancellation penalty(ies)",
+    "stats": {
+      "newRequests": "New Requests",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "totalEarned": "Total Earned"
+    },
+    "payoutBalance": "Payout Balance",
+    "stripeActive": "Payouts active via Stripe Connect",
+    "stripeInactive": "Set up Stripe Connect to receive automated payouts",
+    "pendingPayout": "Pending payout",
+    "connectStripe": "Connect Stripe",
+    "stripeComingSoon": "Stripe Connect onboarding coming soon",
+    "tabs": {
+      "all": "All Jobs",
+      "requests": "Requests",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "noBookings": "No bookings found.",
+    "status": {
+      "pending": "New Request",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "unknown": "Unknown"
+    },
+    "customerFallback": "Customer",
+    "yours": "yours",
+    "acceptRequest": "Accept Request",
+    "accepting": "Accepting…",
+    "message": "Message",
+    "messageCustomer": "Message Customer",
+    "decline": "Decline",
+    "declining": "Declining…",
+    "cancelJob": "Cancel Job",
+    "cancelling": "Cancelling…",
+    "jobComplete": "Job complete · payout {{amount}}",
+    "confirmDecline": "Decline this booking request?",
+    "confirmCancel": "Cancel this booking? A penalty will be recorded on your profile.",
+    "toasts": {
+      "accepted": "Booking accepted! Customer has been notified.",
+      "acceptFailed": "Failed to accept booking",
+      "declined": "Booking request declined.",
+      "cancelled": "Booking cancelled. Customer has been notified.",
+      "cancelFailed": "Failed to cancel"
+    }
+  }
+}

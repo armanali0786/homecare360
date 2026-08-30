@@ -65,3 +65,22 @@ exports.updateApplicationStatus = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+exports.getComplianceQueue = async (req, res) => {
+  try {
+    const applications = await providerService.getComplianceQueue();
+    res.json({ success: true, applications });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+exports.updateComplianceStatus = async (req, res) => {
+  try {
+    const { complianceStatus, notes } = req.body;
+    const app = await providerService.updateComplianceStatus(req.params.id, complianceStatus, notes, req.user.id);
+    res.json({ success: true, application: app });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};

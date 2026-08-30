@@ -10,8 +10,8 @@ exports.createCheckoutSession = async (booking, providerName) => {
   if (!stripe) throw new Error("Stripe not configured");
 
   const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+  const currency = (booking.currency || "AED").toLowerCase();
 
-  // Indian export regulations require customer name and billing address
   let customerId;
   if (booking.userEmail) {
     const customer = await stripe.customers.create({
@@ -29,7 +29,7 @@ exports.createCheckoutSession = async (booking, providerName) => {
     line_items: [
       {
         price_data: {
-          currency: "inr",
+          currency,
           product_data: {
             name: `${booking.serviceCategory} — HomeCare360`,
             description: `Provider: ${providerName} · ${booking.date} at ${booking.time}`,

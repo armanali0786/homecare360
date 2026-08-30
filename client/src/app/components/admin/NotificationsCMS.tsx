@@ -1,47 +1,49 @@
 import { motion } from "motion/react";
 import { Bell, Mail, Edit, Save, Eye } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface EmailTemplate {
   id: string;
-  name: string;
-  subject: string;
-  description: string;
+  nameKey: string;
+  subjectKey: string;
+  descriptionKey: string;
   lastUpdated: string;
 }
 
 const emailTemplates: EmailTemplate[] = [
   {
     id: "1",
-    name: "Booking Confirmation",
-    subject: "Your booking has been confirmed!",
-    description: "Sent to users when they successfully book a service",
+    nameKey: "notifications.emailTemplates.items.bookingConfirmation.name",
+    subjectKey: "notifications.emailTemplates.items.bookingConfirmation.subject",
+    descriptionKey: "notifications.emailTemplates.items.bookingConfirmation.description",
     lastUpdated: "Jan 20, 2026"
   },
   {
     id: "2",
-    name: "Provider Approval",
-    subject: "Welcome to HomeCare360 - You're approved!",
-    description: "Sent to providers when their application is approved",
+    nameKey: "notifications.emailTemplates.items.providerApproval.name",
+    subjectKey: "notifications.emailTemplates.items.providerApproval.subject",
+    descriptionKey: "notifications.emailTemplates.items.providerApproval.description",
     lastUpdated: "Jan 18, 2026"
   },
   {
     id: "3",
-    name: "Payment Confirmation",
-    subject: "Payment received - Thank you!",
-    description: "Sent to users after successful payment",
+    nameKey: "notifications.emailTemplates.items.paymentConfirmation.name",
+    subjectKey: "notifications.emailTemplates.items.paymentConfirmation.subject",
+    descriptionKey: "notifications.emailTemplates.items.paymentConfirmation.description",
     lastUpdated: "Jan 15, 2026"
   },
   {
     id: "4",
-    name: "Booking Reminder",
-    subject: "Reminder: Your service is tomorrow",
-    description: "Sent 24 hours before scheduled service",
+    nameKey: "notifications.emailTemplates.items.bookingReminder.name",
+    subjectKey: "notifications.emailTemplates.items.bookingReminder.subject",
+    descriptionKey: "notifications.emailTemplates.items.bookingReminder.description",
     lastUpdated: "Jan 12, 2026"
   },
 ];
 
 export function NotificationsCMS() {
+  const { t } = useTranslation("admin");
   const [activeTab, setActiveTab] = useState<"notifications" | "emails" | "content">("notifications");
   const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -59,17 +61,17 @@ export function NotificationsCMS() {
         className="mb-8"
       >
         <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
-          Notifications & Content Management
+          {t("notifications.title")}
         </h1>
-        <p className="text-gray-600">Manage platform notifications, emails, and content</p>
+        <p className="text-gray-600">{t("notifications.subtitle")}</p>
       </motion.div>
 
       {/* Tabs */}
       <div className="flex gap-2 mb-8 border-b border-gray-200">
         {[
-          { id: "notifications", label: "Platform Notifications", icon: Bell },
-          { id: "emails", label: "Email Templates", icon: Mail },
-          { id: "content", label: "Content Management", icon: Edit }
+          { id: "notifications", label: t("notifications.tabs.notifications"), icon: Bell },
+          { id: "emails", label: t("notifications.tabs.emails"), icon: Mail },
+          { id: "content", label: t("notifications.tabs.content"), icon: Edit }
         ].map((tab) => {
           const Icon = tab.icon;
           return (
@@ -99,34 +101,34 @@ export function NotificationsCMS() {
           className="space-y-6"
         >
           <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-800 mb-6">Send Platform Notification</h2>
-            
+            <h2 className="text-xl font-bold text-gray-800 mb-6">{t("notifications.form.title")}</h2>
+
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Recipient Group</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.form.recipientGroup")}</label>
                 <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
-                  <option>All Users</option>
-                  <option>All Providers</option>
-                  <option>New Users (Last 30 days)</option>
-                  <option>Active Providers</option>
-                  <option>Custom Selection</option>
+                  <option>{t("notifications.form.recipients.allUsers")}</option>
+                  <option>{t("notifications.form.recipients.allProviders")}</option>
+                  <option>{t("notifications.form.recipients.newUsers")}</option>
+                  <option>{t("notifications.form.recipients.activeProviders")}</option>
+                  <option>{t("notifications.form.recipients.custom")}</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Notification Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.form.titleLabel")}</label>
                 <input
                   type="text"
-                  placeholder="Enter notification title..."
+                  placeholder={t("notifications.form.titlePlaceholder")}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.form.messageLabel")}</label>
                 <textarea
                   rows={4}
-                  placeholder="Enter notification message..."
+                  placeholder={t("notifications.form.messagePlaceholder")}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 />
               </div>
@@ -134,11 +136,11 @@ export function NotificationsCMS() {
               <div className="flex items-center gap-4">
                 <label className="flex items-center gap-2">
                   <input type="checkbox" className="rounded border-gray-300" />
-                  <span className="text-sm text-gray-700">Send as push notification</span>
+                  <span className="text-sm text-gray-700">{t("notifications.form.pushCheckbox")}</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input type="checkbox" className="rounded border-gray-300" />
-                  <span className="text-sm text-gray-700">Send as email</span>
+                  <span className="text-sm text-gray-700">{t("notifications.form.emailCheckbox")}</span>
                 </label>
               </div>
 
@@ -147,19 +149,19 @@ export function NotificationsCMS() {
                 whileTap={{ scale: 0.98 }}
                 className="w-full px-6 py-3 bg-gradient-to-r from-cyan-600 to-teal-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-shadow font-medium"
               >
-                Send Notification
+                {t("notifications.form.send")}
               </motion.button>
             </div>
           </div>
 
           {/* Recent Notifications */}
           <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Recent Notifications</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">{t("notifications.recent.title")}</h2>
             <div className="space-y-3">
               {[
-                { title: "New Feature Launch", message: "Check out our new instant booking feature!", date: "Jan 23, 2026", recipients: "All Users" },
-                { title: "Maintenance Notice", message: "Scheduled maintenance on Jan 30", date: "Jan 20, 2026", recipients: "All Users" },
-                { title: "New Provider Benefits", message: "Earn 20% more this month!", date: "Jan 15, 2026", recipients: "All Providers" },
+                { title: t("notifications.recent.samples.item1.title"), message: t("notifications.recent.samples.item1.message"), date: "Jan 23, 2026", recipients: t("notifications.form.recipients.allUsers") },
+                { title: t("notifications.recent.samples.item2.title"), message: t("notifications.recent.samples.item2.message"), date: "Jan 20, 2026", recipients: t("notifications.form.recipients.allUsers") },
+                { title: t("notifications.recent.samples.item3.title"), message: t("notifications.recent.samples.item3.message"), date: "Jan 15, 2026", recipients: t("notifications.form.recipients.allProviders") },
               ].map((notif, index) => (
                 <motion.div
                   key={index}
@@ -175,7 +177,7 @@ export function NotificationsCMS() {
                       <div className="flex items-center gap-3 text-xs text-gray-500">
                         <span>{notif.date}</span>
                         <span>•</span>
-                        <span>To: {notif.recipients}</span>
+                        <span>{t("notifications.recent.toLabel", { recipients: notif.recipients })}</span>
                       </div>
                     </div>
                     <Bell className="w-5 h-5 text-cyan-600" />
@@ -214,9 +216,9 @@ export function NotificationsCMS() {
                   </div>
                   <span className="text-xs text-gray-500">{template.lastUpdated}</span>
                 </div>
-                <h3 className="text-lg font-bold text-gray-800 mb-2">{template.name}</h3>
-                <p className="text-sm text-gray-600 mb-3">{template.description}</p>
-                <p className="text-sm font-medium text-cyan-600">Subject: {template.subject}</p>
+                <h3 className="text-lg font-bold text-gray-800 mb-2">{t(template.nameKey)}</h3>
+                <p className="text-sm text-gray-600 mb-3">{t(template.descriptionKey)}</p>
+                <p className="text-sm font-medium text-cyan-600">{t("notifications.emailTemplates.subjectPrefix", { subject: t(template.subjectKey) })}</p>
               </motion.div>
             ))}
           </div>
@@ -236,7 +238,7 @@ export function NotificationsCMS() {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800">{selectedTemplate.name}</h2>
+                  <h2 className="text-2xl font-bold text-gray-800">{t(selectedTemplate.nameKey)}</h2>
                   <div className="flex gap-2">
                     <motion.button
                       whileHover={{ scale: 1.05 }}
@@ -258,27 +260,27 @@ export function NotificationsCMS() {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Subject Line</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.modal.subjectLabel")}</label>
                     <input
                       type="text"
-                      defaultValue={selectedTemplate.subject}
+                      defaultValue={t(selectedTemplate.subjectKey)}
                       disabled={!isEditing}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent disabled:bg-gray-50"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Body</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.modal.bodyLabel")}</label>
                     <textarea
                       rows={12}
                       disabled={!isEditing}
-                      defaultValue="Hi {{user_name}},\n\nYour booking has been confirmed!\n\nBooking Details:\n- Service: {{service_name}}\n- Provider: {{provider_name}}\n- Date: {{booking_date}}\n- Time: {{booking_time}}\n\nThank you for choosing HomeCare360!\n\nBest regards,\nThe HomeCare360 Team"
+                      defaultValue={t("notifications.modal.sampleBody").replace(/\[\[/g, "{{").replace(/\]\]/g, "}}")}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent font-mono text-sm disabled:bg-gray-50"
                     />
                   </div>
 
                   <div className="bg-cyan-50 border border-cyan-200 rounded-lg p-4">
-                    <p className="text-sm text-gray-700 mb-2 font-medium">Available Variables:</p>
+                    <p className="text-sm text-gray-700 mb-2 font-medium">{t("notifications.modal.availableVariables")}</p>
                     <div className="flex flex-wrap gap-2">
                       {["{{user_name}}", "{{service_name}}", "{{provider_name}}", "{{booking_date}}", "{{booking_time}}", "{{price}}"].map((variable) => (
                         <code key={variable} className="px-2 py-1 bg-white border border-cyan-300 rounded text-xs text-cyan-700">
@@ -296,7 +298,7 @@ export function NotificationsCMS() {
                     onClick={() => setSelectedTemplate(null)}
                     className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
                   >
-                    Close
+                    {t("notifications.modal.close")}
                   </motion.button>
                   {isEditing && (
                     <motion.button
@@ -305,7 +307,7 @@ export function NotificationsCMS() {
                       className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-600 to-teal-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-shadow flex items-center justify-center gap-2"
                     >
                       <Save className="w-5 h-5" />
-                      Save Changes
+                      {t("notifications.modal.saveChanges")}
                     </motion.button>
                   )}
                 </div>
@@ -323,29 +325,29 @@ export function NotificationsCMS() {
           className="space-y-6"
         >
           <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-            <h2 className="text-xl font-bold text-gray-800 mb-6">Homepage Content</h2>
-            
+            <h2 className="text-xl font-bold text-gray-800 mb-6">{t("notifications.content.homepageTitle")}</h2>
+
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Hero Section Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.content.heroTitleLabel")}</label>
                 <input
                   type="text"
-                  defaultValue="Find Trusted Local Service Providers"
+                  defaultValue={t("notifications.content.heroTitleValue")}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Hero Section Subtitle</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.content.heroSubtitleLabel")}</label>
                 <textarea
                   rows={2}
-                  defaultValue="Connect with verified professionals for all your home service needs. Book, pay, and review - all in one place."
+                  defaultValue={t("notifications.content.heroSubtitleValue")}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">"How It Works" Content</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.content.howItWorksLabel")}</label>
                 <div className="space-y-3">
                   {[1, 2, 3].map((step) => (
                     <div key={step} className="flex gap-3">
@@ -354,7 +356,7 @@ export function NotificationsCMS() {
                       </div>
                       <input
                         type="text"
-                        defaultValue={step === 1 ? "Search & Compare" : step === 2 ? "Book & Pay Securely" : "Review & Repeat"}
+                        defaultValue={step === 1 ? t("notifications.content.steps.step1") : step === 2 ? t("notifications.content.steps.step2") : t("notifications.content.steps.step3")}
                         className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                       />
                     </div>
@@ -363,10 +365,10 @@ export function NotificationsCMS() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Benefits Section</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("notifications.content.benefitsLabel")}</label>
                 <textarea
                   rows={4}
-                  defaultValue="• Verified professionals with real reviews\n• Secure payment with escrow protection\n• 24/7 customer support\n• Money-back guarantee"
+                  defaultValue={t("notifications.content.benefitsValue")}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent font-mono text-sm"
                 />
               </div>
@@ -376,7 +378,7 @@ export function NotificationsCMS() {
                 whileTap={{ scale: 0.98 }}
                 className="w-full px-6 py-3 bg-gradient-to-r from-cyan-600 to-teal-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-shadow font-medium"
               >
-                Save Content Changes
+                {t("notifications.content.saveButton")}
               </motion.button>
             </div>
           </div>
@@ -387,14 +389,14 @@ export function NotificationsCMS() {
               whileHover={{ scale: 1.02 }}
               className="bg-white rounded-xl shadow-lg p-6 border border-gray-100"
             >
-              <h3 className="font-bold text-gray-800 mb-2">Terms & Conditions</h3>
-              <p className="text-sm text-gray-600 mb-4">Last updated: Jan 15, 2026</p>
+              <h3 className="font-bold text-gray-800 mb-2">{t("notifications.content.cards.terms.title")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("notifications.content.lastUpdatedSample")}</p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-4 py-2 bg-cyan-100 text-cyan-700 rounded-lg hover:bg-cyan-200 transition-colors font-medium"
               >
-                Edit Content
+                {t("notifications.content.editContentButton")}
               </motion.button>
             </motion.div>
 
@@ -402,14 +404,14 @@ export function NotificationsCMS() {
               whileHover={{ scale: 1.02 }}
               className="bg-white rounded-xl shadow-lg p-6 border border-gray-100"
             >
-              <h3 className="font-bold text-gray-800 mb-2">Privacy Policy</h3>
-              <p className="text-sm text-gray-600 mb-4">Last updated: Jan 15, 2026</p>
+              <h3 className="font-bold text-gray-800 mb-2">{t("notifications.content.cards.privacy.title")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("notifications.content.lastUpdatedSample")}</p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-4 py-2 bg-cyan-100 text-cyan-700 rounded-lg hover:bg-cyan-200 transition-colors font-medium"
               >
-                Edit Content
+                {t("notifications.content.editContentButton")}
               </motion.button>
             </motion.div>
 
@@ -417,14 +419,14 @@ export function NotificationsCMS() {
               whileHover={{ scale: 1.02 }}
               className="bg-white rounded-xl shadow-lg p-6 border border-gray-100"
             >
-              <h3 className="font-bold text-gray-800 mb-2">FAQ Section</h3>
-              <p className="text-sm text-gray-600 mb-4">23 questions</p>
+              <h3 className="font-bold text-gray-800 mb-2">{t("notifications.content.cards.faq.title")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("notifications.content.cards.faq.subtitle")}</p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-4 py-2 bg-cyan-100 text-cyan-700 rounded-lg hover:bg-cyan-200 transition-colors font-medium"
               >
-                Manage FAQs
+                {t("notifications.content.cards.faq.button")}
               </motion.button>
             </motion.div>
 
@@ -432,14 +434,14 @@ export function NotificationsCMS() {
               whileHover={{ scale: 1.02 }}
               className="bg-white rounded-xl shadow-lg p-6 border border-gray-100"
             >
-              <h3 className="font-bold text-gray-800 mb-2">About Us</h3>
-              <p className="text-sm text-gray-600 mb-4">Company information</p>
+              <h3 className="font-bold text-gray-800 mb-2">{t("notifications.content.cards.about.title")}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t("notifications.content.cards.about.subtitle")}</p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-4 py-2 bg-cyan-100 text-cyan-700 rounded-lg hover:bg-cyan-200 transition-colors font-medium"
               >
-                Edit Content
+                {t("notifications.content.editContentButton")}
               </motion.button>
             </motion.div>
           </div>

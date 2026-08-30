@@ -1,8 +1,14 @@
 import { motion } from "motion/react";
-import { Facebook, Twitter, Instagram, Linkedin, Phone, Mail, MapPin, ShieldCheck, BadgeIndianRupee } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Phone, Mail, MapPin, ShieldCheck, BadgeCheck } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "../context/LocaleContext";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 export function Footer() {
+  const { t } = useTranslation("footer");
+  const { regionConfig } = useLocale();
+
   const services = [
     { name: "Plumbing", path: "/services?service=Plumbing" },
     { name: "Electrical", path: "/services?service=Electrical" },
@@ -14,28 +20,24 @@ export function Footer() {
   ];
 
   const company = [
-    { name: "About Us", path: "/about-us" },
-    { name: "Blog", path: "/blog" },
-    { name: "Careers", path: "/careers" },
-    { name: "Press", path: "/about-us" },
-    { name: "Contact Us", path: "/contact" },
+    { name: t("aboutUs"), path: "/about-us" },
+    { name: t("blog"), path: "/blog" },
+    { name: t("careers"), path: "/careers" },
+    { name: t("press"), path: "/about-us" },
+    { name: t("contactUs"), path: "/contact" },
   ];
 
-  const cities = [
-    { name: "Bangalore", path: "/services?location=Bangalore" },
-    { name: "Hyderabad", path: "/services?location=Hyderabad" },
-    { name: "Chennai", path: "/services?location=Chennai" },
-    { name: "Pune", path: "/services?location=Pune" },
-    { name: "Mumbai", path: "/services?location=Mumbai" },
-    { name: "Delhi NCR", path: "/services?location=Delhi" },
-  ];
+  const cities = regionConfig.cities.map((name) => ({
+    name,
+    path: `/services?location=${encodeURIComponent(name)}`,
+  }));
 
   const support = [
-    { name: "Help Center", path: "/help-center" },
-    { name: "Safety", path: "/safety" },
-    { name: "Cancellation Policy", path: "/terms-of-service" },
-    { name: "Privacy Policy", path: "/privacy-policy" },
-    { name: "Terms of Service", path: "/terms-of-service" },
+    { name: t("helpCenter"), path: "/help-center" },
+    { name: t("safety"), path: "/safety" },
+    { name: t("cancellationPolicy"), path: "/terms-of-service" },
+    { name: t("privacyPolicy"), path: "/privacy-policy" },
+    { name: t("termsOfService"), path: "/terms-of-service" },
   ];
 
   return (
@@ -59,22 +61,22 @@ export function Footer() {
             </Link>
 
             <p className="text-gray-400 leading-relaxed mb-6 max-w-xs text-sm">
-              India's trusted marketplace for professional home services. Verified providers, secure payments, guaranteed quality.
+              {t("tagline")}
             </p>
 
             {/* Contact */}
             <div className="space-y-2.5 text-sm text-gray-400 mb-6">
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>+91 73199 77276</span>
+                <span>{regionConfig.phoneCode} 4 000 0000</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>support@homecare360.in</span>
+                <span>support@homecare360.com</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <MapPin className="w-4 h-4 text-[#00B8A9] flex-shrink-0" />
-                <span>Bengaluru, Karnataka, India</span>
+                <span>{regionConfig.cities[0]}, {regionConfig.label}</span>
               </div>
             </div>
 
@@ -82,11 +84,11 @@ export function Footer() {
             <div className="flex gap-3">
               <div className="inline-flex items-center gap-1.5 bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#00B8A9]" />
-                <span className="text-xs text-gray-400">SSL Secure</span>
+                <span className="text-xs text-gray-400">{t("sslSecure")}</span>
               </div>
               <div className="inline-flex items-center gap-1.5 bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg">
-                <BadgeIndianRupee className="w-3.5 h-3.5 text-[#00B8A9]" />
-                <span className="text-xs text-gray-400">GST Registered</span>
+                <BadgeCheck className="w-3.5 h-3.5 text-[#00B8A9]" />
+                <span className="text-xs text-gray-400">{t("vatRegistered", { vatLabel: regionConfig.vatLabel })}</span>
               </div>
             </div>
           </motion.div>
@@ -98,7 +100,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Services</h4>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">{t("servicesHeading")}</h4>
             <ul className="space-y-2.5">
               {services.map((item) => (
                 <li key={item.name}>
@@ -120,7 +122,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Company</h4>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">{t("companyHeading")}</h4>
             <ul className="space-y-2.5">
               {company.map((item) => (
                 <li key={item.name}>
@@ -142,7 +144,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Cities</h4>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">{t("citiesHeading")}</h4>
             <ul className="space-y-2.5">
               {cities.map((item) => (
                 <li key={item.name}>
@@ -164,7 +166,7 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.25 }}
           >
-            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">Support</h4>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-wide">{t("supportHeading")}</h4>
             <ul className="space-y-2.5">
               {support.map((item) => (
                 <li key={item.name}>
@@ -184,10 +186,12 @@ export function Footer() {
         <div className="border-t border-gray-800 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-500">
-              © 2026 HomeCare360. All rights reserved. Made in India 🇮🇳
+              {t("copyright")}
             </p>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
+              <LocaleSwitcher variant="dark" />
+              <div className="flex items-center gap-3">
               <a
                 href="#"
                 aria-label="Facebook"
@@ -222,6 +226,7 @@ export function Footer() {
               >
                 <Linkedin className="w-4 h-4" />
               </a>
+              </div>
             </div>
           </div>
         </div>

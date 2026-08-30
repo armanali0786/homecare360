@@ -2,7 +2,20 @@ const ProviderApplication = require("../models/provider-application");
 const Review = require("../models/review");
 const User   = require("../models/user");
 
+// Domestic-help / live-in staff categories require sponsor-visa paperwork on
+// top of the standard verification documents (Gulf labour-law requirement for
+// maids, nannies, caregivers). Matched by keyword so admins can add new such
+// categories from Services Management without a code change.
+const DOMESTIC_HELP_KEYWORDS = ["domestic help", "maid", "nanny", "caregiver", "babysit", "housekeep"];
+
+exports.isDomesticHelpCategory = (serviceCategory = "") => {
+  const lower = serviceCategory.toLowerCase();
+  return DOMESTIC_HELP_KEYWORDS.some((k) => lower.includes(k));
+};
+
 exports.createApplication = async (userId, data, files) => {
+  const isDomesticHelp = exports.isDomesticHelpCategory(data.serviceCategory);
+
   const application = await ProviderApplication.create({
     user: userId,
     firstName: data.firstName,
@@ -26,7 +39,10 @@ exports.createApplication = async (userId, data, files) => {
       idDocument: files?.idDocument?.[0]?.filename,
       licenseDocument: files?.licenseDocument?.[0]?.filename,
       insuranceDocument: files?.insuranceDocument?.[0]?.filename,
+      visaDocument: files?.visaDocument?.[0]?.filename,
+      sponsorshipDocument: files?.sponsorshipDocument?.[0]?.filename,
     },
+    complianceStatus: isDomesticHelp ? "pending" : "not_applicable",
   });
   return application;
 };
@@ -94,4 +110,27 @@ exports.updateStatus = async (id, status, adminId) => {
   }
 
   return application;
+};
+
+exports.updateComplianceStatus = async (id, complianceStatus, notes, adminId) => {
+  if (!["pending", "verified", "rejected"].includes(complianceStatus)) {
+    throw new Error("Invalid compliance status");
+  }
+
+  const application = await ProviderApplication.findByIdAndUpdate(
+    id,
+    {
+      complianceStatus,
+      complianceNotes: notes || "",
+      complianceReviewedBy: adminId,
+      complianceReviewedAt: new Date(),
+    },
+    { new: true }
+  );
+  if (!application) throw new Error("Application not found");
+  return application;
+};
+
+exports.getComplianceQueue = async () => {
+  return ProviderApplication.find({ complianceStatus: { $ne: "not_applicable" } }).sort({ createdAt: -1 });
 };

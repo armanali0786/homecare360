@@ -27,10 +27,16 @@ const bookingSchema = new mongoose.Schema(
     discountAmount:      { type: Number, default: 0 },
     gstAmount:           { type: Number, default: 0 },
 
+    // Region / currency the booking was placed in — amounts above are stored
+    // in INR (the base unit used across the platform) and converted for
+    // display; these fields record what the customer actually saw & paid in.
+    region:   { type: String, enum: ["AE", "SA", "QA", "IN"], default: "AE" },
+    currency: { type: String, enum: ["AED", "SAR", "QAR", "INR"], default: "AED" },
+
     // Payment
     paymentMethod: {
       type:    String,
-      enum:    ["cod", "upi", "card", "stripe"],
+      enum:    ["cod", "upi", "card", "stripe", "mada", "tabby", "tamara"],
       default: "cod",
     },
     paymentStatus: {

@@ -11,15 +11,27 @@ function getClient() {
   return client;
 }
 
+// National number length -> default GCC/India country code, used only when
+// the number has no explicit "+" prefix already.
+const COUNTRY_CODE_BY_LENGTH = {
+  9:  process.env.DEFAULT_COUNTRY_CODE || "+971", // UAE / Saudi mobile numbers (without leading 0)
+  8:  "+974",                                     // Qatar
+  10: "+91",                                      // India
+};
+
 async function sendSMS(to, body) {
   const c    = getClient();
   const from = process.env.TWILIO_PHONE_NUMBER;
   if (!c || !from) return;
 
-  // E.164 format: ensure +91 prefix for Indian numbers
+  // E.164 format: infer the country code from national number length when none is given.
   let formatted = to.replace(/\D/g, "");
-  if (formatted.length === 10) formatted = `+91${formatted}`;
-  else if (!formatted.startsWith("+")) formatted = `+${formatted}`;
+  if (!to.startsWith("+")) {
+    const countryCode = COUNTRY_CODE_BY_LENGTH[formatted.length] || process.env.DEFAULT_COUNTRY_CODE || "+971";
+    formatted = `${countryCode}${formatted}`;
+  } else {
+    formatted = `+${formatted}`;
+  }
 
   try {
     await c.messages.create({ from, to: formatted, body });
@@ -31,7 +43,7 @@ async function sendSMS(to, body) {
 exports.bookingConfirmed = (phone, d) =>
   sendSMS(
     phone,
-    `HomeCare360: Booking ${d.ref} confirmed! ${d.service} on ${d.date} at ${d.time}. Total: ₹${d.total}. Cancel free before 24h.`
+    `HomeCare360: Booking ${d.ref} confirmed! ${d.service} on ${d.date} at ${d.time}. Total: ${d.currency || "AED"} ${d.total}. Cancel free before 24h.`
   );
 
 exports.bookingCancelled = (phone, d) =>

@@ -1,0 +1,41 @@
+{
+  "badge": "Sponsorship Verified",
+  "queue": {
+    "title": "Sponsorship & Visa Compliance",
+    "subtitle": "Domestic-help providers (maids, nannies, caregivers) require sponsor-visa document review in addition to standard verification.",
+    "empty": "No compliance reviews pending.",
+    "stats": {
+      "pending": "Pending Review",
+      "verified": "Verified",
+      "rejected": "Rejected"
+    },
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "verified": "Verified",
+      "rejected": "Rejected"
+    },
+    "documents": {
+      "visa": "Visa Document",
+      "sponsorship": "Sponsorship Letter",
+      "uploaded": "Uploaded",
+      "missing": "Missing"
+    },
+    "statusLabel": {
+      "pending": "pending",
+      "verified": "verified",
+      "rejected": "rejected",
+      "not_applicable": "not applicable"
+    },
+    "notesPlaceholder": "Add a note for this decision (optional)",
+    "actions": {
+      "verify": "Verify",
+      "reject": "Reject",
+      "viewDocument": "View"
+    },
+    "toast": {
+      "updated": "Compliance status updated",
+      "updateFailed": "Failed to update compliance status"
+    }
+  }
+}

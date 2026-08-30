@@ -10,6 +10,8 @@ const reviewRoutes   = require("./reviews");
 const adminRoutes    = require("./admin");
 const chatRoutes     = require("./chat");
 const stripeRoutes   = require("./stripe");
+const gatewayRoutes  = require("./gateway");
+const quoteAssistantRoutes = require("./quote-assistant");
 
 router.get("/info", InfoController.info);
 router.use("/auth",     authRoutes);
@@ -20,5 +22,7 @@ router.use("/reviews",  reviewRoutes);
 router.use("/admin",    adminRoutes);
 router.use("/chat",     chatRoutes);
 router.use("/stripe",   stripeRoutes);
+router.use("/gateway",  gatewayRoutes);
+router.use("/quote-assistant", quoteAssistantRoutes);
 
 module.exports = router;

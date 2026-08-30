@@ -1,64 +1,18 @@
 import { motion } from "motion/react";
 import { Star, Quote } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const REVIEWS = [
-  {
-    name: "Priya Sharma",
-    location: "Mumbai",
-    service: "House Cleaning",
-    rating: 5,
-    text: "Booked a deep cleaning and it was absolutely seamless. The professional arrived on time and my apartment looked brand new. Will definitely book again!",
-    initials: "PS",
-    avatarBg: "#0891b2",
-  },
-  {
-    name: "Rahul Mehta",
-    location: "Bengaluru",
-    service: "Electrical Repair",
-    rating: 5,
-    text: "Found a certified electrician within an hour for a faulty wiring issue. Work done safely and pricing was completely transparent — no surprises at all.",
-    initials: "RM",
-    avatarBg: "#16a34a",
-  },
-  {
-    name: "Anjali Verma",
-    location: "Delhi",
-    service: "Plumbing",
-    rating: 4,
-    text: "The plumber fixed a leaking pipe that two others couldn't. The escrow payment system gave me real confidence the job would be done right.",
-    initials: "AV",
-    avatarBg: "#7c3aed",
-  },
-  {
-    name: "Suresh Nair",
-    location: "Chennai",
-    service: "AC Service",
-    rating: 5,
-    text: "AC stopped working in peak summer. Booked a technician the same afternoon — diagnosed and fixed within 2 hours. Competitive pricing and truly professional.",
-    initials: "SN",
-    avatarBg: "#d97706",
-  },
-  {
-    name: "Kavita Joshi",
-    location: "Pune",
-    service: "Painting",
-    rating: 5,
-    text: "Had my entire 3BHK painted in 3 days. The team was punctual, clean, and the finish quality genuinely exceeded my expectations.",
-    initials: "KJ",
-    avatarBg: "#e11d48",
-  },
-  {
-    name: "Arjun Kapoor",
-    location: "Hyderabad",
-    service: "Carpentry",
-    rating: 4,
-    text: "Needed custom wardrobes installed. The carpenter understood the brief perfectly and communication was smooth. Booking took under 5 minutes.",
-    initials: "AK",
-    avatarBg: "#2563eb",
-  },
+  { id: "review1", initials: "FA", avatarBg: "#0891b2", rating: 5 },
+  { id: "review2", initials: "MH", avatarBg: "#16a34a", rating: 5 },
+  { id: "review3", initials: "NA", avatarBg: "#7c3aed", rating: 4 },
+  { id: "review4", initials: "SR", avatarBg: "#d97706", rating: 5 },
+  { id: "review5", initials: "KJ", avatarBg: "#e11d48", rating: 5 },
+  { id: "review6", initials: "AK", avatarBg: "#2563eb", rating: 4 },
 ];
 
 export function Testimonials() {
+  const { t } = useTranslation("home");
   const avgRating = "4.9";
   const totalReviews = "20+";
 
@@ -75,12 +29,12 @@ export function Testimonials() {
           className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12"
         >
           <div>
-            <p className="text-xs font-bold text-[#00B8A9] uppercase tracking-widest mb-2">Reviews</p>
+            <p className="text-xs font-bold text-[#00B8A9] uppercase tracking-widest mb-2">{t("testimonials.tag")}</p>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-              Customers love us
+              {t("testimonials.title")}
             </h2>
             <p className="text-gray-500 mt-1.5 text-sm md:text-base">
-              Over {totalReviews} verified reviews from homeowners across India
+              {t("testimonials.subtitle", { count: totalReviews })}
             </p>
           </div>
 
@@ -94,8 +48,8 @@ export function Testimonials() {
             </div>
             <div className="w-px h-10 bg-gray-100" />
             <div>
-              <p className="text-sm font-semibold text-gray-700">{totalReviews} reviews</p>
-              <p className="text-xs text-gray-400">Verified customers</p>
+              <p className="text-sm font-semibold text-gray-700">{t("testimonials.reviewsCount", { count: totalReviews })}</p>
+              <p className="text-xs text-gray-400">{t("testimonials.verifiedCustomers")}</p>
             </div>
           </div>
         </motion.div>
@@ -104,7 +58,7 @@ export function Testimonials() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {REVIEWS.map((r, i) => (
             <motion.div
-              key={r.name}
+              key={r.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -125,7 +79,7 @@ export function Testimonials() {
               </div>
 
               <p className="text-gray-600 text-sm leading-relaxed flex-1 mb-5">
-                "{r.text}"
+                "{t(`testimonials.items.${r.id}.text`)}"
               </p>
 
               {/* Reviewer */}
@@ -137,11 +91,13 @@ export function Testimonials() {
                   {r.initials}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-gray-900 truncate">{r.name}</p>
-                  <p className="text-xs text-gray-400 truncate">{r.service} · {r.location}</p>
+                  <p className="text-sm font-semibold text-gray-900 truncate">{t(`testimonials.items.${r.id}.name`)}</p>
+                  <p className="text-xs text-gray-400 truncate">
+                    {t(`testimonials.items.${r.id}.service`)} · {t(`testimonials.items.${r.id}.location`)}
+                  </p>
                 </div>
                 <span className="ml-auto flex-shrink-0 text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                  Verified
+                  {t("testimonials.verified")}
                 </span>
               </div>
             </motion.div>

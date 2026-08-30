@@ -35,7 +35,12 @@ const providerApplicationSchema = new mongoose.Schema(
   documents:{
     idDocument:String,
     licenseDocument:String,
-    insuranceDocument:String
+    insuranceDocument:String,
+    // Domestic-help / live-in staff categories (maids, nannies, caregivers) need
+    // sponsor-visa paperwork on top of the standard verification documents —
+    // see the compliance fields below.
+    visaDocument:String,
+    sponsorshipDocument:String
   },
 
   status:{
@@ -50,6 +55,19 @@ const providerApplicationSchema = new mongoose.Schema(
   },
 
   penaltyCount: { type: Number, default: 0 },
+
+  // Sponsorship/visa compliance review — only meaningful for domestic-help
+  // categories (see isDomesticHelpCategory in provider-service.js). Kept
+  // separate from `status` because a provider can be approved to work while
+  // their sponsorship paperwork is still pending review.
+  complianceStatus: {
+    type: String,
+    enum: ["not_applicable", "pending", "verified", "rejected"],
+    default: "not_applicable",
+  },
+  complianceNotes: { type: String, default: "" },
+  complianceReviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  complianceReviewedAt: { type: Date },
 
   // Stripe Connect payout
   stripeAccountId:     { type: String, default: "" },

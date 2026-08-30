@@ -1,0 +1,595 @@
+{
+  "aboutUs": {
+    "seo": {
+      "title": "About Us",
+      "description": "Learn about HomeCare360's mission to connect families with trusted, verified home care professionals. Compassionate care delivered to your doorstep.",
+      "keywords": "about homecare360, our mission, home care team, trusted caregivers, home care values"
+    },
+    "heroPrefix": "About",
+    "heroSubtitle": "Your trusted partner in connecting homeowners with professional service providers since 2020",
+    "storyHeading": "Our Story",
+    "storyPara1": "HomeCare360 was founded with a simple mission: to make finding and booking home services as easy as possible. We recognized the challenges homeowners face when searching for reliable, trustworthy service professionals, and we set out to solve this problem.",
+    "storyPara2": "Today, we're proud to serve thousands of customers across the region, connecting them with verified professionals for everything from plumbing and electrical work to cleaning and landscaping. Our platform combines cutting-edge technology with a human touch to ensure every service experience exceeds expectations.",
+    "storyPara3": "We believe that maintaining your home should be simple, transparent, and stress-free. That's why we've built a platform that prioritizes trust, quality, and customer satisfaction above all else.",
+    "whatDrivesUs": "What Drives Us",
+    "values": {
+      "mission": {
+        "title": "Our Mission",
+        "description": "To connect homeowners with trusted service professionals, making home maintenance simple and stress-free."
+      },
+      "values": {
+        "title": "Our Values",
+        "description": "Trust, quality, and customer satisfaction are at the core of everything we do."
+      },
+      "team": {
+        "title": "Our Team",
+        "description": "A dedicated group of professionals committed to delivering exceptional service experiences."
+      },
+      "promise": {
+        "title": "Our Promise",
+        "description": "100% satisfaction guaranteed on every service, every time."
+      }
+    },
+    "stats": {
+      "customers": "Happy Customers",
+      "professionals": "Verified Professionals",
+      "services": "Services Completed",
+      "rating": "Average Rating"
+    }
+  },
+  "blog": {
+    "seo": {
+      "title": "Blog",
+      "description": "Explore home care tips, guides, and expert advice on elder care, home maintenance, and caregiver best practices from the HomeCare360 team.",
+      "keywords": "home care blog, caregiving tips, elder care guide, home maintenance tips, caregiver advice"
+    },
+    "heroPrefix": "Our",
+    "heroHighlight": "Blog",
+    "heroSubtitle": "Tips, guides, and insights to help you maintain and improve your home",
+    "categories": {
+      "all": "All",
+      "homeMaintenance": "Home Maintenance",
+      "tipsGuides": "Tips & Guides",
+      "energyEfficiency": "Energy Efficiency",
+      "plumbing": "Plumbing",
+      "landscaping": "Landscaping",
+      "technology": "Technology"
+    },
+    "posts": {
+      "0": {
+        "title": "10 Essential Home Maintenance Tips for Spring",
+        "excerpt": "Get your home ready for the warmer months with these essential maintenance tasks that every homeowner should know.",
+        "author": "Sarah Johnson",
+        "date": "March 8, 2026",
+        "category": "Home Maintenance",
+        "readTime": "5 min read"
+      },
+      "1": {
+        "title": "How to Choose the Right Service Professional",
+        "excerpt": "Learn the key factors to consider when selecting a service professional for your home projects.",
+        "author": "Mike Chen",
+        "date": "March 5, 2026",
+        "category": "Tips & Guides",
+        "readTime": "7 min read"
+      },
+      "2": {
+        "title": "The Ultimate Guide to Home Energy Efficiency",
+        "excerpt": "Discover practical ways to reduce your energy bills and make your home more environmentally friendly.",
+        "author": "Emily Davis",
+        "date": "March 1, 2026",
+        "category": "Energy Efficiency",
+        "readTime": "10 min read"
+      },
+      "3": {
+        "title": "5 Signs You Need Professional Plumbing Help",
+        "excerpt": "Don't ignore these warning signs that indicate it's time to call a professional plumber.",
+        "author": "David Martinez",
+        "date": "February 28, 2026",
+        "category": "Plumbing",
+        "readTime": "4 min read"
+      },
+      "4": {
+        "title": "Creating a Beautiful Low-Maintenance Garden",
+        "excerpt": "Transform your outdoor space with these landscaping ideas that look great without requiring constant upkeep.",
+        "author": "Lisa Thompson",
+        "date": "February 25, 2026",
+        "category": "Landscaping",
+        "readTime": "8 min read"
+      },
+      "5": {
+        "title": "Smart Home Technology Trends for 2026",
+        "excerpt": "Explore the latest smart home innovations that can make your life easier and your home more efficient.",
+        "author": "Tom Wilson",
+        "date": "February 22, 2026",
+        "category": "Technology",
+        "readTime": "6 min read"
+      }
+    },
+    "imagePlaceholder": "Blog Image",
+    "readMore": "Read More",
+    "loadMore": "Load More Articles"
+  },
+  "careers": {
+    "seo": {
+      "title": "Careers",
+      "description": "Join the HomeCare360 team and help transform home care. Explore open positions and build a meaningful career connecting families with trusted care professionals.",
+      "keywords": "homecare360 careers, home care jobs, caregiver jobs, healthcare jobs, join homecare360"
+    },
+    "heroPrefix": "Join Our",
+    "heroHighlight": "Team",
+    "heroSubtitle": "Help us revolutionize the home services industry. Build your career with a team that values innovation, collaboration, and growth.",
+    "whyWorkWithUs": "Why Work With Us?",
+    "benefits": {
+      "0": "Competitive salary and equity",
+      "1": "Health and medical insurance",
+      "2": "Generous annual leave",
+      "3": "Remote work options",
+      "4": "Professional development budget",
+      "5": "End-of-service benefits",
+      "6": "Team events and outings",
+      "7": "Wellness programs"
+    },
+    "openPositions": "Open Positions",
+    "fullTime": "Full-time",
+    "remote": "Remote",
+    "openings": {
+      "0": { "title": "Senior Product Manager", "department": "Product" },
+      "1": { "title": "Full Stack Developer", "department": "Engineering" },
+      "2": { "title": "Customer Success Manager", "department": "Customer Success" },
+      "3": { "title": "Marketing Specialist", "department": "Marketing" },
+      "4": { "title": "UX/UI Designer", "department": "Design" },
+      "5": { "title": "Data Analyst", "department": "Analytics" }
+    },
+    "applyNow": "Apply Now",
+    "noFitHeading": "Don't See a Perfect Fit?",
+    "noFitSubtitle": "We're always looking for talented people. Send us your resume and we'll keep you in mind for future opportunities.",
+    "sendResume": "Send Your Resume"
+  },
+  "contact": {
+    "seo": {
+      "title": "Contact Us",
+      "description": "Get in touch with HomeCare360. Reach our support team for questions about booking home care services, becoming a provider, or any other inquiries.",
+      "keywords": "contact homecare360, home care support, customer service, home care help"
+    },
+    "heroPrefix": "Get in",
+    "heroHighlight": "Touch",
+    "heroSubtitle": "Have a question or need assistance? We're here to help!",
+    "emailUs": "Email Us",
+    "emailSubtext": "We'll respond within 24 hours",
+    "callUs": "Call Us",
+    "callSubtext": "Sun-Thu from 9am to 6pm",
+    "visitUs": "Visit Us",
+    "addressLine1": "Service Tower, Sheikh Zayed Road",
+    "sendMessageHeading": "Send Us a Message",
+    "sendMessageSubtitle": "Fill out the form below and we'll get back to you as soon as possible. We're committed to providing excellent customer service.",
+    "yourName": "Your Name",
+    "namePlaceholder": "John Doe",
+    "emailAddress": "Email Address",
+    "subject": "Subject",
+    "subjectPlaceholder": "How can we help?",
+    "message": "Message",
+    "messagePlaceholder": "Tell us more about your inquiry...",
+    "sendMessageBtn": "Send Message",
+    "ourLocation": "Our Location",
+    "mapPlaceholder": "Interactive map would be displayed here"
+  },
+  "helpCenter": {
+    "seo": {
+      "title": "Help Center",
+      "description": "Find answers to frequently asked questions about HomeCare360 services, bookings, payments, and caregiver verification. We're here to help.",
+      "keywords": "homecare360 help, FAQ, home care questions, booking help, caregiver FAQ"
+    },
+    "heroPrefix": "How Can We",
+    "heroHighlight": "Help You?",
+    "heroSubtitle": "Search our knowledge base for quick answers",
+    "searchPlaceholder": "Search for help...",
+    "browseByCategory": "Browse by Category",
+    "categories": {
+      "gettingStarted": "Getting Started",
+      "bookingPayments": "Booking & Payments",
+      "accountManagement": "Account Management",
+      "serviceProviders": "Service Providers",
+      "safetyTrust": "Safety & Trust",
+      "troubleshooting": "Troubleshooting"
+    },
+    "articlesCount": "{{count}} articles",
+    "faqHeading": "Frequently Asked Questions",
+    "faqs": {
+      "0": {
+        "question": "How do I book a service?",
+        "answer": "Simply search for the service you need, browse verified professionals in your area, compare ratings and reviews, and book directly through our platform. You'll receive instant confirmation and can manage your booking from your account dashboard."
+      },
+      "1": {
+        "question": "Are all service professionals verified?",
+        "answer": "Yes, all professionals on our platform undergo a thorough verification process including background checks, license verification, and insurance confirmation. We prioritize your safety and only work with trusted professionals."
+      },
+      "2": {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept all major credit and debit cards, and digital payment methods like Apple Pay and Google Pay. All transactions are secure and encrypted."
+      },
+      "3": {
+        "question": "Can I cancel or reschedule a booking?",
+        "answer": "Yes, you can cancel or reschedule your booking from your account dashboard. Please note that cancellation policies may vary by service provider. We recommend reviewing the specific policy before booking."
+      },
+      "4": {
+        "question": "How does the rating system work?",
+        "answer": "After each completed service, you can rate your experience on a 5-star scale and leave a detailed review. These ratings help other customers make informed decisions and help us maintain high service standards."
+      },
+      "5": {
+        "question": "What if I'm not satisfied with the service?",
+        "answer": "We offer a 100% satisfaction guarantee. If you're not happy with a service, contact our customer support team within 48 hours. We'll work with you to resolve the issue, which may include a refund or re-service."
+      },
+      "6": {
+        "question": "How do I become a service provider?",
+        "answer": "Visit our 'Become a Provider' page and complete the application form. Our team will review your qualifications, verify your credentials, and guide you through the onboarding process."
+      },
+      "7": {
+        "question": "Is there a membership fee?",
+        "answer": "Creating an account and browsing services is completely free. We only charge a small service fee when you book and complete a service. There are no hidden fees or recurring charges."
+      }
+    },
+    "stillNeedHelp": "Still Need Help?",
+    "stillNeedHelpSubtitle": "Our support team is available 24/7 to assist you",
+    "contactSupport": "Contact Support"
+  },
+  "privacyPolicy": {
+    "seo": {
+      "title": "Privacy Policy",
+      "description": "Read HomeCare360's Privacy Policy to understand how we collect, use, and protect your personal information when using our home care platform.",
+      "keywords": "homecare360 privacy policy, data protection, personal information, privacy"
+    },
+    "heroPrefix": "Privacy",
+    "heroHighlight": "Policy",
+    "lastUpdated": "Last updated: March 11, 2026",
+    "heroIntro": "Your privacy is important to us. This policy explains how we collect, use, and protect your information.",
+    "sections": [
+      {
+        "title": "Information We Collect",
+        "content": [
+          "Personal information (name, email, phone number, address)",
+          "Account credentials and preferences",
+          "Payment and billing information",
+          "Service booking and transaction history",
+          "Communications between users and service providers",
+          "Device and usage information",
+          "Location data when you use our services"
+        ]
+      },
+      {
+        "title": "How We Use Your Information",
+        "content": [
+          "To provide and maintain our services",
+          "To process transactions and send notifications",
+          "To improve and personalize your experience",
+          "To communicate with you about services and updates",
+          "To ensure safety and prevent fraud",
+          "To comply with legal obligations",
+          "To analyze usage patterns and improve our platform"
+        ]
+      },
+      {
+        "title": "Information Sharing",
+        "content": [
+          "With service providers to fulfill your bookings",
+          "With payment processors for transaction handling",
+          "With service providers who help us operate our platform",
+          "When required by law or legal process",
+          "With your consent for specific purposes",
+          "We never sell your personal information to third parties"
+        ]
+      },
+      {
+        "title": "Data Security",
+        "content": [
+          "We use industry-standard encryption for data transmission",
+          "Secure servers with restricted access",
+          "Regular security audits and updates",
+          "Employee training on data protection",
+          "Two-factor authentication options",
+          "Secure payment processing through certified providers"
+        ]
+      },
+      {
+        "title": "Your Rights",
+        "content": [
+          "Access your personal information",
+          "Request correction of inaccurate data",
+          "Request deletion of your data",
+          "Opt-out of marketing communications",
+          "Export your data in portable format",
+          "Withdraw consent for data processing",
+          "Lodge a complaint with regulatory authorities"
+        ]
+      },
+      {
+        "title": "Cookies and Tracking",
+        "content": [
+          "We use essential cookies for platform functionality",
+          "Analytics cookies to understand usage patterns",
+          "Preference cookies to remember your settings",
+          "You can control cookie settings in your browser",
+          "Some features may not work without cookies"
+        ]
+      }
+    ],
+    "contactHeading": "Contact Us About Privacy",
+    "contactIntro": "If you have questions about this Privacy Policy or how we handle your data, please contact us:",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "mailLabel": "Mail",
+    "addressLine": "Service Tower, Sheikh Zayed Road",
+    "changesHeading": "Changes to This Policy",
+    "changesBody": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last updated\" date. We encourage you to review this Privacy Policy periodically for any changes."
+  },
+  "safety": {
+    "seo": {
+      "title": "Safety & Trust",
+      "description": "Your safety is our priority. Learn how HomeCare360 verifies caregivers through background checks, certifications, and ongoing quality assurance.",
+      "keywords": "home care safety, caregiver background check, trusted caregivers, home care verification, safety standards"
+    },
+    "heroPrefix": "Your",
+    "heroHighlight": "Safety",
+    "heroSuffix": "is Our Priority",
+    "heroSubtitle": "We've built comprehensive safety measures to protect you, your home, and your family",
+    "howWeKeepYouSafe": "How We Keep You Safe",
+    "features": [
+      {
+        "title": "Verified Professionals",
+        "description": "Every service provider undergoes comprehensive background checks and credential verification before joining our platform."
+      },
+      {
+        "title": "Secure Payments",
+        "description": "All transactions are encrypted and processed through secure payment gateways. Your financial information is never stored on our servers."
+      },
+      {
+        "title": "Insurance Coverage",
+        "description": "All professionals are required to maintain valid insurance coverage to protect you and your property."
+      },
+      {
+        "title": "Reviewed Ratings",
+        "description": "Read authentic reviews from verified customers to make informed decisions about service providers."
+      },
+      {
+        "title": "24/7 Support",
+        "description": "Our safety team is available around the clock to address any concerns or incidents that may arise."
+      },
+      {
+        "title": "Quality Assurance",
+        "description": "Regular quality checks and performance monitoring ensure consistent service standards."
+      }
+    ],
+    "verificationHeading": "Our Verification Process",
+    "verificationSteps": [
+      {
+        "step": "1",
+        "title": "Identity Verification",
+        "description": "Government-issued ID verification and address confirmation"
+      },
+      {
+        "step": "2",
+        "title": "Background Check",
+        "description": "Comprehensive criminal background screening"
+      },
+      {
+        "step": "3",
+        "title": "License Verification",
+        "description": "Validation of professional licenses and certifications"
+      },
+      {
+        "step": "4",
+        "title": "Insurance Check",
+        "description": "Confirmation of liability and workers' compensation insurance"
+      },
+      {
+        "step": "5",
+        "title": "Reference Verification",
+        "description": "Professional reference checks and work history review"
+      }
+    ],
+    "tipsHeading": "Safety Tips for Customers",
+    "tips": [
+      "Always communicate through our platform for documented interactions",
+      "Review service provider profiles, ratings, and reviews carefully",
+      "Report any suspicious behavior or safety concerns immediately",
+      "Keep your account information secure and never share passwords",
+      "Verify the identity of service providers before allowing entry",
+      "Use our secure payment system for all transactions",
+      "Provide feedback after each service to help maintain quality",
+      "Contact our support team if you have any safety questions"
+    ],
+    "reportConcernHeading": "Report a Safety Concern",
+    "reportConcernSubtitle": "If you experience any safety issues, contact our 24/7 safety team immediately",
+    "callHotline": "Call Safety Hotline",
+    "submitReport": "Submit Report Online"
+  },
+  "termsOfService": {
+    "seo": {
+      "title": "Terms of Service",
+      "description": "Review HomeCare360's Terms of Service governing the use of our home care platform, including user responsibilities, bookings, and service agreements.",
+      "keywords": "homecare360 terms, terms of service, user agreement, service terms"
+    },
+    "heroPrefix": "Terms of",
+    "heroHighlight": "Service",
+    "lastUpdated": "Last updated: March 11, 2026",
+    "heroSubtitle": "Please read these terms carefully before using our services",
+    "sections": [
+      {
+        "title": "Acceptance of Terms",
+        "content": "By accessing and using HomeCare360's services, you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services. We reserve the right to update these terms at any time, and your continued use constitutes acceptance of any changes."
+      },
+      {
+        "title": "Service Description",
+        "content": "HomeCare360 is a platform that connects homeowners with verified service professionals. We facilitate bookings, payments, and reviews but do not directly provide home services. The actual services are performed by independent professionals who use our platform."
+      },
+      {
+        "title": "User Accounts",
+        "content": "You must create an account to use certain features of our service. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. You must provide accurate and complete information when creating your account and keep this information updated."
+      },
+      {
+        "title": "User Responsibilities",
+        "content": "Users agree to use our platform only for lawful purposes and in accordance with these terms. You must not misuse our services, attempt to gain unauthorized access, or interfere with the proper functioning of the platform. You are responsible for all content you submit and communications you make through our platform."
+      },
+      {
+        "title": "Service Provider Terms",
+        "content": "Service providers must undergo our verification process and maintain valid licenses, insurance, and credentials. They must provide services professionally and in accordance with applicable laws and regulations. Service providers are independent contractors and not employees of HomeCare360."
+      },
+      {
+        "title": "Payments and Fees",
+        "content": "All payments must be made through our secure payment system. We charge a service fee for facilitating connections between customers and service providers. Prices for services are set by individual service providers. Refund policies may vary by service provider and situation."
+      },
+      {
+        "title": "Cancellations and Refunds",
+        "content": "Cancellation policies vary by service provider. Customers may cancel bookings subject to the provider's cancellation policy. Refunds are processed according to our refund policy and the specific circumstances of each case. Some services may be non-refundable or subject to cancellation fees."
+      },
+      {
+        "title": "Reviews and Ratings",
+        "content": "Users may submit reviews and ratings for services they've received. Reviews must be honest, accurate, and based on actual experiences. We reserve the right to remove reviews that violate our content policies, including those that are fraudulent, defamatory, or inappropriate."
+      },
+      {
+        "title": "Intellectual Property",
+        "content": "All content on our platform, including text, graphics, logos, and software, is owned by HomeCare360 or our licensors and protected by intellectual property laws. You may not use, copy, or distribute our content without permission. User-generated content remains the property of the user but grants us a license to use it on our platform."
+      },
+      {
+        "title": "Limitation of Liability",
+        "content": "HomeCare360 acts as a platform connecting users with service providers. We are not liable for the actions, omissions, or services provided by independent professionals. Our liability is limited to the maximum extent permitted by law. We do not guarantee the quality of services provided by third-party professionals."
+      },
+      {
+        "title": "Indemnification",
+        "content": "You agree to indemnify and hold HomeCare360 harmless from any claims, damages, or expenses arising from your use of our services, violation of these terms, or infringement of any rights of another party."
+      },
+      {
+        "title": "Dispute Resolution",
+        "content": "Any disputes arising from these terms or use of our services will be resolved through binding arbitration in accordance with applicable arbitration rules. You waive your right to participate in class action lawsuits. These terms are governed by the laws of the United Arab Emirates."
+      },
+      {
+        "title": "Termination",
+        "content": "We reserve the right to suspend or terminate your account at any time for violation of these terms or for any other reason at our discretion. You may also terminate your account at any time by contacting our support team. Certain provisions of these terms survive termination."
+      }
+    ],
+    "contactHeading": "Contact Information",
+    "contactIntro": "If you have questions about these Terms of Service, please contact us:",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "mailLabel": "Mail",
+    "addressLine": "Service Tower, Sheikh Zayed Road",
+    "agreementHeading": "Agreement",
+    "agreementBody": "By using HomeCare360, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree to these terms, you must discontinue use of our services immediately."
+  },
+  "home": {
+    "hero": {
+      "titlePrefix": "Find Trusted Local",
+      "titleHighlight": "Service Providers",
+      "subtitle": "Connect with verified professionals for all your home service needs. Book, pay, and review - all in one place.",
+      "servicePlaceholder": "What service do you need?",
+      "locationPlaceholder": "Enter your location",
+      "searchButton": "Search Services",
+      "imageAlt": "Professional service provider"
+    },
+    "popularServices": {
+      "heading": "Popular Services",
+      "subtitle": "Browse our most requested services and connect with top-rated professionals",
+      "serviceDescription": "Professional {{service}} services for your home",
+      "bookNow": "Book Now"
+    },
+    "services": {
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "cleaning": "Cleaning",
+      "outdoor": "Outdoor Services",
+      "painting": "Painting",
+      "acRepair": "AC & Appliance Repair"
+    },
+    "howItWorks": {
+      "heading": "How It Works",
+      "subtitle": "Get started in three simple steps"
+    },
+    "steps": {
+      "search": {
+        "title": "Search & Compare",
+        "description": "Browse verified service providers in your area. Compare ratings, reviews, and prices."
+      },
+      "book": {
+        "title": "Book & Schedule",
+        "description": "Choose your preferred time slot and book instantly. Get automatic reminders."
+      },
+      "pay": {
+        "title": "Pay & Review",
+        "description": "Secure payment after service completion. Leave a review to help others."
+      }
+    },
+    "whyChoose": {
+      "heading": "Why Choose HomeCare360?"
+    },
+    "features": {
+      "verified": {
+        "title": "Verified Professionals",
+        "description": "All service providers are thoroughly vetted and verified for your safety"
+      },
+      "easyBooking": {
+        "title": "Easy Booking",
+        "description": "Book services in minutes with our simple and intuitive platform"
+      },
+      "qualityGuaranteed": {
+        "title": "Quality Guaranteed",
+        "description": "100% satisfaction guarantee on all services provided"
+      }
+    },
+    "providers": {
+      "heading": "Grow Your Business with HomeCare360",
+      "subtitle": "Join our network of professional service providers and connect with customers in your area.",
+      "startApplication": "Start Your Application",
+      "benefitsHeading": "Benefits for Providers"
+    },
+    "benefits": {
+      "fee": {
+        "title": "Competitive Platform Fee",
+        "description": "Only 15% per booking - lower than competitors"
+      },
+      "badge": {
+        "title": "Verified Badge",
+        "description": "Stand out with our verification system"
+      },
+      "payouts": {
+        "title": "Quick Payouts",
+        "description": "Weekly direct deposits to your account"
+      }
+    },
+    "featured": {
+      "verified": {
+        "title": "Verified Professionals",
+        "description": "All service providers undergo background checks and verification to ensure quality and safety."
+      },
+      "reviews": {
+        "title": "Transparent Reviews",
+        "description": "Read authentic reviews from real customers to make informed decisions."
+      },
+      "payments": {
+        "title": "Secure Payments",
+        "description": "Escrow payment system ensures your money is safe until the job is completed."
+      }
+    },
+    "footer": {
+      "tagline": "Your trusted marketplace for professional home services. Connect, book, and get things done.",
+      "servicesHeading": "Services",
+      "landscaping": "Landscaping",
+      "companyHeading": "Company",
+      "aboutUs": "About Us",
+      "careers": "Careers",
+      "blog": "Blog",
+      "press": "Press",
+      "contact": "Contact",
+      "supportHeading": "Support",
+      "helpCenter": "Help Center",
+      "safety": "Safety",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "copyright": "© 2026 HomeCare360. All rights reserved."
+    }
+  },
+  "notFound": {
+    "heading": "Page Not Found",
+    "subtitle": "Oops! The page you're looking for doesn't exist. It might have been moved or deleted.",
+    "backToHome": "Back to Home",
+    "goBack": "Go Back"
+  }
+}

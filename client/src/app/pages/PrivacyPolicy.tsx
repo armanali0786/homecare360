@@ -1,85 +1,25 @@
 import { motion } from "motion/react";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "../context/LocaleContext";
 import { SEO } from "@/app/components/SEO";
 
+interface PolicySection {
+  title: string;
+  content: string[];
+}
+
 export function PrivacyPolicy() {
-  const sections = [
-    {
-      title: "Information We Collect",
-      content: [
-        "Personal information (name, email, phone number, address)",
-        "Account credentials and preferences",
-        "Payment and billing information",
-        "Service booking and transaction history",
-        "Communications between users and service providers",
-        "Device and usage information",
-        "Location data when you use our services",
-      ],
-    },
-    {
-      title: "How We Use Your Information",
-      content: [
-        "To provide and maintain our services",
-        "To process transactions and send notifications",
-        "To improve and personalize your experience",
-        "To communicate with you about services and updates",
-        "To ensure safety and prevent fraud",
-        "To comply with legal obligations",
-        "To analyze usage patterns and improve our platform",
-      ],
-    },
-    {
-      title: "Information Sharing",
-      content: [
-        "With service providers to fulfill your bookings",
-        "With payment processors for transaction handling",
-        "With service providers who help us operate our platform",
-        "When required by law or legal process",
-        "With your consent for specific purposes",
-        "We never sell your personal information to third parties",
-      ],
-    },
-    {
-      title: "Data Security",
-      content: [
-        "We use industry-standard encryption for data transmission",
-        "Secure servers with restricted access",
-        "Regular security audits and updates",
-        "Employee training on data protection",
-        "Two-factor authentication options",
-        "Secure payment processing through certified providers",
-      ],
-    },
-    {
-      title: "Your Rights",
-      content: [
-        "Access your personal information",
-        "Request correction of inaccurate data",
-        "Request deletion of your data",
-        "Opt-out of marketing communications",
-        "Export your data in portable format",
-        "Withdraw consent for data processing",
-        "Lodge a complaint with regulatory authorities",
-      ],
-    },
-    {
-      title: "Cookies and Tracking",
-      content: [
-        "We use essential cookies for platform functionality",
-        "Analytics cookies to understand usage patterns",
-        "Preference cookies to remember your settings",
-        "You can control cookie settings in your browser",
-        "Some features may not work without cookies",
-      ],
-    },
-  ];
+  const { t } = useTranslation("pages");
+  const { regionConfig } = useLocale();
+  const sections = t("privacyPolicy.sections", { returnObjects: true }) as PolicySection[];
 
   return (
     <div className="w-full">
       <SEO
-        title="Privacy Policy"
+        title={t("privacyPolicy.seo.title")}
         url="/privacy-policy"
-        description="Read Homecare360's Privacy Policy to understand how we collect, use, and protect your personal information when using our home care platform."
-        keywords="homecare360 privacy policy, data protection, personal information, privacy"
+        description={t("privacyPolicy.seo.description")}
+        keywords={t("privacyPolicy.seo.keywords")}
         noIndex={false}
       />
       {/* Hero Section */}
@@ -90,7 +30,7 @@ export function PrivacyPolicy() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            Privacy <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">Policy</span>
+            {t("privacyPolicy.heroPrefix")} <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">{t("privacyPolicy.heroHighlight")}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -98,7 +38,7 @@ export function PrivacyPolicy() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-600 mb-4"
           >
-            Last updated: March 11, 2026
+            {t("privacyPolicy.lastUpdated")}
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -106,7 +46,7 @@ export function PrivacyPolicy() {
             transition={{ delay: 0.3 }}
             className="text-gray-600"
           >
-            Your privacy is important to us. This policy explains how we collect, use, and protect your information.
+            {t("privacyPolicy.heroIntro")}
           </motion.p>
         </div>
       </section>
@@ -140,15 +80,15 @@ export function PrivacyPolicy() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Us About Privacy</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("privacyPolicy.contactHeading")}</h2>
               <div className="bg-gradient-to-br from-[#E0F7F5] to-white p-8 rounded-2xl">
                 <p className="text-gray-700 mb-4">
-                  If you have questions about this Privacy Policy or how we handle your data, please contact us:
+                  {t("privacyPolicy.contactIntro")}
                 </p>
                 <ul className="space-y-2 text-gray-700">
-                  <li><strong>Email:</strong> privacy@homecare360.com</li>
-                  <li><strong>Phone:</strong> +1 (555) 123-4567</li>
-                  <li><strong>Mail:</strong> 123 Service Street, New York, NY 10001</li>
+                  <li><strong>{t("privacyPolicy.emailLabel")}:</strong> privacy@homecare360.com</li>
+                  <li><strong>{t("privacyPolicy.phoneLabel")}:</strong> {regionConfig.phoneCode} 4 123 4567</li>
+                  <li><strong>{t("privacyPolicy.mailLabel")}:</strong> {t("privacyPolicy.addressLine")}, {regionConfig.cities[0] ?? regionConfig.label}, {regionConfig.label}</li>
                 </ul>
               </div>
             </motion.div>
@@ -159,9 +99,9 @@ export function PrivacyPolicy() {
               viewport={{ once: true }}
               className="bg-gray-50 p-8 rounded-2xl border-l-4 border-[#00B8A9]"
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Changes to This Policy</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{t("privacyPolicy.changesHeading")}</h3>
               <p className="text-gray-700">
-                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date. We encourage you to review this Privacy Policy periodically for any changes.
+                {t("privacyPolicy.changesBody")}
               </p>
             </motion.div>
           </div>

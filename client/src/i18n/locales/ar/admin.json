@@ -1,0 +1,424 @@
+{
+  "layout": {
+    "panelAdmin": "لوحة التحكم",
+    "panelProvider": "لوحة مزود الخدمة",
+    "menu": {
+      "dashboard": "الرئيسية",
+      "services": "إدارة الخدمات",
+      "providers": "مزودو الخدمة",
+      "applications": "طلبات الانضمام",
+      "compliance": "توثيق الكفالة",
+      "users": "إدارة المستخدمين",
+      "bookings": "إدارة الحجوزات",
+      "payments": "المدفوعات والضمان",
+      "reviews": "التقييمات والمراجعات",
+      "notifications": "الإشعارات والمحتوى"
+    },
+    "logout": "تسجيل الخروج"
+  },
+  "dashboard": {
+    "title": "نظرة عامة على لوحة التحكم",
+    "subtitle": "مرحباً بعودتك! إليك آخر مستجدات منصتك اليوم.",
+    "metrics": {
+      "totalUsers": "إجمالي المستخدمين",
+      "totalProviders": "مزودو الخدمة",
+      "totalBookings": "إجمالي الحجوزات",
+      "totalRevenue": "إجمالي الإيرادات"
+    },
+    "pendingAlert": {
+      "title": "طلبات انضمام بانتظار المراجعة",
+      "description_one": "مزود واحد بانتظار التحقق",
+      "description_other": "{{count}} مزودين بانتظار التحقق",
+      "reviewNow": "مراجعة الآن"
+    },
+    "charts": {
+      "bookingsOverTime": "الحجوزات عبر الزمن",
+      "noBookingData": "لا توجد بيانات حجوزات بعد",
+      "revenueAnalytics": "تحليلات الإيرادات",
+      "noRevenueData": "لا توجد بيانات إيرادات بعد"
+    },
+    "topServices": {
+      "title": "أكثر الخدمات طلباً",
+      "noData": "لا توجد بيانات بعد"
+    },
+    "recentActivity": {
+      "title": "النشاط الأخير",
+      "empty": "لا يوجد نشاط حديث"
+    }
+  },
+  "bookings": {
+    "title": "إدارة الحجوزات",
+    "subtitle": "متابعة وإدارة جميع الحجوزات على المنصة",
+    "statsProvider": {
+      "newRequests": "طلبات جديدة",
+      "upcoming": "قادمة",
+      "completed": "مكتملة",
+      "total": "الإجمالي"
+    },
+    "statsAdmin": {
+      "total": "الإجمالي",
+      "upcoming": "قادمة",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة"
+    },
+    "searchPlaceholder": "ابحث في الحجوزات...",
+    "filters": {
+      "all": "الكل",
+      "pending": "قيد الانتظار",
+      "upcoming": "قادمة",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة",
+      "requestsCount": "الطلبات ({{count}})"
+    },
+    "statusLabel": {
+      "pending": "طلب جديد",
+      "upcoming": "قادم",
+      "completed": "مكتمل",
+      "cancelled": "ملغى"
+    },
+    "defaultUser": "مستخدم",
+    "defaultProvider": "مزود خدمة",
+    "empty": "لا توجد حجوزات.",
+    "actions": {
+      "accept": "قبول",
+      "loading": "…",
+      "message": "مراسلة",
+      "decline": "رفض",
+      "messageCustomer": "مراسلة العميل",
+      "cancelJob": "إلغاء المهمة",
+      "complete": "إتمام",
+      "cancel": "إلغاء"
+    },
+    "confirm": {
+      "decline": "هل تريد رفض طلب الحجز هذا؟",
+      "cancel": "هل تريد إلغاء هذا الحجز؟ سيتم تسجيل غرامة."
+    },
+    "toast": {
+      "updated": "تم تحديث الحجز",
+      "updateFailed": "تعذر التحديث",
+      "accepted": "تم قبول الحجز! تم إشعار العميل.",
+      "acceptFailed": "تعذر القبول",
+      "declined": "تم رفض الطلب.",
+      "cancelled": "تم إلغاء الحجز.",
+      "cancelFailed": "تعذر الإلغاء"
+    }
+  },
+  "payments": {
+    "title": "المدفوعات والضمان",
+    "subtitle": "إدارة معاملات الدفع ومستحقات مزودي الخدمة",
+    "stats": {
+      "totalRevenue": "إجمالي إيرادات المنصة",
+      "inEscrow": "الأموال المحجوزة في الضمان",
+      "paidToProviders": "المدفوع لمزودي الخدمة"
+    },
+    "searchPlaceholder": "ابحث في المعاملات...",
+    "filters": {
+      "all": "الكل",
+      "held": "محجوز",
+      "released": "محرر",
+      "refunded": "مسترد"
+    },
+    "statusLabel": {
+      "held": "محجوز",
+      "released": "محرر",
+      "refunded": "مسترد"
+    },
+    "empty": "لا توجد معاملات.",
+    "defaultUser": "مستخدم",
+    "defaultProvider": "مزود خدمة",
+    "bookedOn": "تم الحجز {{date}}",
+    "labels": {
+      "totalAmount": "المبلغ الإجمالي",
+      "platformFee": "رسوم المنصة (15%)",
+      "providerPayout": "مستحقات المزود"
+    },
+    "actions": {
+      "release": "تحرير الأموال"
+    },
+    "toast": {
+      "released": "تم تحرير الدفعة إلى مزود الخدمة",
+      "releaseFailed": "تعذر تحرير الدفعة"
+    }
+  },
+  "applications": {
+    "title": "طلبات الانضمام كمزود خدمة",
+    "subtitle": "مراجعة ومعالجة طلبات الانضمام الجديدة لمزودي الخدمة",
+    "stats": {
+      "pendingReview": "بانتظار المراجعة",
+      "approved": "مقبولة",
+      "total": "إجمالي الطلبات"
+    },
+    "empty": "لا توجد طلبات.",
+    "documents": {
+      "title": "المستندات",
+      "id": "إثبات الهوية",
+      "license": "الرخصة",
+      "insurance": "التأمين",
+      "uploaded": "تم الرفع",
+      "missing": "غير متوفر"
+    },
+    "statusLabel": {
+      "pending": "قيد الانتظار",
+      "approved": "مقبول",
+      "rejected": "مرفوض"
+    },
+    "submittedOn": "قُدّم بتاريخ {{date}}",
+    "actions": {
+      "review": "مراجعة",
+      "approve": "قبول",
+      "reject": "رفض",
+      "close": "إغلاق"
+    },
+    "modal": {
+      "title": "مراجعة الطلب",
+      "description": "الوصف",
+      "uploadedDocuments": "المستندات المرفوعة",
+      "docShortId": "الهوية",
+      "docShortLicense": "الرخصة",
+      "docShortInsurance": "التأمين"
+    },
+    "toast": {
+      "statusUpdated": "تم {{status}} الطلب",
+      "updateFailed": "تعذر التحديث"
+    }
+  },
+  "providers": {
+    "title": "إدارة مزودي الخدمة",
+    "subtitle": "إدارة مزودي الخدمة على المنصة",
+    "stats": {
+      "total": "الإجمالي",
+      "approved": "مقبولون",
+      "pending": "قيد الانتظار",
+      "rejected": "مرفوضون"
+    },
+    "searchPlaceholder": "ابحث عن مزودي الخدمة...",
+    "filters": {
+      "all": "الكل",
+      "approved": "مقبول",
+      "pending": "قيد الانتظار",
+      "rejected": "مرفوض"
+    },
+    "empty": "لا يوجد مزودو خدمة.",
+    "statusLabel": {
+      "approved": "مقبول",
+      "pending": "قيد الانتظار",
+      "rejected": "مرفوض"
+    },
+    "perHour": "{{amount}}/ساعة",
+    "yearsExp": "{{category}} • {{years}} سنوات خبرة",
+    "joinedOn": "انضم بتاريخ {{date}}",
+    "actions": {
+      "approve": "قبول",
+      "reject": "رفض",
+      "suspend": "إيقاف",
+      "reinstate": "إعادة تفعيل"
+    },
+    "toast": {
+      "statusUpdated": "تم {{status}} مزود الخدمة",
+      "updateFailed": "تعذر التحديث"
+    }
+  },
+  "reviews": {
+    "title": "مراجعة التقييمات",
+    "subtitle": "متابعة وإدارة تقييمات المستخدمين",
+    "stats": {
+      "total": "إجمالي التقييمات",
+      "approved": "مقبولة",
+      "flagged": "مبلغ عنها",
+      "hidden": "مخفية"
+    },
+    "searchPlaceholder": "ابحث في التقييمات...",
+    "filters": {
+      "all": "الكل",
+      "approved": "مقبولة",
+      "flagged": "مبلغ عنها",
+      "hidden": "مخفية"
+    },
+    "empty": "لا توجد تقييمات.",
+    "statusLabel": {
+      "approved": "مقبول",
+      "flagged": "مبلغ عنه",
+      "hidden": "مخفي"
+    },
+    "defaultUser": "مستخدم",
+    "defaultProvider": "مزود خدمة",
+    "actions": {
+      "approve": "قبول",
+      "flag": "الإبلاغ",
+      "hide": "إخفاء"
+    },
+    "toast": {
+      "statusUpdated": "تم {{status}} التقييم",
+      "updateFailed": "تعذر التحديث"
+    }
+  },
+  "services": {
+    "title": "إدارة الخدمات",
+    "subtitle": "إدارة فئات الخدمات وإعداداتها",
+    "addNew": "إضافة خدمة جديدة",
+    "empty": "لا توجد خدمات بعد. أضف فئة الخدمة الأولى.",
+    "addService": "إضافة خدمة",
+    "statusLabel": {
+      "active": "مفعّلة",
+      "disabled": "معطّلة"
+    },
+    "actions": {
+      "disable": "تعطيل",
+      "enable": "تفعيل"
+    },
+    "modal": {
+      "editTitle": "تعديل الخدمة",
+      "addTitle": "إضافة خدمة جديدة",
+      "nameLabel": "اسم الخدمة",
+      "namePlaceholder": "مثال: خدمات التكييف",
+      "iconLabel": "الأيقونة (إيموجي)",
+      "iconPlaceholder": "🛠️",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "صف الخدمة...",
+      "priceLabel": "السعر الأساسي ({{currency}})",
+      "pricePlaceholder": "150",
+      "cancel": "إلغاء",
+      "update": "تحديث الخدمة",
+      "add": "إضافة الخدمة",
+      "saving": "جارٍ الحفظ..."
+    },
+    "confirm": {
+      "delete": "هل تريد حذف هذه الخدمة؟"
+    },
+    "toast": {
+      "disabled": "تم تعطيل الخدمة",
+      "enabled": "تم تفعيل الخدمة",
+      "updateFailed": "تعذر التحديث",
+      "deleted": "تم حذف الخدمة",
+      "deleteFailed": "تعذر الحذف",
+      "nameRequired": "اسم الخدمة مطلوب",
+      "updated": "تم تحديث الخدمة",
+      "created": "تم إنشاء الخدمة",
+      "saveFailed": "تعذر الحفظ"
+    }
+  },
+  "users": {
+    "title": "إدارة المستخدمين",
+    "subtitle": "إدارة المستخدمين المسجّلين ونشاطهم",
+    "stats": {
+      "total": "إجمالي المستخدمين",
+      "active": "المستخدمون النشطون",
+      "blocked": "المستخدمون المحظورون"
+    },
+    "searchPlaceholder": "ابحث بالاسم أو البريد الإلكتروني...",
+    "filters": {
+      "all": "الكل",
+      "active": "نشط",
+      "blocked": "محظور"
+    },
+    "empty": "لا يوجد مستخدمون.",
+    "statusLabel": {
+      "active": "نشط",
+      "blocked": "محظور"
+    },
+    "joinedOn": "انضم بتاريخ {{date}}",
+    "role": {
+      "admin": "مسؤول",
+      "superadmin": "مسؤول عام",
+      "provider": "مزود خدمة",
+      "user": "عميل"
+    },
+    "toast": {
+      "updated": "تم تحديث حالة المستخدم",
+      "updateFailed": "تعذر تحديث الحالة"
+    }
+  },
+  "notifications": {
+    "title": "الإشعارات وإدارة المحتوى",
+    "subtitle": "إدارة إشعارات المنصة والرسائل الإلكترونية والمحتوى",
+    "tabs": {
+      "notifications": "إشعارات المنصة",
+      "emails": "قوالب البريد الإلكتروني",
+      "content": "إدارة المحتوى"
+    },
+    "form": {
+      "title": "إرسال إشعار للمنصة",
+      "recipientGroup": "فئة المستلمين",
+      "recipients": {
+        "allUsers": "جميع المستخدمين",
+        "allProviders": "جميع مزودي الخدمة",
+        "newUsers": "المستخدمون الجدد (آخر 30 يوماً)",
+        "activeProviders": "مزودو الخدمة النشطون",
+        "custom": "اختيار مخصص"
+      },
+      "titleLabel": "عنوان الإشعار",
+      "titlePlaceholder": "أدخل عنوان الإشعار...",
+      "messageLabel": "الرسالة",
+      "messagePlaceholder": "أدخل نص الإشعار...",
+      "pushCheckbox": "إرسال كإشعار فوري",
+      "emailCheckbox": "إرسال عبر البريد الإلكتروني",
+      "send": "إرسال الإشعار"
+    },
+    "recent": {
+      "title": "الإشعارات الأخيرة",
+      "toLabel": "إلى: {{recipients}}",
+      "samples": {
+        "item1": { "title": "إطلاق ميزة جديدة", "message": "جرّب ميزة الحجز الفوري الجديدة لدينا!" },
+        "item2": { "title": "إشعار صيانة", "message": "صيانة مجدولة بتاريخ 30 يناير" },
+        "item3": { "title": "مزايا جديدة لمزودي الخدمة", "message": "اربح 20% أكثر هذا الشهر!" }
+      }
+    },
+    "emailTemplates": {
+      "subjectPrefix": "الموضوع: {{subject}}",
+      "items": {
+        "bookingConfirmation": {
+          "name": "تأكيد الحجز",
+          "subject": "تم تأكيد حجزك!",
+          "description": "يُرسل للمستخدمين عند إتمام حجز خدمة بنجاح"
+        },
+        "providerApproval": {
+          "name": "قبول مزود الخدمة",
+          "subject": "مرحباً بك في HomeCare360 - تم قبولك!",
+          "description": "يُرسل لمزودي الخدمة عند قبول طلب انضمامهم"
+        },
+        "paymentConfirmation": {
+          "name": "تأكيد الدفع",
+          "subject": "تم استلام الدفعة - شكراً لك!",
+          "description": "يُرسل للمستخدمين بعد إتمام عملية الدفع بنجاح"
+        },
+        "bookingReminder": {
+          "name": "تذكير بالحجز",
+          "subject": "تذكير: موعد خدمتك غداً",
+          "description": "يُرسل قبل 24 ساعة من الموعد المحدد للخدمة"
+        }
+      }
+    },
+    "modal": {
+      "subjectLabel": "سطر الموضوع",
+      "bodyLabel": "نص الرسالة",
+      "sampleBody": "مرحباً [[user_name]]،\n\nتم تأكيد حجزك!\n\nتفاصيل الحجز:\n- الخدمة: [[service_name]]\n- مزود الخدمة: [[provider_name]]\n- التاريخ: [[booking_date]]\n- الوقت: [[booking_time]]\n\nشكراً لاختيارك HomeCare360!\n\nمع أطيب التحيات،\nفريق HomeCare360",
+      "availableVariables": "المتغيرات المتاحة:",
+      "close": "إغلاق",
+      "saveChanges": "حفظ التغييرات"
+    },
+    "content": {
+      "homepageTitle": "محتوى الصفحة الرئيسية",
+      "heroTitleLabel": "عنوان القسم الرئيسي",
+      "heroTitleValue": "اعثر على مزودي خدمة محليين موثوقين",
+      "heroSubtitleLabel": "العنوان الفرعي للقسم الرئيسي",
+      "heroSubtitleValue": "تواصل مع محترفين موثّقين لجميع احتياجات خدمات منزلك. احجز وادفع وقيّم - كل ذلك في مكان واحد.",
+      "howItWorksLabel": "محتوى \"كيف تعمل الخدمة\"",
+      "steps": {
+        "step1": "ابحث وقارن",
+        "step2": "احجز وادفع بأمان",
+        "step3": "قيّم وكرر"
+      },
+      "benefitsLabel": "قسم المزايا",
+      "benefitsValue": "• محترفون موثّقون بتقييمات حقيقية\n• دفع آمن بحماية الضمان\n• دعم عملاء على مدار الساعة\n• ضمان استرداد الأموال",
+      "saveButton": "حفظ تغييرات المحتوى",
+      "editContentButton": "تعديل المحتوى",
+      "lastUpdatedSample": "آخر تحديث: 15 يناير 2026",
+      "cards": {
+        "terms": { "title": "الشروط والأحكام" },
+        "privacy": { "title": "سياسة الخصوصية" },
+        "faq": { "title": "الأسئلة الشائعة", "subtitle": "23 سؤالاً", "button": "إدارة الأسئلة الشائعة" },
+        "about": { "title": "من نحن", "subtitle": "معلومات الشركة" }
+      }
+    }
+  }
+}

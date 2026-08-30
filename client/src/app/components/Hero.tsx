@@ -5,16 +5,23 @@ import {
   Sparkles, CheckCircle2, Clock, ChevronDown,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "../context/LocaleContext";
 
 const chips = ["Cleaning", "Plumbing", "Electrical", "Painting", "AC Repair", "Carpentry"];
-const CITIES = ["Bangalore", "Mumbai", "Delhi NCR", "Hyderabad", "Chennai", "Pune"];
 
 export function Hero() {
-  const [city, setCity] = useState("Bangalore");
+  const { t } = useTranslation("hero");
+  const { regionConfig } = useLocale();
+  const [city, setCity] = useState(regionConfig.cities[0]);
   const [showCities, setShowCities] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setCity(regionConfig.cities[0]);
+  }, [regionConfig]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -48,20 +55,19 @@ export function Hero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-[#00B8A9]/30 bg-white/70 px-3.5 py-1.5 text-xs font-semibold text-[#0d1f1f] shadow-md backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-[#00B8A9]" />
-            Trusted by 100+ homeowners across India
+            {t("trustBadge")}
           </span>
 
           <h1 className="mt-6 text-5xl font-extrabold leading-[1.02] tracking-tight text-[#0d1f1f] sm:text-6xl lg:text-[72px]">
-            Find trusted home services
+            {t("titleLine1")}
             <br />
             <span className="bg-gradient-to-r from-[#00B8A9] to-emerald-500 bg-clip-text text-transparent">
-              within minutes.
+              {t("titleLine2")}
             </span>
           </h1>
 
           <p className="mt-6 max-w-xl text-lg text-gray-500">
-            Book background-verified professionals for cleaning, plumbing, electrical,
-            appliance repair and more — at your door, on your schedule.
+            {t("subtitle")}
           </p>
 
           {/* Search */}
@@ -88,7 +94,7 @@ export function Hero() {
                     transition={{ duration: 0.15 }}
                     className="absolute top-full left-0 mt-1.5 bg-white border border-gray-100 rounded-xl shadow-lg py-1.5 z-20 min-w-[160px]"
                   >
-                    {CITIES.map(c => (
+                    {regionConfig.cities.map(c => (
                       <button
                         key={c}
                         type="button"
@@ -107,7 +113,7 @@ export function Hero() {
               <input
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="What service do you need today?"
+                placeholder={t("searchPlaceholder")}
                 className="w-full bg-transparent py-3 text-sm placeholder:text-gray-400 focus:outline-none"
               />
             </div>
@@ -121,7 +127,7 @@ export function Hero() {
 
           {/* Chips */}
           <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="text-xs font-medium text-gray-400">Popular:</span>
+            <span className="text-xs font-medium text-gray-400">{t("popular")}</span>
             {chips.map(c => (
               <button
                 key={c}
@@ -143,16 +149,16 @@ export function Hero() {
                 ))}
               </div>
               <span className="text-sm font-semibold text-[#0d1f1f]">4.2</span>
-              <span className="text-sm text-gray-400">Rating</span>
+              <span className="text-sm text-gray-400">{t("rating")}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <BadgeCheck className="h-4 w-4 text-[#00B8A9]" />
               <span className="font-semibold text-[#0d1f1f]">5+</span>
-              <span className="text-gray-400">Jobs done</span>
+              <span className="text-gray-400">{t("jobsDone")}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <ShieldCheck className="h-4 w-4 text-[#00B8A9]" />
-              <span className="text-gray-400">Verified professionals</span>
+              <span className="text-gray-400">{t("verifiedProfessionals")}</span>
             </div>
           </div>
         </motion.div>
@@ -182,8 +188,8 @@ export function Hero() {
                 <CheckCircle2 className="h-5 w-5 text-[#00B8A9]" />
               </div>
               <div>
-                <p className="text-[11px] font-medium text-gray-400">Booking confirmed</p>
-                <p className="text-sm font-bold text-[#0d1f1f]">Today at 3:00 PM</p>
+                <p className="text-[11px] font-medium text-gray-400">{t("bookingConfirmed")}</p>
+                <p className="text-sm font-bold text-[#0d1f1f]">{t("todayAt3pm")}</p>
               </div>
             </div>
           </motion.div>
@@ -200,14 +206,14 @@ export function Hero() {
                 <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <p className="mt-2 text-sm font-semibold text-[#0d1f1f]">"Arrived on time, great work!"</p>
-            <p className="mt-1 text-xs text-gray-400">— Priya S., Bangalore</p>
+            <p className="mt-2 text-sm font-semibold text-[#0d1f1f]">{t("reviewQuote")}</p>
+            <p className="mt-1 text-xs text-gray-400">{t("reviewAuthor")}</p>
           </motion.div>
 
           {/* Same-day badge */}
           <div className="absolute -bottom-4 left-8 flex items-center gap-2 rounded-full bg-[#0d1f1f] px-4 py-2.5 text-white shadow-xl">
             <Clock className="h-4 w-4 text-[#00B8A9]" />
-            <span className="text-xs font-semibold">Same-day booking available</span>
+            <span className="text-xs font-semibold">{t("sameDayBooking")}</span>
           </div>
         </div>
       </div>

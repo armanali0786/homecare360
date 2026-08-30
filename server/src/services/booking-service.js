@@ -6,6 +6,9 @@ const smsSvc   = require("./sms-service");
 
 const PLATFORM_FEE_PERCENT = 0.15;
 
+// Late-cancellation flat fee, in the booking's own currency (see Booking.currency).
+const LATE_CANCELLATION_FEE = { AED: 40, SAR: 40, QAR: 35, INR: 100 };
+
 function bookingRef(id) {
   return `HC-${id.toString().slice(-8).toUpperCase()}`;
 }
@@ -36,9 +39,12 @@ function getCancellationPolicy(booking) {
 
   const hoursLeft = (apptTime - Date.now()) / (1000 * 60 * 60);
 
+  const currency = booking.currency || "AED";
+  const fee = LATE_CANCELLATION_FEE[currency] ?? LATE_CANCELLATION_FEE.AED;
+
   if (hoursLeft < 0) return { allowed: false, fee: 0, refundNote: "" };         // past
   if (hoursLeft < 2)  return { allowed: false, fee: 0, refundNote: "" };         // < 2h – blocked
-  if (hoursLeft < 24) return { allowed: true, fee: 100, refundNote: "₹100 cancellation fee applies (less than 24h notice)" };
+  if (hoursLeft < 24) return { allowed: true, fee, refundNote: `${currency} ${fee} cancellation fee applies (less than 24h notice)` };
   return { allowed: true, fee: 0, refundNote: "Full refund — cancelled more than 24h before appointment" };
 }
 
@@ -58,6 +64,8 @@ exports.createBooking = async (userId, data) => {
     totalAmount,
     platformFee,
     providerPayout,
+    region:              data.region             || "AE",
+    currency:            data.currency           || "AED",
     propertyType:        data.propertyType        || "",
     propertySize:        data.propertySize        || "",
     addOns:              data.addOns              || [],
@@ -79,6 +87,7 @@ exports.createBooking = async (userId, data) => {
     time:     data.time || "",
     address:  data.location || "",
     total:    totalAmount,
+    currency: booking.currency,
   };
 
   const user = await User.findById(userId);
@@ -122,6 +131,7 @@ exports.acceptBooking = async (id, userId) => {
       time:     booking.time || "",
       address:  booking.location || "",
       total:    booking.totalAmount,
+      currency: booking.currency,
     });
 
   return booking;

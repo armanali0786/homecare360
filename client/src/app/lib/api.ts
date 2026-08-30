@@ -1,4 +1,4 @@
-const BASE_URL = "https://homecare360.onrender.com/api/v1";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://homecare360.onrender.com/api/v1";
 
 function getToken() {
   return localStorage.getItem("token");
@@ -45,6 +45,17 @@ export const updateApplicationStatus = (id: string, status: string) =>
     method: "PUT",
     headers: authHeaders(),
     body: JSON.stringify({ status }),
+  });
+
+// Sponsorship / visa compliance review (domestic-help categories)
+export const getComplianceQueue = () =>
+  request<any>("/provider/compliance", { headers: authHeaders() });
+
+export const updateComplianceStatus = (id: string, complianceStatus: string, notes?: string) =>
+  request<any>(`/provider/compliance/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify({ complianceStatus, notes }),
   });
 
 // ── Services (categories) ─────────────────────────────────────────────────────
@@ -130,6 +141,28 @@ export const createStripeSession = (bookingId: string) =>
 
 export const getStripeBooking = (bookingId: string) =>
   request<any>(`/stripe/booking/${bookingId}`, { headers: authHeaders() });
+
+// ── Gulf payment gateways (Mada / Tabby / Tamara) ──────────────────────────────
+export const getGateways = () => request<any>("/gateway");
+
+export const createGatewaySession = (gateway: string, bookingId: string) =>
+  request<any>(`/gateway/${gateway}/session/${bookingId}`, { method: "POST", headers: authHeaders() });
+
+export const confirmGatewayPayment = (gateway: string, sessionId: string) =>
+  request<any>(`/gateway/${gateway}/confirm/${sessionId}`, { method: "POST", headers: authHeaders() });
+
+// ── AI quote assistant ──────────────────────────────────────────────────────────
+export interface QuoteAssistantMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export const quoteAssistantChat = (messages: QuoteAssistantMessage[]) =>
+  request<any>("/quote-assistant/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages }),
+  });
 
 // ── Admin ─────────────────────────────────────────────────────────────────────
 export const getDashboard = () =>

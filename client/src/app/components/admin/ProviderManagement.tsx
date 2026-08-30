@@ -1,10 +1,14 @@
 import { motion } from "motion/react";
 import { Search, CheckCircle2, XCircle, Shield, Star } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getAdminAllProviders, updateApplicationStatus } from "@/app/lib/api";
+import { useLocale } from "@/app/context/LocaleContext";
 import { toast } from "react-toastify";
 
 export function ProviderManagement() {
+  const { t } = useTranslation("admin");
+  const { formatCurrency } = useLocale();
   const [providers, setProviders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,10 +31,10 @@ export function ProviderManagement() {
   const handleStatusChange = async (id: string, status: string) => {
     try {
       await updateApplicationStatus(id, status);
-      toast.success(`Provider ${status}`);
+      toast.success(t("providers.toast.statusUpdated", { status: t(`providers.statusLabel.${status}`, { defaultValue: status }) }));
       fetchProviders();
     } catch (err: any) {
-      toast.error(err.message || "Failed to update");
+      toast.error(err.message || t("providers.toast.updateFailed"));
     }
   };
 
@@ -50,18 +54,18 @@ export function ProviderManagement() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
-          Provider Management
+          {t("providers.title")}
         </h1>
-        <p className="text-gray-600">Manage service providers on the platform</p>
+        <p className="text-gray-600">{t("providers.subtitle")}</p>
       </motion.div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         {[
-          { label: "Total", value: providers.length, color: "from-blue-500 to-cyan-600" },
-          { label: "Approved", value: providers.filter((p) => p.status === "approved").length, color: "from-green-500 to-emerald-600" },
-          { label: "Pending", value: providers.filter((p) => p.status === "pending").length, color: "from-yellow-500 to-orange-500" },
-          { label: "Rejected", value: providers.filter((p) => p.status === "rejected").length, color: "from-red-500 to-orange-600" },
+          { label: t("providers.stats.total"), value: providers.length, color: "from-blue-500 to-cyan-600" },
+          { label: t("providers.stats.approved"), value: providers.filter((p) => p.status === "approved").length, color: "from-green-500 to-emerald-600" },
+          { label: t("providers.stats.pending"), value: providers.filter((p) => p.status === "pending").length, color: "from-yellow-500 to-orange-500" },
+          { label: t("providers.stats.rejected"), value: providers.filter((p) => p.status === "rejected").length, color: "from-red-500 to-orange-600" },
         ].map((stat, index) => (
           <motion.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} className="bg-white rounded-xl shadow-lg p-6">
             <div className={`inline-flex px-3 py-1 rounded-full bg-gradient-to-r ${stat.color} text-white text-sm font-medium mb-2`}>{stat.label}</div>
@@ -74,12 +78,12 @@ export function ProviderManagement() {
       <div className="mb-6 space-y-4">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input type="text" placeholder="Search providers..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 shadow-sm" />
+          <input type="text" placeholder={t("providers.searchPlaceholder")} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 shadow-sm" />
         </div>
         <div className="flex gap-3 flex-wrap">
           {["all", "approved", "pending", "rejected"].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2 rounded-lg font-medium transition-all ${filter === f ? "bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"}`}>
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {t(`providers.filters.${f}`)}
             </button>
           ))}
         </div>
@@ -89,7 +93,7 @@ export function ProviderManagement() {
       {loading ? (
         <div className="space-y-4">{[1, 2, 3].map((i) => <div key={i} className="bg-white rounded-xl shadow-lg h-28 animate-pulse" />)}</div>
       ) : filteredProviders.length === 0 ? (
-        <div className="bg-white rounded-xl p-10 text-center shadow"><p className="text-gray-500">No providers found.</p></div>
+        <div className="bg-white rounded-xl p-10 text-center shadow"><p className="text-gray-500">{t("providers.empty")}</p></div>
       ) : (
         <div className="space-y-4">
           {filteredProviders.map((provider, index) => (
@@ -105,7 +109,7 @@ export function ProviderManagement() {
                         <h3 className="text-lg font-bold text-gray-800">{getDisplayName(provider)}</h3>
                         {provider.status === "approved" && <Shield className="w-4 h-4 text-cyan-600" />}
                       </div>
-                      <p className="text-sm text-gray-600">{provider.serviceCategory} • {provider.yearsExperience} yrs exp</p>
+                      <p className="text-sm text-gray-600">{t("providers.yearsExp", { category: provider.serviceCategory, years: provider.yearsExperience })}</p>
                       <p className="text-sm text-gray-500">{provider.email}</p>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -113,37 +117,37 @@ export function ProviderManagement() {
                       provider.status === "rejected" ? "bg-red-100 text-red-700" :
                       "bg-yellow-100 text-yellow-700"
                     }`}>
-                      {provider.status}
+                      {t(`providers.statusLabel.${provider.status}`, { defaultValue: provider.status })}
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 text-yellow-400" />
-                      <span>₹{provider.hourlyRate}/hr</span>
+                      <span>{t("providers.perHour", { amount: formatCurrency(provider.hourlyRate) })}</span>
                     </div>
                     {provider.city && <span>📍 {[provider.city, provider.state].filter(Boolean).join(", ")}</span>}
-                    <span>Joined {new Date(provider.createdAt).toLocaleDateString()}</span>
+                    <span>{t("providers.joinedOn", { date: new Date(provider.createdAt).toLocaleDateString() })}</span>
                   </div>
                 </div>
                 <div className="flex gap-2">
                   {provider.status === "pending" && (
                     <>
                       <button onClick={() => handleStatusChange(provider._id, "approved")} className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium flex items-center gap-1">
-                        <CheckCircle2 className="w-4 h-4" /> Approve
+                        <CheckCircle2 className="w-4 h-4" /> {t("providers.actions.approve")}
                       </button>
                       <button onClick={() => handleStatusChange(provider._id, "rejected")} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium flex items-center gap-1">
-                        <XCircle className="w-4 h-4" /> Reject
+                        <XCircle className="w-4 h-4" /> {t("providers.actions.reject")}
                       </button>
                     </>
                   )}
                   {provider.status === "approved" && (
                     <button onClick={() => handleStatusChange(provider._id, "rejected")} className="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium">
-                      Suspend
+                      {t("providers.actions.suspend")}
                     </button>
                   )}
                   {provider.status === "rejected" && (
                     <button onClick={() => handleStatusChange(provider._id, "approved")} className="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm font-medium">
-                      Reinstate
+                      {t("providers.actions.reinstate")}
                     </button>
                   )}
                 </div>

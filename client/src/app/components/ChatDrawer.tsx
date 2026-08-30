@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { X, Send, MessageSquare, ShieldCheck } from "lucide-react";
 import { io, Socket } from "socket.io-client";
+import { useTranslation } from "react-i18next";
 import { getChatMessages, sendChatMessage } from "@/app/lib/api";
 import { useUser } from "@/app/context/UserContext";
 
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export function ChatDrawer({ open, onClose, booking, myRole }: Props) {
+  const { t }            = useTranslation("booking");
   const { user }        = useUser();
   const [messages, setMessages] = useState<Message[]>([]);
   const [text,     setText]     = useState("");
@@ -87,9 +89,9 @@ export function ChatDrawer({ open, onClose, booking, myRole }: Props) {
   const providerName = booking?.provider
     ? (booking.provider.businessName ||
        `${booking.provider.firstName || ""} ${booking.provider.lastName || ""}`.trim())
-    : "Provider";
+    : t("chatDrawer.providerFallback");
 
-  const otherName = myRole === "customer" ? providerName : (booking?.user?.fullName || "Customer");
+  const otherName = myRole === "customer" ? providerName : (booking?.user?.fullName || t("chatDrawer.customerFallback"));
 
   return (
     <AnimatePresence>
@@ -125,7 +127,7 @@ export function ChatDrawer({ open, onClose, booking, myRole }: Props) {
             {/* Privacy notice */}
             <div className="px-5 py-2 bg-cyan-50 border-b border-cyan-100 flex items-center gap-2 text-xs text-cyan-600 flex-shrink-0">
               <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" />
-              Messages are private. Personal contact details are not shared.
+              {t("chatDrawer.privacyNotice")}
             </div>
 
             {/* Messages */}
@@ -137,8 +139,8 @@ export function ChatDrawer({ open, onClose, booking, myRole }: Props) {
               ) : messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <MessageSquare className="w-10 h-10 text-gray-200 mb-3" />
-                  <p className="text-sm text-gray-400">No messages yet.</p>
-                  <p className="text-xs text-gray-300 mt-1">Start the conversation!</p>
+                  <p className="text-sm text-gray-400">{t("chatDrawer.noMessages")}</p>
+                  <p className="text-xs text-gray-300 mt-1">{t("chatDrawer.startConversation")}</p>
                 </div>
               ) : (
                 messages.map((msg) => {
@@ -177,7 +179,7 @@ export function ChatDrawer({ open, onClose, booking, myRole }: Props) {
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); }
                 }}
-                placeholder="Type a message…"
+                placeholder={t("chatDrawer.placeholder")}
                 rows={1}
                 className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9] resize-none"
                 style={{ maxHeight: "100px", overflowY: "auto" }}

@@ -1,0 +1,157 @@
+{
+  "becomeProvider": {
+    "seoTitle": "كن مزوّد رعاية منزلية",
+    "seoDescription": "انضم إلى HomeCare360 كمزوّد رعاية موثّق. نمِّ أعمالك في مجال الرعاية، حدد جدولك الخاص، وتواصل مع العائلات التي تحتاج خبرتك.",
+    "seoKeywords": "كن مزوّد رعاية منزلية, وظائف مقدمي الرعاية, التسجيل كمقدم رعاية, أعمال الرعاية المنزلية, انضم كمزوّد إلى HomeCare360",
+    "heroTitlePrefix": "كن",
+    "heroTitleHighlight": "مزوّد خدمة",
+    "heroSubtitle": "انضم إلى شبكتنا من المحترفين الموثوقين وابدأ في تنمية أعمالك اليوم",
+    "steps": {
+      "personalInfo": "المعلومات الشخصية",
+      "businessDetails": "تفاصيل العمل",
+      "verification": "التحقق"
+    },
+    "step1": {
+      "title": "المعلومات الشخصية",
+      "firstName": "الاسم الأول *",
+      "firstNamePlaceholder": "أحمد",
+      "lastName": "اسم العائلة *",
+      "lastNamePlaceholder": "الحمادي",
+      "email": "البريد الإلكتروني *",
+      "emailPlaceholder": "ahmed.h@example.com",
+      "phone": "رقم الهاتف *",
+      "phonePlaceholder": "50 123 4567",
+      "address": "عنوان الشارع *",
+      "addressPlaceholder": "شارع الشيخ زايد",
+      "city": "المدينة *",
+      "cityPlaceholder": "دبي",
+      "state": "الإمارة / المنطقة *",
+      "statePlaceholder": "دبي",
+      "zipCode": "صندوق البريد / الرمز البريدي *",
+      "zipCodePlaceholder": "00000",
+      "profilePhoto": "الصورة الشخصية",
+      "selected": "تم اختيار: {{name}}"
+    },
+    "step2": {
+      "title": "تفاصيل العمل",
+      "serviceCategory": "فئة الخدمة *",
+      "selectCategory": "اختر فئة",
+      "businessName": "اسم النشاط التجاري (اختياري)",
+      "businessNamePlaceholder": "اسم نشاطك التجاري",
+      "yearsExperience": "سنوات الخبرة *",
+      "yearsExperiencePlaceholder": "5",
+      "hourlyRate": "السعر بالساعة ({{currency}}) *",
+      "hourlyRatePlaceholder": "75",
+      "description": "وصف الخدمة *",
+      "descriptionPlaceholder": "صف خدماتك وخبرتك وما يميزك...",
+      "skills": "المهارات / الخدمات *",
+      "skillsPlaceholder": "مثال: تمديدات كهربائية، ترقية اللوحات، المنزل الذكي",
+      "skillsHint": "مهارات مفصولة بفواصل",
+      "serviceRadius": "نطاق الخدمة (كم)",
+      "serviceRadiusPlaceholder": "10",
+      "availability": "التوفر *",
+      "selectAvailability": "اختر التوفر",
+      "availabilityOptions": {
+        "weekdays": "أيام الأسبوع فقط",
+        "weekends": "عطلة نهاية الأسبوع فقط",
+        "flexible": "جدول مرن",
+        "247": "خدمات طوارئ على مدار الساعة"
+      }
+    },
+    "categories": {
+      "plumbing": "السباكة",
+      "electrical": "الكهرباء",
+      "cleaning": "التنظيف",
+      "landscaping": "تنسيق الحدائق",
+      "painting": "الدهان",
+      "photography": "التصوير",
+      "carpentry": "النجارة",
+      "hvac": "التكييف والتهوية",
+      "handyman": "الصيانة العامة",
+      "domesticHelp": "العمالة المنزلية (عاملة منزل / مربية / مقدّم رعاية)",
+      "other": "أخرى"
+    },
+    "step3": {
+      "title": "وثائق التحقق",
+      "whyTitle": "لماذا نحتاج إلى هذه المستندات؟",
+      "whyText": "نتحقق من جميع مزوّدي الخدمة للحفاظ على أعلى معايير الجودة والسلامة لعملائنا.",
+      "idUploadTitle": "تحميل الهوية الإماراتية / الهوية الوطنية",
+      "fileHint": "PNG أو JPG أو PDF (بحد أقصى 5 ميجابايت)",
+      "chooseFile": "اختر ملفًا",
+      "licenseUploadTitle": "تحميل الرخصة المهنية / الشهادة",
+      "insuranceUploadTitle": "تحميل شهادة التأمين (اختياري)",
+      "sponsorshipNotice": "تتطلب أدوار العمالة المنزلية (عاملات المنازل، المربيات، مقدّمو الرعاية) مستندات كفالة/تأشيرة للامتثال لأنظمة العمل الخليجية.",
+      "visaUploadTitle": "تحميل وثيقة التأشيرة",
+      "sponsorshipUploadTitle": "تحميل خطاب الكفالة",
+      "noteTitle": "ملاحظة:",
+      "noteText": "سيتم تخزين جميع المستندات بأمان ومراجعتها خلال 2-3 أيام عمل. ستصلك رسالة بريد إلكتروني فور الموافقة على طلبك."
+    },
+    "back": "رجوع",
+    "continue": "متابعة",
+    "submitting": "جارٍ الإرسال...",
+    "submitApplication": "إرسال الطلب",
+    "benefits": {
+      "grow": { "title": "نمِّ أعمالك", "desc": "تواصل مع آلاف العملاء الموثّقين في جميع أنحاء المنطقة" },
+      "reputation": { "title": "ابنِ سمعتك", "desc": "اجمع تقييمات حقيقية واحصل على شارة التوثيق" },
+      "earn": { "title": "اربح بشروطك الخاصة", "desc": "حدد سعر ساعتك وجدولك الخاص. مدفوعات أسبوعية." }
+    },
+    "errors": {
+      "imageType": "يجب أن تكون الصورة الشخصية بصيغة PNG أو JPG أو JPEG",
+      "docType": "يجب أن تكون المستندات بصيغة PNG أو JPG أو JPEG أو PDF",
+      "fileSize": "يجب أن يكون حجم الملف أقل من 5 ميجابايت"
+    },
+    "successMessage": "تم إرسال طلبك بنجاح! سنراجع معلوماتك خلال 2-3 أيام عمل."
+  },
+  "dashboard": {
+    "badge": "لوحة تحكم مزوّد الخدمة",
+    "defaultTitle": "لوحتي",
+    "penaltyCount": "{{count}} عقوبة إلغاء",
+    "stats": {
+      "newRequests": "طلبات جديدة",
+      "upcoming": "قادمة",
+      "completed": "مكتملة",
+      "totalEarned": "إجمالي الأرباح"
+    },
+    "payoutBalance": "رصيد الدفعات",
+    "stripeActive": "الدفعات نشطة عبر Stripe Connect",
+    "stripeInactive": "قم بإعداد Stripe Connect لاستلام الدفعات التلقائية",
+    "pendingPayout": "الدفعة المعلقة",
+    "connectStripe": "ربط Stripe",
+    "stripeComingSoon": "خدمة إعداد Stripe Connect قريبًا",
+    "tabs": {
+      "all": "جميع المهام",
+      "requests": "الطلبات",
+      "upcoming": "قادمة",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة"
+    },
+    "noBookings": "لا توجد حجوزات.",
+    "status": {
+      "pending": "طلب جديد",
+      "upcoming": "قادم",
+      "completed": "مكتمل",
+      "cancelled": "ملغى",
+      "unknown": "غير معروف"
+    },
+    "customerFallback": "العميل",
+    "yours": "لك",
+    "acceptRequest": "قبول الطلب",
+    "accepting": "جارٍ القبول…",
+    "message": "مراسلة",
+    "messageCustomer": "مراسلة العميل",
+    "decline": "رفض",
+    "declining": "جارٍ الرفض…",
+    "cancelJob": "إلغاء المهمة",
+    "cancelling": "جارٍ الإلغاء…",
+    "jobComplete": "اكتملت المهمة · الدفعة {{amount}}",
+    "confirmDecline": "هل تريد رفض طلب الحجز هذا؟",
+    "confirmCancel": "إلغاء هذا الحجز؟ سيتم تسجيل عقوبة في ملفك الشخصي.",
+    "toasts": {
+      "accepted": "تم قبول الحجز! تم إشعار العميل.",
+      "acceptFailed": "فشل قبول الحجز",
+      "declined": "تم رفض طلب الحجز.",
+      "cancelled": "تم إلغاء الحجز. تم إشعار العميل.",
+      "cancelFailed": "فشل الإلغاء"
+    }
+  }
+}

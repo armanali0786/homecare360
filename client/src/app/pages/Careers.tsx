@@ -1,65 +1,70 @@
 import { motion } from "motion/react";
 import { Briefcase, MapPin, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "../context/LocaleContext";
 import { SEO } from "@/app/components/SEO";
 
 export function Careers() {
+  const { t } = useTranslation("pages");
+  const { regionConfig } = useLocale();
+  const cities = regionConfig.cities;
   const openings = [
     {
-      title: "Senior Product Manager",
-      location: "New York, NY",
-      type: "Full-time",
-      department: "Product",
+      title: t("careers.openings.0.title"),
+      location: cities[0] ?? regionConfig.label,
+      type: t("careers.fullTime"),
+      department: t("careers.openings.0.department"),
     },
     {
-      title: "Full Stack Developer",
-      location: "Remote",
-      type: "Full-time",
-      department: "Engineering",
+      title: t("careers.openings.1.title"),
+      location: t("careers.remote"),
+      type: t("careers.fullTime"),
+      department: t("careers.openings.1.department"),
     },
     {
-      title: "Customer Success Manager",
-      location: "San Francisco, CA",
-      type: "Full-time",
-      department: "Customer Success",
+      title: t("careers.openings.2.title"),
+      location: cities[1] ?? cities[0] ?? regionConfig.label,
+      type: t("careers.fullTime"),
+      department: t("careers.openings.2.department"),
     },
     {
-      title: "Marketing Specialist",
-      location: "Austin, TX",
-      type: "Full-time",
-      department: "Marketing",
+      title: t("careers.openings.3.title"),
+      location: cities[2] ?? cities[0] ?? regionConfig.label,
+      type: t("careers.fullTime"),
+      department: t("careers.openings.3.department"),
     },
     {
-      title: "UX/UI Designer",
-      location: "Remote",
-      type: "Full-time",
-      department: "Design",
+      title: t("careers.openings.4.title"),
+      location: t("careers.remote"),
+      type: t("careers.fullTime"),
+      department: t("careers.openings.4.department"),
     },
     {
-      title: "Data Analyst",
-      location: "Chicago, IL",
-      type: "Full-time",
-      department: "Analytics",
+      title: t("careers.openings.5.title"),
+      location: cities[3] ?? cities[0] ?? regionConfig.label,
+      type: t("careers.fullTime"),
+      department: t("careers.openings.5.department"),
     },
   ];
 
   const benefits = [
-    "Competitive salary and equity",
-    "Health, dental, and vision insurance",
-    "Unlimited PTO",
-    "Remote work options",
-    "Professional development budget",
-    "401(k) matching",
-    "Team events and outings",
-    "Wellness programs",
+    t("careers.benefits.0"),
+    t("careers.benefits.1"),
+    t("careers.benefits.2"),
+    t("careers.benefits.3"),
+    t("careers.benefits.4"),
+    t("careers.benefits.5"),
+    t("careers.benefits.6"),
+    t("careers.benefits.7"),
   ];
 
   return (
     <div className="w-full">
       <SEO
-        title="Careers"
+        title={t("careers.seo.title")}
         url="/careers"
-        description="Join the Homecare360 team and help transform home care. Explore open positions and build a meaningful career connecting families with trusted care professionals."
-        keywords="homecare360 careers, home care jobs, caregiver jobs, healthcare jobs, join homecare360"
+        description={t("careers.seo.description")}
+        keywords={t("careers.seo.keywords")}
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
@@ -69,7 +74,7 @@ export function Careers() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            Join Our <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">Team</span>
+            {t("careers.heroPrefix")} <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">{t("careers.heroHighlight")}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -77,7 +82,7 @@ export function Careers() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-600"
           >
-            Help us revolutionize the home services industry. Build your career with a team that values innovation, collaboration, and growth.
+            {t("careers.heroSubtitle")}
           </motion.p>
         </div>
       </section>
@@ -91,7 +96,7 @@ export function Careers() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12"
           >
-            Why Work With Us?
+            {t("careers.whyWorkWithUs")}
           </motion.h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {benefits.map((benefit, index) => (
@@ -119,7 +124,7 @@ export function Careers() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12"
           >
-            Open Positions
+            {t("careers.openPositions")}
           </motion.h2>
           <div className="space-y-4">
             {openings.map((job, index) => (
@@ -155,7 +160,7 @@ export function Careers() {
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-3 bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white rounded-lg font-medium shadow-md hover:shadow-lg transition-all"
                   >
-                    Apply Now
+                    {t("careers.applyNow")}
                   </motion.button>
                 </div>
               </motion.div>
@@ -173,7 +178,7 @@ export function Careers() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-6"
           >
-            Don't See a Perfect Fit?
+            {t("careers.noFitHeading")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -182,7 +187,7 @@ export function Careers() {
             transition={{ delay: 0.1 }}
             className="text-xl mb-8 text-white/90"
           >
-            We're always looking for talented people. Send us your resume and we'll keep you in mind for future opportunities.
+            {t("careers.noFitSubtitle")}
           </motion.p>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
@@ -193,7 +198,7 @@ export function Careers() {
             whileTap={{ scale: 0.95 }}
             className="px-8 py-4 bg-white text-[#00B8A9] rounded-lg font-bold text-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl"
           >
-            Send Your Resume
+            {t("careers.sendResume")}
           </motion.button>
         </div>
       </section>

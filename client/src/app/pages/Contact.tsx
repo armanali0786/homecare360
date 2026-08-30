@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "../context/LocaleContext";
 import { SEO } from "@/app/components/SEO";
 
 export function Contact() {
+  const { t } = useTranslation("pages");
+  const { regionConfig } = useLocale();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,31 +31,31 @@ export function Contact() {
   const contactInfo = [
     {
       icon: <Mail size={24} />,
-      title: "Email Us",
+      title: t("contact.emailUs"),
       details: "support@homecare360.com",
-      subtext: "We'll respond within 24 hours",
+      subtext: t("contact.emailSubtext"),
     },
     {
       icon: <Phone size={24} />,
-      title: "Call Us",
-      details: "+1 (555) 123-4567",
-      subtext: "Mon-Fri from 8am to 6pm",
+      title: t("contact.callUs"),
+      details: `${regionConfig.phoneCode} 4 123 4567`,
+      subtext: t("contact.callSubtext"),
     },
     {
       icon: <MapPin size={24} />,
-      title: "Visit Us",
-      details: "123 Service Street",
-      subtext: "New York, NY 10001",
+      title: t("contact.visitUs"),
+      details: t("contact.addressLine1"),
+      subtext: `${regionConfig.cities[0] ?? regionConfig.label}, ${regionConfig.label}`,
     },
   ];
 
   return (
     <div className="w-full">
       <SEO
-        title="Contact Us"
+        title={t("contact.seo.title")}
         url="/contact"
-        description="Get in touch with Homecare360. Reach our support team for questions about booking home care services, becoming a provider, or any other inquiries."
-        keywords="contact homecare360, home care support, customer service, home care help"
+        description={t("contact.seo.description")}
+        keywords={t("contact.seo.keywords")}
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
@@ -61,7 +65,7 @@ export function Contact() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            Get in <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">Touch</span>
+            {t("contact.heroPrefix")} <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">{t("contact.heroHighlight")}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -69,7 +73,7 @@ export function Contact() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-600"
           >
-            Have a question or need assistance? We're here to help!
+            {t("contact.heroSubtitle")}
           </motion.p>
         </div>
       </section>
@@ -105,15 +109,15 @@ export function Contact() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t("contact.sendMessageHeading")}</h2>
               <p className="text-gray-600 mb-8">
-                Fill out the form below and we'll get back to you as soon as possible. We're committed to providing excellent customer service.
+                {t("contact.sendMessageSubtitle")}
               </p>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Your Name
+                    {t("contact.yourName")}
                   </label>
                   <input
                     id="name"
@@ -122,14 +126,14 @@ export function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all"
-                    placeholder="John Doe"
+                    placeholder={t("contact.namePlaceholder")}
                     required
                   />
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
+                    {t("contact.emailAddress")}
                   </label>
                   <input
                     id="email"
@@ -145,7 +149,7 @@ export function Contact() {
 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject
+                    {t("contact.subject")}
                   </label>
                   <input
                     id="subject"
@@ -154,14 +158,14 @@ export function Contact() {
                     value={formData.subject}
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all"
-                    placeholder="How can we help?"
+                    placeholder={t("contact.subjectPlaceholder")}
                     required
                   />
                 </div>
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
+                    {t("contact.message")}
                   </label>
                   <textarea
                     id="message"
@@ -170,7 +174,7 @@ export function Contact() {
                     onChange={handleChange}
                     rows={5}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all resize-none"
-                    placeholder="Tell us more about your inquiry..."
+                    placeholder={t("contact.messagePlaceholder")}
                     required
                   />
                 </div>
@@ -182,7 +186,7 @@ export function Contact() {
                   className="w-full bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
                 >
                   <Send size={20} />
-                  Send Message
+                  {t("contact.sendMessageBtn")}
                 </motion.button>
               </form>
             </motion.div>
@@ -196,8 +200,8 @@ export function Contact() {
             >
               <div className="text-center p-8">
                 <MapPin size={48} className="mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">Our Location</h3>
-                <p className="text-white/90">Interactive map would be displayed here</p>
+                <h3 className="text-2xl font-bold mb-2">{t("contact.ourLocation")}</h3>
+                <p className="text-white/90">{t("contact.mapPlaceholder")}</p>
               </div>
             </motion.div>
           </div>

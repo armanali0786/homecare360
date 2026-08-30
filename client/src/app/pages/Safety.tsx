@@ -1,87 +1,45 @@
 import { motion } from "motion/react";
 import { Shield, CheckCircle, Lock, Users, AlertCircle, FileCheck } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SEO } from "@/app/components/SEO";
 
+interface TitledDescription {
+  title: string;
+  description: string;
+}
+
+interface VerificationStep extends TitledDescription {
+  step: string;
+}
+
 export function Safety() {
-  const safetyFeatures = [
-    {
-      icon: <Shield size={32} />,
-      title: "Verified Professionals",
-      description: "Every service provider undergoes comprehensive background checks and credential verification before joining our platform.",
-    },
-    {
-      icon: <Lock size={32} />,
-      title: "Secure Payments",
-      description: "All transactions are encrypted and processed through secure payment gateways. Your financial information is never stored on our servers.",
-    },
-    {
-      icon: <FileCheck size={32} />,
-      title: "Insurance Coverage",
-      description: "All professionals are required to maintain valid insurance coverage to protect you and your property.",
-    },
-    {
-      icon: <Users size={32} />,
-      title: "Reviewed Ratings",
-      description: "Read authentic reviews from verified customers to make informed decisions about service providers.",
-    },
-    {
-      icon: <AlertCircle size={32} />,
-      title: "24/7 Support",
-      description: "Our safety team is available around the clock to address any concerns or incidents that may arise.",
-    },
-    {
-      icon: <CheckCircle size={32} />,
-      title: "Quality Assurance",
-      description: "Regular quality checks and performance monitoring ensure consistent service standards.",
-    },
+  const { t } = useTranslation("pages");
+  const featureCopy = t("safety.features", { returnObjects: true }) as TitledDescription[];
+  const verificationSteps = t("safety.verificationSteps", { returnObjects: true }) as VerificationStep[];
+  const safetyTips = t("safety.tips", { returnObjects: true }) as string[];
+
+  const featureIcons = [
+    <Shield size={32} />,
+    <Lock size={32} />,
+    <FileCheck size={32} />,
+    <Users size={32} />,
+    <AlertCircle size={32} />,
+    <CheckCircle size={32} />,
   ];
 
-  const verificationSteps = [
-    {
-      step: "1",
-      title: "Identity Verification",
-      description: "Government-issued ID verification and address confirmation",
-    },
-    {
-      step: "2",
-      title: "Background Check",
-      description: "Comprehensive criminal background screening",
-    },
-    {
-      step: "3",
-      title: "License Verification",
-      description: "Validation of professional licenses and certifications",
-    },
-    {
-      step: "4",
-      title: "Insurance Check",
-      description: "Confirmation of liability and workers' compensation insurance",
-    },
-    {
-      step: "5",
-      title: "Reference Verification",
-      description: "Professional reference checks and work history review",
-    },
-  ];
-
-  const safetyTips = [
-    "Always communicate through our platform for documented interactions",
-    "Review service provider profiles, ratings, and reviews carefully",
-    "Report any suspicious behavior or safety concerns immediately",
-    "Keep your account information secure and never share passwords",
-    "Verify the identity of service providers before allowing entry",
-    "Use our secure payment system for all transactions",
-    "Provide feedback after each service to help maintain quality",
-    "Contact our support team if you have any safety questions",
-  ];
+  const safetyFeatures = featureCopy.map((feature, index) => ({
+    icon: featureIcons[index],
+    title: feature.title,
+    description: feature.description,
+  }));
 
   return (
     <div className="w-full">
       <SEO
-        title="Safety & Trust"
+        title={t("safety.seo.title")}
         url="/safety"
-        description="Your safety is our priority. Learn how Homecare360 verifies caregivers through background checks, certifications, and ongoing quality assurance."
-        keywords="home care safety, caregiver background check, trusted caregivers, home care verification, safety standards"
+        description={t("safety.seo.description")}
+        keywords={t("safety.seo.keywords")}
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
@@ -99,7 +57,7 @@ export function Safety() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            Your <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">Safety</span> is Our Priority
+            {t("safety.heroPrefix")} <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">{t("safety.heroHighlight")}</span> {t("safety.heroSuffix")}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -107,7 +65,7 @@ export function Safety() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-600"
           >
-            We've built comprehensive safety measures to protect you, your home, and your family
+            {t("safety.heroSubtitle")}
           </motion.p>
         </div>
       </section>
@@ -121,7 +79,7 @@ export function Safety() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12"
           >
-            How We Keep You Safe
+            {t("safety.howWeKeepYouSafe")}
           </motion.h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {safetyFeatures.map((feature, index) => (
@@ -153,7 +111,7 @@ export function Safety() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12"
           >
-            Our Verification Process
+            {t("safety.verificationHeading")}
           </motion.h2>
           <div className="space-y-6">
             {verificationSteps.map((item, index) => (
@@ -187,7 +145,7 @@ export function Safety() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12"
           >
-            Safety Tips for Customers
+            {t("safety.tipsHeading")}
           </motion.h2>
           <div className="grid md:grid-cols-2 gap-4">
             {safetyTips.map((tip, index) => (
@@ -216,7 +174,7 @@ export function Safety() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-6"
           >
-            Report a Safety Concern
+            {t("safety.reportConcernHeading")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -225,7 +183,7 @@ export function Safety() {
             transition={{ delay: 0.1 }}
             className="text-xl mb-8 text-white/90"
           >
-            If you experience any safety issues, contact our 24/7 safety team immediately
+            {t("safety.reportConcernSubtitle")}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -239,14 +197,14 @@ export function Safety() {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white text-[#00B8A9] rounded-lg font-bold text-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl"
             >
-              Call Safety Hotline
+              {t("safety.callHotline")}
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white/10 border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white/20 transition-all"
             >
-              Submit Report Online
+              {t("safety.submitReport")}
             </motion.button>
           </motion.div>
         </div>

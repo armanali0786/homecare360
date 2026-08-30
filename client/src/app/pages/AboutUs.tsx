@@ -1,38 +1,40 @@
 import { motion } from "motion/react";
 import { Users, Target, Award, Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SEO } from "@/app/components/SEO";
 
 export function AboutUs() {
+  const { t } = useTranslation("pages");
   const values = [
     {
       icon: <Target size={32} />,
-      title: "Our Mission",
-      description: "To connect homeowners with trusted service professionals, making home maintenance simple and stress-free.",
+      title: t("aboutUs.values.mission.title"),
+      description: t("aboutUs.values.mission.description"),
     },
     {
       icon: <Heart size={32} />,
-      title: "Our Values",
-      description: "Trust, quality, and customer satisfaction are at the core of everything we do.",
+      title: t("aboutUs.values.values.title"),
+      description: t("aboutUs.values.values.description"),
     },
     {
       icon: <Users size={32} />,
-      title: "Our Team",
-      description: "A dedicated group of professionals committed to delivering exceptional service experiences.",
+      title: t("aboutUs.values.team.title"),
+      description: t("aboutUs.values.team.description"),
     },
     {
       icon: <Award size={32} />,
-      title: "Our Promise",
-      description: "100% satisfaction guaranteed on every service, every time.",
+      title: t("aboutUs.values.promise.title"),
+      description: t("aboutUs.values.promise.description"),
     },
   ];
 
   return (
     <div className="w-full">
       <SEO
-        title="About Us"
+        title={t("aboutUs.seo.title")}
         url="/about-us"
-        description="Learn about Homecare360's mission to connect families with trusted, verified home care professionals. Compassionate care delivered to your doorstep."
-        keywords="about homecare360, our mission, home care team, trusted caregivers, home care values"
+        description={t("aboutUs.seo.description")}
+        keywords={t("aboutUs.seo.keywords")}
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
@@ -42,7 +44,7 @@ export function AboutUs() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            About <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">HomeCare360</span>
+            {t("aboutUs.heroPrefix")} <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">HomeCare360</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -50,7 +52,7 @@ export function AboutUs() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-600"
           >
-            Your trusted partner in connecting homeowners with professional service providers since 2020
+            {t("aboutUs.heroSubtitle")}
           </motion.p>
         </div>
       </section>
@@ -64,15 +66,15 @@ export function AboutUs() {
             viewport={{ once: true }}
             className="prose prose-lg max-w-none"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">{t("aboutUs.storyHeading")}</h2>
             <p className="text-gray-600 mb-4">
-              HomeCare360 was founded with a simple mission: to make finding and booking home services as easy as possible. We recognized the challenges homeowners face when searching for reliable, trustworthy service professionals, and we set out to solve this problem.
+              {t("aboutUs.storyPara1")}
             </p>
             <p className="text-gray-600 mb-4">
-              Today, we're proud to serve thousands of customers across the country, connecting them with verified professionals for everything from plumbing and electrical work to cleaning and landscaping. Our platform combines cutting-edge technology with a human touch to ensure every service experience exceeds expectations.
+              {t("aboutUs.storyPara2")}
             </p>
             <p className="text-gray-600">
-              We believe that maintaining your home should be simple, transparent, and stress-free. That's why we've built a platform that prioritizes trust, quality, and customer satisfaction above all else.
+              {t("aboutUs.storyPara3")}
             </p>
           </motion.div>
         </div>
@@ -87,7 +89,7 @@ export function AboutUs() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12"
           >
-            What Drives Us
+            {t("aboutUs.whatDrivesUs")}
           </motion.h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
@@ -115,10 +117,10 @@ export function AboutUs() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { number: "50K+", label: "Happy Customers" },
-              { number: "10K+", label: "Verified Professionals" },
-              { number: "100K+", label: "Services Completed" },
-              { number: "4.9★", label: "Average Rating" },
+              { number: "50K+", label: t("aboutUs.stats.customers") },
+              { number: "10K+", label: t("aboutUs.stats.professionals") },
+              { number: "100K+", label: t("aboutUs.stats.services") },
+              { number: "4.9★", label: t("aboutUs.stats.rating") },
             ].map((stat, index) => (
               <motion.div
                 key={index}

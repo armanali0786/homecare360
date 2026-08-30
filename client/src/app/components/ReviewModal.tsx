@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { Star, X, Send, CheckCircle2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { createReview } from "@/app/lib/api";
 import { toast } from "react-toastify";
 
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
+  const { t } = useTranslation("booking");
   const [rating,      setRating]      = useState(0);
   const [hovered,     setHovered]     = useState(0);
   const [comment,     setComment]     = useState("");
@@ -21,7 +23,7 @@ export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
   const providerName = booking?.provider
     ? (booking.provider.businessName ||
        `${booking.provider.firstName || ""} ${booking.provider.lastName || ""}`.trim())
-    : "Provider";
+    : t("chatDrawer.providerFallback");
 
   const reset = () => {
     setRating(0); setHovered(0); setComment(""); setDone(false);
@@ -30,7 +32,7 @@ export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
   const handleClose = () => { reset(); onClose(); };
 
   const handleSubmit = async () => {
-    if (!rating) { toast.error("Please select a star rating"); return; }
+    if (!rating) { toast.error(t("reviewModal.ratingRequired")); return; }
     setSubmitting(true);
     try {
       await createReview({
@@ -42,13 +44,19 @@ export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
       setDone(true);
       onReviewed();
     } catch (err: any) {
-      toast.error(err.message || "Failed to submit review");
+      toast.error(err.message || t("reviewModal.submitFailed"));
     } finally {
       setSubmitting(false);
     }
   };
 
-  const labels = ["Terrible", "Poor", "Okay", "Good", "Excellent"];
+  const labels = [
+    t("reviewModal.labels.1"),
+    t("reviewModal.labels.2"),
+    t("reviewModal.labels.3"),
+    t("reviewModal.labels.4"),
+    t("reviewModal.labels.5"),
+  ];
 
   return (
     <AnimatePresence>
@@ -72,13 +80,13 @@ export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
                 <div className="w-16 h-16 bg-[#00B8A9]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle2 className="w-8 h-8 text-[#00B8A9]" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Thanks for your review!</h3>
-                <p className="text-sm text-gray-500 mb-6">Your feedback helps improve service quality.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{t("reviewModal.thanksTitle")}</h3>
+                <p className="text-sm text-gray-500 mb-6">{t("reviewModal.thanksText")}</p>
                 <button
                   onClick={handleClose}
                   className="px-8 py-2.5 bg-[#00B8A9] text-white text-sm font-semibold rounded-xl hover:bg-[#009e96] transition-colors"
                 >
-                  Done
+                  {t("reviewModal.done")}
                 </button>
               </div>
             ) : (
@@ -86,7 +94,7 @@ export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100">
                   <div>
-                    <h3 className="font-bold text-gray-900 text-base">Rate your experience</h3>
+                    <h3 className="font-bold text-gray-900 text-base">{t("reviewModal.title")}</h3>
                     <p className="text-xs text-gray-400 mt-0.5">{providerName} · {booking?.serviceCategory}</p>
                   </div>
                   <button onClick={handleClose} className="text-gray-400 hover:text-gray-600">
@@ -123,12 +131,12 @@ export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
 
                   {/* Comment */}
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Write a review <span className="text-gray-400 font-normal">(optional)</span>
+                    {t("reviewModal.writeReview")} <span className="text-gray-400 font-normal">{t("reviewModal.optional")}</span>
                   </label>
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    placeholder="Share details about your experience — punctuality, quality, behaviour…"
+                    placeholder={t("reviewModal.commentPlaceholder")}
                     rows={4}
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/30 focus:border-[#00B8A9] resize-none"
                   />
@@ -143,7 +151,7 @@ export function ReviewModal({ open, onClose, booking, onReviewed }: Props) {
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        Submit Review
+                        {t("reviewModal.submit")}
                       </>
                     )}
                   </button>

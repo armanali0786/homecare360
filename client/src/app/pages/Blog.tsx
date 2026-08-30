@@ -1,68 +1,78 @@
 import { motion } from "motion/react";
 import { Calendar, User, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SEO } from "@/app/components/SEO";
 
 export function Blog() {
+  const { t } = useTranslation("pages");
   const posts = [
     {
-      title: "10 Essential Home Maintenance Tips for Spring",
-      excerpt: "Get your home ready for the warmer months with these essential maintenance tasks that every homeowner should know.",
-      author: "Sarah Johnson",
-      date: "March 8, 2026",
-      category: "Home Maintenance",
-      readTime: "5 min read",
+      title: t("blog.posts.0.title"),
+      excerpt: t("blog.posts.0.excerpt"),
+      author: t("blog.posts.0.author"),
+      date: t("blog.posts.0.date"),
+      category: t("blog.posts.0.category"),
+      readTime: t("blog.posts.0.readTime"),
     },
     {
-      title: "How to Choose the Right Service Professional",
-      excerpt: "Learn the key factors to consider when selecting a service professional for your home projects.",
-      author: "Mike Chen",
-      date: "March 5, 2026",
-      category: "Tips & Guides",
-      readTime: "7 min read",
+      title: t("blog.posts.1.title"),
+      excerpt: t("blog.posts.1.excerpt"),
+      author: t("blog.posts.1.author"),
+      date: t("blog.posts.1.date"),
+      category: t("blog.posts.1.category"),
+      readTime: t("blog.posts.1.readTime"),
     },
     {
-      title: "The Ultimate Guide to Home Energy Efficiency",
-      excerpt: "Discover practical ways to reduce your energy bills and make your home more environmentally friendly.",
-      author: "Emily Davis",
-      date: "March 1, 2026",
-      category: "Energy Efficiency",
-      readTime: "10 min read",
+      title: t("blog.posts.2.title"),
+      excerpt: t("blog.posts.2.excerpt"),
+      author: t("blog.posts.2.author"),
+      date: t("blog.posts.2.date"),
+      category: t("blog.posts.2.category"),
+      readTime: t("blog.posts.2.readTime"),
     },
     {
-      title: "5 Signs You Need Professional Plumbing Help",
-      excerpt: "Don't ignore these warning signs that indicate it's time to call a professional plumber.",
-      author: "David Martinez",
-      date: "February 28, 2026",
-      category: "Plumbing",
-      readTime: "4 min read",
+      title: t("blog.posts.3.title"),
+      excerpt: t("blog.posts.3.excerpt"),
+      author: t("blog.posts.3.author"),
+      date: t("blog.posts.3.date"),
+      category: t("blog.posts.3.category"),
+      readTime: t("blog.posts.3.readTime"),
     },
     {
-      title: "Creating a Beautiful Low-Maintenance Garden",
-      excerpt: "Transform your outdoor space with these landscaping ideas that look great without requiring constant upkeep.",
-      author: "Lisa Thompson",
-      date: "February 25, 2026",
-      category: "Landscaping",
-      readTime: "8 min read",
+      title: t("blog.posts.4.title"),
+      excerpt: t("blog.posts.4.excerpt"),
+      author: t("blog.posts.4.author"),
+      date: t("blog.posts.4.date"),
+      category: t("blog.posts.4.category"),
+      readTime: t("blog.posts.4.readTime"),
     },
     {
-      title: "Smart Home Technology Trends for 2026",
-      excerpt: "Explore the latest smart home innovations that can make your life easier and your home more efficient.",
-      author: "Tom Wilson",
-      date: "February 22, 2026",
-      category: "Technology",
-      readTime: "6 min read",
+      title: t("blog.posts.5.title"),
+      excerpt: t("blog.posts.5.excerpt"),
+      author: t("blog.posts.5.author"),
+      date: t("blog.posts.5.date"),
+      category: t("blog.posts.5.category"),
+      readTime: t("blog.posts.5.readTime"),
     },
   ];
 
-  const categories = ["All", "Home Maintenance", "Tips & Guides", "Energy Efficiency", "Plumbing", "Landscaping", "Technology"];
+  const categories = [
+    t("blog.categories.all"),
+    t("blog.categories.homeMaintenance"),
+    t("blog.categories.tipsGuides"),
+    t("blog.categories.energyEfficiency"),
+    t("blog.categories.plumbing"),
+    t("blog.categories.landscaping"),
+    t("blog.categories.technology"),
+  ];
 
   return (
     <div className="w-full">
       <SEO
-        title="Blog"
+        title={t("blog.seo.title")}
         url="/blog"
-        description="Explore home care tips, guides, and expert advice on elder care, home maintenance, and caregiver best practices from the Homecare360 team."
-        keywords="home care blog, caregiving tips, elder care guide, home maintenance tips, caregiver advice"
+        description={t("blog.seo.description")}
+        keywords={t("blog.seo.keywords")}
       />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
@@ -72,7 +82,7 @@ export function Blog() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            Our <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">Blog</span>
+            {t("blog.heroPrefix")} <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">{t("blog.heroHighlight")}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -80,7 +90,7 @@ export function Blog() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-600"
           >
-            Tips, guides, and insights to help you maintain and improve your home
+            {t("blog.heroSubtitle")}
           </motion.p>
         </div>
       </section>
@@ -126,7 +136,7 @@ export function Blog() {
                 {/* Image Placeholder */}
                 <div className="h-48 bg-gradient-to-br from-[#00B8A9] to-[#2B5F5F] relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center text-white font-semibold">
-                    Blog Image
+                    {t("blog.imagePlaceholder")}
                   </div>
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-white/90 rounded-full text-sm font-medium text-[#00B8A9]">
@@ -161,7 +171,7 @@ export function Blog() {
                       whileHover={{ x: 5 }}
                       className="flex items-center gap-1 text-[#00B8A9] font-medium hover:text-[#2B5F5F] transition-colors"
                     >
-                      Read More
+                      {t("blog.readMore")}
                       <ArrowRight size={16} />
                     </motion.button>
                   </div>
@@ -182,7 +192,7 @@ export function Blog() {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all"
             >
-              Load More Articles
+              {t("blog.loadMore")}
             </motion.button>
           </motion.div>
         </div>

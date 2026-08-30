@@ -2,10 +2,13 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { Menu, X, LayoutDashboard, CalendarDays, Briefcase } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useTranslation } from "react-i18next";
 import { useUser } from "../context/UserContext";
 import { ProfileMenu } from "./ProfileMenu";
+import { LocaleSwitcher } from "./LocaleSwitcher";
 
 export function Header() {
+  const { t } = useTranslation("nav");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,10 +19,10 @@ export function Header() {
   const isProvider = user?.role === "provider";
 
   const baseNavLinks = [
-    { path: "/", label: "Home" },
-    { path: "/services", label: "Services" },
-    { path: "/become-provider", label: "Become Provider" },
-    { path: "/quote-estimator", label: "Quote Estimator" },
+    { path: "/", label: t("home") },
+    { path: "/services", label: t("services") },
+    { path: "/become-provider", label: t("becomeProvider") },
+    { path: "/quote-estimator", label: t("quoteEstimator") },
   ];
 
   const handleLogout = () => {
@@ -76,7 +79,7 @@ export function Header() {
                 }`}
               >
                 <LayoutDashboard size={15} />
-                Admin Dashboard
+                {t("adminDashboard")}
                 {location.pathname.startsWith("/admin") && (
                   <motion.div
                     layoutId="underline-admin"
@@ -96,7 +99,7 @@ export function Header() {
                   }`}
                 >
                   <Briefcase size={15} />
-                  Provider Dashboard
+                  {t("providerDashboard")}
                   {location.pathname.startsWith("/admin") && (
                     <motion.div
                       layoutId="underline-provider"
@@ -111,7 +114,7 @@ export function Header() {
                   }`}
                 >
                   <CalendarDays size={15} />
-                  My Bookings
+                  {t("myBookings")}
                   {isActive("/bookings") && (
                     <motion.div
                       layoutId="underline-bookings"
@@ -131,7 +134,7 @@ export function Header() {
                 }`}
               >
                 <CalendarDays size={15} />
-                My Bookings
+                {t("myBookings")}
                 {isActive("/bookings") && (
                   <motion.div
                     layoutId="underline-bookings"
@@ -144,6 +147,7 @@ export function Header() {
 
           {/* Right side: auth */}
           <div className="hidden md:flex items-center gap-4">
+            <LocaleSwitcher />
             {user ? (
               <ProfileMenu />
             ) : (
@@ -152,16 +156,16 @@ export function Header() {
                   to="/become-provider"
                   className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-[#00B8A9] hover:text-[#00B8A9] transition-colors"
                 >
-                  Become a Pro
+                  {t("becomeAPro")}
                 </Link>
                 <Link to="/login" className="px-4 py-2 text-sm text-[#00B8A9] hover:text-[#2B5F5F] transition-colors">
-                  Sign In
+                  {t("signIn")}
                 </Link>
                 <Link
                   to="/signup"
                   className="px-6 py-2.5 text-sm bg-[#00B8A9] text-white rounded-lg hover:bg-[#009e96] transition-colors"
                 >
-                  Get Started
+                  {t("getStarted")}
                 </Link>
               </>
             )}
@@ -226,7 +230,7 @@ export function Header() {
                       }`}
                     >
                       <LayoutDashboard size={16} />
-                      Admin Dashboard
+                      {t("adminDashboard")}
                     </Link>
                   )}
 
@@ -243,7 +247,7 @@ export function Header() {
                         }`}
                       >
                         <Briefcase size={16} />
-                        Provider Dashboard
+                        {t("providerDashboard")}
                       </Link>
                       <Link
                         to="/bookings"
@@ -253,7 +257,7 @@ export function Header() {
                         }`}
                       >
                         <CalendarDays size={16} />
-                        My Bookings
+                        {t("myBookings")}
                       </Link>
                     </>
                   )}
@@ -268,7 +272,7 @@ export function Header() {
                       }`}
                     >
                       <CalendarDays size={16} />
-                      My Bookings
+                      {t("myBookings")}
                     </Link>
                   )}
 
@@ -276,7 +280,7 @@ export function Header() {
                     onClick={handleLogout}
                     className="flex items-center gap-2 w-full px-4 py-3 rounded-lg text-red-500 hover:bg-red-50 transition-colors text-left"
                   >
-                    Logout
+                    {t("logout")}
                   </button>
                 </>
               )}
@@ -289,17 +293,21 @@ export function Header() {
                     onClick={() => setIsMenuOpen(false)}
                     className="block px-4 py-3 text-center text-[#00B8A9] border border-[#00B8A9] rounded-lg hover:bg-[#E0F7F5] transition-colors"
                   >
-                    Sign In
+                    {t("signIn")}
                   </Link>
                   <Link
                     to="/signup"
                     onClick={() => setIsMenuOpen(false)}
                     className="block px-4 py-3 text-center bg-[#00B8A9] text-white rounded-lg hover:bg-[#2B5F5F] transition-colors"
                   >
-                    Get Started
+                    {t("getStarted")}
                   </Link>
                 </div>
               )}
+
+              <div className="pt-4 border-t border-gray-200">
+                <LocaleSwitcher />
+              </div>
             </nav>
           </motion.div>
         )}

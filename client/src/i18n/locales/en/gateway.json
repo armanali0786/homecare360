@@ -1,0 +1,13 @@
+{
+  "title": "Complete your payment",
+  "subtitle": "You're paying via {{gateway}} — this is a sandbox checkout for demo purposes.",
+  "bookingRef": "Booking",
+  "provider": "Provider",
+  "amount": "Amount due",
+  "sandboxNotice": "No real charge will be made. This simulates {{gateway}}'s hosted checkout flow.",
+  "approve": "Simulate approval",
+  "processing": "Processing…",
+  "cancel": "Cancel and go back",
+  "success": "Payment approved — redirecting…",
+  "error": "Something went wrong confirming this payment."
+}

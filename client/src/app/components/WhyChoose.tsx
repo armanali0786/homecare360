@@ -1,25 +1,28 @@
 import { motion } from "motion/react";
-import { ShieldCheck, BadgeIndianRupee, Lock, Headphones } from "lucide-react";
+import { ShieldCheck, DollarSign, Lock, Headphones } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const features = [
-  { icon: ShieldCheck,        title: "Verified professionals", stat: "5+",          statSub: "background-checked pros",   text: "Background-checked, trained and rated by real customers." },
-  { icon: BadgeIndianRupee,   title: "Transparent pricing",    stat: "0 hidden fees", statSub: "what you see, you pay",      text: "Fixed quotes before you book — no surprises at the door." },
-  { icon: Lock,               title: "Secure payments",        stat: "4.9 ★",        statSub: "avg satisfaction",           text: "Pay only after the job is done. Escrow protected." },
-  { icon: Headphones,         title: "24/7 support",           stat: "24/7",         statSub: "always available",           text: "Real humans available around the clock to help you." },
+  { id: "verified",    icon: ShieldCheck },
+  { id: "pricing",     icon: DollarSign },
+  { id: "payments",    icon: Lock },
+  { id: "support",     icon: Headphones },
 ];
 
 export function WhyChoose() {
+  const { t } = useTranslation("home");
+
   return (
     <section className="relative overflow-hidden py-24">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-teal-50/60 via-white to-cyan-50/40" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">Why HomeCare360</span>
+          <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">{t("whyChoose.tag")}</span>
           <h2 className="mx-auto mt-3 max-w-2xl text-4xl font-extrabold text-[#0d1f1f] md:text-5xl">
-            Built for trust at every step
+            {t("whyChoose.title")}
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-gray-500">
-            Safety and reliability aren't features — they're our baseline.
+            {t("whyChoose.subtitle")}
           </p>
         </div>
 
@@ -28,7 +31,7 @@ export function WhyChoose() {
             const Icon = f.icon;
             return (
               <motion.div
-                key={f.title}
+                key={f.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -38,13 +41,13 @@ export function WhyChoose() {
                 <div className="grid h-12 w-12 place-items-center rounded-2xl bg-teal-50 text-[#00B8A9] shadow-sm">
                   <Icon className="h-6 w-6" strokeWidth={2.2} />
                 </div>
-                <h3 className="mt-6 text-lg font-bold text-[#0d1f1f]">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500 flex-1">{f.text}</p>
+                <h3 className="mt-6 text-lg font-bold text-[#0d1f1f]">{t(`whyChoose.items.${f.id}.title`)}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-500 flex-1">{t(`whyChoose.items.${f.id}.text`)}</p>
                 <div className="mt-5 pt-4 border-t border-gray-100">
                   <p className="text-2xl font-extrabold bg-gradient-to-r from-[#00B8A9] to-emerald-500 bg-clip-text text-transparent leading-none">
-                    {f.stat}
+                    {t(`whyChoose.items.${f.id}.stat`)}
                   </p>
-                  <p className="text-xs text-gray-400 mt-0.5">{f.statSub}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{t(`whyChoose.items.${f.id}.statSub`)}</p>
                 </div>
               </motion.div>
             );

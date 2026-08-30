@@ -1,0 +1,364 @@
+{
+  "trending": {
+    "tag": "Trending this season",
+    "title": "Curated for your home",
+    "subtitle": "The most sought-after services this season, handpicked for quality and value.",
+    "verifiedPro": "Verified pro",
+    "bookNow": "Book now",
+    "items": {
+      "smartHome": {
+        "badge": "Smart Home",
+        "category": "Featured",
+        "title": "Smart Home Installation",
+        "description": "Complete smart home ecosystem setup — lights, locks, cameras, and voice control.",
+        "duration": "3–5 hrs"
+      },
+      "gardenArchitecture": {
+        "badge": "Top rated",
+        "category": "Gardening",
+        "title": "Expert Garden Architecture",
+        "description": "Design and transform your outdoor space with seasonal plants and landscape design.",
+        "duration": "Half day"
+      }
+    }
+  },
+  "popular": {
+    "tag": "Trending right now",
+    "title": "Loved by homeowners this week",
+    "subtitle": "Fixed prices, verified pros, same-day slots available.",
+    "viewAll": "View all",
+    "verifiedPro": "Verified pro",
+    "bookNow": "Book now",
+    "items": {
+      "deepCleaning": {
+        "badge": "Most booked",
+        "category": "Cleaning",
+        "title": "Deep Home Cleaning",
+        "description": "Full home scrub — kitchen, bathrooms, bedrooms & balcony. 2BHK in 4 hrs.",
+        "duration": "3–4 hrs"
+      },
+      "electricalWork": {
+        "badge": "Top rated",
+        "category": "Electrical",
+        "title": "Electrical Work",
+        "description": "Switchboard repair, fan/light installation, wiring, MCB and DB work.",
+        "duration": "1–3 hrs"
+      },
+      "acService": {
+        "badge": "Summer deal",
+        "category": "AC Service",
+        "title": "AC Deep Service",
+        "description": "Anti-bacterial foam wash, gas check, coil clean — runs cooler instantly.",
+        "duration": "1–2 hrs"
+      },
+      "plumbingRepair": {
+        "badge": "Trending",
+        "category": "Plumbing",
+        "title": "Plumbing Repair",
+        "description": "Leaking taps, drain blockage, pipe bursts, flush repair — same-day slots.",
+        "duration": "1–2 hrs"
+      },
+      "wallPainting": {
+        "badge": "New",
+        "category": "Painting",
+        "title": "Wall Painting",
+        "description": "Premium emulsion, primer, putty work — covered furniture, clean handover.",
+        "duration": "1–3 days"
+      },
+      "pestControl": {
+        "badge": "Verified",
+        "category": "Pest Control",
+        "title": "General Pest Control",
+        "description": "Cockroach, ant & spider treatment with odourless, pet-safe chemicals.",
+        "duration": "2–3 hrs"
+      }
+    }
+  },
+  "categories": {
+    "tag": "Popular services",
+    "title": "What do you need today?",
+    "subtitle": "From quick fixes to full home makeovers — verified pros, fixed prices, same-day slots.",
+    "viewAll": "View all 5+ services",
+    "from": "from",
+    "items": {
+      "deepCleaning": { "name": "Deep Cleaning", "time": "2–4 hr" },
+      "plumbing": { "name": "Plumbing", "time": "1–2 hr" },
+      "electrician": { "name": "Electrician", "time": "1–3 hr" },
+      "acService": { "name": "AC Service", "time": "1–2 hr" },
+      "painting": { "name": "Painting", "time": "1–3 day" }
+    }
+  },
+  "browseServices": {
+    "pageTitle": "Find trusted home service professionals",
+    "pageSubtitle": "Verified pros · Fixed pricing · Available today in {{location}}",
+    "searchPlaceholder": "Search service, professional...",
+    "locationPlaceholder": "{{city}}",
+    "clearSearch": "Clear search",
+    "search": "Search",
+    "categories": {
+      "allServices": "All services",
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "houseCleaning": "House Cleaning",
+      "acApplianceRepair": "AC & Appliance Repair",
+      "painting": "Painting",
+      "carpentry": "Carpentry",
+      "outdoorServices": "Outdoor Services",
+      "pestControl": "Pest Control"
+    },
+    "professionalsFound": "professionals found",
+    "forQuery": "for \"{{query}}\"",
+    "inLocation": "in {{location}}",
+    "listView": "List view",
+    "gridView": "Grid view",
+    "noProfessionalsFound": "No professionals found",
+    "tryAdjusting": "Try adjusting your search or removing some filters",
+    "noReviewsYet": "No reviews yet",
+    "reviewsCount": "{{count}} reviews",
+    "from": "from",
+    "perVisit": "/visit",
+    "viewProfile": "View profile",
+    "bookNow": "Book now",
+    "yourArea": "your area",
+    "badges": {
+      "premier": "Premier",
+      "topRated": "Top Rated"
+    },
+    "filters": {
+      "title": "Filters",
+      "sortBy": "Sort By",
+      "mostPopular": "Most Popular",
+      "topRated": "Top Rated",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low",
+      "availability": "Availability",
+      "availabilityToday": "Today",
+      "availabilityThisWeek": "This week",
+      "availabilityWeekends": "Weekends only",
+      "priceRange": "Price Range",
+      "any": "Any",
+      "under": "Under {{amount}}",
+      "over": "{{amount}}+",
+      "minimumRating": "Minimum Rating",
+      "all": "All",
+      "verifiedOnly": "Show verified pros only",
+      "clearAll": "Clear all filters"
+    }
+  },
+  "providerSection": {
+    "tag": "For service providers",
+    "title": "Grow your business with HomeCare360.",
+    "subtitle": "Join 10+ professionals earning more, working flexibly, and building reputation on the Gulf's most trusted home services network.",
+    "becomeProvider": "Become a provider",
+    "watchHowItWorks": "Watch how it works",
+    "freeToJoin": "Free to join · Average pro earns {{amount}}/mo",
+    "perks": {
+      "steadyLeads": {
+        "title": "Get steady leads",
+        "text": "Quality jobs delivered weekly in your city and skillset."
+      },
+      "flexibleSchedule": {
+        "title": "Flexible schedule",
+        "text": "Accept what fits — you control your week and your pace."
+      },
+      "securePayments": {
+        "title": "Secure payments",
+        "text": "Get paid weekly via escrow. Zero chargebacks, zero stress."
+      }
+    }
+  },
+  "viewProfile": {
+    "notFound": "Provider not found",
+    "goBack": "Go back",
+    "backToResults": "Back to Results",
+    "new": "New",
+    "reviewsCount": "{{count}} reviews",
+    "yearsExperience": "{{count}} years experience",
+    "about": "About",
+    "experience": "Experience",
+    "location": "Location",
+    "serviceRadius": "Service Radius",
+    "km": "{{count}} km",
+    "specializations": "Specializations",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet.",
+    "starLabel": "{{count}} star",
+    "user": "User",
+    "verified": "Verified",
+    "startingFrom": "Starting from",
+    "perVisit": "/ visit",
+    "perks": {
+      "verified": "Verified & background checked",
+      "pricing": "Fixed transparent pricing",
+      "onTime": "On-time guarantee"
+    },
+    "bookNow": "Book Now",
+    "freeCancellation": "Free cancellation · No hidden charges"
+  },
+  "cityAvailability": {
+    "tag": "Now available in",
+    "title": "Live across {{region}}.",
+    "subtitle": "{{count}} cities live, more launching soon.",
+    "live": "Live",
+    "stats": "{{services}} services · {{pros}} pros",
+    "launchingSoon": "Launching soon:"
+  },
+  "press": {
+    "asSeenIn": "As seen in & trusted by",
+    "logos": {
+      "appStore": "App Store",
+      "googlePlay": "Google Play",
+      "gulfBusiness": "Gulf Business",
+      "arabianBusiness": "Arabian Business",
+      "khaleejTimes": "Khaleej Times",
+      "techCrunch": "TechCrunch"
+    }
+  },
+  "whyChoose": {
+    "tag": "Why HomeCare360",
+    "title": "Built for trust at every step",
+    "subtitle": "Safety and reliability aren't features — they're our baseline.",
+    "items": {
+      "verified": {
+        "title": "Verified professionals",
+        "text": "Background-checked, trained and rated by real customers.",
+        "stat": "5+",
+        "statSub": "background-checked pros"
+      },
+      "pricing": {
+        "title": "Transparent pricing",
+        "text": "Fixed quotes before you book — no surprises at the door.",
+        "stat": "0 hidden fees",
+        "statSub": "what you see, you pay"
+      },
+      "payments": {
+        "title": "Secure payments",
+        "text": "Pay only after the job is done. Escrow protected.",
+        "stat": "4.9 ★",
+        "statSub": "avg satisfaction"
+      },
+      "support": {
+        "title": "24/7 support",
+        "text": "Real humans available around the clock to help you.",
+        "stat": "24/7",
+        "statSub": "always available"
+      }
+    }
+  },
+  "testimonials": {
+    "tag": "Reviews",
+    "title": "Customers love us",
+    "subtitle": "Over {{count}} verified reviews from homeowners across the Gulf",
+    "reviewsCount": "{{count}} reviews",
+    "verifiedCustomers": "Verified customers",
+    "verified": "Verified",
+    "items": {
+      "review1": {
+        "name": "Fatima Al Mazrouei",
+        "location": "Dubai",
+        "service": "House Cleaning",
+        "text": "Booked a deep cleaning and it was absolutely seamless. The professional arrived on time and my apartment looked brand new. Will definitely book again!"
+      },
+      "review2": {
+        "name": "Mohammed Al Suwaidi",
+        "location": "Abu Dhabi",
+        "service": "Electrical Repair",
+        "text": "Found a certified electrician within an hour for a faulty wiring issue. Work done safely and pricing was completely transparent — no surprises at all."
+      },
+      "review3": {
+        "name": "Noura Al Qahtani",
+        "location": "Riyadh",
+        "service": "Plumbing",
+        "text": "The plumber fixed a leaking pipe that two others couldn't. The escrow payment system gave me real confidence the job would be done right."
+      },
+      "review4": {
+        "name": "Sultan Al Rashid",
+        "location": "Doha",
+        "service": "AC Service",
+        "text": "AC stopped working in peak summer. Booked a technician the same afternoon — diagnosed and fixed within 2 hours. Competitive pricing and truly professional."
+      },
+      "review5": {
+        "name": "Khalid Al Jaber",
+        "location": "Jeddah",
+        "service": "Painting",
+        "text": "Had my entire apartment painted in 3 days. The team was punctual, clean, and the finish quality genuinely exceeded my expectations."
+      },
+      "review6": {
+        "name": "Aisha Al Kaabi",
+        "location": "Sharjah",
+        "service": "Carpentry",
+        "text": "Needed custom wardrobes installed. The carpenter understood the brief perfectly and communication was smooth. Booking took under 5 minutes."
+      }
+    }
+  },
+  "faq": {
+    "tag": "FAQ",
+    "title": "Questions, answered.",
+    "subtitle": "Can't find what you're looking for? Our team is just a tap away — 24/7.",
+    "contactSupport": "Contact support",
+    "items": {
+      "booking": {
+        "q": "How do I book a service?",
+        "a": "Pick the service you need, choose a slot, confirm your address — done. Our verified pro arrives at the scheduled time."
+      },
+      "verified": {
+        "q": "Are your professionals background verified?",
+        "a": "Yes. Every provider goes through ID verification, skill testing, and ongoing performance ratings."
+      },
+      "notHappy": {
+        "q": "What if I'm not happy with the work?",
+        "a": "We offer a HomeCare360 Service Guarantee. If something's off, we'll send another pro at no extra cost or refund you."
+      },
+      "cancellation": {
+        "q": "Is there a cancellation fee?",
+        "a": "Cancellations are free up to 4 hours before the booking. After that a small fee may apply to cover the provider's time."
+      },
+      "payments": {
+        "q": "How do payments work?",
+        "a": "Pay after the job is done via card, Apple Pay, or wallet. All payments are held in escrow until you confirm completion."
+      },
+      "support": {
+        "q": "How do I contact support if there's an issue?",
+        "a": "We're available 24/7 over chat, phone, and email. Average response time under 2 minutes."
+      }
+    }
+  },
+  "appBanner": {
+    "title": "Get 10% off your first booking.",
+    "subtitle": "Valid for new users only. Use code",
+    "code": "WELCOME10",
+    "bookNow": "Book now"
+  },
+  "howItWorks": {
+    "tag": "How it works",
+    "title": "Book in three simple steps",
+    "subtitle": "No calls, no guesswork, no hidden fees. Just fast, reliable service at your door.",
+    "step": "STEP {{n}}",
+    "steps": {
+      "chooseService": {
+        "title": "Choose service",
+        "text": "Pick from 30+ professional home services with fixed, transparent pricing."
+      },
+      "selectProvider": {
+        "title": "Select provider",
+        "text": "Browse verified pros, real reviews, ratings, and live availability."
+      },
+      "bookAndRelax": {
+        "title": "Book & relax",
+        "text": "Confirm a slot, pay securely, and we'll handle the rest — guaranteed."
+      }
+    },
+    "browseServices": "Browse Services"
+  },
+  "trustedStats": {
+    "tag": "Trust at scale",
+    "title": "Trusted across {{region}}.",
+    "subtitle": "Real numbers. Real homes. Real professionals. We're building the most trusted home services network in the region.",
+    "labels": {
+      "happyCustomers": "Happy customers",
+      "verifiedProviders": "Verified providers",
+      "citiesLive": "Cities live",
+      "jobsCompleted": "Jobs completed"
+    }
+  }
+}

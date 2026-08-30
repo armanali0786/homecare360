@@ -5,14 +5,18 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getMyBookings } from "@/app/lib/api";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { ReviewModal }       from "@/app/components/ReviewModal";
 import { CancelBookingModal } from "@/app/components/CancelBookingModal";
 import { ChatDrawer }        from "@/app/components/ChatDrawer";
+import { useLocale } from "@/app/context/LocaleContext";
 
 export function MyBookings() {
+  const { t } = useTranslation("booking");
+  const { formatCurrency } = useLocale();
   const [bookings,      setBookings]      = useState<any[]>([]);
   const [loading,       setLoading]       = useState(true);
   const [filter,        setFilter]        = useState<"all" | "upcoming" | "completed" | "cancelled">("all");
@@ -42,10 +46,10 @@ export function MyBookings() {
 
   const getStatusConfig = (status: string) => {
     switch (status) {
-      case "upcoming":  return { icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50",    border: "border-cyan-200",    label: "Upcoming"  };
-      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Completed" };
-      case "cancelled": return { icon: XCircle,      color: "text-red-500",     bg: "bg-red-50",     border: "border-red-200",     label: "Cancelled" };
-      default:          return { icon: AlertCircle,  color: "text-gray-500",    bg: "bg-gray-50",    border: "border-gray-200",    label: "Unknown"   };
+      case "upcoming":  return { icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50",    border: "border-cyan-200",    label: t("myBookings.status.upcoming")  };
+      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: t("myBookings.status.completed") };
+      case "cancelled": return { icon: XCircle,      color: "text-red-500",     bg: "bg-red-50",     border: "border-red-200",     label: t("myBookings.status.cancelled") };
+      default:          return { icon: AlertCircle,  color: "text-gray-500",    bg: "bg-gray-50",    border: "border-gray-200",    label: t("myBookings.status.unknown")   };
     }
   };
 
@@ -67,9 +71,9 @@ export function MyBookings() {
       : "";
 
   const paymentBadge = (b: any) => {
-    if (b.paymentStatus === "paid") return { label: "Paid",    color: "text-emerald-600 bg-emerald-50" };
-    if (b.paymentMethod === "cod")  return { label: "Pay on completion", color: "text-amber-600 bg-amber-50" };
-    return { label: "Pending", color: "text-gray-500 bg-gray-50" };
+    if (b.paymentStatus === "paid") return { label: t("myBookings.payment.paid"),    color: "text-emerald-600 bg-emerald-50" };
+    if (b.paymentMethod === "cod")  return { label: t("myBookings.payment.payOnCompletion"), color: "text-amber-600 bg-amber-50" };
+    return { label: t("myBookings.payment.pending"), color: "text-gray-500 bg-gray-50" };
   };
 
   return (
@@ -84,10 +88,10 @@ export function MyBookings() {
             className="mb-5"
           >
             <span className="inline-block text-sm font-semibold text-[#00B8A9] bg-cyan-50 border border-cyan-200 px-3 py-1 rounded-full mb-3">
-              My Bookings
+              {t("myBookings.badge")}
             </span>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Your Service Appointments</h1>
-            <p className="text-sm text-gray-500 mt-1">Manage and track all your home service bookings</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t("myBookings.title")}</h1>
+            <p className="text-sm text-gray-500 mt-1">{t("myBookings.subtitle")}</p>
           </motion.div>
 
           {/* Stats */}
@@ -98,12 +102,12 @@ export function MyBookings() {
             className="grid grid-cols-2 lg:grid-cols-4 gap-3"
           >
             {[
-              { label: "Total",     value: stats.total,     icon: Calendar,     color: "text-gray-700",    bg: "bg-gray-100"   },
-              { label: "Upcoming",  value: stats.upcoming,  icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50"    },
-              { label: "Completed", value: stats.completed, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
-              { label: "Cancelled", value: stats.cancelled, icon: XCircle,      color: "text-red-500",     bg: "bg-red-50"     },
+              { key: "total",     label: t("myBookings.stats.total"),     value: stats.total,     icon: Calendar,     color: "text-gray-700",    bg: "bg-gray-100"   },
+              { key: "upcoming",  label: t("myBookings.stats.upcoming"),  value: stats.upcoming,  icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50"    },
+              { key: "completed", label: t("myBookings.stats.completed"), value: stats.completed, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
+              { key: "cancelled", label: t("myBookings.stats.cancelled"), value: stats.cancelled, icon: XCircle,      color: "text-red-500",     bg: "bg-red-50"     },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white rounded-xl border border-gray-100 px-4 py-3 flex items-center gap-3">
+              <div key={stat.key} className="bg-white rounded-xl border border-gray-100 px-4 py-3 flex items-center gap-3">
                 <div className={`w-9 h-9 ${stat.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
                   <stat.icon className={`w-4 h-4 ${stat.color}`} />
                 </div>
@@ -128,10 +132,10 @@ export function MyBookings() {
           style={{ scrollbarWidth: "none" }}
         >
           {[
-            { id: "all",       label: "All Bookings" },
-            { id: "upcoming",  label: "Upcoming"     },
-            { id: "completed", label: "Completed"    },
-            { id: "cancelled", label: "Cancelled"    },
+            { id: "all",       label: t("myBookings.tabs.all")       },
+            { id: "upcoming",  label: t("myBookings.tabs.upcoming")  },
+            { id: "completed", label: t("myBookings.tabs.completed") },
+            { id: "cancelled", label: t("myBookings.tabs.cancelled") },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -148,8 +152,7 @@ export function MyBookings() {
         </motion.div>
 
         <p className="text-sm text-gray-500 mb-4">
-          <span className="font-semibold text-gray-900">{filteredBookings.length}</span>{" "}
-          booking{filteredBookings.length !== 1 ? "s" : ""} found
+          {t("myBookings.resultsCount", { count: filteredBookings.length })}
         </p>
 
         {/* Booking Cards */}
@@ -167,15 +170,15 @@ export function MyBookings() {
               className="bg-white rounded-xl border border-gray-100 p-12 text-center"
             >
               <Calendar className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-1">No bookings found</h3>
+              <h3 className="font-semibold text-gray-900 mb-1">{t("myBookings.emptyTitle")}</h3>
               <p className="text-sm text-gray-500 mb-4">
-                You don't have any {filter !== "all" ? filter : ""} bookings yet.
+                {filter !== "all" ? t("myBookings.emptyText", { filter: t(`myBookings.tabs.${filter}`) }) : t("myBookings.emptyTextAll")}
               </p>
               <Link
                 to="/services"
                 className="inline-block px-6 py-2.5 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors"
               >
-                Browse Services
+                {t("myBookings.browseServices")}
               </Link>
             </motion.div>
           ) : (
@@ -219,8 +222,8 @@ export function MyBookings() {
                             {sc.label}
                           </span>
                           <div className="text-right">
-                            <span className="text-xl font-bold text-gray-900">₹{booking.totalAmount}</span>
-                            <span className="text-xs text-gray-400 ml-0.5">total</span>
+                            <span className="text-xl font-bold text-gray-900">{formatCurrency(booking.totalAmount)}</span>
+                            <span className="text-xs text-gray-400 ml-0.5">{t("myBookings.total")}</span>
                           </div>
                         </div>
                       </div>
@@ -274,13 +277,13 @@ export function MyBookings() {
                               className="flex items-center gap-1.5 px-4 py-2 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors"
                             >
                               <MessageSquare className="w-3.5 h-3.5" />
-                              Message Provider
+                              {t("myBookings.messageProvider")}
                             </button>
                             <button
                               onClick={() => setCancelBooking(booking)}
                               className="px-4 py-2 border border-red-200 text-red-500 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors"
                             >
-                              Cancel Booking
+                              {t("myBookings.cancelBooking")}
                             </button>
                           </>
                         )}
@@ -291,13 +294,13 @@ export function MyBookings() {
                               className="flex items-center gap-1.5 px-4 py-2 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors"
                             >
                               <Star className="w-3.5 h-3.5" />
-                              Leave a Review
+                              {t("myBookings.leaveReview")}
                             </button>
                             <Link
                               to={`/profile/${booking.provider?._id}`}
                               className="px-4 py-2 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:border-cyan-200 hover:text-[#00B8A9] transition-colors"
                             >
-                              Book Again
+                              {t("myBookings.bookAgain")}
                             </Link>
                           </>
                         )}
@@ -305,14 +308,14 @@ export function MyBookings() {
                           <div className="flex items-center gap-3">
                             {booking.cancelledBy === "provider" && (
                               <span className="text-xs text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full">
-                                Cancelled by provider
+                                {t("myBookings.cancelledByProvider")}
                               </span>
                             )}
                             <Link
                               to={`/profile/${booking.provider?._id}`}
                               className="px-4 py-2 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:border-cyan-200 hover:text-[#00B8A9] transition-colors"
                             >
-                              Book Again
+                              {t("myBookings.bookAgain")}
                             </Link>
                           </div>
                         )}
@@ -331,7 +334,7 @@ export function MyBookings() {
         open={!!reviewBooking}
         onClose={() => setReviewBooking(null)}
         booking={reviewBooking}
-        onReviewed={() => { toast.success("Review submitted!"); fetchBookings(); }}
+        onReviewed={() => { toast.success(t("myBookings.reviewSubmitted")); fetchBookings(); }}
       />
 
       <CancelBookingModal

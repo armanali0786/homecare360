@@ -2,9 +2,13 @@ import { motion } from "motion/react";
 import { Users, UserCog, Calendar, DollarSign, TrendingUp, Clock, CheckCircle2, AlertCircle } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getDashboard } from "@/app/lib/api";
+import { useLocale } from "@/app/context/LocaleContext";
 
 export function AdminDashboard() {
+  const { t } = useTranslation("admin");
+  const { formatCurrency } = useLocale();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -33,10 +37,10 @@ export function AdminDashboard() {
   const pendingApplications = metrics.pendingApplications || 0;
 
   const metricCards = [
-    { id: 1, label: "Total Users", value: metrics.totalUsers?.toLocaleString() || "0", change: "", icon: Users, color: "from-blue-500 to-cyan-600", bgColor: "bg-blue-50" },
-    { id: 2, label: "Service Providers", value: metrics.totalProviders?.toLocaleString() || "0", change: "", icon: UserCog, color: "from-cyan-500 to-teal-600", bgColor: "bg-cyan-50" },
-    { id: 3, label: "Total Bookings", value: metrics.totalBookings?.toLocaleString() || "0", change: "", icon: Calendar, color: "from-teal-500 to-green-600", bgColor: "bg-teal-50" },
-    { id: 4, label: "Total Revenue", value: `₹${(metrics.totalRevenue || 0).toLocaleString()}`, change: "", icon: DollarSign, color: "from-green-500 to-emerald-600", bgColor: "bg-green-50" },
+    { id: 1, label: t("dashboard.metrics.totalUsers"), value: metrics.totalUsers?.toLocaleString() || "0", change: "", icon: Users, color: "from-blue-500 to-cyan-600", bgColor: "bg-blue-50" },
+    { id: 2, label: t("dashboard.metrics.totalProviders"), value: metrics.totalProviders?.toLocaleString() || "0", change: "", icon: UserCog, color: "from-cyan-500 to-teal-600", bgColor: "bg-cyan-50" },
+    { id: 3, label: t("dashboard.metrics.totalBookings"), value: metrics.totalBookings?.toLocaleString() || "0", change: "", icon: Calendar, color: "from-teal-500 to-green-600", bgColor: "bg-teal-50" },
+    { id: 4, label: t("dashboard.metrics.totalRevenue"), value: formatCurrency(metrics.totalRevenue || 0), change: "", icon: DollarSign, color: "from-green-500 to-emerald-600", bgColor: "bg-green-50" },
   ];
 
   const bookingsData = data?.bookingsData || [];
@@ -48,9 +52,9 @@ export function AdminDashboard() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
-          Dashboard Overview
+          {t("dashboard.title")}
         </h1>
-        <p className="text-gray-600">Welcome back! Here's what's happening with your platform today.</p>
+        <p className="text-gray-600">{t("dashboard.subtitle")}</p>
       </motion.div>
 
       {/* Metrics Cards */}
@@ -88,11 +92,11 @@ export function AdminDashboard() {
           <div className="flex items-center gap-3">
             <AlertCircle className="w-6 h-6 text-orange-600" />
             <div className="flex-1">
-              <h3 className="font-semibold text-gray-800">Pending Provider Verifications</h3>
-              <p className="text-sm text-gray-600">{pendingApplications} provider{pendingApplications > 1 ? "s" : ""} awaiting verification</p>
+              <h3 className="font-semibold text-gray-800">{t("dashboard.pendingAlert.title")}</h3>
+              <p className="text-sm text-gray-600">{t("dashboard.pendingAlert.description", { count: pendingApplications })}</p>
             </div>
             <a href="/admin/provider-applications" className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
-              Review Now
+              {t("dashboard.pendingAlert.reviewNow")}
             </a>
           </div>
         </motion.div>
@@ -103,10 +107,10 @@ export function AdminDashboard() {
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
           <div className="flex items-center gap-2 mb-6">
             <TrendingUp className="w-5 h-5 text-cyan-600" />
-            <h2 className="text-xl font-bold text-gray-800">Bookings Over Time</h2>
+            <h2 className="text-xl font-bold text-gray-800">{t("dashboard.charts.bookingsOverTime")}</h2>
           </div>
           {bookingsData.length === 0 ? (
-            <div className="flex items-center justify-center h-64 text-gray-400">No booking data yet</div>
+            <div className="flex items-center justify-center h-64 text-gray-400">{t("dashboard.charts.noBookingData")}</div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={bookingsData}>
@@ -123,17 +127,17 @@ export function AdminDashboard() {
         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
           <div className="flex items-center gap-2 mb-6">
             <DollarSign className="w-5 h-5 text-green-600" />
-            <h2 className="text-xl font-bold text-gray-800">Revenue Analytics</h2>
+            <h2 className="text-xl font-bold text-gray-800">{t("dashboard.charts.revenueAnalytics")}</h2>
           </div>
           {revenueData.length === 0 ? (
-            <div className="flex items-center justify-center h-64 text-gray-400">No revenue data yet</div>
+            <div className="flex items-center justify-center h-64 text-gray-400">{t("dashboard.charts.noRevenueData")}</div>
           ) : (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="month" stroke="#6b7280" />
                 <YAxis stroke="#6b7280" />
-                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px" }} formatter={(value: number) => `₹${value.toLocaleString()}`} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px" }} formatter={(value: number) => formatCurrency(value)} />
                 <Bar dataKey="revenue" fill="url(#revenueGradient)" radius={[8, 8, 0, 0]} />
                 <defs>
                   <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
@@ -150,9 +154,9 @@ export function AdminDashboard() {
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">Top Services by Demand</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-6">{t("dashboard.topServices.title")}</h2>
           {topServices.length === 0 ? (
-            <div className="flex items-center justify-center h-48 text-gray-400">No data yet</div>
+            <div className="flex items-center justify-center h-48 text-gray-400">{t("dashboard.topServices.noData")}</div>
           ) : (
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
@@ -168,9 +172,9 @@ export function AdminDashboard() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="lg:col-span-2 bg-white rounded-xl shadow-lg p-6 border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-800 mb-6">Recent Activity</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-6">{t("dashboard.recentActivity.title")}</h2>
           {recentActivities.length === 0 ? (
-            <div className="flex items-center justify-center h-48 text-gray-400">No recent activity</div>
+            <div className="flex items-center justify-center h-48 text-gray-400">{t("dashboard.recentActivity.empty")}</div>
           ) : (
             <div className="space-y-4">
               {recentActivities.map((activity: any, index: number) => (

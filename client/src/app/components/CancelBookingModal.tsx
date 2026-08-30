@@ -1,7 +1,9 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import { AlertTriangle, X, Clock, CheckCircle2, XCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { cancelBooking, getCancellationPolicy } from "@/app/lib/api";
+import { useLocale } from "@/app/context/LocaleContext";
 import { toast } from "react-toastify";
 
 interface Policy {
@@ -18,6 +20,8 @@ interface Props {
 }
 
 export function CancelBookingModal({ open, onClose, booking, onCancelled }: Props) {
+  const { t } = useTranslation("booking");
+  const { formatCurrency, regionConfig } = useLocale();
   const [policy,     setPolicy]     = useState<Policy | null>(null);
   const [loading,    setLoading]    = useState(false);
   const [cancelling, setCancelling] = useState(false);
@@ -36,11 +40,11 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
     setCancelling(true);
     try {
       await cancelBooking(booking._id);
-      toast.success("Booking cancelled successfully");
+      toast.success(t("cancelModal.cancelledSuccess"));
       onCancelled();
       onClose();
     } catch (err: any) {
-      toast.error(err.message || "Failed to cancel booking");
+      toast.error(err.message || t("cancelModal.cancelledFailed"));
     } finally {
       setCancelling(false);
     }
@@ -65,7 +69,7 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-gray-100">
-              <h3 className="font-bold text-gray-900 text-base">Cancel Booking</h3>
+              <h3 className="font-bold text-gray-900 text-base">{t("cancelModal.title")}</h3>
               <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
@@ -82,9 +86,9 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
                   <div className="bg-gray-50 rounded-xl px-4 py-3 mb-4">
                     <p className="text-sm font-semibold text-gray-900 mb-0.5">{booking?.serviceCategory}</p>
                     <p className="text-xs text-gray-500">
-                      {booking?.date} {booking?.time && `at ${booking.time}`}
+                      {booking?.date} {booking?.time && `${t("cancelModal.at")} ${booking.time}`}
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5">₹{booking?.totalAmount} total</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{formatCurrency(booking?.totalAmount || 0)} {t("cancelModal.totalLabel")}</p>
                   </div>
 
                   {/* Policy status */}
@@ -101,7 +105,7 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
                       )}
                       <div>
                         <p className={`text-sm font-semibold mb-1 ${policy.fee > 0 ? "text-amber-700" : "text-emerald-700"}`}>
-                          {policy.fee > 0 ? `₹${policy.fee} cancellation fee` : "Free cancellation"}
+                          {policy.fee > 0 ? t("cancelModal.feeLabel", { fee: formatCurrency(policy.fee) }) : t("cancelModal.freeCancellation")}
                         </p>
                         <p className={`text-xs ${policy.fee > 0 ? "text-amber-600" : "text-emerald-600"}`}>
                           {policy.refundNote}
@@ -112,9 +116,9 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
                     <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl px-4 py-3 mb-5">
                       <XCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-sm font-semibold text-red-700 mb-1">Cannot be cancelled</p>
+                        <p className="text-sm font-semibold text-red-700 mb-1">{t("cancelModal.cannotCancelTitle")}</p>
                         <p className="text-xs text-red-600">
-                          Cancellation is not allowed within 2 hours of the appointment.
+                          {t("cancelModal.cannotCancelText")}
                         </p>
                       </div>
                     </div>
@@ -123,7 +127,7 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
                   {/* Cancellation policy note */}
                   <div className="flex items-start gap-2 text-xs text-gray-400 mb-6">
                     <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-                    <span>Free cancellation &gt;24h · ₹100 fee &lt;24h · Not allowed &lt;2h</span>
+                    <span>{t("cancelModal.policyNote", { fee: formatCurrency(regionConfig.lateFee) })}</span>
                   </div>
 
                   {/* Actions */}
@@ -132,7 +136,7 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
                       onClick={onClose}
                       className="flex-1 py-2.5 border border-gray-200 text-gray-600 text-sm font-medium rounded-xl hover:border-gray-300 transition-colors"
                     >
-                      Keep Booking
+                      {t("cancelModal.keepBooking")}
                     </button>
                     <button
                       onClick={handleCancel}
@@ -142,7 +146,7 @@ export function CancelBookingModal({ open, onClose, booking, onCancelled }: Prop
                       {cancelling ? (
                         <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin mx-auto" />
                       ) : (
-                        "Yes, Cancel"
+                        t("cancelModal.confirmCancel")
                       )}
                     </button>
                   </div>

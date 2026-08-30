@@ -6,59 +6,61 @@ import {
   TrendingUp, DollarSign, Clock
 } from "lucide-react";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import HeroImage from "../components/assets/hero-image.png";
 
 export function Home() {
+  const { t } = useTranslation("pages");
   const features = [
     {
-      title: "Verified Professionals",
-      description: "All service providers are thoroughly vetted and verified for your safety",
+      title: t("home.features.verified.title"),
+      description: t("home.features.verified.description"),
     },
     {
-      title: "Easy Booking",
-      description: "Book services in minutes with our simple and intuitive platform",
+      title: t("home.features.easyBooking.title"),
+      description: t("home.features.easyBooking.description"),
     },
     {
-      title: "Quality Guaranteed",
-      description: "100% satisfaction guarantee on all services provided",
+      title: t("home.features.qualityGuaranteed.title"),
+      description: t("home.features.qualityGuaranteed.description"),
     },
   ];
 
   const services = [
     {
-      name: "Plumbing",
+      name: t("home.services.plumbing"),
       icon: Wrench,
       image: "https://images.unsplash.com/photo-1635221798248-8a3452ad07cd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwbHVtYmVyJTIwcHJvZmVzc2lvbmFsJTIwd29ya3xlbnwxfHx8fDE3NjkxNTA5ODl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       color: "from-blue-500 to-cyan-500",
     },
     {
-      name: "Electrical",
+      name: t("home.services.electrical"),
       icon: Zap,
       image: "https://images.unsplash.com/photo-1467733238130-bb6846885316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2lhbiUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NjkxODc5NTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       color: "from-yellow-500 to-orange-500",
     },
     {
-      name: "Cleaning",
+      name: t("home.services.cleaning"),
       icon: Sparkles,
       image: "https://images.unsplash.com/photo-1620563671147-979557991e5a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMGNsZWFuaW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkxODY0MzZ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       color: "from-purple-500 to-pink-500",
     },
     {
-      name: "Outdoor Services",
+      name: t("home.services.outdoor"),
       icon: Trees,
       image: "https://media.istockphoto.com/id/2197662613/photo/construction-worker-repairing-a-house-siding.jpg?s=1024x1024&w=is&k=20&c=FVus-jYKho667zG62I9OIPnej9OrL6tgOpwDgrCPScM=",
       color: "from-green-500 to-emerald-500",
     },
     {
-      name: "Painting",
+      name: t("home.services.painting"),
       icon: Paintbrush,
       image: "https://images.unsplash.com/photo-1688372199140-cade7ae820fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMHBhaW50aW5nJTIwc2VydmljZXxlbnwxfHx8fDE3NjkwODAwMzB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
       color: "from-red-500 to-pink-500",
     },
     {
-      name: "AC & Appliance Repair",
+      name: t("home.services.acRepair"),
       icon: AirVent,
       image: "https://plus.unsplash.com/premium_photo-1682126009570-3fe2399162f7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       color: "from-indigo-500 to-purple-500",
@@ -68,22 +70,22 @@ export function Home() {
   const steps = [
     {
       number: "1",
-      title: "Search & Compare",
-      description: "Browse verified service providers in your area. Compare ratings, reviews, and prices.",
+      title: t("home.steps.search.title"),
+      description: t("home.steps.search.description"),
       icon: Search,
       color: "from-cyan-600 to-blue-600",
     },
     {
       number: "2",
-      title: "Book & Schedule",
-      description: "Choose your preferred time slot and book instantly. Get automatic reminders.",
+      title: t("home.steps.book.title"),
+      description: t("home.steps.book.description"),
       icon: Calendar,
       color: "from-emerald-600 to-green-600",
     },
     {
       number: "3",
-      title: "Pay & Review",
-      description: "Secure payment after service completion. Leave a review to help others.",
+      title: t("home.steps.pay.title"),
+      description: t("home.steps.pay.description"),
       icon: CreditCard,
       color: "from-purple-600 to-pink-600",
     },
@@ -92,22 +94,22 @@ export function Home() {
   const benefits = [
     {
       icon: DollarSign,
-      title: "Competitive Platform Fee",
-      description: "Only 15% per booking - lower than competitors",
+      title: t("home.benefits.fee.title"),
+      description: t("home.benefits.fee.description"),
       color: "text-emerald-600",
       bgColor: "bg-emerald-100",
     },
     {
       icon: Shield,
-      title: "Verified Badge",
-      description: "Stand out with our verification system",
+      title: t("home.benefits.badge.title"),
+      description: t("home.benefits.badge.description"),
       color: "text-cyan-600",
       bgColor: "bg-cyan-100",
     },
     {
       icon: Clock,
-      title: "Quick Payouts",
-      description: "Weekly direct deposits to your account",
+      title: t("home.benefits.payouts.title"),
+      description: t("home.benefits.payouts.description"),
       color: "text-purple-600",
       bgColor: "bg-purple-100",
     },
@@ -116,21 +118,24 @@ export function Home() {
   const featured = [
     {
       icon: Shield,
-      title: "Verified Professionals",
-      description: "All service providers undergo background checks and verification to ensure quality and safety.",
+      title: t("home.featured.verified.title"),
+      description: t("home.featured.verified.description"),
       color: "from-cyan-600 to-blue-600",
+      text: t("home.featured.verified.title"),
     },
     {
       icon: Star,
-      title: "Transparent Reviews",
-      description: "Read authentic reviews from real customers to make informed decisions.",
+      title: t("home.featured.reviews.title"),
+      description: t("home.featured.reviews.description"),
       color: "from-emerald-600 to-green-600",
+      text: t("home.featured.reviews.title"),
     },
     {
       icon: Lock,
-      title: "Secure Payments",
-      description: "Escrow payment system ensures your money is safe until the job is completed.",
+      title: t("home.featured.payments.title"),
+      description: t("home.featured.payments.description"),
       color: "from-purple-600 to-pink-600",
+      text: t("home.featured.payments.title"),
     },
   ];
 
@@ -153,13 +158,13 @@ export function Home() {
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                  Find Trusted Local{" "}
+                  {t("home.hero.titlePrefix")}{" "}
                   <span className="bg-gradient-to-r from-cyan-600 to-emerald-500 bg-clip-text text-transparent">
-                    Service Providers
+                    {t("home.hero.titleHighlight")}
                   </span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-                  Connect with verified professionals for all your home service needs. Book, pay, and review - all in one place.
+                  {t("home.hero.subtitle")}
                 </p>
               </motion.div>
 
@@ -175,7 +180,7 @@ export function Home() {
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type="text"
-                      placeholder="What service do you need?"
+                      placeholder={t("home.hero.servicePlaceholder")}
                       className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
@@ -183,13 +188,13 @@ export function Home() {
                     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type="text"
-                      placeholder="Enter your location"
+                      placeholder={t("home.hero.locationPlaceholder")}
                       className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
                 </div>
                 <button className="w-full bg-gradient-to-r from-cyan-600 to-emerald-500 text-white py-3 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
-                  Search Services
+                  {t("home.hero.searchButton")}
                 </button>
               </motion.div>
             </div>
@@ -204,7 +209,7 @@ export function Home() {
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <ImageWithFallback
                   src={HeroImage}
-                  alt="Professional service provider"
+                  alt={t("home.hero.imageAlt")}
                   className="w-full h-[500px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
@@ -242,10 +247,10 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Popular Services
+              {t("home.popularServices.heading")}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Browse our most requested services and connect with top-rated professionals
+              {t("home.popularServices.subtitle")}
             </p>
           </motion.div>
 
@@ -276,10 +281,10 @@ export function Home() {
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{service.name}</h3>
                   <p className="text-gray-600 mb-4">
-                    Professional {service.name.toLowerCase()} services for your home
+                    {t("home.popularServices.serviceDescription", { service: service.name })}
                   </p>
                   <button className="text-cyan-600 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
-                    Book Now
+                    {t("home.popularServices.bookNow")}
                     <span>→</span>
                   </button>
                 </div>
@@ -300,10 +305,10 @@ export function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              How It Works
+              {t("home.howItWorks.heading")}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Get started in three simple steps
+              {t("home.howItWorks.subtitle")}
             </p>
           </motion.div>
 
@@ -357,7 +362,7 @@ export function Home() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-12"
           >
-            Why Choose HomeCare360?
+            {t("home.whyChoose.heading")}
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
@@ -442,10 +447,10 @@ export function Home() {
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-                Grow Your Business with HomeCare360
+                {t("home.providers.heading")}
               </h2>
               <p className="text-lg text-white/90 mb-8 leading-relaxed">
-                Join our network of professional service providers and connect with customers in your area.
+                {t("home.providers.subtitle")}
               </p>
 
               <div className="space-y-4 mb-10">
@@ -471,7 +476,7 @@ export function Home() {
                 whileTap={{ scale: 0.95 }}
                 className="bg-white text-cyan-600 px-8 py-4 rounded-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
               >
-                Start Your Application
+                {t("home.providers.startApplication")}
               </motion.button>
             </motion.div>
 
@@ -484,7 +489,7 @@ export function Home() {
               className="space-y-6"
             >
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-8">
-                Benefits for Providers
+                {t("home.providers.benefitsHeading")}
               </h3>
 
               {benefits.map((benefit, index) => (
@@ -571,7 +576,7 @@ export function Home() {
                 <span className="text-xl font-bold">HomeCare360</span>
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Your trusted marketplace for professional home services. Connect, book, and get things done.
+                {t("home.footer.tagline")}
               </p>
             </motion.div>
 
@@ -582,13 +587,13 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <h4 className="font-semibold mb-4">Services</h4>
+              <h4 className="font-semibold mb-4">{t("home.footer.servicesHeading")}</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Plumbing</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Electrical</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Cleaning</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Landscaping</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Painting</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.services.plumbing")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.services.electrical")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.services.cleaning")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.landscaping")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.services.painting")}</a></li>
               </ul>
             </motion.div>
 
@@ -599,13 +604,13 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h4 className="font-semibold mb-4">Company</h4>
+              <h4 className="font-semibold mb-4">{t("home.footer.companyHeading")}</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">About Us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Careers</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Blog</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Press</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Contact</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.aboutUs")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.careers")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.blog")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.press")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.contact")}</a></li>
               </ul>
             </motion.div>
 
@@ -616,12 +621,12 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <h4 className="font-semibold mb-4">Support</h4>
+              <h4 className="font-semibold mb-4">{t("home.footer.supportHeading")}</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Help Center</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Safety</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.helpCenter")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.safety")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.privacyPolicy")}</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-cyan-400 transition-colors">{t("home.footer.termsOfService")}</a></li>
               </ul>
             </motion.div>
           </div>
@@ -630,7 +635,7 @@ export function Home() {
           <div className="border-t border-gray-800 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-sm">
-                © 2026 HomeCare360. All rights reserved.
+                {t("home.footer.copyright")}
               </p>
 
               <div className="flex gap-4">

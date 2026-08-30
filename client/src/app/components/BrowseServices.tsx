@@ -7,7 +7,9 @@ import { SEO } from "@/app/components/SEO";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { getProviders } from "@/app/lib/api";
+import { useLocale } from "@/app/context/LocaleContext";
 
 interface Provider {
   _id: string;
@@ -26,16 +28,16 @@ interface Provider {
   state?: string;
 }
 
-const CATEGORIES = [
-  "All services",
-  "Plumbing",
-  "Electrical",
-  "House Cleaning",
-  "AC & Appliance Repair",
-  "Painting",
-  "Carpentry",
-  "Outdoor Services",
-  "Pest Control",
+const CATEGORY_IDS = [
+  "allServices",
+  "plumbing",
+  "electrical",
+  "houseCleaning",
+  "acApplianceRepair",
+  "painting",
+  "carpentry",
+  "outdoorServices",
+  "pestControl",
 ];
 
 const AVATAR_GRADIENTS = [
@@ -62,11 +64,11 @@ function getInitials(name: string) {
     .toUpperCase();
 }
 
-function getBadge(provider: Provider): { label: string; classes: string } | null {
+function getBadge(provider: Provider, t: (key: string) => string): { label: string; classes: string } | null {
   if (provider.rating >= 4.8 && provider.reviewCount >= 20)
-    return { label: "Premier", classes: "bg-[#00B8A9]/10 text-[#00B8A9] border border-[#00B8A9]/20" };
+    return { label: t("browseServices.badges.premier"), classes: "bg-[#00B8A9]/10 text-[#00B8A9] border border-[#00B8A9]/20" };
   if (provider.rating >= 4.5)
-    return { label: "Top Rated", classes: "bg-amber-50 text-amber-700 border border-amber-200" };
+    return { label: t("browseServices.badges.topRated"), classes: "bg-amber-50 text-amber-700 border border-amber-200" };
   return null;
 }
 
@@ -129,9 +131,11 @@ function ProviderListCard({
   index: number;
   onNavigate: () => void;
 }) {
+  const { t } = useTranslation("home");
+  const { formatCurrency } = useLocale();
   const name =
     provider.businessName || `${provider.firstName} ${provider.lastName}`.trim();
-  const badge = getBadge(provider);
+  const badge = getBadge(provider, t);
   const location = [provider.city, provider.state].filter(Boolean).join(", ");
   const hasReviews = provider.reviewCount > 0;
 
@@ -175,10 +179,10 @@ function ProviderListCard({
                     <span className="font-semibold text-gray-800">
                       {provider.rating.toFixed(1)}
                     </span>
-                    <span className="text-gray-400">({provider.reviewCount} reviews)</span>
+                    <span className="text-gray-400">({t("browseServices.reviewsCount", { count: provider.reviewCount })})</span>
                   </div>
                 ) : (
-                  <span className="text-gray-400 italic">No reviews yet</span>
+                  <span className="text-gray-400 italic">{t("browseServices.noReviewsYet")}</span>
                 )}
 
                 {provider.availability && (
@@ -211,11 +215,11 @@ function ProviderListCard({
             {/* Right: price + actions */}
             <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-3 sm:gap-3 flex-shrink-0">
               <div className="text-right">
-                <p className="text-xs text-gray-400 leading-none mb-0.5">from</p>
+                <p className="text-xs text-gray-400 leading-none mb-0.5">{t("browseServices.from")}</p>
                 <p className="text-lg font-bold text-gray-900 leading-tight">
-                  ₹{provider.hourlyRate}
+                  {formatCurrency(provider.hourlyRate)}
                 </p>
-                <p className="text-xs text-gray-400">/visit</p>
+                <p className="text-xs text-gray-400">{t("browseServices.perVisit")}</p>
               </div>
 
               <div className="flex sm:flex-col gap-2">
@@ -223,13 +227,13 @@ function ProviderListCard({
                   onClick={onNavigate}
                   className="px-4 py-2 text-xs font-semibold text-[#00B8A9] border border-[#00B8A9] rounded-xl hover:bg-cyan-50 transition-colors whitespace-nowrap"
                 >
-                  View profile
+                  {t("browseServices.viewProfile")}
                 </button>
                 <button
                   onClick={onNavigate}
                   className="px-4 py-2 text-xs font-semibold bg-[#00B8A9] text-white rounded-xl hover:bg-[#009e96] transition-colors whitespace-nowrap"
                 >
-                  Book now
+                  {t("browseServices.bookNow")}
                 </button>
               </div>
             </div>
@@ -259,9 +263,11 @@ function ProviderGridCard({
   index: number;
   onNavigate: () => void;
 }) {
+  const { t } = useTranslation("home");
+  const { formatCurrency } = useLocale();
   const name =
     provider.businessName || `${provider.firstName} ${provider.lastName}`.trim();
-  const badge = getBadge(provider);
+  const badge = getBadge(provider, t);
   const location = [provider.city, provider.state].filter(Boolean).join(", ");
   const hasReviews = provider.reviewCount > 0;
 
@@ -300,7 +306,7 @@ function ProviderGridCard({
             <span className="text-gray-400">({provider.reviewCount})</span>
           </div>
         ) : (
-          <p className="text-xs text-gray-400 italic mb-2">No reviews yet</p>
+          <p className="text-xs text-gray-400 italic mb-2">{t("browseServices.noReviewsYet")}</p>
         )}
 
         {location && (
@@ -328,14 +334,14 @@ function ProviderGridCard({
 
       <div className="px-5 pb-5 pt-0 border-t border-gray-50 mt-1 pt-3 flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs text-gray-400">from</p>
-          <p className="text-base font-bold text-gray-900">₹{provider.hourlyRate}<span className="text-xs text-gray-400 font-normal">/visit</span></p>
+          <p className="text-xs text-gray-400">{t("browseServices.from")}</p>
+          <p className="text-base font-bold text-gray-900">{formatCurrency(provider.hourlyRate)}<span className="text-xs text-gray-400 font-normal">{t("browseServices.perVisit")}</span></p>
         </div>
         <button
           onClick={onNavigate}
           className="px-4 py-2 text-xs font-semibold bg-[#00B8A9] text-white rounded-xl hover:bg-[#009e96] transition-colors"
         >
-          Book now
+          {t("browseServices.bookNow")}
         </button>
       </div>
     </motion.div>
@@ -358,26 +364,35 @@ function FilterPanel({
   verifiedOnly: boolean; setVerifiedOnly: (v: boolean) => void;
   onClearAll: () => void;
 }) {
+  const { t } = useTranslation("home");
+  const { formatCurrency } = useLocale();
+
+  const availabilityOptions = [
+    t("browseServices.filters.availabilityToday"),
+    t("browseServices.filters.availabilityThisWeek"),
+    t("browseServices.filters.availabilityWeekends"),
+  ];
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
       <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-1.5 mb-5">
         <SlidersHorizontal className="w-4 h-4 text-[#00B8A9]" />
-        Filters
+        {t("browseServices.filters.title")}
       </h3>
 
       {/* Sort By */}
       <div className="mb-5">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Sort By</p>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">{t("browseServices.filters.sortBy")}</p>
         <div className="relative">
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             className="w-full px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00B8A9]/20 focus:border-[#00B8A9] cursor-pointer appearance-none pr-8 transition-colors"
           >
-            <option value="most-popular">Most Popular</option>
-            <option value="top-rated">Top Rated</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
+            <option value="most-popular">{t("browseServices.filters.mostPopular")}</option>
+            <option value="top-rated">{t("browseServices.filters.topRated")}</option>
+            <option value="price-low">{t("browseServices.filters.priceLowToHigh")}</option>
+            <option value="price-high">{t("browseServices.filters.priceHighToLow")}</option>
           </select>
           <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
         </div>
@@ -385,9 +400,9 @@ function FilterPanel({
 
       {/* Availability */}
       <div className="mb-5">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Availability</p>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">{t("browseServices.filters.availability")}</p>
         <div className="space-y-2.5">
-          {["Today", "This week", "Weekends only"].map((opt) => (
+          {availabilityOptions.map((opt) => (
             <label key={opt} className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="checkbox"
@@ -405,12 +420,12 @@ function FilterPanel({
 
       {/* Price Range */}
       <div className="mb-5">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Price Range</p>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">{t("browseServices.filters.priceRange")}</p>
         <div className="flex gap-1.5 flex-wrap">
           {[
-            { id: "any", label: "Any" },
-            { id: "under500", label: "Under ₹500" },
-            { id: "over500", label: "₹500+" },
+            { id: "any", label: t("browseServices.filters.any") },
+            { id: "under500", label: t("browseServices.filters.under", { amount: formatCurrency(500) }) },
+            { id: "over500", label: t("browseServices.filters.over", { amount: formatCurrency(500) }) },
           ].map((opt) => (
             <button
               key={opt.id}
@@ -429,10 +444,10 @@ function FilterPanel({
 
       {/* Minimum Rating */}
       <div className="mb-5">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">Minimum Rating</p>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2.5">{t("browseServices.filters.minimumRating")}</p>
         <div className="flex gap-1.5">
           {[
-            { id: "all", label: "All" },
+            { id: "all", label: t("browseServices.filters.all") },
             { id: "4", label: "4+" },
             { id: "4.5", label: "4.5+" },
           ].map((opt) => (
@@ -461,7 +476,7 @@ function FilterPanel({
             className="w-4 h-4 rounded border-gray-300 accent-[#00B8A9] cursor-pointer"
           />
           <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors select-none">
-            Show verified pros only
+            {t("browseServices.filters.verifiedOnly")}
           </span>
         </label>
       </div>
@@ -470,7 +485,7 @@ function FilterPanel({
         onClick={onClearAll}
         className="text-sm font-medium text-[#00B8A9] hover:text-[#2B5F5F] transition-colors"
       >
-        Clear all filters
+        {t("browseServices.filters.clearAll")}
       </button>
     </div>
   );
@@ -478,6 +493,10 @@ function FilterPanel({
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export function BrowseServices() {
+  const { t } = useTranslation("home");
+  const { regionConfig } = useLocale();
+  const CATEGORIES = CATEGORY_IDS.map((id) => t(`browseServices.categories.${id}`));
+
   const [providers, setProviders] = useState<Provider[]>([]);
   const [loading, setLoading] = useState(true);
   const [priceFilter, setPriceFilter] = useState("any");
@@ -491,7 +510,7 @@ export function BrowseServices() {
   const [locationInput, setLocationInput] = useState("");
   const [searchService, setSearchService] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All services");
+  const [activeCategory, setActiveCategory] = useState(CATEGORIES[0]);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -526,6 +545,7 @@ export function BrowseServices() {
       setLocationInput(loc);
       setLocationFilter(loc);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const handleSearch = () => {
@@ -538,7 +558,7 @@ export function BrowseServices() {
     setLocationInput("");
     setSearchService("");
     setLocationFilter("");
-    setActiveCategory("All services");
+    setActiveCategory(CATEGORIES[0]);
     setPriceFilter("any");
     setSelectedRating("all");
     setSortBy("most-popular");
@@ -553,7 +573,7 @@ export function BrowseServices() {
 
   const handleCategoryClick = (cat: string) => {
     setActiveCategory(cat);
-    if (cat === "All services") {
+    if (cat === CATEGORIES[0]) {
       setSearchService("");
       setSearchInput("");
     } else {
@@ -598,7 +618,7 @@ export function BrowseServices() {
       }
     });
 
-  const locationLabel = locationInput || locationFilter || "your area";
+  const locationLabel = locationInput || locationFilter || t("browseServices.yourArea");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -606,7 +626,7 @@ export function BrowseServices() {
         title="Browse Home Services"
         url="/services"
         description="Browse and book verified home service professionals near you. Plumbing, electrical, cleaning, AC repair, painting and more — transparent pricing, secure payments."
-        keywords="browse home services, find plumber electrician cleaner, book home services India"
+        keywords="browse home services, find plumber electrician cleaner, book home services UAE Saudi Arabia Qatar"
       />
 
       {/* ── Page Header ───────────────────────────────────── */}
@@ -619,10 +639,10 @@ export function BrowseServices() {
             className="mb-4"
           >
             <h1 className="text-2xl font-bold text-gray-900">
-              Find trusted home service professionals
+              {t("browseServices.pageTitle")}
             </h1>
             <p className="text-sm text-gray-400 mt-1">
-              Verified pros &middot; Fixed pricing &middot; Available today in {locationLabel}
+              {t("browseServices.pageSubtitle", { location: locationLabel })}
             </p>
           </motion.div>
 
@@ -637,7 +657,7 @@ export function BrowseServices() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search service, professional..."
+                placeholder={t("browseServices.searchPlaceholder")}
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -648,7 +668,7 @@ export function BrowseServices() {
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
-                placeholder="Bangalore, Karnataka"
+                placeholder={t("browseServices.locationPlaceholder", { city: regionConfig.cities[0] })}
                 value={locationInput}
                 onChange={(e) => setLocationInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
@@ -659,7 +679,7 @@ export function BrowseServices() {
               <button
                 onClick={handleClearAll}
                 className="px-3 py-2.5 border border-gray-200 text-gray-400 hover:text-gray-600 rounded-xl transition-colors flex-shrink-0"
-                title="Clear search"
+                title={t("browseServices.clearSearch")}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -668,7 +688,7 @@ export function BrowseServices() {
               onClick={handleSearch}
               className="px-7 py-2.5 bg-[#00B8A9] text-white text-sm font-semibold rounded-xl hover:bg-[#009e96] transition-colors whitespace-nowrap flex-shrink-0"
             >
-              Search
+              {t("browseServices.search")}
             </button>
           </motion.div>
 
@@ -726,11 +746,11 @@ export function BrowseServices() {
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm text-gray-500">
                 <span className="font-semibold text-gray-900">{loading ? "…" : filtered.length}</span>{" "}
-                professionals found
+                {t("browseServices.professionalsFound")}
                 {(searchService || locationFilter) && !loading && (
                   <span className="text-gray-400">
-                    {searchService ? ` for "${searchService}"` : ""}
-                    {locationFilter ? ` in ${locationFilter}` : ""}
+                    {searchService ? ` ${t("browseServices.forQuery", { query: searchService })}` : ""}
+                    {locationFilter ? ` ${t("browseServices.inLocation", { location: locationFilter })}` : ""}
                   </span>
                 )}
               </p>
@@ -742,14 +762,14 @@ export function BrowseServices() {
                   className="lg:hidden inline-flex items-center gap-1.5 text-sm text-gray-600 bg-white border border-gray-200 px-3 py-2 rounded-xl hover:border-[#00B8A9] hover:text-[#00B8A9] transition-colors"
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
-                  Filters
+                  {t("browseServices.filters.title")}
                 </button>
 
                 {/* View toggle */}
                 <div className="flex border border-gray-200 rounded-xl overflow-hidden">
                   <button
                     onClick={() => setViewMode("list")}
-                    title="List view"
+                    title={t("browseServices.listView")}
                     className={`p-2 transition-colors ${
                       viewMode === "list" ? "bg-[#00B8A9] text-white" : "bg-white text-gray-400 hover:text-gray-700"
                     }`}
@@ -758,7 +778,7 @@ export function BrowseServices() {
                   </button>
                   <button
                     onClick={() => setViewMode("grid")}
-                    title="Grid view"
+                    title={t("browseServices.gridView")}
                     className={`p-2 transition-colors ${
                       viewMode === "grid" ? "bg-[#00B8A9] text-white" : "bg-white text-gray-400 hover:text-gray-700"
                     }`}
@@ -803,15 +823,15 @@ export function BrowseServices() {
                 <div className="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="w-6 h-6 text-gray-300" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">No professionals found</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">{t("browseServices.noProfessionalsFound")}</h3>
                 <p className="text-sm text-gray-400 mb-5">
-                  Try adjusting your search or removing some filters
+                  {t("browseServices.tryAdjusting")}
                 </p>
                 <button
                   onClick={handleClearAll}
                   className="text-sm font-medium text-[#00B8A9] hover:text-[#2B5F5F] transition-colors"
                 >
-                  Clear all filters
+                  {t("browseServices.filters.clearAll")}
                 </button>
               </div>
             ) : viewMode === "list" ? (

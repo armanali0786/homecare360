@@ -1,10 +1,12 @@
 import { motion } from "motion/react";
 import { Search, Ban, CheckCircle2, Eye, Calendar, DollarSign } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getAdminUsers, toggleUserStatus } from "@/app/lib/api";
 import { toast } from "react-toastify";
 
 export function UserManagement() {
+  const { t } = useTranslation("admin");
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,10 +29,10 @@ export function UserManagement() {
   const handleToggle = async (id: string) => {
     try {
       await toggleUserStatus(id);
-      toast.success("User status updated");
+      toast.success(t("users.toast.updated"));
       fetchUsers();
     } catch (err: any) {
-      toast.error(err.message || "Failed to update status");
+      toast.error(err.message || t("users.toast.updateFailed"));
     }
   };
 
@@ -49,17 +51,17 @@ export function UserManagement() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
-          User Management
+          {t("users.title")}
         </h1>
-        <p className="text-gray-600">Manage registered users and their activity</p>
+        <p className="text-gray-600">{t("users.subtitle")}</p>
       </motion.div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {[
-          { label: "Total Users", value: users.length, color: "from-blue-500 to-cyan-600" },
-          { label: "Active Users", value: users.filter((u) => u.isActive).length, color: "from-green-500 to-emerald-600" },
-          { label: "Blocked Users", value: users.filter((u) => !u.isActive).length, color: "from-red-500 to-orange-600" },
+          { label: t("users.stats.total"), value: users.length, color: "from-blue-500 to-cyan-600" },
+          { label: t("users.stats.active"), value: users.filter((u) => u.isActive).length, color: "from-green-500 to-emerald-600" },
+          { label: t("users.stats.blocked"), value: users.filter((u) => !u.isActive).length, color: "from-red-500 to-orange-600" },
         ].map((stat, index) => (
           <motion.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }} className="bg-white rounded-xl shadow-lg p-6">
             <div className={`inline-flex px-3 py-1 rounded-full bg-gradient-to-r ${stat.color} text-white text-sm font-medium mb-2`}>
@@ -76,7 +78,7 @@ export function UserManagement() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search users by name or email..."
+            placeholder={t("users.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 shadow-sm"
@@ -91,7 +93,7 @@ export function UserManagement() {
               onClick={() => setFilter(f as any)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${filter === f ? "bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"}`}
             >
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {t(`users.filters.${f}`)}
             </motion.button>
           ))}
         </div>
@@ -101,7 +103,7 @@ export function UserManagement() {
       {loading ? (
         <div className="space-y-4">{[1, 2, 3].map((i) => <div key={i} className="bg-white rounded-xl shadow-lg h-24 animate-pulse" />)}</div>
       ) : filteredUsers.length === 0 ? (
-        <div className="bg-white rounded-xl p-10 text-center shadow"><p className="text-gray-500">No users found.</p></div>
+        <div className="bg-white rounded-xl p-10 text-center shadow"><p className="text-gray-500">{t("users.empty")}</p></div>
       ) : (
         <div className="space-y-4">
           {filteredUsers.map((user, index) => (
@@ -126,18 +128,18 @@ export function UserManagement() {
                       <p className="text-xs text-gray-500">{user.phone}</p>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${user.isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                      {user.isActive ? "active" : "blocked"}
+                      {user.isActive ? t("users.statusLabel.active") : t("users.statusLabel.blocked")}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
                       <Calendar className="w-4 h-4 text-cyan-600" />
-                      <span>Joined {new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })}</span>
+                      <span>{t("users.joinedOn", { date: new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" }) })}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                       <DollarSign className="w-4 h-4 text-green-600" />
-                      <span className="capitalize">{user.role}</span>
+                      <span>{t(`users.role.${user.role}`, { defaultValue: user.role })}</span>
                     </div>
                   </div>
                 </div>

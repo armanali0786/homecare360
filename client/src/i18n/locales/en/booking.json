@@ -1,0 +1,354 @@
+{
+  "bookingPage": {
+    "back": "Back",
+    "backToProfile": "Back to profile",
+    "providerNotFound": "Provider not found.",
+    "goBack": "Go back",
+    "startingFrom": "Starting from",
+    "steps": {
+      "serviceDetails": "Service Details",
+      "schedule": "Schedule",
+      "address": "Address",
+      "reviewPay": "Review & Pay"
+    },
+    "step1": {
+      "title": "Customize your service",
+      "propertyType": "Property type",
+      "propertySize": "Property size",
+      "addOns": "Add-on services",
+      "addOnsHint": "Optionally include extra tasks in your booking",
+      "specialInstructions": "Special instructions",
+      "optional": "(optional)",
+      "specialInstructionsPlaceholder": "E.g. please bring eco-friendly products, dog in house, ring bell twice…",
+      "baseAndAddons": "Base + {{count}} add-on(s)",
+      "continue": "Continue to Schedule"
+    },
+    "propertyType": {
+      "apartment": "Apartment / Flat",
+      "villa": "Villa / Bungalow",
+      "house": "Independent House"
+    },
+    "propertySize": {
+      "studio": "Studio",
+      "1br": "1 Bedroom",
+      "2br": "2 Bedroom",
+      "3br": "3 Bedroom",
+      "4brplus": "4+ Bedroom"
+    },
+    "addOn": {
+      "fridge": "Inside fridge cleaning",
+      "oven": "Inside oven cleaning",
+      "balcony": "Balcony deep clean",
+      "sofa": "Sofa vacuuming",
+      "cupboard": "Inside cupboard cleaning",
+      "drain": "Drain unblocking",
+      "heater": "Water heater check",
+      "toilet": "Flush mechanism repair",
+      "fan": "Ceiling fan installation",
+      "light": "Light / fixture fitting",
+      "mcb": "MCB / circuit breaker",
+      "deep_coil": "Deep coil cleaning",
+      "gas": "Gas top-up (refrigerant)",
+      "stabilizer": "PCB / stabilizer check",
+      "putty": "Extra wall putty (100 sqft)",
+      "primer": "Premium primer coat",
+      "ceiling": "Ceiling painting",
+      "bed_bug": "Bed bug treatment",
+      "termite": "Termite control",
+      "rodent": "Rodent control",
+      "polish": "Wood polish / finishing",
+      "hardware": "Hardware replacement (5 pcs)",
+      "express": "Express / same-day booking",
+      "weekend": "Weekend / holiday slot"
+    },
+    "step2": {
+      "title": "Pick a date and time",
+      "serviceDate": "Service date",
+      "sameDayWarning": "Same-day booking — subject to provider confirmation",
+      "preferredTimeSlot": "Preferred time slot",
+      "durationLabel": "Estimated duration:",
+      "durationValue": "2–4 hours",
+      "durationHint": "(may vary based on add-ons)",
+      "continue": "Continue to Address"
+    },
+    "timeGroup": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening"
+    },
+    "step3": {
+      "title": "Service address & contact",
+      "fullAddress": "Full address",
+      "addressPlaceholder": "Building / house no., street, area, city",
+      "floorLandmark": "Floor / Building / Landmark",
+      "floorLandmarkPlaceholder": "E.g. Floor 3, Tower B, near City Mall",
+      "contactNumber": "Contact number",
+      "phonePlaceholder": "Mobile number",
+      "callNote": "Provider will call 30 minutes before arrival",
+      "continue": "Continue to Review"
+    },
+    "step4": {
+      "orderSummary": "Order summary",
+      "promoPrefix": "Promo:",
+      "vatLabel": "{{label}} ({{rate}}%)",
+      "totalPayable": "Total payable",
+      "noHiddenCharges": "No hidden charges — this is the final amount",
+      "promoTitle": "Promo / discount code",
+      "promoPlaceholder": "Enter promo code",
+      "apply": "Apply",
+      "paymentMethod": "Payment method",
+      "codTitle": "Pay on service completion",
+      "codDesc": "Cash to provider after the job is done",
+      "codDescIN": "Cash / UPI to provider after the job is done",
+      "recommended": "Recommended",
+      "onlineTitle": "Online Payment (Card)",
+      "onlineTitleIN": "Online Payment (Card / UPI)",
+      "onlineDesc": "Powered by Stripe · SSL secured",
+      "secure": "Secure",
+      "secureBooking": "Secure booking · Your data is encrypted",
+      "cancellationPolicy": "Cancellation policy",
+      "cancellationText": "Free cancellation before 24 hours. Late cancellations may incur a {{fee}} fee.",
+      "redoOrRefund": "Not satisfied? HomeCare360 will redo the service or issue a full refund.",
+      "processing": "Processing…",
+      "confirmPayOnline": "Confirm & Pay Online — {{amount}}",
+      "confirmBook": "Confirm & Book — {{amount}}"
+    },
+    "confirmation": {
+      "title": "Booking Confirmed!",
+      "subtitle": "Your service has been scheduled",
+      "bookingReference": "Booking Reference",
+      "service": "Service",
+      "provider": "Provider",
+      "date": "Date",
+      "time": "Time",
+      "address": "Address",
+      "payment": "Payment",
+      "paymentValueCOD": "Pay on service completion (Cash to provider)",
+      "paymentValueCODIN": "Pay on service completion (Cash / UPI to provider)",
+      "totalAmount": "Total Amount",
+      "whatNext": "What happens next",
+      "whatNext1": "Provider will confirm within 1 hour",
+      "whatNext2": "You'll receive an SMS confirmation shortly",
+      "whatNext3": "Provider calls 30 minutes before arrival",
+      "addToCalendar": "Add to Google Calendar",
+      "viewBookings": "View My Bookings",
+      "backHome": "Back to home"
+    },
+    "errors": {
+      "selectDate": "Please select a date",
+      "selectSlot": "Please select a time slot",
+      "enterAddress": "Please enter your service address",
+      "enterPhone": "Please enter your contact number",
+      "invalidPromo": "Invalid promo code",
+      "loginRequired": "Please log in to confirm your booking",
+      "bookingFailed": "Booking failed. Please try again."
+    },
+    "promoApplied": "Promo applied: {{label}}"
+  },
+  "promo": {
+    "WELCOME10": "10% off for new users",
+    "HC50": "{{amount}} instant discount",
+    "NEWUSER": "15% off — welcome offer"
+  },
+  "quoteEstimator": {
+    "seoTitle": "Instant Quote Estimator",
+    "seoDescription": "Get an instant price estimate for home care services. Live pricing as you configure — no waiting, no callbacks.",
+    "seoKeywords": "home care cost estimator, instant quote, home service price calculator",
+    "heroTitle": "Instant Quote Estimator",
+    "heroSubtitle": "Live pricing updates as you configure — no waiting, no callbacks",
+    "modeWizard": "Step-by-step",
+    "modeAssistant": "Ask AI",
+    "assistant": {
+      "title": "AI Quote Assistant",
+      "greeting": "Hi! Tell me what service you need and a bit about your property, and I'll put together an estimate.",
+      "inputPlaceholder": "E.g. I need a deep clean for my 2-bedroom apartment",
+      "send": "Send",
+      "error": "Something went wrong — please try again.",
+      "quoteReady": "Estimate ready",
+      "browseProviders": "Browse {{service}} providers"
+    },
+    "steps": {
+      "service": "Service",
+      "property": "Property",
+      "size": "Size",
+      "urgency": "Urgency",
+      "addOns": "Add-ons"
+    },
+    "standard": "Standard",
+    "step1": {
+      "title": "What service do you need?",
+      "subtitle": "Choose a service to see live pricing on the right",
+      "loading": "Loading services…",
+      "from": "from {{price}}"
+    },
+    "step2": {
+      "title": "What type of property?",
+      "subtitle": "Property type affects the base rate",
+      "back": "← Back to Services"
+    },
+    "propertyType": {
+      "apartment": "Apartment",
+      "house": "House",
+      "condo": "Condo",
+      "townhouse": "Townhouse",
+      "commercial": "Commercial"
+    },
+    "step3": {
+      "title": "How large is your property?",
+      "subtitle": "Larger properties take more time and materials",
+      "back": "← Back"
+    },
+    "propertySize": {
+      "small": { "name": "Small", "desc": "< 1,000 sq ft" },
+      "medium": { "name": "Medium", "desc": "1,000–2,000 sq ft" },
+      "large": { "name": "Large", "desc": "2,000–3,000 sq ft" },
+      "xlarge": { "name": "Extra Large", "desc": "> 3,000 sq ft" }
+    },
+    "step4": {
+      "title": "When do you need it?",
+      "subtitle": "Faster scheduling comes at a premium",
+      "back": "← Back"
+    },
+    "urgency": {
+      "standard": { "name": "Standard", "desc": "3–5 business days", "tag": "Best Value" },
+      "priority": { "name": "Priority", "desc": "1–2 days", "tag": "+30%" },
+      "emergency": { "name": "Emergency", "desc": "Same day", "tag": "+80%" }
+    },
+    "step5": {
+      "title": "Any add-ons?",
+      "subtitle": "Optional — select any that apply. Price updates live.",
+      "back": "← Back",
+      "findProviders": "Find {{service}} Providers"
+    },
+    "addOn": {
+      "warranty": { "name": "Extended Warranty", "desc": "12-month parts & labor coverage" },
+      "eco": { "name": "Eco-Friendly", "desc": "Sustainable, low-impact materials" },
+      "weekend": { "name": "Weekend Service", "desc": "Saturday & Sunday availability" },
+      "inspection": { "name": "Full Inspection", "desc": "Detailed written report included" }
+    },
+    "summary": {
+      "liveEstimate": "Live Estimate",
+      "estimatedNote": "Estimated · final price set by provider",
+      "selectPrompt": "Select a service to see your live estimate",
+      "propertyTypeNotSelected": "Property type: not selected",
+      "sizeNotSelected": "Size: not selected",
+      "subtotal": "Subtotal",
+      "totalEstimate": "Total Estimate",
+      "browseProviders": "Browse {{service}} Providers",
+      "startOver": "Start over",
+      "verifiedNote": "All providers are verified & background-checked"
+    },
+    "tip": {
+      "title": "💡 Save money tip",
+      "text": "Standard scheduling costs up to 80% less than emergency rates. Book 3+ days ahead for the best value."
+    },
+    "infoStrip": {
+      "instant": { "title": "Instant Estimates", "desc": "Live pricing that updates as you configure — no forms, no waiting." },
+      "noFees": { "title": "No Hidden Fees", "desc": "Every cost factor is shown upfront in the breakdown." },
+      "verified": { "title": "Verified Providers", "desc": "Every provider on our platform is background-checked and insured." }
+    }
+  },
+  "myBookings": {
+    "badge": "My Bookings",
+    "title": "Your Service Appointments",
+    "subtitle": "Manage and track all your home service bookings",
+    "stats": {
+      "total": "Total",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "tabs": {
+      "all": "All Bookings",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "resultsCount": "{{count}} bookings found",
+    "status": {
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "unknown": "Unknown"
+    },
+    "payment": {
+      "paid": "Paid",
+      "payOnCompletion": "Pay on completion",
+      "pending": "Pending"
+    },
+    "emptyTitle": "No bookings found",
+    "emptyText": "You don't have any {{filter}} bookings yet.",
+    "emptyTextAll": "You don't have any bookings yet.",
+    "browseServices": "Browse Services",
+    "total": "total",
+    "messageProvider": "Message Provider",
+    "cancelBooking": "Cancel Booking",
+    "leaveReview": "Leave a Review",
+    "bookAgain": "Book Again",
+    "cancelledByProvider": "Cancelled by provider",
+    "reviewSubmitted": "Review submitted!"
+  },
+  "bookingSuccess": {
+    "paymentSuccessTitle": "Payment Successful!",
+    "bookingConfirmedTitle": "Booking Confirmed!",
+    "paymentSuccessSubtitle": "Your payment has been processed",
+    "bookingConfirmedSubtitle": "Your service has been scheduled",
+    "bookingReference": "Booking Reference",
+    "service": "Service",
+    "provider": "Provider",
+    "date": "Date",
+    "time": "Time",
+    "address": "Address",
+    "payment": "Payment",
+    "paidOnline": "Paid online (Stripe)",
+    "payOnCompletion": "Pay on completion",
+    "totalAmount": "Total Amount",
+    "whatNext": "What happens next",
+    "whatNext1": "Provider will confirm within 1 hour",
+    "whatNext2": "You'll receive an SMS confirmation shortly",
+    "whatNext3": "Provider calls 30 minutes before arrival",
+    "viewBookings": "View My Bookings",
+    "backHome": "Back to home"
+  },
+  "cancelModal": {
+    "title": "Cancel Booking",
+    "totalLabel": "total",
+    "at": "at",
+    "feeLabel": "{{fee}} cancellation fee",
+    "freeCancellation": "Free cancellation",
+    "cannotCancelTitle": "Cannot be cancelled",
+    "cannotCancelText": "Cancellation is not allowed within 2 hours of the appointment.",
+    "policyNote": "Free cancellation >24h · {{fee}} fee <24h · Not allowed <2h",
+    "keepBooking": "Keep Booking",
+    "confirmCancel": "Yes, Cancel",
+    "cancelledSuccess": "Booking cancelled successfully",
+    "cancelledFailed": "Failed to cancel booking"
+  },
+  "chatDrawer": {
+    "customerFallback": "Customer",
+    "providerFallback": "Provider",
+    "privacyNotice": "Messages are private. Personal contact details are not shared.",
+    "noMessages": "No messages yet.",
+    "startConversation": "Start the conversation!",
+    "placeholder": "Type a message…"
+  },
+  "reviewModal": {
+    "thanksTitle": "Thanks for your review!",
+    "thanksText": "Your feedback helps improve service quality.",
+    "done": "Done",
+    "title": "Rate your experience",
+    "writeReview": "Write a review",
+    "optional": "(optional)",
+    "commentPlaceholder": "Share details about your experience — punctuality, quality, behaviour…",
+    "submit": "Submit Review",
+    "ratingRequired": "Please select a star rating",
+    "submitFailed": "Failed to submit review",
+    "labels": {
+      "1": "Terrible",
+      "2": "Poor",
+      "3": "Okay",
+      "4": "Good",
+      "5": "Excellent"
+    }
+  }
+}

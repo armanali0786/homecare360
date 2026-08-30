@@ -1,0 +1,13 @@
+{
+  "home": "Home",
+  "services": "Services",
+  "becomeProvider": "Become Provider",
+  "quoteEstimator": "Quote Estimator",
+  "adminDashboard": "Admin Dashboard",
+  "providerDashboard": "Provider Dashboard",
+  "myBookings": "My Bookings",
+  "signIn": "Sign In",
+  "getStarted": "Get Started",
+  "becomeAPro": "Become a Pro",
+  "logout": "Logout"
+}

@@ -23,6 +23,7 @@ import { PrivacyPolicy }   from "./pages/PrivacyPolicy";
 import { Safety }          from "./pages/Safety";
 import { TermsOfService }  from "./pages/TermsOfService";
 import { InstantQuoteEstimator } from "./pages/InstantQuoteEstimator";
+import { MockGatewayCheckout } from "./pages/MockGatewayCheckout";
 import { ForgotPassword }  from "./pages/ForgotPassword";
 import { GuestRoute }      from "./components/GuestRoute";
 import { AdminRoute }      from "./components/AdminRoute";
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
       { path: "booking/:providerId", Component: BookingPage          },
       { path: "booking-success",     Component: BookingSuccess        },
       { path: "quote-estimator",     Component: InstantQuoteEstimator },
+      { path: "mock-gateway-checkout", Component: MockGatewayCheckout },
       { path: "become-provider",     Component: BecomeProvider        },
 
       {

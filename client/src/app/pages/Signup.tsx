@@ -3,8 +3,12 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 import { Eye, EyeOff, Mail, Lock, User, Phone } from "lucide-react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "../context/LocaleContext";
 
 export function Signup() {
+  const { t } = useTranslation("auth");
+  const { regionConfig } = useLocale();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,7 +48,7 @@ export function Signup() {
     if (res.ok) {
       toast.success(data.message);
     } else {
-      toast.error(data.message || "Registration failed. Please try again.");
+      toast.error(data.message || t("signup.registrationFailed"));
     }
     setLoading(false);
   };
@@ -85,8 +89,8 @@ export function Signup() {
           className="bg-white rounded-2xl shadow-xl p-8 md:p-10"
         >
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
-            <p className="text-gray-600">Join us to get started today</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("signup.createAccount")}</h1>
+            <p className="text-gray-600">{t("signup.subtitle")}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -97,7 +101,7 @@ export function Signup() {
               transition={{ delay: 0.4 }}
             >
               <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name
+                {t("signup.fullNameLabel")}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -108,7 +112,7 @@ export function Signup() {
                   value={formData.fullName}
                   onChange={handleChange}
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all"
-                  placeholder="John Doe"
+                  placeholder={t("signup.fullNamePlaceholder")}
                   required
                 />
               </div>
@@ -121,7 +125,7 @@ export function Signup() {
               transition={{ delay: 0.45 }}
             >
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t("signup.emailLabel")}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -132,7 +136,7 @@ export function Signup() {
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all"
-                  placeholder="you@example.com"
+                  placeholder={t("signup.emailPlaceholder")}
                   required
                 />
               </div>
@@ -145,7 +149,7 @@ export function Signup() {
               transition={{ delay: 0.5 }}
             >
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number
+                {t("signup.phoneLabel")}
               </label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -156,7 +160,7 @@ export function Signup() {
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all"
-                  placeholder="+1 (555) 123-4567"
+                  placeholder={`${regionConfig.phoneCode} 50 123 4567`}
                   required
                 />
               </div>
@@ -169,7 +173,7 @@ export function Signup() {
               transition={{ delay: 0.55 }}
             >
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t("signup.passwordLabel")}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -200,7 +204,7 @@ export function Signup() {
               transition={{ delay: 0.6 }}
             >
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password
+                {t("signup.confirmPasswordLabel")}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -241,13 +245,13 @@ export function Signup() {
                 required
               />
               <label htmlFor="agreeToTerms" className="text-sm text-gray-600">
-                I agree to the{" "}
+                {t("signup.agreeToTermsPrefix")}{" "}
                 <Link to="/terms" className="text-[#00B8A9] hover:text-[#2B5F5F]">
-                  Terms of Service
+                  {t("signup.termsOfService")}
                 </Link>{" "}
-                and{" "}
+                {t("signup.and")}{" "}
                 <Link to="/privacy" className="text-[#00B8A9] hover:text-[#2B5F5F]">
-                  Privacy Policy
+                  {t("signup.privacyPolicy")}
                 </Link>
               </label>
             </motion.div>
@@ -263,7 +267,7 @@ export function Signup() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Creating Account..." : "Create Account"}
+              {loading ? t("signup.creatingAccount") : t("signup.createAccountBtn")}
             </motion.button>
           </form>
 
@@ -273,7 +277,7 @@ export function Signup() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">Or sign up with</span>
+              <span className="px-4 bg-white text-gray-500">{t("signup.orSignUpWith")}</span>
             </div>
           </div>
 
@@ -291,13 +295,13 @@ export function Signup() {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
-              <span className="text-sm font-medium">Google</span>
+              <span className="text-sm font-medium">{t("signup.google")}</span>
             </button>
             <button className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
-              <span className="text-sm font-medium">Facebook</span>
+              <span className="text-sm font-medium">{t("signup.facebook")}</span>
             </button>
           </motion.div>
 
@@ -308,9 +312,9 @@ export function Signup() {
             transition={{ delay: 0.8 }}
             className="text-center mt-6 text-gray-600"
           >
-            Already have an account?{" "}
+            {t("signup.alreadyHaveAccount")}{" "}
             <Link to="/login" className="text-[#00B8A9] hover:text-[#2B5F5F] font-medium">
-              Sign in
+              {t("signup.signIn")}
             </Link>
           </motion.p>
         </motion.div>

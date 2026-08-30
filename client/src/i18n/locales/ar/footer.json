@@ -1,0 +1,20 @@
+{
+  "tagline": "منصة الخليج الموثوقة لخدمات المنزل الاحترافية. مزوّدو خدمة موثّقون، دفع آمن، جودة مضمونة.",
+  "servicesHeading": "الخدمات",
+  "companyHeading": "الشركة",
+  "citiesHeading": "المدن",
+  "supportHeading": "الدعم",
+  "aboutUs": "من نحن",
+  "blog": "المدونة",
+  "careers": "الوظائف",
+  "press": "الإعلام",
+  "contactUs": "اتصل بنا",
+  "helpCenter": "مركز المساعدة",
+  "safety": "السلامة",
+  "cancellationPolicy": "سياسة الإلغاء",
+  "privacyPolicy": "سياسة الخصوصية",
+  "termsOfService": "شروط الخدمة",
+  "sslSecure": "اتصال آمن SSL",
+  "vatRegistered": "مسجّل في {{vatLabel}}",
+  "copyright": "© 2026 هوم كير 360. جميع الحقوق محفوظة."
+}

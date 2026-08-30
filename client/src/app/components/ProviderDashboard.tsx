@@ -1,14 +1,18 @@
 import { motion } from "motion/react";
 import {
   Calendar, Clock, MapPin, CheckCircle2, XCircle, AlertCircle,
-  IndianRupee, Star, TrendingUp, AlertTriangle, MessageSquare,
+  Wallet, Star, TrendingUp, AlertTriangle, MessageSquare,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getProviderBookings, getMyProviderProfile, providerCancelBooking, providerAcceptBooking } from "@/app/lib/api";
 import { toast } from "react-toastify";
 import { ChatDrawer } from "@/app/components/ChatDrawer";
+import { useLocale } from "@/app/context/LocaleContext";
 
 export function ProviderDashboard() {
+  const { t } = useTranslation("provider");
+  const { formatCurrency, regionConfig } = useLocale();
   const [profile,   setProfile]   = useState<any>(null);
   const [bookings,  setBookings]  = useState<any[]>([]);
   const [loading,   setLoading]   = useState(true);
@@ -52,10 +56,10 @@ export function ProviderDashboard() {
     setAccepting(bookingId);
     try {
       await providerAcceptBooking(bookingId);
-      toast.success("Booking accepted! Customer has been notified.");
+      toast.success(t("dashboard.toasts.accepted"));
       fetchAll();
     } catch (err: any) {
-      toast.error(err.message || "Failed to accept booking");
+      toast.error(err.message || t("dashboard.toasts.acceptFailed"));
     } finally {
       setAccepting(null);
     }
@@ -63,16 +67,16 @@ export function ProviderDashboard() {
 
   const handleProviderCancel = async (bookingId: string, isPending: boolean) => {
     const msg = isPending
-      ? "Decline this booking request?"
-      : "Cancel this booking? A penalty will be recorded on your profile.";
+      ? t("dashboard.confirmDecline")
+      : t("dashboard.confirmCancel");
     if (!confirm(msg)) return;
     setCancelling(bookingId);
     try {
       await providerCancelBooking(bookingId);
-      toast.success(isPending ? "Booking request declined." : "Booking cancelled. Customer has been notified.");
+      toast.success(isPending ? t("dashboard.toasts.declined") : t("dashboard.toasts.cancelled"));
       fetchAll();
     } catch (err: any) {
-      toast.error(err.message || "Failed to cancel");
+      toast.error(err.message || t("dashboard.toasts.cancelFailed"));
     } finally {
       setCancelling(null);
     }
@@ -80,15 +84,15 @@ export function ProviderDashboard() {
 
   const getStatusConfig = (status: string) => {
     switch (status) {
-      case "pending":   return { icon: AlertCircle,  color: "text-amber-600",   bg: "bg-amber-50",   border: "border-amber-200",   label: "New Request" };
-      case "upcoming":  return { icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50",    border: "border-cyan-200",    label: "Upcoming"    };
-      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: "Completed"   };
-      case "cancelled": return { icon: XCircle,      color: "text-red-500",     bg: "bg-red-50",     border: "border-red-200",     label: "Cancelled"   };
-      default:          return { icon: AlertCircle,  color: "text-gray-500",    bg: "bg-gray-50",    border: "border-gray-200",    label: "Unknown"     };
+      case "pending":   return { icon: AlertCircle,  color: "text-amber-600",   bg: "bg-amber-50",   border: "border-amber-200",   label: t("dashboard.status.pending")   };
+      case "upcoming":  return { icon: AlertCircle,  color: "text-cyan-600",    bg: "bg-cyan-50",    border: "border-cyan-200",    label: t("dashboard.status.upcoming")  };
+      case "completed": return { icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200", label: t("dashboard.status.completed") };
+      case "cancelled": return { icon: XCircle,      color: "text-red-500",     bg: "bg-red-50",     border: "border-red-200",     label: t("dashboard.status.cancelled") };
+      default:          return { icon: AlertCircle,  color: "text-gray-500",    bg: "bg-gray-50",    border: "border-gray-200",    label: t("dashboard.status.unknown")   };
     }
   };
 
-  const getCustomerName = (b: any) => b.user?.fullName || "Customer";
+  const getCustomerName = (b: any) => b.user?.fullName || t("dashboard.customerFallback");
   const getCustomerPhone = (b: any) => b.user?.phone || "";
 
   return (
@@ -98,21 +102,21 @@ export function ProviderDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <span className="inline-block text-sm font-semibold text-[#00B8A9] bg-cyan-50 border border-cyan-200 px-3 py-1 rounded-full mb-3">
-              Provider Dashboard
+              {t("dashboard.badge")}
             </span>
             <div className="flex items-start justify-between flex-wrap gap-4">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
                   {profile?.businessName ||
                    `${profile?.firstName || ""} ${profile?.lastName || ""}`.trim() ||
-                   "My Dashboard"}
+                   t("dashboard.defaultTitle")}
                 </h1>
                 <p className="text-sm text-gray-500 mt-1">{profile?.serviceCategory}</p>
               </div>
               {profile?.penaltyCount > 0 && (
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-700">
                   <AlertTriangle className="w-3.5 h-3.5" />
-                  {profile.penaltyCount} cancellation penalty{profile.penaltyCount > 1 ? "s" : ""}
+                  {t("dashboard.penaltyCount", { count: profile.penaltyCount })}
                 </div>
               )}
             </div>
@@ -126,14 +130,14 @@ export function ProviderDashboard() {
             className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5"
           >
             {[
-              { label: "New Requests", value: stats.pending,   icon: AlertCircle,  color: "text-amber-600",   bg: "bg-amber-50"   },
-              { label: "Upcoming",     value: stats.upcoming,  icon: Calendar,     color: "text-cyan-600",    bg: "bg-cyan-50"    },
-              { label: "Completed",    value: stats.completed, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
-              { label: "Total Earned",
-                value: `₹${stats.earned.toLocaleString("en-IN")}`,
-                icon: IndianRupee, color: "text-violet-600", bg: "bg-violet-50" },
+              { key: "newRequests", label: t("dashboard.stats.newRequests"), value: stats.pending,   icon: AlertCircle,  color: "text-amber-600",   bg: "bg-amber-50"   },
+              { key: "upcoming",    label: t("dashboard.stats.upcoming"),    value: stats.upcoming,  icon: Calendar,     color: "text-cyan-600",    bg: "bg-cyan-50"    },
+              { key: "completed",   label: t("dashboard.stats.completed"),   value: stats.completed, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50" },
+              { key: "totalEarned", label: t("dashboard.stats.totalEarned"),
+                value: formatCurrency(stats.earned),
+                icon: Wallet, color: "text-violet-600", bg: "bg-violet-50" },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white rounded-xl border border-gray-100 px-4 py-3 flex items-center gap-3">
+              <div key={stat.key} className="bg-white rounded-xl border border-gray-100 px-4 py-3 flex items-center gap-3">
                 <div className={`w-9 h-9 ${stat.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
                   <stat.icon className={`w-4 h-4 ${stat.color}`} />
                 </div>
@@ -156,31 +160,30 @@ export function ProviderDashboard() {
                 <TrendingUp className="w-5 h-5 text-violet-600" />
               </div>
               <div>
-                <p className="text-sm font-bold text-gray-900">Payout Balance</p>
+                <p className="text-sm font-bold text-gray-900">{t("dashboard.payoutBalance")}</p>
                 <p className="text-xs text-gray-400">
                   {profile.stripeAccountStatus === "active"
-                    ? "Payouts active via Stripe Connect"
-                    : "Set up Stripe Connect to receive automated payouts"}
+                    ? t("dashboard.stripeActive")
+                    : t("dashboard.stripeInactive")}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <p className="text-xs text-gray-400">Pending payout</p>
+                <p className="text-xs text-gray-400">{t("dashboard.pendingPayout")}</p>
                 <p className="text-xl font-bold text-gray-900">
-                  ₹{bookings
+                  {formatCurrency(bookings
                     .filter((b) => b.status === "completed" && b.paymentStatus === "paid")
-                    .reduce((s: number, b: any) => s + (b.providerPayout || 0), 0)
-                    .toLocaleString("en-IN")}
+                    .reduce((s: number, b: any) => s + (b.providerPayout || 0), 0))}
                 </p>
               </div>
               {profile.stripeAccountStatus !== "active" && (
                 <a
                   href="#"
-                  onClick={(e) => { e.preventDefault(); toast.info("Stripe Connect onboarding coming soon"); }}
+                  onClick={(e) => { e.preventDefault(); toast.info(t("dashboard.stripeComingSoon")); }}
                   className="px-4 py-2 bg-[#00B8A9] text-white text-xs font-semibold rounded-lg hover:bg-[#009e96] transition-colors whitespace-nowrap"
                 >
-                  Connect Stripe
+                  {t("dashboard.connectStripe")}
                 </a>
               )}
             </div>
@@ -193,11 +196,11 @@ export function ProviderDashboard() {
         {/* Filter tabs */}
         <div className="flex gap-2 mb-5 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
           {[
-            { id: "all",       label: "All Jobs"                                                      },
-            { id: "pending",   label: `Requests${stats.pending ? ` (${stats.pending})` : ""}`         },
-            { id: "upcoming",  label: "Upcoming"                                                      },
-            { id: "completed", label: "Completed"                                                     },
-            { id: "cancelled", label: "Cancelled"                                                     },
+            { id: "all",       label: t("dashboard.tabs.all")                                                     },
+            { id: "pending",   label: `${t("dashboard.tabs.requests")}${stats.pending ? ` (${stats.pending})` : ""}` },
+            { id: "upcoming",  label: t("dashboard.tabs.upcoming")                                                 },
+            { id: "completed", label: t("dashboard.tabs.completed")                                                },
+            { id: "cancelled", label: t("dashboard.tabs.cancelled")                                                },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -221,7 +224,7 @@ export function ProviderDashboard() {
           ) : filteredBookings.length === 0 ? (
             <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
               <Calendar className="w-10 h-10 text-gray-200 mx-auto mb-3" />
-              <p className="text-sm text-gray-500">No bookings found.</p>
+              <p className="text-sm text-gray-500">{t("dashboard.noBookings")}</p>
             </div>
           ) : (
             filteredBookings.map((booking, index) => {
@@ -241,7 +244,7 @@ export function ProviderDashboard() {
                         <p className="text-base font-semibold text-gray-900">{getCustomerName(booking)}</p>
                         <p className="text-sm text-[#00B8A9] font-medium">{booking.serviceCategory}</p>
                         {getCustomerPhone(booking) && (
-                          <p className="text-xs text-gray-400 mt-0.5">📞 +91 {getCustomerPhone(booking)}</p>
+                          <p className="text-xs text-gray-400 mt-0.5">📞 {regionConfig.phoneCode} {getCustomerPhone(booking)}</p>
                         )}
                       </div>
                       <div className="flex items-center gap-3 flex-shrink-0">
@@ -250,8 +253,8 @@ export function ProviderDashboard() {
                           {sc.label}
                         </span>
                         <div className="text-right">
-                          <span className="text-xl font-bold text-gray-900">₹{booking.providerPayout?.toLocaleString("en-IN") || 0}</span>
-                          <span className="text-xs text-gray-400 ml-0.5">yours</span>
+                          <span className="text-xl font-bold text-gray-900">{formatCurrency(booking.providerPayout || 0)}</span>
+                          <span className="text-xs text-gray-400 ml-0.5">{t("dashboard.yours")}</span>
                         </div>
                       </div>
                     </div>
@@ -295,21 +298,21 @@ export function ProviderDashboard() {
                             className="flex items-center gap-1.5 px-4 py-2 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors disabled:opacity-50"
                           >
                             <CheckCircle2 className="w-3.5 h-3.5" />
-                            {accepting === booking._id ? "Accepting…" : "Accept Request"}
+                            {accepting === booking._id ? t("dashboard.accepting") : t("dashboard.acceptRequest")}
                           </button>
                           <button
                             onClick={() => { setChatBooking(booking); setChatOpen(true); }}
                             className="flex items-center gap-1.5 px-4 py-2 border border-[#00B8A9] text-[#00B8A9] text-sm font-medium rounded-lg hover:bg-cyan-50 transition-colors"
                           >
                             <MessageSquare className="w-3.5 h-3.5" />
-                            Message
+                            {t("dashboard.message")}
                           </button>
                           <button
                             onClick={() => handleProviderCancel(booking._id, true)}
                             disabled={cancelling === booking._id}
                             className="px-4 py-2 border border-red-200 text-red-500 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
                           >
-                            {cancelling === booking._id ? "Declining…" : "Decline"}
+                            {cancelling === booking._id ? t("dashboard.declining") : t("dashboard.decline")}
                           </button>
                         </>
                       )}
@@ -320,21 +323,21 @@ export function ProviderDashboard() {
                             className="flex items-center gap-1.5 px-4 py-2 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors"
                           >
                             <MessageSquare className="w-3.5 h-3.5" />
-                            Message Customer
+                            {t("dashboard.messageCustomer")}
                           </button>
                           <button
                             onClick={() => handleProviderCancel(booking._id, false)}
                             disabled={cancelling === booking._id}
                             className="px-4 py-2 border border-red-200 text-red-500 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors disabled:opacity-50"
                           >
-                            {cancelling === booking._id ? "Cancelling…" : "Cancel Job"}
+                            {cancelling === booking._id ? t("dashboard.cancelling") : t("dashboard.cancelJob")}
                           </button>
                         </>
                       )}
                       {booking.status === "completed" && (
                         <span className="flex items-center gap-1.5 text-xs text-emerald-600">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                          Job complete · payout ₹{booking.providerPayout?.toLocaleString("en-IN") || 0}
+                          {t("dashboard.jobComplete", { amount: formatCurrency(booking.providerPayout || 0) })}
                         </span>
                       )}
                     </div>

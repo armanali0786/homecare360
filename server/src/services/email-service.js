@@ -44,10 +44,10 @@ exports.bookingConfirmed = (toEmail, d) =>
     date:       d.date,
     time:       d.time,
     address:    d.address,
-    total:      `₹${d.total}`,
+    total:      `${d.currency || "AED"} ${d.total}`,
     message:
       `Your booking ${d.ref} is confirmed!\n` +
-      `Service: ${d.service}\nDate: ${d.date} at ${d.time}\nAddress: ${d.address}\nTotal: ₹${d.total}\n\n` +
+      `Service: ${d.service}\nDate: ${d.date} at ${d.time}\nAddress: ${d.address}\nTotal: ${d.currency || "AED"} ${d.total}\n\n` +
       `Provider will call 30 minutes before arrival. Free cancellation before 24h.`,
   });
 

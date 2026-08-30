@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from "motion/react";
 import { LogOut, LayoutDashboard, CalendarDays, ChevronDown, Briefcase } from "lucide-react";
 import { useUser } from "../context/UserContext";
 import { Link, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export function ProfileMenu() {
+  const { t } = useTranslation("auth");
   const { user, logout } = useUser();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -34,7 +36,13 @@ export function ProfileMenu() {
     ? "bg-cyan-100 text-cyan-700"
     : "bg-gray-100 text-gray-600";
 
-  const roleLabel = isSuperAdmin ? "Super Admin" : isAdmin ? "Admin" : isProvider ? "Provider" : "User";
+  const roleLabel = isSuperAdmin
+    ? t("profileMenu.superAdmin")
+    : isAdmin
+    ? t("profileMenu.admin")
+    : isProvider
+    ? t("profileMenu.provider")
+    : t("profileMenu.user");
 
   const initials = user?.fullName
     ? user.fullName.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()
@@ -91,7 +99,7 @@ export function ProfileMenu() {
                     className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-[#E0F7F5] hover:text-[#00B8A9] transition-colors"
                   >
                     <LayoutDashboard size={16} />
-                    <span className="text-sm font-medium">Admin Dashboard</span>
+                    <span className="text-sm font-medium">{t("profileMenu.adminDashboard")}</span>
                   </Link>
                   <Link
                     to="/bookings"
@@ -99,7 +107,7 @@ export function ProfileMenu() {
                     className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-[#E0F7F5] hover:text-[#00B8A9] transition-colors"
                   >
                     <CalendarDays size={16} />
-                    <span className="text-sm font-medium">My Bookings</span>
+                    <span className="text-sm font-medium">{t("profileMenu.myBookings")}</span>
                   </Link>
                 </>
               )}
@@ -113,7 +121,7 @@ export function ProfileMenu() {
                     className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-[#E0F7F5] hover:text-[#00B8A9] transition-colors"
                   >
                     <Briefcase size={16} />
-                    <span className="text-sm font-medium">Provider Dashboard</span>
+                    <span className="text-sm font-medium">{t("profileMenu.providerDashboard")}</span>
                   </Link>
                   <Link
                     to="/bookings"
@@ -121,7 +129,7 @@ export function ProfileMenu() {
                     className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-[#E0F7F5] hover:text-[#00B8A9] transition-colors"
                   >
                     <CalendarDays size={16} />
-                    <span className="text-sm font-medium">My Bookings</span>
+                    <span className="text-sm font-medium">{t("profileMenu.myBookings")}</span>
                   </Link>
                 </>
               )}
@@ -134,7 +142,7 @@ export function ProfileMenu() {
                   className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-[#E0F7F5] hover:text-[#00B8A9] transition-colors"
                 >
                   <CalendarDays size={16} />
-                  <span className="text-sm font-medium">My Bookings</span>
+                  <span className="text-sm font-medium">{t("profileMenu.myBookings")}</span>
                 </Link>
               )}
             </div>
@@ -145,7 +153,7 @@ export function ProfileMenu() {
                 className="flex items-center gap-3 w-full px-4 py-3 text-red-500 hover:bg-red-50 transition-colors"
               >
                 <LogOut size={16} />
-                <span className="text-sm font-medium">Logout</span>
+                <span className="text-sm font-medium">{t("profileMenu.logout")}</span>
               </button>
             </div>
           </motion.div>

@@ -5,6 +5,7 @@ import { AdminDashboard } from "./AdminDashboard";
 import { ServicesManagement } from "./ServicesManagement";
 import { ProviderManagement } from "./ProviderManagement";
 import { ProviderApplications } from "./ProviderApplications";
+import { ComplianceReview } from "./ComplianceReview";
 import { UserManagement } from "./UserManagement";
 import { BookingManagement } from "./BookingManagement";
 import { PaymentsEscrow } from "./PaymentsEscrow";
@@ -42,6 +43,8 @@ export function Admin() {
         return <ProviderManagement />;
       case "applications":
         return <ProviderApplications />;
+      case "compliance":
+        return <ComplianceReview />;
       case "users":
         return <UserManagement />;
       case "bookings":

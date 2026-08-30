@@ -3,8 +3,10 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 import { Mail } from "lucide-react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export function ForgotPassword() {
+  const { t } = useTranslation("auth");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -25,13 +27,13 @@ export function ForgotPassword() {
       const data = await res.json();
 
       if (res.ok) {
-        toast.success("Password reset link sent to your email");
+        toast.success(t("forgotPassword.resetLinkSent"));
         setEmail("");
       } else {
-        toast.error(data.message || "Something went wrong");
+        toast.error(data.message || t("forgotPassword.somethingWrong"));
       }
     } catch (error) {
-      toast.error("Server error. Try again later.");
+      toast.error(t("forgotPassword.serverError"));
     } finally {
       setLoading(false);
     }
@@ -68,10 +70,10 @@ export function ForgotPassword() {
 
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Forgot Password
+              {t("forgotPassword.title")}
             </h1>
             <p className="text-gray-600">
-              Enter your email to receive a reset link
+              {t("forgotPassword.subtitle")}
             </p>
           </div>
 
@@ -84,7 +86,7 @@ export function ForgotPassword() {
               transition={{ delay: 0.4 }}
             >
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t("forgotPassword.emailLabel")}
               </label>
 
               <div className="relative">
@@ -98,7 +100,7 @@ export function ForgotPassword() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="you@example.com"
+                  placeholder={t("forgotPassword.emailPlaceholder")}
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all"
                 />
               </div>
@@ -115,7 +117,7 @@ export function ForgotPassword() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Sending..." : "Send Reset Link"}
+              {loading ? t("forgotPassword.sending") : t("forgotPassword.sendResetLink")}
             </motion.button>
           </form>
 
@@ -126,12 +128,12 @@ export function ForgotPassword() {
             transition={{ delay: 0.6 }}
             className="text-center mt-6 text-gray-600"
           >
-            Remember your password?{" "}
+            {t("forgotPassword.rememberPassword")}{" "}
             <Link
               to="/login"
               className="text-[#00B8A9] hover:text-[#2B5F5F] font-medium"
             >
-              Back to Login
+              {t("forgotPassword.backToLogin")}
             </Link>
           </motion.p>
 

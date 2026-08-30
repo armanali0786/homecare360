@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import { useUser } from "../context/UserContext";
 
 export function Login() {
+  const { t } = useTranslation("auth");
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +29,7 @@ export function Login() {
     });
     const data = await res.json();
     if (res.ok) {
-      toast.success("Login successful!");
+      toast.success(t("login.loginSuccess"));
       login(
         {
           email: data.user.email,
@@ -43,7 +45,7 @@ export function Login() {
         navigate("/");
       }
     } else {
-      toast.error(data.message || "Login failed. Please try again.");
+      toast.error(data.message || t("login.loginFailed"));
     }
     setLoading(false);
   };
@@ -76,8 +78,8 @@ export function Login() {
           className="bg-white rounded-2xl shadow-xl p-8 md:p-10"
         >
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-            <p className="text-gray-600">Sign in to your account to continue</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t("login.welcomeBack")}</h1>
+            <p className="text-gray-600">{t("login.subtitle")}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -88,7 +90,7 @@ export function Login() {
               transition={{ delay: 0.4 }}
             >
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t("login.emailLabel")}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -98,7 +100,7 @@ export function Login() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all"
-                  placeholder="you@example.com"
+                  placeholder={t("login.emailPlaceholder")}
                   required
                 />
               </div>
@@ -112,10 +114,10 @@ export function Login() {
             >
               <div className="flex justify-between items-center mb-2">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
+                  {t("login.passwordLabel")}
                 </label>
                 <Link to="/forgot-password" className="text-sm text-[#00B8A9] hover:text-[#2B5F5F]">
-                  Forgot?
+                  {t("login.forgot")}
                 </Link>
               </div>
               <div className="relative">
@@ -150,7 +152,7 @@ export function Login() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] text-white py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Signing In..." : "Sign In"}
+              {loading ? t("login.signingIn") : t("login.signIn")}
             </motion.button>
           </form>
 
@@ -160,7 +162,7 @@ export function Login() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500">Or continue with</span>
+              <span className="px-4 bg-white text-gray-500">{t("login.orContinueWith")}</span>
             </div>
           </div>
 
@@ -178,13 +180,13 @@ export function Login() {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
-              <span className="text-sm font-medium">Google</span>
+              <span className="text-sm font-medium">{t("login.google")}</span>
             </button>
             <button className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
-              <span className="text-sm font-medium">Facebook</span>
+              <span className="text-sm font-medium">{t("login.facebook")}</span>
             </button>
           </motion.div>
 
@@ -195,9 +197,9 @@ export function Login() {
             transition={{ delay: 0.8 }}
             className="text-center mt-6 text-gray-600"
           >
-            Don't have an account?{" "}
+            {t("login.noAccount")}{" "}
             <Link to="/signup" className="text-[#00B8A9] hover:text-[#2B5F5F] font-medium">
-              Sign up
+              {t("login.signUp")}
             </Link>
           </motion.p>
         </motion.div>

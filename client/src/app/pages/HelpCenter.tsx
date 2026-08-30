@@ -1,62 +1,40 @@
 import { motion } from "motion/react";
 import { Search, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { SEO } from "@/app/components/SEO";
 
 export function HelpCenter() {
+  const { t } = useTranslation("pages");
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const faqs = [
-    {
-      question: "How do I book a service?",
-      answer: "Simply search for the service you need, browse verified professionals in your area, compare ratings and reviews, and book directly through our platform. You'll receive instant confirmation and can manage your booking from your account dashboard.",
-    },
-    {
-      question: "Are all service professionals verified?",
-      answer: "Yes, all professionals on our platform undergo a thorough verification process including background checks, license verification, and insurance confirmation. We prioritize your safety and only work with trusted professionals.",
-    },
-    {
-      question: "What payment methods do you accept?",
-      answer: "We accept all major credit cards (Visa, MasterCard, American Express), debit cards, and digital payment methods like Apple Pay and Google Pay. All transactions are secure and encrypted.",
-    },
-    {
-      question: "Can I cancel or reschedule a booking?",
-      answer: "Yes, you can cancel or reschedule your booking from your account dashboard. Please note that cancellation policies may vary by service provider. We recommend reviewing the specific policy before booking.",
-    },
-    {
-      question: "How does the rating system work?",
-      answer: "After each completed service, you can rate your experience on a 5-star scale and leave a detailed review. These ratings help other customers make informed decisions and help us maintain high service standards.",
-    },
-    {
-      question: "What if I'm not satisfied with the service?",
-      answer: "We offer a 100% satisfaction guarantee. If you're not happy with a service, contact our customer support team within 48 hours. We'll work with you to resolve the issue, which may include a refund or re-service.",
-    },
-    {
-      question: "How do I become a service provider?",
-      answer: "Visit our 'Become a Provider' page and complete the application form. Our team will review your qualifications, verify your credentials, and guide you through the onboarding process.",
-    },
-    {
-      question: "Is there a membership fee?",
-      answer: "Creating an account and browsing services is completely free. We only charge a small service fee when you book and complete a service. There are no hidden fees or recurring charges.",
-    },
+    { question: t("helpCenter.faqs.0.question"), answer: t("helpCenter.faqs.0.answer") },
+    { question: t("helpCenter.faqs.1.question"), answer: t("helpCenter.faqs.1.answer") },
+    { question: t("helpCenter.faqs.2.question"), answer: t("helpCenter.faqs.2.answer") },
+    { question: t("helpCenter.faqs.3.question"), answer: t("helpCenter.faqs.3.answer") },
+    { question: t("helpCenter.faqs.4.question"), answer: t("helpCenter.faqs.4.answer") },
+    { question: t("helpCenter.faqs.5.question"), answer: t("helpCenter.faqs.5.answer") },
+    { question: t("helpCenter.faqs.6.question"), answer: t("helpCenter.faqs.6.answer") },
+    { question: t("helpCenter.faqs.7.question"), answer: t("helpCenter.faqs.7.answer") },
   ];
 
   const categories = [
-    { title: "Getting Started", count: 12 },
-    { title: "Booking & Payments", count: 18 },
-    { title: "Account Management", count: 15 },
-    { title: "Service Providers", count: 10 },
-    { title: "Safety & Trust", count: 8 },
-    { title: "Troubleshooting", count: 14 },
+    { title: t("helpCenter.categories.gettingStarted"), count: 12 },
+    { title: t("helpCenter.categories.bookingPayments"), count: 18 },
+    { title: t("helpCenter.categories.accountManagement"), count: 15 },
+    { title: t("helpCenter.categories.serviceProviders"), count: 10 },
+    { title: t("helpCenter.categories.safetyTrust"), count: 8 },
+    { title: t("helpCenter.categories.troubleshooting"), count: 14 },
   ];
 
   return (
     <div className="w-full">
       <SEO
-        title="Help Center"
+        title={t("helpCenter.seo.title")}
         url="/help-center"
-        description="Find answers to frequently asked questions about Homecare360 services, bookings, payments, and caregiver verification. We're here to help."
-        keywords="homecare360 help, FAQ, home care questions, booking help, caregiver FAQ"
+        description={t("helpCenter.seo.description")}
+        keywords={t("helpCenter.seo.keywords")}
       />
       {/* Hero Section with Search */}
       <section className="bg-gradient-to-br from-[#E0F7F5] to-white py-16 md:py-24 px-4">
@@ -66,7 +44,7 @@ export function HelpCenter() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            How Can We <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">Help You?</span>
+            {t("helpCenter.heroPrefix")} <span className="bg-gradient-to-r from-[#00B8A9] to-[#2B5F5F] bg-clip-text text-transparent">{t("helpCenter.heroHighlight")}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -74,9 +52,9 @@ export function HelpCenter() {
             transition={{ delay: 0.2 }}
             className="text-xl text-gray-600 mb-8"
           >
-            Search our knowledge base for quick answers
+            {t("helpCenter.heroSubtitle")}
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,7 +64,7 @@ export function HelpCenter() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
               type="text"
-              placeholder="Search for help..."
+              placeholder={t("helpCenter.searchPlaceholder")}
               className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00B8A9] focus:border-transparent transition-all shadow-lg"
             />
           </motion.div>
@@ -102,7 +80,7 @@ export function HelpCenter() {
             viewport={{ once: true }}
             className="text-3xl font-bold text-center text-gray-900 mb-12"
           >
-            Browse by Category
+            {t("helpCenter.browseByCategory")}
           </motion.h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category, index) => (
@@ -116,7 +94,7 @@ export function HelpCenter() {
                 className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-[#00B8A9]"
               >
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{category.title}</h3>
-                <p className="text-gray-600">{category.count} articles</p>
+                <p className="text-gray-600">{t("helpCenter.articlesCount", { count: category.count })}</p>
               </motion.div>
             ))}
           </div>
@@ -132,7 +110,7 @@ export function HelpCenter() {
             viewport={{ once: true }}
             className="text-3xl font-bold text-center text-gray-900 mb-12"
           >
-            Frequently Asked Questions
+            {t("helpCenter.faqHeading")}
           </motion.h2>
           <div className="space-y-4">
             {faqs.map((faq, index) => (
@@ -181,7 +159,7 @@ export function HelpCenter() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold mb-6"
           >
-            Still Need Help?
+            {t("helpCenter.stillNeedHelp")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -190,7 +168,7 @@ export function HelpCenter() {
             transition={{ delay: 0.1 }}
             className="text-xl mb-8 text-white/90"
           >
-            Our support team is available 24/7 to assist you
+            {t("helpCenter.stillNeedHelpSubtitle")}
           </motion.p>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
@@ -201,7 +179,7 @@ export function HelpCenter() {
             whileTap={{ scale: 0.95 }}
             className="px-8 py-4 bg-white text-[#00B8A9] rounded-lg font-bold text-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl"
           >
-            Contact Support
+            {t("helpCenter.contactSupport")}
           </motion.button>
         </div>
       </section>

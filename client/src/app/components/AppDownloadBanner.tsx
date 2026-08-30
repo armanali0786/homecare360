@@ -1,8 +1,10 @@
 import { motion } from "motion/react";
 import { ArrowRight, Tag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export function AppDownloadBanner() {
+  const { t } = useTranslation("home");
   const navigate = useNavigate();
 
   return (
@@ -21,11 +23,11 @@ export function AppDownloadBanner() {
             </div>
             <div>
               <p className="text-white font-bold text-lg leading-tight">
-                Get 10% off your first booking.
+                {t("appBanner.title")}
               </p>
               <p className="text-white/50 text-sm mt-0.5">
-                Valid for new users only. Use code{" "}
-                <span className="text-[#00B8A9] font-semibold">WELCOME10</span>
+                {t("appBanner.subtitle")}{" "}
+                <span className="text-[#00B8A9] font-semibold">{t("appBanner.code")}</span>
               </p>
             </div>
           </div>
@@ -34,7 +36,7 @@ export function AppDownloadBanner() {
             onClick={() => navigate("/services")}
             className="inline-flex items-center gap-2 bg-[#00B8A9] hover:bg-[#009e96] text-white px-6 py-3 rounded-xl text-sm font-semibold transition-colors whitespace-nowrap flex-shrink-0"
           >
-            Book now <ArrowRight className="w-4 h-4" />
+            {t("appBanner.bookNow")} <ArrowRight className="w-4 h-4" />
           </button>
         </motion.div>
       </div>

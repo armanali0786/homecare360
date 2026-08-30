@@ -1,10 +1,14 @@
 import { motion } from "motion/react";
 import { DollarSign, TrendingUp, CheckCircle2, AlertCircle, Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getAdminBookings, updateBookingStatus } from "@/app/lib/api";
+import { useLocale } from "@/app/context/LocaleContext";
 import { toast } from "react-toastify";
 
 export function PaymentsEscrow() {
+  const { t } = useTranslation("admin");
+  const { formatCurrency } = useLocale();
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
@@ -28,16 +32,16 @@ export function PaymentsEscrow() {
   const handleRelease = async (id: string) => {
     try {
       await updateBookingStatus(id, "completed");
-      toast.success("Payment released to provider");
+      toast.success(t("payments.toast.released"));
       fetchBookings();
     } catch (err: any) {
-      toast.error(err.message || "Failed to release");
+      toast.error(err.message || t("payments.toast.releaseFailed"));
     }
   };
 
   const getProviderName = (b: any) => {
     const p = b.provider;
-    if (!p) return "Provider";
+    if (!p) return t("payments.defaultProvider");
     return p.businessName || `${p.firstName || ""} ${p.lastName || ""}`.trim();
   };
 
@@ -73,17 +77,17 @@ export function PaymentsEscrow() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2">
-          Payments & Escrow
+          {t("payments.title")}
         </h1>
-        <p className="text-gray-600">Manage payment transactions and provider payouts</p>
+        <p className="text-gray-600">{t("payments.subtitle")}</p>
       </motion.div>
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {[
-          { label: "Total Platform Revenue", value: `₹${totalRevenue.toFixed(2)}`, icon: TrendingUp, color: "from-green-500 to-emerald-600", bg: "bg-green-50" },
-          { label: "Funds in Escrow", value: `₹${heldAmount.toFixed(2)}`, icon: AlertCircle, color: "from-yellow-500 to-orange-500", bg: "bg-yellow-50" },
-          { label: "Paid to Providers", value: `₹${releasedAmount.toFixed(2)}`, icon: CheckCircle2, color: "from-cyan-500 to-teal-600", bg: "bg-cyan-50" },
+          { label: t("payments.stats.totalRevenue"), value: formatCurrency(totalRevenue), icon: TrendingUp, color: "from-green-500 to-emerald-600", bg: "bg-green-50" },
+          { label: t("payments.stats.inEscrow"), value: formatCurrency(heldAmount), icon: AlertCircle, color: "from-yellow-500 to-orange-500", bg: "bg-yellow-50" },
+          { label: t("payments.stats.paidToProviders"), value: formatCurrency(releasedAmount), icon: CheckCircle2, color: "from-cyan-500 to-teal-600", bg: "bg-cyan-50" },
         ].map((stat, index) => {
           const Icon = stat.icon;
           return (
@@ -104,12 +108,12 @@ export function PaymentsEscrow() {
       <div className="mb-6 space-y-4">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input type="text" placeholder="Search transactions..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 shadow-sm" />
+          <input type="text" placeholder={t("payments.searchPlaceholder")} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 shadow-sm" />
         </div>
         <div className="flex gap-3 flex-wrap">
           {["all", "held", "released", "refunded"].map((f) => (
             <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2 rounded-lg font-medium transition-all ${filter === f ? "bg-gradient-to-r from-cyan-600 to-teal-600 text-white shadow-lg" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"}`}>
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {t(`payments.filters.${f}`)}
             </button>
           ))}
         </div>
@@ -119,7 +123,7 @@ export function PaymentsEscrow() {
       {loading ? (
         <div className="space-y-4">{[1, 2, 3].map((i) => <div key={i} className="bg-white rounded-xl shadow-lg h-32 animate-pulse" />)}</div>
       ) : filteredBookings.length === 0 ? (
-        <div className="bg-white rounded-xl p-10 text-center shadow"><p className="text-gray-500">No transactions found.</p></div>
+        <div className="bg-white rounded-xl p-10 text-center shadow"><p className="text-gray-500">{t("payments.empty")}</p></div>
       ) : (
         <div className="space-y-4">
           {filteredBookings.map((booking, index) => {
@@ -131,34 +135,34 @@ export function PaymentsEscrow() {
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <h3 className="font-bold text-gray-800">
-                          {booking.user?.fullName || "User"} → {getProviderName(booking)}
+                          {booking.user?.fullName || t("payments.defaultUser")} → {getProviderName(booking)}
                         </h3>
                         <p className="text-sm text-cyan-600">{booking.serviceCategory}</p>
-                        <p className="text-xs text-gray-500">{booking.date} • Booked {new Date(booking.createdAt).toLocaleDateString()}</p>
+                        <p className="text-xs text-gray-500">{booking.date} • {t("payments.bookedOn", { date: new Date(booking.createdAt).toLocaleDateString() })}</p>
                       </div>
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusStyle(payStatus)}`}>
-                        {payStatus}
+                        {t(`payments.statusLabel.${payStatus}`)}
                       </span>
                     </div>
                     <div className="grid grid-cols-3 gap-4 bg-gray-50 rounded-lg p-4 text-sm">
                       <div>
-                        <p className="text-gray-500 mb-1">Total Amount</p>
-                        <p className="font-bold text-gray-800">₹{booking.totalAmount}</p>
+                        <p className="text-gray-500 mb-1">{t("payments.labels.totalAmount")}</p>
+                        <p className="font-bold text-gray-800">{formatCurrency(booking.totalAmount)}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500 mb-1">Platform Fee (15%)</p>
-                        <p className="font-bold text-green-600">₹{(booking.platformFee || 0).toFixed(2)}</p>
+                        <p className="text-gray-500 mb-1">{t("payments.labels.platformFee")}</p>
+                        <p className="font-bold text-green-600">{formatCurrency(booking.platformFee || 0)}</p>
                       </div>
                       <div>
-                        <p className="text-gray-500 mb-1">Provider Payout</p>
-                        <p className="font-bold text-cyan-600">₹{(booking.providerPayout || 0).toFixed(2)}</p>
+                        <p className="text-gray-500 mb-1">{t("payments.labels.providerPayout")}</p>
+                        <p className="font-bold text-cyan-600">{formatCurrency(booking.providerPayout || 0)}</p>
                       </div>
                     </div>
                   </div>
                   {payStatus === "held" && (
                     <div className="flex flex-col gap-2">
                       <button onClick={() => handleRelease(booking._id)} className="px-4 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 font-medium flex items-center gap-2 whitespace-nowrap">
-                        <CheckCircle2 className="w-4 h-4" /> Release Funds
+                        <CheckCircle2 className="w-4 h-4" /> {t("payments.actions.release")}
                       </button>
                     </div>
                   )}

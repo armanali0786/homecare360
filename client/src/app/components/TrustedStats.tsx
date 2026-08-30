@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "../context/LocaleContext";
 
-const stats = [
-  { value: 7, suffix: "+", label: "Happy customers"   },
-  { value: 5, suffix: "+", label: "Verified providers" },
-  { value: 6,  suffix: "",  label: "Cities live"        },
-  { value: 5, suffix: "+", label: "Jobs completed"     },
+const statIds = [
+  { id: "happyCustomers", value: 7, suffix: "+" },
+  { id: "verifiedProviders", value: 5, suffix: "+" },
+  { id: "citiesLive", value: 6, suffix: "" },
+  { id: "jobsCompleted", value: 5, suffix: "+" },
 ];
 
 function format(n: number) {
@@ -47,6 +49,9 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function TrustedStats() {
+  const { t } = useTranslation("home");
+  const { regionConfig } = useLocale();
+
   return (
     <section className="bg-white py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,22 +60,22 @@ export function TrustedStats() {
         <div className="pointer-events-none absolute -left-20 -bottom-20 h-60 w-60 rounded-full bg-[#00B8A9]/20 blur-3xl" />
 
         <div className="relative">
-          <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">Trust at scale</span>
+          <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#00B8A9]">{t("trustedStats.tag")}</span>
           <h2 className="mt-3 text-4xl font-extrabold text-white md:text-5xl">
-            Trusted across India.
+            {t("trustedStats.title", { region: regionConfig.label })}
           </h2>
           <p className="mt-3 max-w-lg text-white/60">
-            Real numbers. Real homes. Real professionals. We're building the most trusted home services network in the country.
+            {t("trustedStats.subtitle")}
           </p>
         </div>
 
         <div className="relative mt-12 grid grid-cols-2 gap-6 md:grid-cols-4">
-          {stats.map(s => (
-            <div key={s.label} className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+          {statIds.map(s => (
+            <div key={s.id} className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
               <p className="text-4xl font-extrabold text-[#00B8A9] md:text-5xl">
                 <Counter value={s.value} suffix={s.suffix} />
               </p>
-              <p className="mt-2 text-sm text-white/60">{s.label}</p>
+              <p className="mt-2 text-sm text-white/60">{t(`trustedStats.labels.${s.id}`)}</p>
             </div>
           ))}
         </div>

@@ -12,8 +12,10 @@ import {
   Menu,
   X,
   LogOut,
+  ShieldCheck,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -24,15 +26,16 @@ interface AdminLayoutProps {
 }
 
 const allMenuItems = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "superadmin", "provider"] },
-  { id: "services", label: "Services Management", icon: Wrench, roles: ["admin", "superadmin"] },
-  { id: "providers", label: "Service Providers", icon: UserCog, roles: ["admin", "superadmin"] },
-  { id: "applications", label: "Provider Applications", icon: FileText, roles: ["admin", "superadmin"] },
-  { id: "users", label: "User Management", icon: Users, roles: ["admin", "superadmin"] },
-  { id: "bookings", label: "Booking Management", icon: Calendar, roles: ["admin", "superadmin", "provider"] },
-  { id: "payments", label: "Payments & Escrow", icon: DollarSign, roles: ["admin", "superadmin"] },
-  { id: "reviews", label: "Reviews & Ratings", icon: Star, roles: ["admin", "superadmin", "provider"] },
-  { id: "notifications", label: "Notifications & CMS", icon: Bell, roles: ["admin", "superadmin"] },
+  { id: "dashboard", labelKey: "layout.menu.dashboard", icon: LayoutDashboard, roles: ["admin", "superadmin", "provider"] },
+  { id: "services", labelKey: "layout.menu.services", icon: Wrench, roles: ["admin", "superadmin"] },
+  { id: "providers", labelKey: "layout.menu.providers", icon: UserCog, roles: ["admin", "superadmin"] },
+  { id: "applications", labelKey: "layout.menu.applications", icon: FileText, roles: ["admin", "superadmin"] },
+  { id: "compliance", labelKey: "layout.menu.compliance", icon: ShieldCheck, roles: ["admin", "superadmin"] },
+  { id: "users", labelKey: "layout.menu.users", icon: Users, roles: ["admin", "superadmin"] },
+  { id: "bookings", labelKey: "layout.menu.bookings", icon: Calendar, roles: ["admin", "superadmin", "provider"] },
+  { id: "payments", labelKey: "layout.menu.payments", icon: DollarSign, roles: ["admin", "superadmin"] },
+  { id: "reviews", labelKey: "layout.menu.reviews", icon: Star, roles: ["admin", "superadmin", "provider"] },
+  { id: "notifications", labelKey: "layout.menu.notifications", icon: Bell, roles: ["admin", "superadmin"] },
 ];
 
 export function AdminLayout({
@@ -40,12 +43,13 @@ export function AdminLayout({
   currentSection,
   onSectionChange,
 }: AdminLayoutProps) {
+  const { t } = useTranslation("admin");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, logout } = useUser();
   const navigate = useNavigate();
 
   const isProvider = user?.role === "provider";
-  const panelLabel = isProvider ? "Provider Panel" : "Admin Panel";
+  const panelLabel = isProvider ? t("layout.panelProvider") : t("layout.panelAdmin");
 
   const menuItems = allMenuItems.filter((item) =>
     user?.role ? item.roles.includes(user.role) : false
@@ -127,7 +131,7 @@ export function AdminLayout({
                     }`}
                 >
                   <Icon className="w-5 h-5" />
-                  <span className="text-sm font-medium">{item.label}</span>
+                  <span className="text-sm font-medium">{t(item.labelKey)}</span>
                 </button>
               );
             })}
@@ -140,7 +144,7 @@ export function AdminLayout({
               className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors"
             >
               <LogOut className="w-5 h-5" />
-              <span className="text-sm font-medium">Logout</span>
+              <span className="text-sm font-medium">{t("layout.logout")}</span>
             </button>
           </div>
         </div>
