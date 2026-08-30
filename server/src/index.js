@@ -13,13 +13,23 @@ const server = http.createServer(app);
 const ALLOWED_ORIGINS = [
   "https://homecare360.netlify.app",
   "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
   "http://localhost:3000",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:5174",
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // allow requests with no origin (mobile apps, curl, Postman) or known origins
-    if (!origin || ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+    // allow requests with no origin (mobile apps, curl, Postman) or any localhost/netlify origin
+    if (
+      !origin ||
+      ALLOWED_ORIGINS.includes(origin) ||
+      /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+    ) {
+      return callback(null, true);
+    }
     callback(new Error("Not allowed by CORS"));
   },
   credentials: true,
@@ -28,7 +38,11 @@ const corsOptions = {
 };
 
 const io = new Server(server, {
-  cors: { origin: ALLOWED_ORIGINS, methods: ["GET", "POST"], credentials: true },
+  cors: {
+    origin: (origin, callback) => callback(null, true),
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 app.use(cors(corsOptions));

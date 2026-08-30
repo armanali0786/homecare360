@@ -1,364 +1,389 @@
 {
-  "trending": {
-    "tag": "Trending this season",
-    "title": "Curated for your home",
-    "subtitle": "The most sought-after services this season, handpicked for quality and value.",
-    "verifiedPro": "Verified pro",
-    "bookNow": "Book now",
+  "ramadanBanner": {
+    "badge": "SEASONAL OFFER",
+    "title": "Ramadan & Eid Home Preparation Special",
+    "subtitle": "Get up to 25% OFF Deep Cleaning, AC Chemical Wash & Pest Control. Code: RAMADAN25",
+    "cta": "Claim Offer",
+    "dismiss": "Dismiss"
+  },
+  "hero": {
+    "trustBadge": "The GCC's Most Trusted Home Services Network",
+    "titleLine1": "Verified Home Services,",
+    "titleLine2": "Tailored for Gulf Homes.",
+    "subtitle": "Book background-checked technicians & certified female cleaning professionals across the UAE & GCC. Fixed AED pricing, zero hidden fees, Friday–Saturday slots.",
+    "searchButton": "Search",
+    "searchPlaceholder": "Search service (e.g., Deep Cleaning, AC Repair, Plumber)...",
+    "femaleProBadge": "Female Professional Available",
+    "femaleOnlyFilter": "Female Staff Only",
+    "popular": "Popular in Dubai & UAE:",
+    "chips": {
+      "deepCleaning": "Deep Cleaning",
+      "acService": "AC Repair & Wash",
+      "plumbing": "Plumbing",
+      "electrician": "Electrician",
+      "painting": "Wall Painting",
+      "pestControl": "Pest Control"
+    },
+    "rating": "Avg Rating",
+    "jobsDone": "GCC Homes Served",
+    "verifiedProfessionals": "100% Emirates ID Checked",
+    "insuredPolicy": "Insured up to 50,000 AED",
+    "bookingConfirmed": "Booking Confirmed",
+    "todayAt3pm": "Friday Slot Available",
+    "reviewQuote": "\"Punctual, professional, and very respectful of our home.\"",
+    "reviewAuthor": "— Fatima Al Mazrouei, Dubai",
+    "sameDayBooking": "Same-day & Weekend Slots"
+  },
+  "categories": {
+    "tag": "BROWSE BY CATEGORY",
+    "title": "What service does your home need today?",
+    "subtitle": "From urgent AC repairs to delicate deep cleaning — verified specialists at fixed transparent rates.",
+    "viewAll": "Explore All 35+ Services",
+    "from": "starting from",
+    "femaleOptionTag": "Female Option",
     "items": {
-      "smartHome": {
-        "badge": "Smart Home",
-        "category": "Featured",
-        "title": "Smart Home Installation",
-        "description": "Complete smart home ecosystem setup — lights, locks, cameras, and voice control.",
-        "duration": "3–5 hrs"
-      },
-      "gardenArchitecture": {
-        "badge": "Top rated",
-        "category": "Gardening",
-        "title": "Expert Garden Architecture",
-        "description": "Design and transform your outdoor space with seasonal plants and landscape design.",
-        "duration": "Half day"
-      }
+      "deepCleaning": { "name": "Deep Home Cleaning", "time": "2–4 hrs" },
+      "plumbing": { "name": "Plumbing & Drainage", "time": "1–2 hrs" },
+      "electrician": { "name": "Electrical & Lighting", "time": "1–3 hrs" },
+      "acService": { "name": "AC Cleaning & Repair", "time": "1–2 hrs" },
+      "painting": { "name": "Villa & Flat Painting", "time": "1–2 days" },
+      "pestControl": { "name": "Pest & Termite Control", "time": "2–3 hrs" }
     }
   },
   "popular": {
-    "tag": "Trending right now",
-    "title": "Loved by homeowners this week",
-    "subtitle": "Fixed prices, verified pros, same-day slots available.",
-    "viewAll": "View all",
-    "verifiedPro": "Verified pro",
-    "bookNow": "Book now",
+    "tag": "MOST POPULAR IN THE UAE",
+    "title": "Trusted by Homeowners Across the Emirates",
+    "subtitle": "Fixed AED pricing, background-vetted specialists, Friday–Saturday weekend availability.",
+    "viewAll": "View All Services",
+    "verifiedPro": "Emirates ID Verified",
+    "femaleProAvailable": "Female Pro Option",
+    "bookNow": "Book Now",
+    "bookWhatsApp": "WhatsApp",
     "items": {
       "deepCleaning": {
-        "badge": "Most booked",
+        "badge": "Female Staff Available",
         "category": "Cleaning",
-        "title": "Deep Home Cleaning",
-        "description": "Full home scrub — kitchen, bathrooms, bedrooms & balcony. 2BHK in 4 hrs.",
+        "title": "Full Villa & Apartment Deep Cleaning",
+        "description": "Comprehensive sanitized scrubbing for kitchen, bathrooms, living area & balcony with specialized eco-safe products.",
         "duration": "3–4 hrs"
       },
-      "electricalWork": {
-        "badge": "Top rated",
-        "category": "Electrical",
-        "title": "Electrical Work",
-        "description": "Switchboard repair, fan/light installation, wiring, MCB and DB work.",
-        "duration": "1–3 hrs"
-      },
       "acService": {
-        "badge": "Summer deal",
+        "badge": "Summer Peak Essential",
         "category": "AC Service",
-        "title": "AC Deep Service",
-        "description": "Anti-bacterial foam wash, gas check, coil clean — runs cooler instantly.",
+        "title": "AC Duct & Coil Deep Chemical Clean",
+        "description": "Anti-bacterial foam treatment, coil sanitization, airflow balance & gas top-up for crystal-clear cooling.",
         "duration": "1–2 hrs"
       },
+      "electricalWork": {
+        "badge": "Certified Electrician",
+        "category": "Electrical",
+        "title": "DEWA / SEWA Spec Electrical Repair",
+        "description": "DB box maintenance, breaker troubleshooting, chandelier & smart switch installations by licensed pros.",
+        "duration": "1–3 hrs"
+      },
       "plumbingRepair": {
-        "badge": "Trending",
+        "badge": "Same-Day Emergency",
         "category": "Plumbing",
-        "title": "Plumbing Repair",
-        "description": "Leaking taps, drain blockage, pipe bursts, flush repair — same-day slots.",
+        "title": "Leak Detection & Emergency Plumbing",
+        "description": "High-pressure jetting, mixer tap repairs, water heater replacements & drain clearing with zero mess.",
         "duration": "1–2 hrs"
       },
       "wallPainting": {
-        "badge": "New",
+        "badge": "Jotun Paints Used",
         "category": "Painting",
-        "title": "Wall Painting",
-        "description": "Premium emulsion, primer, putty work — covered furniture, clean handover.",
+        "title": "Jotun Premium Wall Painting",
+        "description": "Dust-free wall preparation, furniture masking, odorless premium coats, and flawless post-job clean-up.",
         "duration": "1–3 days"
       },
       "pestControl": {
-        "badge": "Verified",
+        "badge": "Municipality Approved",
         "category": "Pest Control",
-        "title": "General Pest Control",
-        "description": "Cockroach, ant & spider treatment with odourless, pet-safe chemicals.",
+        "title": "Odourless General Pest Control",
+        "description": "Pet & child safe gel treatments for cockroaches, ants, bed bugs, and rodents with 3-month guarantee.",
         "duration": "2–3 hrs"
       }
     }
   },
-  "categories": {
-    "tag": "Popular services",
-    "title": "What do you need today?",
-    "subtitle": "From quick fixes to full home makeovers — verified pros, fixed prices, same-day slots.",
-    "viewAll": "View all 5+ services",
-    "from": "from",
+  "howItWorks": {
+    "tag": "SIMPLE 3-STEP BOOKING",
+    "title": "How HomeCare360 Works",
+    "subtitle": "No phone tag, no cash surprises. Transparent upfront rates, vetted pros, and instant confirmation.",
+    "step": "STEP {{n}}",
+    "satisfaction": "100% Satisfaction Guaranteed",
+    "badges": {
+      "step1": "Customize Preferences",
+      "step2": "Emirates ID Vetted",
+      "step3": "COD, Apple Pay & Tabby"
+    },
+    "steps": {
+      "chooseService": {
+        "title": "Select Service & Preferences",
+        "text": "Choose your service and customize options like female-only cleaning staff or specific time slots."
+      },
+      "selectProvider": {
+        "title": "Choose Verified Specialist",
+        "text": "Browse background-vetted, Emirates ID checked technicians with transparent customer ratings."
+      },
+      "bookAndRelax": {
+        "title": "Book & Pay Flexible",
+        "text": "Confirm your appointment with zero upfront risk. Pay via Apple Pay, COD, or Tabby/Tamara in 4 payments."
+      }
+    },
+    "browseServices": "Browse All Services"
+  },
+  "trending": {
+    "tag": "TRENDING THIS WEEK",
+    "title": "Curated Solutions for GCC Living",
+    "subtitle": "Top-rated seasonal packages designed to maintain luxury home standards.",
+    "exploreOffers": "Explore Special Offers →",
+    "verifiedPro": "Certified Technician",
+    "bookNow": "Book Slot",
     "items": {
-      "deepCleaning": { "name": "Deep Cleaning", "time": "2–4 hr" },
-      "plumbing": { "name": "Plumbing", "time": "1–2 hr" },
-      "electrician": { "name": "Electrician", "time": "1–3 hr" },
-      "acService": { "name": "AC Service", "time": "1–2 hr" },
-      "painting": { "name": "Painting", "time": "1–3 day" }
+      "smartHome": {
+        "badge": "Ramadan Offer",
+        "category": "Smart Automation",
+        "title": "Smart Lock & Video Doorbell Installation",
+        "description": "Upgrade your home security with keyless entry, app control, and night-vision video intercoms.",
+        "duration": "2–4 hrs"
+      },
+      "gardenArchitecture": {
+        "badge": "Weekend Slot",
+        "category": "Landscaping",
+        "title": "Patio & Garden Landscape Care",
+        "description": "Pruning, automatic drip irrigation tuning, synthetic turf wash & outdoor pergola pressure cleaning.",
+        "duration": "Half Day"
+      }
+    }
+  },
+  "trustStrip": {
+    "tag": "GUARANTEED PEACE OF MIND",
+    "title": "Built on Trust & Cultural Security",
+    "subtitle": "We enforce strict vetting standards so you can invite our professionals into your home with complete peace of mind.",
+    "items": {
+      "verified": {
+        "title": "Emirates ID & Background Checked",
+        "text": "100% of providers undergo strict identity verification, police clearance, and skill assessments.",
+        "stat": "100%",
+        "statSub": "Emirates ID Verified"
+      },
+      "femaleStaff": {
+        "title": "Female Professional Options",
+        "text": "Dedicated trained female cleaning specialists for privacy and comfort in Gulf households.",
+        "stat": "1,200+",
+        "statSub": "Female Pros"
+      },
+      "pricing": {
+        "title": "Fixed Upfront AED Pricing",
+        "text": "Itemized quotes provided before booking. Zero hidden costs or door negotiation.",
+        "stat": "AED 0",
+        "statSub": "Surprise Fees"
+      },
+      "insurance": {
+        "title": "Insured & Bonded Guarantee",
+        "text": "Every booking is backed by up to AED 50,000 property damage insurance and free re-service guarantee.",
+        "stat": "50,000 AED",
+        "statSub": "Insurance Coverage"
+      }
+    }
+  },
+  "paymentMethods": {
+    "tag": "FLEXIBLE & LOCAL PAYMENTS",
+    "title": "Pay Your Way — Safe, Fast & Local",
+    "subtitle": "We support all preferred GCC payment channels including Cash on Delivery and Installments.",
+    "cashOnDelivery": "Cash on Delivery",
+    "applePay": "Apple Pay",
+    "cards": "Credit / Debit Card",
+    "mada": "Mada Gateway",
+    "tabby": "Tabby (4 Installments)",
+    "tamara": "Tamara (Split in 4)",
+    "zeroInterest": "0% Interest / 0 Hidden Fees",
+    "badges": {
+      "cod": "Zero Risk",
+      "applePay": "Fast & Secure",
+      "tabby": "0% Interest",
+      "tamara": "No Hidden Fees",
+      "cards": "SSL Encrypted"
+    },
+    "subs": {
+      "cod": "Pay Pro After Job",
+      "applePay": "Instant 1-Touch",
+      "tabby": "4 Interest-Free Payments",
+      "tamara": "Split in 4 Monthly",
+      "cards": "Visa, Mastercard & Mada"
+    }
+  },
+  "testimonials": {
+    "tag": "CLIENT TESTIMONIALS",
+    "title": "Trusted by GCC Families",
+    "subtitle": "Real feedback from verified homeowners in Dubai, Abu Dhabi, Riyadh, Sharjah and Doha.",
+    "reviewsCount": "4.9 ★ Rating (12,000+ Reviews)",
+    "verifiedCustomers": "Verified GCC Homeowners",
+    "verified": "Verified Customer",
+    "items": {
+      "review1": {
+        "name": "Fatima Al Mazrouei",
+        "location": "Dubai (Downtown)",
+        "service": "Female Deep Cleaning",
+        "text": "I specifically requested female cleaning staff for our villa. The team arrived on time, was extremely polite, and left our marble floors and kitchen spotless! Excellent service."
+      },
+      "review2": {
+        "name": "Mohammed Al Suwaidi",
+        "location": "Abu Dhabi (Saadiyat)",
+        "service": "AC Chemical Wash",
+        "text": "Our AC units were leaking right before Friday prayers. HomeCare360 dispatched a certified technician within 45 minutes. Cooling was restored quickly and billing was 100% transparent."
+      },
+      "review3": {
+        "name": "Noura Al Qahtani",
+        "location": "Riyadh (Al Nakheel)",
+        "service": "Plumbing & Drain Care",
+        "text": "Booking via WhatsApp was super convenient. The plumber showed his Emirates ID / Passport ID, wore shoe covers, and fixed the main drainage valve cleanly."
+      },
+      "review4": {
+        "name": "Sultan Al Rashid",
+        "location": "Doha (West Bay)",
+        "service": "General Pest Control",
+        "text": "Odourless pest control that worked wonders. The technician explained the pet-safe gel application clearly. Splitting payment via Tabby made it super convenient."
+      },
+      "review5": {
+        "name": "Mariam Al Kaabi",
+        "location": "Sharjah (Al Majaz)",
+        "service": "Jotun Wall Painting",
+        "text": "Repainted our 3BHK apartment in just 2 days. The workers masked all our furniture thoroughly and used genuine Jotun paints. Highest recommendation!"
+      },
+      "review6": {
+        "name": "Tariq Al Hashimi",
+        "location": "Ajman (Corniche)",
+        "service": "Electrical DB Fix",
+        "text": "Professional service from start to end. The technician diagnosed an MCB trip issue efficiently. Very respectful of family privacy."
+      }
+    }
+  },
+  "providerSection": {
+    "tag": "FOR TECHNICIANS & COMPANIES",
+    "title": "Partner with the GCC's Premier Home Services Network",
+    "subtitle": "Join thousands of licensed freelancers and corporate service companies expanding their client base in Dubai, Abu Dhabi & across the Gulf.",
+    "becomeProvider": "Register as a Provider",
+    "watchHowItWorks": "Provider Requirements",
+    "freeToJoin": "Free Registration · Top pros earn up to AED 25,000/month",
+    "perks": {
+      "steadyLeads": {
+        "title": "High-Quality Daily Job Requests",
+        "text": "Receive direct customer bookings matched to your location and verified expertise."
+      },
+      "flexibleSchedule": {
+        "title": "Friday–Saturday Weekend Control",
+        "text": "Set your own working hours and service availability with full schedule flexibility."
+      },
+      "securePayments": {
+        "title": "Guaranteed Weekly Escrow Payouts",
+        "text": "Get paid directly into your bank account with zero payment delays or chargeback friction."
+      }
+    }
+  },
+  "cityAvailability": {
+    "tag": "SERVICING THE GULF REGION",
+    "title": "Live Across Emirates & Major GCC Hubs",
+    "subtitle": "Connecting homeowners with verified pros in Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Riyadh and Doha.",
+    "live": "Active Service Area",
+    "stats": "{{services}} core services · {{pros}}+ verified pros",
+    "launchingSoon": "Expanding Soon To:"
+  },
+  "faq": {
+    "tag": "FREQUENTLY ASKED QUESTIONS",
+    "title": "Everything You Need to Know",
+    "subtitle": "Have questions about provider vetting, female staff options, or payments? Our 24/7 bilingual support team is ready to assist.",
+    "contactSupport": "Chat with Support on WhatsApp",
+    "items": {
+      "booking": {
+        "q": "How do I request female professionals for home cleaning?",
+        "a": "When searching for cleaning services or during checkout, toggle the 'Female Professional' option. We will dispatch certified female cleaning staff to your home."
+      },
+      "verified": {
+        "q": "How are service providers verified?",
+        "a": "All technicians undergo background checks, Emirates ID / Resident ID verification, trade license validation, and hands-on skill evaluations."
+      },
+      "cancellation": {
+        "q": "What is the cancellation & rescheduling policy?",
+        "a": "You can cancel or reschedule for free up to 2 hours before the appointment via the app or WhatsApp."
+      },
+      "payments": {
+        "q": "What payment options do you accept? Can I pay in installments?",
+        "a": "We accept Cash on Delivery (COD), Apple Pay, Mada, Visa/Mastercard, and 4 interest-free installments via Tabby or Tamara."
+      },
+      "weekendSlots": {
+        "q": "Are services available on Friday and Saturday weekends?",
+        "a": "Yes! We operate 7 days a week, including Friday and Saturday weekend slots and evening appointments."
+      },
+      "guarantee": {
+        "q": "What happens if I am not satisfied with the service?",
+        "a": "Every booking includes our HomeCare360 Guarantee. If you're not completely satisfied, we'll re-do the service for free or issue a full refund."
+      }
+    }
+  },
+  "trustedStats": {
+    "tag": "TRUST AT SCALE",
+    "title": "Empowering Homes Across {{region}}",
+    "subtitle": "Connecting homeowners with licensed, background-checked professionals for a stress-free home care experience.",
+    "labels": {
+      "happyCustomers": "Happy GCC Families",
+      "verifiedProviders": "Emirates ID Vetted Pros",
+      "citiesLive": "Emirates & GCC Cities",
+      "jobsCompleted": "Successful Bookings"
     }
   },
   "browseServices": {
-    "pageTitle": "Find trusted home service professionals",
-    "pageSubtitle": "Verified pros · Fixed pricing · Available today in {{location}}",
-    "searchPlaceholder": "Search service, professional...",
-    "locationPlaceholder": "{{city}}",
-    "clearSearch": "Clear search",
+    "pageTitle": "Find Verified Home Service Professionals",
+    "pageSubtitle": "Showing top background-vetted specialists in {{location}}",
+    "searchPlaceholder": "Search by service or pro name...",
+    "locationPlaceholder": "Enter Emirate / City (e.g. {{city}})...",
     "search": "Search",
-    "categories": {
-      "allServices": "All services",
-      "plumbing": "Plumbing",
-      "electrical": "Electrical",
-      "houseCleaning": "House Cleaning",
-      "acApplianceRepair": "AC & Appliance Repair",
-      "painting": "Painting",
-      "carpentry": "Carpentry",
-      "outdoorServices": "Outdoor Services",
-      "pestControl": "Pest Control"
-    },
-    "professionalsFound": "professionals found",
+    "clearSearch": "Clear search",
+    "yourArea": "Your Area",
+    "professionalsFound": "verified professionals found",
     "forQuery": "for \"{{query}}\"",
     "inLocation": "in {{location}}",
-    "listView": "List view",
-    "gridView": "Grid view",
-    "noProfessionalsFound": "No professionals found",
-    "tryAdjusting": "Try adjusting your search or removing some filters",
-    "noReviewsYet": "No reviews yet",
+    "listView": "List View",
+    "gridView": "Grid View",
+    "from": "starting from",
+    "perVisit": " / visit",
+    "viewProfile": "View Profile",
+    "bookNow": "Book Service",
     "reviewsCount": "{{count}} reviews",
-    "from": "from",
-    "perVisit": "/visit",
-    "viewProfile": "View profile",
-    "bookNow": "Book now",
-    "yourArea": "your area",
+    "noReviewsYet": "New Vetted Professional",
     "badges": {
-      "premier": "Premier",
-      "topRated": "Top Rated"
+      "premier": "Premier Specialist",
+      "topRated": "Top Rated Pro"
+    },
+    "categories": {
+      "allServices": "All Services",
+      "plumbing": "Plumbing",
+      "electrical": "Electrical",
+      "houseCleaning": "Deep Cleaning",
+      "acApplianceRepair": "AC & Appliances",
+      "painting": "Wall Painting",
+      "carpentry": "Carpentry",
+      "outdoorServices": "Gardening & Outdoor",
+      "pestControl": "Pest Control"
     },
     "filters": {
-      "title": "Filters",
+      "title": "Filter Professionals",
       "sortBy": "Sort By",
       "mostPopular": "Most Popular",
       "topRated": "Top Rated",
       "priceLowToHigh": "Price: Low to High",
       "priceHighToLow": "Price: High to Low",
       "availability": "Availability",
-      "availabilityToday": "Today",
-      "availabilityThisWeek": "This week",
-      "availabilityWeekends": "Weekends only",
+      "availabilityToday": "Available Today",
+      "availabilityThisWeek": "Available This Week",
+      "availabilityWeekends": "Friday & Saturday Slots",
       "priceRange": "Price Range",
-      "any": "Any",
+      "any": "Any Rate",
       "under": "Under {{amount}}",
-      "over": "{{amount}}+",
+      "over": "Over {{amount}}",
       "minimumRating": "Minimum Rating",
-      "all": "All",
-      "verifiedOnly": "Show verified pros only",
-      "clearAll": "Clear all filters"
-    }
-  },
-  "providerSection": {
-    "tag": "For service providers",
-    "title": "Grow your business with HomeCare360.",
-    "subtitle": "Join 10+ professionals earning more, working flexibly, and building reputation on the Gulf's most trusted home services network.",
-    "becomeProvider": "Become a provider",
-    "watchHowItWorks": "Watch how it works",
-    "freeToJoin": "Free to join · Average pro earns {{amount}}/mo",
-    "perks": {
-      "steadyLeads": {
-        "title": "Get steady leads",
-        "text": "Quality jobs delivered weekly in your city and skillset."
-      },
-      "flexibleSchedule": {
-        "title": "Flexible schedule",
-        "text": "Accept what fits — you control your week and your pace."
-      },
-      "securePayments": {
-        "title": "Secure payments",
-        "text": "Get paid weekly via escrow. Zero chargebacks, zero stress."
-      }
-    }
-  },
-  "viewProfile": {
-    "notFound": "Provider not found",
-    "goBack": "Go back",
-    "backToResults": "Back to Results",
-    "new": "New",
-    "reviewsCount": "{{count}} reviews",
-    "yearsExperience": "{{count}} years experience",
-    "about": "About",
-    "experience": "Experience",
-    "location": "Location",
-    "serviceRadius": "Service Radius",
-    "km": "{{count}} km",
-    "specializations": "Specializations",
-    "reviews": "Reviews",
-    "noReviews": "No reviews yet.",
-    "starLabel": "{{count}} star",
-    "user": "User",
-    "verified": "Verified",
-    "startingFrom": "Starting from",
-    "perVisit": "/ visit",
-    "perks": {
-      "verified": "Verified & background checked",
-      "pricing": "Fixed transparent pricing",
-      "onTime": "On-time guarantee"
-    },
-    "bookNow": "Book Now",
-    "freeCancellation": "Free cancellation · No hidden charges"
-  },
-  "cityAvailability": {
-    "tag": "Now available in",
-    "title": "Live across {{region}}.",
-    "subtitle": "{{count}} cities live, more launching soon.",
-    "live": "Live",
-    "stats": "{{services}} services · {{pros}} pros",
-    "launchingSoon": "Launching soon:"
-  },
-  "press": {
-    "asSeenIn": "As seen in & trusted by",
-    "logos": {
-      "appStore": "App Store",
-      "googlePlay": "Google Play",
-      "gulfBusiness": "Gulf Business",
-      "arabianBusiness": "Arabian Business",
-      "khaleejTimes": "Khaleej Times",
-      "techCrunch": "TechCrunch"
-    }
-  },
-  "whyChoose": {
-    "tag": "Why HomeCare360",
-    "title": "Built for trust at every step",
-    "subtitle": "Safety and reliability aren't features — they're our baseline.",
-    "items": {
-      "verified": {
-        "title": "Verified professionals",
-        "text": "Background-checked, trained and rated by real customers.",
-        "stat": "5+",
-        "statSub": "background-checked pros"
-      },
-      "pricing": {
-        "title": "Transparent pricing",
-        "text": "Fixed quotes before you book — no surprises at the door.",
-        "stat": "0 hidden fees",
-        "statSub": "what you see, you pay"
-      },
-      "payments": {
-        "title": "Secure payments",
-        "text": "Pay only after the job is done. Escrow protected.",
-        "stat": "4.9 ★",
-        "statSub": "avg satisfaction"
-      },
-      "support": {
-        "title": "24/7 support",
-        "text": "Real humans available around the clock to help you.",
-        "stat": "24/7",
-        "statSub": "always available"
-      }
-    }
-  },
-  "testimonials": {
-    "tag": "Reviews",
-    "title": "Customers love us",
-    "subtitle": "Over {{count}} verified reviews from homeowners across the Gulf",
-    "reviewsCount": "{{count}} reviews",
-    "verifiedCustomers": "Verified customers",
-    "verified": "Verified",
-    "items": {
-      "review1": {
-        "name": "Fatima Al Mazrouei",
-        "location": "Dubai",
-        "service": "House Cleaning",
-        "text": "Booked a deep cleaning and it was absolutely seamless. The professional arrived on time and my apartment looked brand new. Will definitely book again!"
-      },
-      "review2": {
-        "name": "Mohammed Al Suwaidi",
-        "location": "Abu Dhabi",
-        "service": "Electrical Repair",
-        "text": "Found a certified electrician within an hour for a faulty wiring issue. Work done safely and pricing was completely transparent — no surprises at all."
-      },
-      "review3": {
-        "name": "Noura Al Qahtani",
-        "location": "Riyadh",
-        "service": "Plumbing",
-        "text": "The plumber fixed a leaking pipe that two others couldn't. The escrow payment system gave me real confidence the job would be done right."
-      },
-      "review4": {
-        "name": "Sultan Al Rashid",
-        "location": "Doha",
-        "service": "AC Service",
-        "text": "AC stopped working in peak summer. Booked a technician the same afternoon — diagnosed and fixed within 2 hours. Competitive pricing and truly professional."
-      },
-      "review5": {
-        "name": "Khalid Al Jaber",
-        "location": "Jeddah",
-        "service": "Painting",
-        "text": "Had my entire apartment painted in 3 days. The team was punctual, clean, and the finish quality genuinely exceeded my expectations."
-      },
-      "review6": {
-        "name": "Aisha Al Kaabi",
-        "location": "Sharjah",
-        "service": "Carpentry",
-        "text": "Needed custom wardrobes installed. The carpenter understood the brief perfectly and communication was smooth. Booking took under 5 minutes."
-      }
-    }
-  },
-  "faq": {
-    "tag": "FAQ",
-    "title": "Questions, answered.",
-    "subtitle": "Can't find what you're looking for? Our team is just a tap away — 24/7.",
-    "contactSupport": "Contact support",
-    "items": {
-      "booking": {
-        "q": "How do I book a service?",
-        "a": "Pick the service you need, choose a slot, confirm your address — done. Our verified pro arrives at the scheduled time."
-      },
-      "verified": {
-        "q": "Are your professionals background verified?",
-        "a": "Yes. Every provider goes through ID verification, skill testing, and ongoing performance ratings."
-      },
-      "notHappy": {
-        "q": "What if I'm not happy with the work?",
-        "a": "We offer a HomeCare360 Service Guarantee. If something's off, we'll send another pro at no extra cost or refund you."
-      },
-      "cancellation": {
-        "q": "Is there a cancellation fee?",
-        "a": "Cancellations are free up to 4 hours before the booking. After that a small fee may apply to cover the provider's time."
-      },
-      "payments": {
-        "q": "How do payments work?",
-        "a": "Pay after the job is done via card, Apple Pay, or wallet. All payments are held in escrow until you confirm completion."
-      },
-      "support": {
-        "q": "How do I contact support if there's an issue?",
-        "a": "We're available 24/7 over chat, phone, and email. Average response time under 2 minutes."
-      }
-    }
-  },
-  "appBanner": {
-    "title": "Get 10% off your first booking.",
-    "subtitle": "Valid for new users only. Use code",
-    "code": "WELCOME10",
-    "bookNow": "Book now"
-  },
-  "howItWorks": {
-    "tag": "How it works",
-    "title": "Book in three simple steps",
-    "subtitle": "No calls, no guesswork, no hidden fees. Just fast, reliable service at your door.",
-    "step": "STEP {{n}}",
-    "steps": {
-      "chooseService": {
-        "title": "Choose service",
-        "text": "Pick from 30+ professional home services with fixed, transparent pricing."
-      },
-      "selectProvider": {
-        "title": "Select provider",
-        "text": "Browse verified pros, real reviews, ratings, and live availability."
-      },
-      "bookAndRelax": {
-        "title": "Book & relax",
-        "text": "Confirm a slot, pay securely, and we'll handle the rest — guaranteed."
-      }
-    },
-    "browseServices": "Browse Services"
-  },
-  "trustedStats": {
-    "tag": "Trust at scale",
-    "title": "Trusted across {{region}}.",
-    "subtitle": "Real numbers. Real homes. Real professionals. We're building the most trusted home services network in the region.",
-    "labels": {
-      "happyCustomers": "Happy customers",
-      "verifiedProviders": "Verified providers",
-      "citiesLive": "Cities live",
-      "jobsCompleted": "Jobs completed"
+      "all": "All Ratings",
+      "verifiedOnly": "Emirates ID Vetted Only",
+      "clearAll": "Clear All Filters"
     }
   }
 }

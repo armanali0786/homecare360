@@ -1,9 +1,11 @@
+import { RamadanBanner }        from "@/app/components/RamadanBanner";
 import { Hero }                 from "@/app/components/Hero";
 import { ServiceCategoriesGrid } from "@/app/components/ServiceCategoriesGrid";
 import { HowItWorks }            from "@/app/components/HowItWorks";
 import { PopularServices }       from "@/app/components/PopularServices";
+import { TrendingServices }      from "@/app/components/TrendingServices";
 import { WhyChoose }             from "@/app/components/WhyChoose";
-import { TrustedStats }          from "@/app/components/TrustedStats";
+import { PaymentMethodsRow }     from "@/app/components/PaymentMethodsRow";
 import { Testimonials }          from "@/app/components/Testimonials";
 import { ProviderSection }       from "@/app/components/ProviderSection";
 import { CityAvailability }      from "@/app/components/CityAvailability";
@@ -24,7 +26,7 @@ export function HomePage() {
     areaServed: regionConfig.cities,
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: "4.8",
+      ratingValue: "4.9",
       reviewCount: "12000",
     },
     potentialAction: {
@@ -38,42 +40,48 @@ export function HomePage() {
     <>
       <SEO
         url="/"
-        description="HomeCare360 connects you with background-verified home service professionals across the Gulf. Book plumbing, electrical, cleaning, AC repair, painting, and more — transparent pricing, secure payments."
-        keywords="home services, plumber, electrician, house cleaning, AC repair, painting, pest control, carpentry, book home services UAE Saudi Arabia Qatar"
+        description="HomeCare360 connects you with background-verified home service professionals across the Gulf. Book plumbing, electrical, female cleaning staff, AC repair, painting, and pest control — transparent AED pricing, Apple Pay, COD & Tabby installments."
+        keywords="home services UAE, plumber Dubai, electrician Abu Dhabi, female house cleaning Dubai, AC repair UAE, painting Dubai, pest control GCC, Tabby home services"
         structuredData={homeSchema}
       />
 
-      {/* bg-white */}
+      {/* Top Ramadan & Eid Seasonal Offer Banner */}
+      <RamadanBanner />
+
+      {/* Hero with search, Emirate dropdown & Female Pro toggle */}
       <Hero />
 
-      {/* bg-white border-t — What do you need today? */}
+      {/* Service Categories Grid */}
       <ServiceCategoriesGrid />
 
-      {/* bg-gray-50 — Book in three simple steps */}
-      <HowItWorks />
-
-      {/* bg-white — Loved by homeowners this week */}
+      {/* Popular Services Grid (Deep Cleaning, Plumbing, Electrician, AC, Painting, Pest) */}
       <PopularServices />
 
-      {/* bg-white — Built for trust at every step */}
+      {/* How It Works (3 Steps) */}
+      <HowItWorks />
+
+      {/* Trending Services (Curated GCC solutions) */}
+      <TrendingServices />
+
+      {/* Trust Strip / Badges */}
       <WhyChoose />
 
-      {/* bg-[#0d1f1f] — Trusted across India */}
-      <TrustedStats />
+      {/* Payment Gateways (COD, Apple Pay, Tabby, Tamara, Mada, Visa/MC) */}
+      <PaymentMethodsRow />
 
-      {/* bg-gray-50 — Customers love us */}
+      {/* Testimonials from GCC Homeowners */}
       <Testimonials />
 
-      {/* bg-gradient teal — Grow your business */}
+      {/* Provider CTA */}
       <ProviderSection />
 
-      {/* bg-white — Live across India */}
+      {/* Cities Availability */}
       <CityAvailability />
 
-      {/* bg-gray-50 — Questions, answered */}
+      {/* FAQ Accordion */}
       <FAQSection />
 
-      {/* bg-[#0d1f1f] — Get 10% off */}
+      {/* App Download CTA */}
       <AppDownloadBanner />
     </>
   );

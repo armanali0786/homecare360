@@ -1,1 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Tajawal:wght@400;500;700;800&display=swap');
+
+/* Islamic Geometric Pattern CSS backdrop */
+.bg-islamic-pattern {
+  background-color: #0d1f1f;
+  background-image: radial-gradient(rgba(212, 175, 55, 0.12) 1px, transparent 1px),
+                    radial-gradient(rgba(0, 184, 169, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+}
+
+.bg-islamic-light-pattern {
+  background-image: radial-gradient(rgba(4, 58, 53, 0.05) 1.5px, transparent 1.5px),
+                    radial-gradient(rgba(212, 175, 55, 0.08) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: 0 0, 14px 14px;
+}
+
+/* Gold Gradient utilities */
+.text-gold-gradient {
+  background: linear-[#D4AF37] to-[#F59E0B];
+  background: linear-gradient(135deg, #F59E0B 0%, #D4AF37 50%, #B48811 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #F59E0B 0%, #D4AF37 50%, #C59B27 100%);
+}
+
+.border-gold-glow {
+  border-color: rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+/* RTL Typography adjustments */
+[dir="rtl"] body {
+  font-family: 'IBM Plex Sans Arabic', 'Tajawal', system-ui, sans-serif;
+}
