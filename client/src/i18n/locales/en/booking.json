@@ -5,6 +5,7 @@
     "providerNotFound": "Provider not found.",
     "goBack": "Go back",
     "startingFrom": "Starting from",
+    "femaleProfessional": "Female Pro",
     "steps": {
       "serviceDetails": "Service Details",
       "schedule": "Schedule",
@@ -20,6 +21,8 @@
       "specialInstructions": "Special instructions",
       "optional": "(optional)",
       "specialInstructionsPlaceholder": "E.g. please bring eco-friendly products, dog in house, ring bell twice…",
+      "requireFemaleStaff": "This booking requires a female professional",
+      "femaleMismatchWarning": "This provider is not listed as female. Uncheck this, or go back and choose a female professional instead.",
       "baseAndAddons": "Base + {{count}} add-on(s)",
       "continue": "Continue to Schedule"
     },
@@ -135,6 +138,7 @@
       "backHome": "Back to home"
     },
     "errors": {
+      "genderMismatch": "This provider doesn't match your female staff requirement. Please choose a female professional or uncheck the requirement.",
       "selectDate": "Please select a date",
       "selectSlot": "Please select a time slot",
       "enterAddress": "Please enter your service address",

@@ -22,6 +22,10 @@ const providerApplicationSchema = new mongoose.Schema(
   yearsExperience:Number,
   businessName:String,
 
+  // Backs the "female-only staff" filter customers can search on and the
+  // enforcement check at booking time (see Booking.preferredStaffGender).
+  gender: { type: String, enum: ["male", "female"] },
+
   description:String,
   hourlyRate:Number,
   availability:String,

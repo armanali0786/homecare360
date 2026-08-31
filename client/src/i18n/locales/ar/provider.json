@@ -29,6 +29,11 @@
       "statePlaceholder": "دبي",
       "zipCode": "صندوق البريد / الرمز البريدي *",
       "zipCodePlaceholder": "00000",
+      "gender": "الجنس *",
+      "selectGender": "اختر الجنس",
+      "female": "أنثى",
+      "male": "ذكر",
+      "genderHint": "يظهر للعملاء الذين يطلبون تحديدًا طاقمًا نسائيًا أو رجاليًا.",
       "profilePhoto": "الصورة الشخصية",
       "selected": "تم اختيار: {{name}}"
     },

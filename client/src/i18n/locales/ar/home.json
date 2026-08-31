@@ -1,4 +1,33 @@
 {
+  "viewProfile": {
+    "notFound": "لم يتم العثور على مزوّد الخدمة",
+    "goBack": "العودة",
+    "backToResults": "العودة إلى النتائج",
+    "femaleProfessional": "محترفة",
+    "new": "جديد",
+    "reviewsCount": "{{count}} تقييم",
+    "yearsExperience": "{{count}} سنوات خبرة",
+    "about": "نبذة",
+    "experience": "الخبرة",
+    "location": "الموقع",
+    "serviceRadius": "نطاق الخدمة",
+    "km": "{{count}} كم",
+    "specializations": "التخصصات",
+    "reviews": "التقييمات",
+    "noReviews": "لا توجد تقييمات بعد — كن أول من يحجز ويقيّم.",
+    "starLabel": "{{count}} نجوم",
+    "user": "عميل",
+    "verified": "حجز موثّق",
+    "startingFrom": "ابتداءً من",
+    "perVisit": "/ زيارة",
+    "perks": {
+      "verified": "تم التحقق من الهوية",
+      "pricing": "أسعار ثابتة وشفافة",
+      "onTime": "ضمان الوصول في الموعد"
+    },
+    "bookNow": "احجز الآن",
+    "freeCancellation": "إلغاء مجاني حتى 24 ساعة قبل الموعد"
+  },
   "ramadanBanner": {
     "badge": "عرض الموسم",
     "title": "عروض رمضان وعيد الفطر لتجهيز المنزل",
@@ -352,7 +381,8 @@
     "noReviewsYet": "محترف موثّق جديد",
     "badges": {
       "premier": "متخصص متميز",
-      "topRated": "أعلى تقييم"
+      "topRated": "أعلى تقييم",
+      "femaleProfessional": "محترفة"
     },
     "categories": {
       "allServices": "جميع الخدمات",
@@ -383,6 +413,7 @@
       "minimumRating": "الحد الأدنى للتقييم",
       "all": "جميع التقييمات",
       "verifiedOnly": "مفحوص بالهوية الإماراتية فقط",
+      "femaleStaffOnly": "طاقم نسائي فقط",
       "clearAll": "مسح جميع الفلاتر"
     }
   }

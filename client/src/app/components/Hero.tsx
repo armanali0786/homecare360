@@ -46,7 +46,7 @@ export function Hero() {
     const p = new URLSearchParams();
     if (query) p.set("service", query);
     p.set("location", city);
-    if (femaleProOnly) p.set("femalePro", "true");
+    if (femaleProOnly) p.set("gender", "female");
     navigate(`/services?${p.toString()}`);
   };
 

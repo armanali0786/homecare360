@@ -143,6 +143,10 @@
   "applications": {
     "title": "Provider Applications",
     "subtitle": "Review and process new provider applications",
+    "gender": {
+      "female": "Female",
+      "male": "Male"
+    },
     "stats": {
       "pendingReview": "Pending Review",
       "approved": "Approved",

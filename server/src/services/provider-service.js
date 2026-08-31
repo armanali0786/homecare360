@@ -27,6 +27,7 @@ exports.createApplication = async (userId, data, files) => {
     state: data.state,
     zipCode: data.zipCode,
     serviceCategory: data.serviceCategory,
+    gender: data.gender,
     yearsExperience: data.yearsExperience,
     businessName: data.businessName,
     description: data.description,
@@ -51,6 +52,7 @@ exports.getApprovedProviders = async (filters = {}) => {
   const query = { status: "approved" };
   if (filters.serviceCategory) query.serviceCategory = { $regex: filters.serviceCategory, $options: "i" };
   if (filters.city) query.city = { $regex: filters.city, $options: "i" };
+  if (filters.gender) query.gender = filters.gender;
 
   const providers = await ProviderApplication.find(query).lean();
 

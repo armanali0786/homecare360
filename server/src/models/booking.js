@@ -27,6 +27,10 @@ const bookingSchema = new mongoose.Schema(
     discountAmount:      { type: Number, default: 0 },
     gstAmount:           { type: Number, default: 0 },
 
+    // Customer's staff-gender requirement, checked against the assigned
+    // provider's gender at booking time (see booking-service.js createBooking).
+    preferredStaffGender: { type: String, enum: ["any", "female", "male"], default: "any" },
+
     // Region / currency the booking was placed in — amounts above are stored
     // in INR (the base unit used across the platform) and converted for
     // display; these fields record what the customer actually saw & paid in.

@@ -136,11 +136,18 @@ function ProviderSummary({ provider }: { provider: any }) {
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-gray-900 truncate">{name}</p>
         <p className="text-xs text-[#00B8A9] font-medium">{provider.serviceCategory}</p>
-        <div className="flex items-center gap-1 mt-0.5">
-          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-          <span className="text-xs text-gray-500">
-            {provider.rating || "New"} ({provider.reviewCount || 0})
-          </span>
+        <div className="flex items-center gap-2 mt-0.5">
+          <div className="flex items-center gap-1">
+            <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+            <span className="text-xs text-gray-500">
+              {provider.rating || "New"} ({provider.reviewCount || 0})
+            </span>
+          </div>
+          {provider.gender === "female" && (
+            <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-pink-50 text-pink-700 border border-pink-100">
+              {t("bookingPage.femaleProfessional")}
+            </span>
+          )}
         </div>
       </div>
       <div className="text-right flex-shrink-0">
@@ -174,6 +181,7 @@ export function BookingPage() {
   const [propertySize, setPropertySize]               = useState("2br");
   const [addOnIds, setAddOnIds]                       = useState<string[]>([]);
   const [specialInstructions, setSpecialInstructions] = useState("");
+  const [requireFemaleStaff, setRequireFemaleStaff]   = useState(false);
 
   // Step 2
   const [selectedDate, setSelectedDate] = useState("");
@@ -200,6 +208,8 @@ export function BookingPage() {
       .catch(() => setProvider(null))
       .finally(() => setLoading(false));
   }, [providerId]);
+
+  const genderMismatch = requireFemaleStaff && provider?.gender !== "female";
 
   // ── Derived pricing ──────────────────────────────────────────────────────────
   const allAddOns   = provider ? (ADD_ONS_MAP[provider.serviceCategory] || FALLBACK_ADD_ONS) : [];
@@ -229,6 +239,7 @@ export function BookingPage() {
   };
 
   const validateStep = (s: number): boolean => {
+    if (s === 1 && genderMismatch) { toast.error(t("bookingPage.errors.genderMismatch")); return false; }
     if (s === 2 && !selectedDate) { toast.error(t("bookingPage.errors.selectDate")); return false; }
     if (s === 2 && !selectedSlot) { toast.error(t("bookingPage.errors.selectSlot")); return false; }
     if (s === 3 && !address.trim()) { toast.error(t("bookingPage.errors.enterAddress")); return false; }
@@ -255,6 +266,10 @@ export function BookingPage() {
       navigate("/login");
       return;
     }
+    if (genderMismatch) {
+      toast.error(t("bookingPage.errors.genderMismatch"));
+      return;
+    }
     setSubmitting(true);
     try {
       const result = await createBooking({
@@ -264,6 +279,8 @@ export function BookingPage() {
         time: selectedSlot,
         location: address,
         totalAmount,
+        region,
+        currency: regionConfig.currency,
         propertyType,
         propertySize,
         addOns: activeAddOns.map((a) => ({ name: a.label, price: a.price })),
@@ -273,6 +290,7 @@ export function BookingPage() {
         promoCode: appliedPromo ? appliedPromo.code : "",
         discountAmount: discountAmt,
         gstAmount: gstAmt,
+        preferredStaffGender: requireFemaleStaff ? "female" : "any",
       });
 
       // For Stripe: redirect to checkout
@@ -554,6 +572,26 @@ export function BookingPage() {
                 />
               </div>
 
+              {/* Female staff requirement */}
+              <div className="mb-6">
+                <label className="flex items-center gap-2.5 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={requireFemaleStaff}
+                    onChange={(e) => setRequireFemaleStaff(e.target.checked)}
+                    className="w-4 h-4 rounded border-gray-300 accent-[#00B8A9] cursor-pointer"
+                  />
+                  <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors select-none">
+                    {t("bookingPage.step1.requireFemaleStaff")}
+                  </span>
+                </label>
+                {genderMismatch && (
+                  <p className="text-xs text-red-600 mt-2 pl-6">
+                    {t("bookingPage.step1.femaleMismatchWarning")}
+                  </p>
+                )}
+              </div>
+
               {activeAddOns.length > 0 && (
                 <div className="bg-gray-50 rounded-xl px-4 py-3 mb-5 flex items-center justify-between text-sm">
                   <span className="text-gray-500">{t("bookingPage.step1.baseAndAddons", { count: activeAddOns.length })}</span>
@@ -563,7 +601,8 @@ export function BookingPage() {
 
               <button
                 onClick={next}
-                className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2"
+                disabled={genderMismatch}
+                className="w-full py-3.5 bg-[#00B8A9] text-white font-semibold rounded-xl hover:bg-[#009e96] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {t("bookingPage.step1.continue")} <ChevronRight className="w-4 h-4" />
               </button>
@@ -898,7 +937,7 @@ export function BookingPage() {
               {/* Confirm button */}
               <button
                 onClick={handleSubmit}
-                disabled={submitting}
+                disabled={submitting || genderMismatch}
                 className="w-full py-4 bg-[#00B8A9] text-white font-bold text-base rounded-xl hover:bg-[#009e96] transition-colors disabled:opacity-70 flex items-center justify-center gap-2"
               >
                 {submitting ? (

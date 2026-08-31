@@ -1,4 +1,33 @@
 {
+  "viewProfile": {
+    "notFound": "Provider not found",
+    "goBack": "Go back",
+    "backToResults": "Back to results",
+    "femaleProfessional": "Female Professional",
+    "new": "New",
+    "reviewsCount": "{{count}} reviews",
+    "yearsExperience": "{{count}} years experience",
+    "about": "About",
+    "experience": "Experience",
+    "location": "Location",
+    "serviceRadius": "Service Radius",
+    "km": "{{count}} km",
+    "specializations": "Specializations",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet — be the first to book and review.",
+    "starLabel": "{{count}} star",
+    "user": "Customer",
+    "verified": "Verified booking",
+    "startingFrom": "Starting from",
+    "perVisit": "/ visit",
+    "perks": {
+      "verified": "Identity verified",
+      "pricing": "Transparent fixed pricing",
+      "onTime": "On-time guarantee"
+    },
+    "bookNow": "Book Now",
+    "freeCancellation": "Free cancellation up to 24h before"
+  },
   "ramadanBanner": {
     "badge": "SEASONAL OFFER",
     "title": "Ramadan & Eid Home Preparation Special",
@@ -352,7 +381,8 @@
     "noReviewsYet": "New Vetted Professional",
     "badges": {
       "premier": "Premier Specialist",
-      "topRated": "Top Rated Pro"
+      "topRated": "Top Rated Pro",
+      "femaleProfessional": "Female Professional"
     },
     "categories": {
       "allServices": "All Services",
@@ -383,6 +413,7 @@
       "minimumRating": "Minimum Rating",
       "all": "All Ratings",
       "verifiedOnly": "Emirates ID Vetted Only",
+      "femaleStaffOnly": "Female Staff Only",
       "clearAll": "Clear All Filters"
     }
   }

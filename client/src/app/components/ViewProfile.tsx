@@ -87,7 +87,14 @@ export function ViewProfile() {
                         </div>
                       </div>
                       <p className="text-cyan-600 font-medium text-lg mb-3">{provider.serviceCategory}</p>
-                      {provider.complianceStatus === "verified" && <SponsorshipBadge />}
+                      <div className="flex flex-wrap items-center gap-2">
+                        {provider.complianceStatus === "verified" && <SponsorshipBadge />}
+                        {provider.gender === "female" && (
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-pink-700 bg-pink-50 border border-pink-100 px-2 py-0.5 rounded-full">
+                            {t("viewProfile.femaleProfessional")}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
 

@@ -94,35 +94,35 @@ const CATEGORIES = [
 
 const PROVIDERS = [
   // Plumbing
-  { firstName: "Ahmed",   lastName: "Al Mazrouei", category: "Plumbing",              city: "Dubai",      state: "Dubai",       hourlyRate: 1800 },
-  { firstName: "Hassan",  lastName: "Baig",        category: "Plumbing",              city: "Riyadh",     state: "Riyadh",      hourlyRate: 1650 },
+  { firstName: "Ahmed",   lastName: "Al Mazrouei", category: "Plumbing",              city: "Dubai",      state: "Dubai",       hourlyRate: 1800, gender: "male"   },
+  { firstName: "Hassan",  lastName: "Baig",        category: "Plumbing",              city: "Riyadh",     state: "Riyadh",      hourlyRate: 1650, gender: "male"   },
   // Electrical
-  { firstName: "Fatima",  lastName: "Al Suwaidi",  category: "Electrical",            city: "Abu Dhabi",  state: "Abu Dhabi",   hourlyRate: 1600 },
-  { firstName: "Waleed",  lastName: "Hijazi",      category: "Electrical",            city: "Doha",       state: "Doha",        hourlyRate: 1750 },
+  { firstName: "Fatima",  lastName: "Al Suwaidi",  category: "Electrical",            city: "Abu Dhabi",  state: "Abu Dhabi",   hourlyRate: 1600, gender: "female" },
+  { firstName: "Waleed",  lastName: "Hijazi",      category: "Electrical",            city: "Doha",       state: "Doha",        hourlyRate: 1750, gender: "male"   },
   // House Cleaning
-  { firstName: "Mariam",  lastName: "Hassan",      category: "House Cleaning",        city: "Dubai",      state: "Dubai",       hourlyRate: 1200 },
-  { firstName: "Grace",   lastName: "Mensah",      category: "House Cleaning",        city: "Abu Dhabi",  state: "Abu Dhabi",   hourlyRate: 1100 },
+  { firstName: "Mariam",  lastName: "Hassan",      category: "House Cleaning",        city: "Dubai",      state: "Dubai",       hourlyRate: 1200, gender: "female" },
+  { firstName: "Grace",   lastName: "Mensah",      category: "House Cleaning",        city: "Abu Dhabi",  state: "Abu Dhabi",   hourlyRate: 1100, gender: "female" },
   // AC & Appliance Repair
-  { firstName: "Yousef",  lastName: "Al Qassimi",  category: "AC & Appliance Repair", city: "Sharjah",    state: "Sharjah",     hourlyRate: 2000 },
-  { firstName: "Karim",   lastName: "Fathy",       category: "AC & Appliance Repair", city: "Jeddah",     state: "Makkah",      hourlyRate: 1850 },
+  { firstName: "Yousef",  lastName: "Al Qassimi",  category: "AC & Appliance Repair", city: "Sharjah",    state: "Sharjah",     hourlyRate: 2000, gender: "male"   },
+  { firstName: "Karim",   lastName: "Fathy",       category: "AC & Appliance Repair", city: "Jeddah",     state: "Makkah",      hourlyRate: 1850, gender: "male"   },
   // Painting
-  { firstName: "Omar",    lastName: "Khalifa",     category: "Painting",              city: "Riyadh",     state: "Riyadh",      hourlyRate: 2200 },
-  { firstName: "Sultan",  lastName: "Al Kaabi",    category: "Painting",              city: "Dubai",      state: "Dubai",       hourlyRate: 2100 },
+  { firstName: "Omar",    lastName: "Khalifa",     category: "Painting",              city: "Riyadh",     state: "Riyadh",      hourlyRate: 2200, gender: "male"   },
+  { firstName: "Sultan",  lastName: "Al Kaabi",    category: "Painting",              city: "Dubai",      state: "Dubai",       hourlyRate: 2100, gender: "male"   },
   // Carpentry
-  { firstName: "Khalid",  lastName: "Al Otaibi",   category: "Carpentry",             city: "Jeddah",     state: "Makkah",      hourlyRate: 1900 },
-  { firstName: "Imran",   lastName: "Chaudhry",    category: "Carpentry",             city: "Sharjah",    state: "Sharjah",     hourlyRate: 1750 },
+  { firstName: "Khalid",  lastName: "Al Otaibi",   category: "Carpentry",             city: "Jeddah",     state: "Makkah",      hourlyRate: 1900, gender: "male"   },
+  { firstName: "Imran",   lastName: "Chaudhry",    category: "Carpentry",             city: "Sharjah",    state: "Sharjah",     hourlyRate: 1750, gender: "male"   },
   // Landscaping
-  { firstName: "Noura",   lastName: "Al Ali",      category: "Landscaping",           city: "Doha",       state: "Doha",        hourlyRate: 1700 },
-  { firstName: "Salim",   lastName: "Al Harthy",   category: "Landscaping",           city: "Abu Dhabi",  state: "Abu Dhabi",   hourlyRate: 1600 },
+  { firstName: "Noura",   lastName: "Al Ali",      category: "Landscaping",           city: "Doha",       state: "Doha",        hourlyRate: 1700, gender: "female" },
+  { firstName: "Salim",   lastName: "Al Harthy",   category: "Landscaping",           city: "Abu Dhabi",  state: "Abu Dhabi",   hourlyRate: 1600, gender: "male"   },
   // Pest Control
-  { firstName: "Saeed",   lastName: "Al Nuaimi",   category: "Pest Control",          city: "Ajman",      state: "Ajman",       hourlyRate: 1500 },
-  { firstName: "Adel",    lastName: "Mansour",     category: "Pest Control",          city: "Riyadh",     state: "Riyadh",      hourlyRate: 1550 },
+  { firstName: "Saeed",   lastName: "Al Nuaimi",   category: "Pest Control",          city: "Ajman",      state: "Ajman",       hourlyRate: 1500, gender: "male"   },
+  { firstName: "Adel",    lastName: "Mansour",     category: "Pest Control",          city: "Riyadh",     state: "Riyadh",      hourlyRate: 1550, gender: "male"   },
   // Domestic Help
-  { firstName: "Layla",   lastName: "Fernandes",   category: "Domestic Help",         city: "Dubai",      state: "Dubai",       hourlyRate: 1400 },
-  { firstName: "Precious", lastName: "Okafor",     category: "Domestic Help",         city: "Doha",       state: "Doha",        hourlyRate: 1350 },
+  { firstName: "Layla",   lastName: "Fernandes",   category: "Domestic Help",         city: "Dubai",      state: "Dubai",       hourlyRate: 1400, gender: "female" },
+  { firstName: "Precious", lastName: "Okafor",     category: "Domestic Help",         city: "Doha",       state: "Doha",        hourlyRate: 1350, gender: "female" },
   // Handyman
-  { firstName: "Rashid",  lastName: "Al Marri",    category: "Handyman",              city: "Doha",       state: "Doha",        hourlyRate: 1300 },
-  { firstName: "Naveed",  lastName: "Iqbal",       category: "Handyman",              city: "Sharjah",    state: "Sharjah",     hourlyRate: 1250 },
+  { firstName: "Rashid",  lastName: "Al Marri",    category: "Handyman",              city: "Doha",       state: "Doha",        hourlyRate: 1300, gender: "male"   },
+  { firstName: "Naveed",  lastName: "Iqbal",       category: "Handyman",              city: "Sharjah",    state: "Sharjah",     hourlyRate: 1250, gender: "male"   },
 ];
 
 const CUSTOMERS = [
@@ -193,6 +193,7 @@ async function upsertProvider(def, index) {
       state: def.state,
       zipCode: "00000",
       serviceCategory: def.category,
+      gender: def.gender,
       yearsExperience: 3 + (index % 6),
       businessName: `${def.firstName} ${def.category} Services`,
       description: `Experienced ${def.category.toLowerCase()} professional serving ${def.city} and nearby areas.`,

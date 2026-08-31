@@ -26,6 +26,7 @@ interface Provider {
   tags: string[];
   city?: string;
   state?: string;
+  gender?: "male" | "female";
 }
 
 const CATEGORY_IDS = [
@@ -165,6 +166,11 @@ function ProviderListCard({
                     {badge.label}
                   </span>
                 )}
+                {provider.gender === "female" && (
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-pink-50 text-pink-700 border border-pink-100">
+                    {t("browseServices.badges.femaleProfessional")}
+                  </span>
+                )}
               </div>
 
               <p className="text-xs text-[#00B8A9] font-medium mb-2">
@@ -293,6 +299,11 @@ function ProviderGridCard({
                 {badge.label}
               </span>
             )}
+            {provider.gender === "female" && (
+              <span className="text-xs font-semibold px-1.5 py-0.5 rounded-full bg-pink-50 text-pink-700 border border-pink-100 ml-1">
+                {t("browseServices.badges.femaleProfessional")}
+              </span>
+            )}
             <p className="text-xs text-[#00B8A9] font-medium mt-1">
               {provider.serviceCategory}
             </p>
@@ -355,6 +366,7 @@ function FilterPanel({
   priceFilter, setPriceFilter,
   selectedRating, setSelectedRating,
   verifiedOnly, setVerifiedOnly,
+  femaleOnly, setFemaleOnly,
   onClearAll,
 }: {
   sortBy: string; setSortBy: (v: string) => void;
@@ -362,6 +374,7 @@ function FilterPanel({
   priceFilter: string; setPriceFilter: (v: string) => void;
   selectedRating: string; setSelectedRating: (v: string) => void;
   verifiedOnly: boolean; setVerifiedOnly: (v: boolean) => void;
+  femaleOnly: boolean; setFemaleOnly: (v: boolean) => void;
   onClearAll: () => void;
 }) {
   const { t } = useTranslation("home");
@@ -481,6 +494,21 @@ function FilterPanel({
         </label>
       </div>
 
+      {/* Female Staff Only */}
+      <div className="mb-6">
+        <label className="flex items-center gap-2.5 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={femaleOnly}
+            onChange={(e) => setFemaleOnly(e.target.checked)}
+            className="w-4 h-4 rounded border-gray-300 accent-[#00B8A9] cursor-pointer"
+          />
+          <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors select-none">
+            {t("browseServices.filters.femaleStaffOnly")}
+          </span>
+        </label>
+      </div>
+
       <button
         onClick={onClearAll}
         className="text-sm font-medium text-[#00B8A9] hover:text-[#2B5F5F] transition-colors"
@@ -532,6 +560,7 @@ export function BrowseServices() {
   const [sortBy, setSortBy] = useState("most-popular");
   const [availability, setAvailability] = useState<string[]>([]);
   const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [femaleOnly, setFemaleOnly] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [searchInput, setSearchInput] = useState("");
@@ -562,6 +591,7 @@ export function BrowseServices() {
     const catParam = searchParams.get("category");
     const svc = searchParams.get("service");
     const loc = searchParams.get("location");
+    if (searchParams.get("gender") === "female") setFemaleOnly(true);
 
     let matchedCatId = catParam;
 
@@ -614,6 +644,7 @@ export function BrowseServices() {
     setSortBy("most-popular");
     setAvailability([]);
     setVerifiedOnly(false);
+    setFemaleOnly(false);
   };
 
   const toggleAvailability = (val: string) =>
@@ -677,7 +708,9 @@ export function BrowseServices() {
         (p.availability != null &&
           availability.some((a) => p.availability!.toLowerCase().includes(a.toLowerCase())));
 
-      return matchCat && matchSearch && matchPrice && matchRating && matchLocation && matchAvailability;
+      const matchGender = !femaleOnly || p.gender === "female";
+
+      return matchCat && matchSearch && matchPrice && matchRating && matchLocation && matchAvailability && matchGender;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -805,6 +838,7 @@ export function BrowseServices() {
                 priceFilter={priceFilter} setPriceFilter={setPriceFilter}
                 selectedRating={selectedRating} setSelectedRating={setSelectedRating}
                 verifiedOnly={verifiedOnly} setVerifiedOnly={setVerifiedOnly}
+                femaleOnly={femaleOnly} setFemaleOnly={setFemaleOnly}
                 onClearAll={handleClearAll}
               />
             </div>
@@ -875,6 +909,7 @@ export function BrowseServices() {
                     priceFilter={priceFilter} setPriceFilter={setPriceFilter}
                     selectedRating={selectedRating} setSelectedRating={setSelectedRating}
                     verifiedOnly={verifiedOnly} setVerifiedOnly={setVerifiedOnly}
+                femaleOnly={femaleOnly} setFemaleOnly={setFemaleOnly}
                     onClearAll={handleClearAll}
                   />
                 </motion.div>

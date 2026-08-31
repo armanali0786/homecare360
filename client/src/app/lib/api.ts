@@ -16,8 +16,11 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 }
 
 // ── Providers ──────────────────────────────────────────────────────────────────
-export const getProviders = (params?: { serviceCategory?: string; city?: string }) => {
-  const qs = params ? "?" + new URLSearchParams(params as Record<string, string>).toString() : "";
+export const getProviders = (params?: { serviceCategory?: string; city?: string; gender?: "male" | "female" }) => {
+  const defined = params
+    ? Object.fromEntries(Object.entries(params).filter(([, v]) => v !== undefined && v !== "")) as Record<string, string>
+    : {};
+  const qs = Object.keys(defined).length ? "?" + new URLSearchParams(defined).toString() : "";
   return request<any>(`/provider/list${qs}`);
 };
 

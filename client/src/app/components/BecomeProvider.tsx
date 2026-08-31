@@ -38,6 +38,7 @@ export function BecomeProvider() {
     city: "",
     state: "",
     zipCode: "",
+    gender: "",
     serviceCategory: "",
     yearsExperience: "",
     businessName: "",
@@ -182,6 +183,7 @@ export function BecomeProvider() {
         city: "",
         state: "",
         zipCode: "",
+        gender: "",
         serviceCategory: "",
         yearsExperience: "",
         businessName: "",
@@ -415,6 +417,22 @@ export function BecomeProvider() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
                       placeholder={t("becomeProvider.step1.zipCodePlaceholder")}
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">{t("becomeProvider.step1.gender")}</label>
+                    <select
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    >
+                      <option value="">{t("becomeProvider.step1.selectGender")}</option>
+                      <option value="female">{t("becomeProvider.step1.female")}</option>
+                      <option value="male">{t("becomeProvider.step1.male")}</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1.5">{t("becomeProvider.step1.genderHint")}</p>
                   </div>
 
                   <div>

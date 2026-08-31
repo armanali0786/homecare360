@@ -54,6 +54,17 @@ exports.createBooking = async (userId, data) => {
   const platformFee   = Math.round(totalAmount * PLATFORM_FEE_PERCENT * 100) / 100;
   const providerPayout = Math.round((totalAmount - platformFee) * 100) / 100;
 
+  const preferredStaffGender = data.preferredStaffGender || "any";
+  if (preferredStaffGender !== "any") {
+    const provider = await ProviderApplication.findById(data.providerId);
+    if (!provider) throw new Error("Provider not found");
+    if (provider.gender && provider.gender !== preferredStaffGender) {
+      throw new Error(
+        `This provider does not match your requested ${preferredStaffGender} staff preference. Please choose a different provider or clear the preference.`
+      );
+    }
+  }
+
   const booking = await Booking.create({
     user:            userId,
     provider:        data.providerId,
@@ -74,6 +85,7 @@ exports.createBooking = async (userId, data) => {
     promoCode:           data.promoCode           || "",
     discountAmount:      data.discountAmount       || 0,
     gstAmount:           data.gstAmount            || 0,
+    preferredStaffGender,
     paymentMethod:       data.paymentMethod        || "cod",
     paymentStatus:       "pending",
   });

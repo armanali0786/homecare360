@@ -5,6 +5,7 @@
     "providerNotFound": "لم يتم العثور على مزوّد الخدمة.",
     "goBack": "العودة",
     "startingFrom": "يبدأ من",
+    "femaleProfessional": "محترفة",
     "steps": {
       "serviceDetails": "تفاصيل الخدمة",
       "schedule": "الموعد",
@@ -20,6 +21,8 @@
       "specialInstructions": "تعليمات خاصة",
       "optional": "(اختياري)",
       "specialInstructionsPlaceholder": "مثال: الرجاء إحضار منتجات صديقة للبيئة، يوجد كلب في المنزل، اقرع الجرس مرتين…",
+      "requireFemaleStaff": "يتطلب هذا الحجز محترفة (طاقم نسائي)",
+      "femaleMismatchWarning": "مزوّد الخدمة هذا غير مدرج كأنثى. ألغِ التحديد، أو ارجع واختر محترفة بدلاً منه.",
       "baseAndAddons": "الأساسي + {{count}} إضافة",
       "continue": "المتابعة إلى الموعد"
     },
@@ -135,6 +138,7 @@
       "backHome": "العودة إلى الرئيسية"
     },
     "errors": {
+      "genderMismatch": "مزوّد الخدمة هذا لا يطابق طلبك لطاقم نسائي. الرجاء اختيار محترفة أو إلغاء هذا الشرط.",
       "selectDate": "الرجاء اختيار تاريخ",
       "selectSlot": "الرجاء اختيار فترة زمنية",
       "enterAddress": "الرجاء إدخال عنوان الخدمة",

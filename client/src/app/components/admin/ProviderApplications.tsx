@@ -90,6 +90,7 @@ export function ProviderApplications() {
                     </h3>
                     <p className="text-sm text-gray-600 mb-2">
                       {application.serviceCategory} • {application.yearsExperience} years experience
+                      {application.gender && ` • ${t(`applications.gender.${application.gender}`)}`}
                     </p>
                     <div className="space-y-1 text-sm text-gray-600">
                       <p>📧 {application.email}</p>

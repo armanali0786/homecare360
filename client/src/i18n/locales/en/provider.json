@@ -29,6 +29,11 @@
       "statePlaceholder": "Dubai",
       "zipCode": "P.O. Box / Postal Code *",
       "zipCodePlaceholder": "00000",
+      "gender": "Gender *",
+      "selectGender": "Select gender",
+      "female": "Female",
+      "male": "Male",
+      "genderHint": "Shown to customers who specifically require female or male staff.",
       "profilePhoto": "Profile Photo",
       "selected": "Selected: {{name}}"
     },

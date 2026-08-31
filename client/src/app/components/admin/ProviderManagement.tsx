@@ -109,7 +109,10 @@ export function ProviderManagement() {
                         <h3 className="text-lg font-bold text-gray-800">{getDisplayName(provider)}</h3>
                         {provider.status === "approved" && <Shield className="w-4 h-4 text-cyan-600" />}
                       </div>
-                      <p className="text-sm text-gray-600">{t("providers.yearsExp", { category: provider.serviceCategory, years: provider.yearsExperience })}</p>
+                      <p className="text-sm text-gray-600">
+                        {t("providers.yearsExp", { category: provider.serviceCategory, years: provider.yearsExperience })}
+                        {provider.gender && ` • ${t(`applications.gender.${provider.gender}`)}`}
+                      </p>
                       <p className="text-sm text-gray-500">{provider.email}</p>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${

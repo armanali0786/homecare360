@@ -7,8 +7,15 @@ function getClient() {
   const sid   = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
   if (!sid || !token) return null;
-  client = twilio(sid, token);
-  return client;
+  try {
+    client = twilio(sid, token);
+    return client;
+  } catch (err) {
+    // Misconfigured/placeholder credentials must not crash the request — SMS
+    // is a best-effort notification, never a booking-blocking dependency.
+    console.error("[Twilio] Failed to initialize client:", err.message);
+    return null;
+  }
 }
 
 // National number length -> default GCC/India country code, used only when
