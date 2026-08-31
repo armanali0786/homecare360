@@ -11,6 +11,7 @@ router.get("/profile/:id", providerController.getProviderById);
 
 // Provider — own profile
 router.get("/me", verifyToken, authorizeRoles("provider"), providerController.getMyProfile);
+router.put("/me", verifyToken, authorizeRoles("provider"), providerController.updateMyProfile);
 
 // User - apply as provider
 router.post(

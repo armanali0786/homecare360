@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router";
-import { Menu, X, LayoutDashboard, CalendarDays, Briefcase } from "lucide-react";
+import { Menu, X, LayoutDashboard, CalendarDays, Briefcase, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTranslation } from "react-i18next";
@@ -147,17 +147,18 @@ export function Header() {
 
           {/* Right side: auth */}
           <div className="hidden md:flex items-center gap-4">
+            <Link
+              to="/emergency"
+              className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold text-red-600 bg-red-50 border border-red-100 rounded-lg hover:bg-red-100 transition-colors"
+            >
+              <AlertTriangle className="w-4 h-4" />
+              {t("emergency")}
+            </Link>
             <LocaleSwitcher />
             {user ? (
               <ProfileMenu />
             ) : (
               <>
-                <Link
-                  to="/become-provider"
-                  className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:border-[#00B8A9] hover:text-[#00B8A9] transition-colors"
-                >
-                  {t("becomeAPro")}
-                </Link>
                 <Link to="/login" className="px-4 py-2 text-sm text-[#00B8A9] hover:text-[#2B5F5F] transition-colors">
                   {t("signIn")}
                 </Link>
@@ -193,6 +194,15 @@ export function Header() {
             className="md:hidden border-t border-gray-200 bg-white overflow-hidden"
           >
             <nav className="flex flex-col px-4 py-4 space-y-1">
+              <Link
+                to="/emergency"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 rounded-lg font-semibold text-red-600 bg-red-50 mb-2"
+              >
+                <AlertTriangle className="w-4 h-4" />
+                {t("emergency")}
+              </Link>
+
               {/* Base nav links */}
               {baseNavLinks.map((link, index) => (
                 <motion.div

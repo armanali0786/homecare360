@@ -26,6 +26,10 @@ const providerApplicationSchema = new mongoose.Schema(
   // enforcement check at booking time (see Booking.preferredStaffGender).
   gender: { type: String, enum: ["male", "female"] },
 
+  // Opt-in for Emergency/SOS mode auto-matching (see emergency-service.js).
+  // Provider-controlled from their own dashboard, not part of the application.
+  emergencyAvailable: { type: Boolean, default: false },
+
   description:String,
   hourlyRate:Number,
   availability:String,

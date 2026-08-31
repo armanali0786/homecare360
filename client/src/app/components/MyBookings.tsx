@@ -214,9 +214,16 @@ export function MyBookings() {
                           <p className="text-xs text-gray-400 mb-0.5">
                             HC-{booking._id?.slice(-8).toUpperCase()}
                           </p>
-                          <h3 className="text-base font-semibold text-gray-900 mb-0.5">
-                            {getProviderName(booking)}
-                          </h3>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="text-base font-semibold text-gray-900 mb-0.5">
+                              {getProviderName(booking)}
+                            </h3>
+                            {booking.isEmergency && (
+                              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                                {t("myBookings.sos")}
+                              </span>
+                            )}
+                          </div>
                           <p className="text-sm text-[#00B8A9] font-medium">{booking.serviceCategory}</p>
                         </div>
                         <div className="flex items-center gap-3 flex-shrink-0">
@@ -225,8 +232,14 @@ export function MyBookings() {
                             {sc.label}
                           </span>
                           <div className="text-right">
-                            <span className="text-xl font-bold text-gray-900">{formatCurrency(booking.totalAmount)}</span>
-                            <span className="text-xs text-gray-400 ml-0.5">{t("myBookings.total")}</span>
+                            {booking.feeWaived ? (
+                              <span className="text-sm font-bold text-emerald-600">{t("myBookings.freeGuarantee")}</span>
+                            ) : (
+                              <>
+                                <span className="text-xl font-bold text-gray-900">{formatCurrency(booking.totalAmount)}</span>
+                                <span className="text-xs text-gray-400 ml-0.5">{t("myBookings.total")}</span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>

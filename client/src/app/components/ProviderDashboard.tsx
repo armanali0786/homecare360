@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getProviderBookings, getMyProviderProfile, providerCancelBooking, providerAcceptBooking } from "@/app/lib/api";
+import { getProviderBookings, getMyProviderProfile, providerCancelBooking, providerAcceptBooking, updateMyProviderProfile } from "@/app/lib/api";
 import { toast } from "react-toastify";
 import { ChatDrawer } from "@/app/components/ChatDrawer";
 import { useLocale } from "@/app/context/LocaleContext";
@@ -21,6 +21,7 @@ export function ProviderDashboard() {
   const [chatBooking, setChatBooking] = useState<any>(null);
   const [cancelling,  setCancelling]  = useState<string | null>(null);
   const [accepting,   setAccepting]   = useState<string | null>(null);
+  const [togglingEmergency, setTogglingEmergency] = useState(false);
 
   const fetchAll = async () => {
     setLoading(true);
@@ -50,6 +51,24 @@ export function ProviderDashboard() {
     earned:    bookings
       .filter((b) => b.status === "completed")
       .reduce((s, b) => s + (b.providerPayout || 0), 0),
+  };
+
+  const handleToggleEmergency = async () => {
+    if (!profile) return;
+    setTogglingEmergency(true);
+    try {
+      const res = await updateMyProviderProfile({ emergencyAvailable: !profile.emergencyAvailable });
+      setProfile(res.provider);
+      toast.success(
+        res.provider.emergencyAvailable
+          ? t("dashboard.emergencyEnabled")
+          : t("dashboard.emergencyDisabled")
+      );
+    } catch (err: any) {
+      toast.error(err.message || t("dashboard.toasts.acceptFailed"));
+    } finally {
+      setTogglingEmergency(false);
+    }
   };
 
   const handleAccept = async (bookingId: string) => {
@@ -187,6 +206,33 @@ export function ProviderDashboard() {
                 </a>
               )}
             </div>
+          </div>
+
+          {/* Emergency availability */}
+          <div className="bg-white rounded-xl border border-gray-100 px-5 py-4 flex items-center justify-between gap-4 mt-4">
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${profile.emergencyAvailable ? "bg-red-50" : "bg-gray-100"}`}>
+                <AlertTriangle className={`w-5 h-5 ${profile.emergencyAvailable ? "text-red-600" : "text-gray-400"}`} />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">{t("dashboard.emergencyAvailable")}</p>
+                <p className="text-xs text-gray-400">{t("dashboard.emergencyAvailableHint")}</p>
+              </div>
+            </div>
+            <button
+              onClick={handleToggleEmergency}
+              disabled={togglingEmergency}
+              className={`relative w-12 h-7 rounded-full transition-colors flex-shrink-0 disabled:opacity-60 ${
+                profile.emergencyAvailable ? "bg-red-600" : "bg-gray-200"
+              }`}
+              aria-label={t("dashboard.emergencyAvailable")}
+            >
+              <span
+                className={`absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                  profile.emergencyAvailable ? "translate-x-5" : "translate-x-0"
+                }`}
+              />
+            </button>
           </div>
         </div>
       )}

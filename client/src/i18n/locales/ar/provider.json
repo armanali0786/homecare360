@@ -123,6 +123,10 @@
     "pendingPayout": "الدفعة المعلقة",
     "connectStripe": "ربط Stripe",
     "stripeComingSoon": "خدمة إعداد Stripe Connect قريبًا",
+    "emergencyAvailable": "متاح للزيارات العاجلة (الطوارئ)",
+    "emergencyAvailableHint": "احصل على مهام عاجلة في نفس اليوم فورًا مقابل رسوم إضافية 25%",
+    "emergencyEnabled": "أنت الآن ظاهر لطلبات الطوارئ",
+    "emergencyDisabled": "تم إلغاء تفعيل استقبال طلبات الطوارئ",
     "tabs": {
       "all": "جميع المهام",
       "requests": "الطلبات",

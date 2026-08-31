@@ -123,6 +123,10 @@
     "pendingPayout": "Pending payout",
     "connectStripe": "Connect Stripe",
     "stripeComingSoon": "Stripe Connect onboarding coming soon",
+    "emergencyAvailable": "Available for Emergency Call-outs",
+    "emergencyAvailableHint": "Get instantly matched to urgent same-day jobs at a 25% surcharge",
+    "emergencyEnabled": "You're now visible for emergency call-outs",
+    "emergencyDisabled": "You've opted out of emergency call-outs",
     "tabs": {
       "all": "All Jobs",
       "requests": "Requests",

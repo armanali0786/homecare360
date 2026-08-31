@@ -318,6 +318,8 @@
     "emptyTextAll": "You don't have any bookings yet.",
     "browseServices": "Browse Services",
     "total": "total",
+    "sos": "SOS",
+    "freeGuarantee": "FREE — Guarantee",
     "messageProvider": "Message Provider",
     "cancelBooking": "Cancel Booking",
     "leaveReview": "Leave a Review",

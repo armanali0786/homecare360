@@ -54,6 +54,17 @@ const bookingSchema = new mongoose.Schema(
     // Cancellation
     cancelledBy:        { type: String, enum: ["customer", "provider", "admin", ""], default: "" },
     cancellationReason: { type: String, default: "" },
+
+    // Emergency / SOS mode — instantly auto-matched, same-day urgent bookings
+    // with a guaranteed provider response window (see emergency-service.js).
+    isEmergency:               { type: Boolean, default: false },
+    emergencySurchargePercent: { type: Number, default: 0 },
+    responseDeadline:          { type: Date },
+    acceptedAt:                { type: Date },
+    // Set by the SLA-check cron when a provider fails to accept an emergency
+    // booking within the guaranteed window — enforces the "free if late" promise.
+    slaBreached: { type: Boolean, default: false },
+    feeWaived:   { type: Boolean, default: false },
   },
   { timestamps: true }
 );

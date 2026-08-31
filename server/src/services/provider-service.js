@@ -136,3 +136,19 @@ exports.updateComplianceStatus = async (id, complianceStatus, notes, adminId) =>
 exports.getComplianceQueue = async () => {
   return ProviderApplication.find({ complianceStatus: { $ne: "not_applicable" } }).sort({ createdAt: -1 });
 };
+
+// Fields a provider may edit about their own profile after approval — kept as
+// an explicit allowlist so this endpoint can't be used to self-approve or
+// touch compliance/review fields.
+const SELF_UPDATE_FIELDS = ["emergencyAvailable"];
+
+exports.updateMyProfile = async (userId, data) => {
+  const update = {};
+  for (const key of SELF_UPDATE_FIELDS) {
+    if (data[key] !== undefined) update[key] = data[key];
+  }
+
+  const provider = await ProviderApplication.findOneAndUpdate({ user: userId }, update, { new: true });
+  if (!provider) throw new Error("Provider profile not found");
+  return provider;
+};

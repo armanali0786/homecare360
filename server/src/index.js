@@ -129,6 +129,22 @@ cron.schedule("0 * * * *", async () => {
   }
 });
 
+// ── Emergency/SOS response guarantee ──────────────────────────────────────────
+// Checks every 10 minutes (the guarantee window is 60 minutes, so hourly would
+// let a breach sit undetected for up to an hour) for emergency bookings a
+// provider failed to accept in time, and enforces the "free if late" promise.
+const emergencyService = require("./services/emergency-service");
+cron.schedule("*/10 * * * *", async () => {
+  try {
+    const result = await emergencyService.checkSlaBreaches();
+    if (result.breached) {
+      console.log(`[emergency] SLA breaches detected: ${result.breached}`);
+    }
+  } catch (err) {
+    console.error("[emergency] SLA check failed:", err.message);
+  }
+});
+
 server.listen(ServerConfig.PORT, () => {
   console.log(`Server started on PORT ${ServerConfig.PORT}`);
 });

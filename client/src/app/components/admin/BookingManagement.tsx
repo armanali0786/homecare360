@@ -171,9 +171,16 @@ export function BookingManagement() {
                         </h3>
                         <p className="text-sm text-cyan-600 font-medium">{booking.serviceCategory}</p>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${statusConfig.bg} ${statusConfig.color}`}>
-                        <StatusIcon className="w-3 h-3" /> {statusConfig.label}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {booking.isEmergency && (
+                          <span className="px-2 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700">
+                            {t("bookings.sos")}
+                          </span>
+                        )}
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${statusConfig.bg} ${statusConfig.color}`}>
+                          <StatusIcon className="w-3 h-3" /> {statusConfig.label}
+                        </span>
+                      </div>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm text-gray-600">
                       <div className="flex items-center gap-1">

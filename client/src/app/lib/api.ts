@@ -36,6 +36,9 @@ export const applyProvider = (formData: FormData) =>
 export const getMyProviderProfile = () =>
   request<any>("/provider/me", { headers: authHeaders() });
 
+export const updateMyProviderProfile = (data: object) =>
+  request<any>("/provider/me", { method: "PUT", headers: authHeaders(), body: JSON.stringify(data) });
+
 // Admin provider routes
 export const getAdminApplications = () =>
   request<any>("/provider/applications", { headers: authHeaders() });
@@ -85,6 +88,10 @@ export const getCancellationPolicy = (id: string) =>
 
 export const cancelBooking = (id: string) =>
   request<any>(`/bookings/${id}/cancel`, { method: "PUT", headers: authHeaders() });
+
+// ── Emergency / SOS ───────────────────────────────────────────────────────────
+export const bookEmergency = (data: object) =>
+  request<any>("/emergency/book", { method: "POST", headers: authHeaders(), body: JSON.stringify(data) });
 
 // ── Recurring bookings ────────────────────────────────────────────────────────
 export const createRecurringBooking = (data: object) =>

@@ -49,6 +49,7 @@
   "bookings": {
     "title": "Booking Management",
     "subtitle": "Monitor and manage all bookings on the platform",
+    "sos": "SOS",
     "statsProvider": {
       "newRequests": "New Requests",
       "upcoming": "Upcoming",

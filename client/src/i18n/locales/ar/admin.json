@@ -49,6 +49,7 @@
   "bookings": {
     "title": "إدارة الحجوزات",
     "subtitle": "متابعة وإدارة جميع الحجوزات على المنصة",
+    "sos": "طوارئ",
     "statsProvider": {
       "newRequests": "طلبات جديدة",
       "upcoming": "قادمة",

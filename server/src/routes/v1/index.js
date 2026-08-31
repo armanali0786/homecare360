@@ -13,6 +13,7 @@ const stripeRoutes   = require("./stripe");
 const gatewayRoutes  = require("./gateway");
 const quoteAssistantRoutes = require("./quote-assistant");
 const recurringBookingRoutes = require("./recurring-bookings");
+const emergencyRoutes = require("./emergency");
 
 router.get("/info", InfoController.info);
 router.use("/auth",     authRoutes);
@@ -26,5 +27,6 @@ router.use("/stripe",   stripeRoutes);
 router.use("/gateway",  gatewayRoutes);
 router.use("/quote-assistant", quoteAssistantRoutes);
 router.use("/recurring-bookings", recurringBookingRoutes);
+router.use("/emergency", emergencyRoutes);
 
 module.exports = router;

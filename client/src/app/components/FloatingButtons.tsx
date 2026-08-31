@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, AlertTriangle } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export function FloatingButtons() {
+  const { t } = useTranslation("nav");
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
@@ -29,6 +32,17 @@ export function FloatingButtons() {
           </motion.button>
         )}
       </AnimatePresence>
+
+      {/* Emergency / SOS */}
+      <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1 }}>
+        <Link
+          to="/emergency"
+          aria-label={t("emergency")}
+          className="pointer-events-auto w-14 h-14 bg-red-600 hover:bg-red-700 shadow-xl rounded-full flex items-center justify-center transition-colors"
+        >
+          <AlertTriangle className="w-6 h-6 text-white" />
+        </Link>
+      </motion.div>
 
       {/* WhatsApp */}
       <motion.a

@@ -88,6 +88,9 @@ exports.createBooking = async (userId, data) => {
     preferredStaffGender,
     paymentMethod:       data.paymentMethod        || "cod",
     paymentStatus:       "pending",
+    isEmergency:               data.isEmergency               || false,
+    emergencySurchargePercent: data.emergencySurchargePercent || 0,
+    responseDeadline:          data.responseDeadline           || undefined,
   });
 
   // Fire-and-forget notifications
@@ -130,6 +133,7 @@ exports.acceptBooking = async (id, userId) => {
   if (booking.status !== "pending") throw new Error("Only pending bookings can be accepted");
 
   booking.status = "upcoming";
+  booking.acceptedAt = new Date();
   await booking.save();
 
   // Notify customer that provider accepted

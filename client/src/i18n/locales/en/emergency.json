@@ -1,0 +1,31 @@
+{
+  "heroTitle": "Emergency Help, Fast",
+  "heroSubtitle": "Burst pipe, electrical fault, AC failure — we instantly match you with a verified pro ready for urgent call-outs, with a guaranteed response window.",
+  "whatsWrong": "What's the emergency?",
+  "categories": {
+    "plumbing": "Plumbing leak",
+    "electrical": "Electrical fault",
+    "ac": "AC breakdown",
+    "other": "Other emergency"
+  },
+  "locationLabel": "Your location",
+  "locationPlaceholder": "Building, street, area, city",
+  "descriptionLabel": "What's happening",
+  "optional": "(optional)",
+  "descriptionPlaceholder": "E.g. water leaking from ceiling, no power in kitchen…",
+  "getHelpNow": "Get Emergency Help Now",
+  "matching": "Finding the nearest available pro…",
+  "surchargeNote": "Urgent call-outs carry a 25% same-day surcharge. Standard bookings are always cheaper — use Book a Service if it can wait.",
+  "selectCategory": "Please select what's wrong",
+  "enterLocation": "Please enter your location",
+  "loginRequired": "Please log in to request emergency help",
+  "bookingFailed": "Couldn't find an emergency provider — please try again or call support",
+  "matched": {
+    "title": "Help is on the way",
+    "subtitle": "Your provider has {{minutes}} minutes to accept — guaranteed.",
+    "provider": "Assigned provider",
+    "total": "Total (incl. urgency fee)",
+    "guarantee": "If not accepted within {{minutes}} minutes, this booking is free — automatically.",
+    "viewBookings": "Track in My Bookings"
+  }
+}

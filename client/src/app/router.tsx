@@ -24,6 +24,7 @@ import { Safety }          from "./pages/Safety";
 import { TermsOfService }  from "./pages/TermsOfService";
 import { InstantQuoteEstimator } from "./pages/InstantQuoteEstimator";
 import { MockGatewayCheckout } from "./pages/MockGatewayCheckout";
+import { EmergencySOS } from "./pages/EmergencySOS";
 import { ForgotPassword }  from "./pages/ForgotPassword";
 import { GuestRoute }      from "./components/GuestRoute";
 import { AdminRoute }      from "./components/AdminRoute";
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
       { path: "quote-estimator",     Component: InstantQuoteEstimator },
       { path: "mock-gateway-checkout", Component: MockGatewayCheckout },
       { path: "become-provider",     Component: BecomeProvider        },
+      { path: "emergency",           Component: EmergencySOS          },
 
       {
         element: <ProtectedRoute />,

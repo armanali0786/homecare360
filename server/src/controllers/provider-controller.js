@@ -75,6 +75,15 @@ exports.getComplianceQueue = async (req, res) => {
   }
 };
 
+exports.updateMyProfile = async (req, res) => {
+  try {
+    const provider = await providerService.updateMyProfile(req.user.id, req.body);
+    res.json({ success: true, provider });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 exports.updateComplianceStatus = async (req, res) => {
   try {
     const { complianceStatus, notes } = req.body;
