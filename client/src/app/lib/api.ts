@@ -86,6 +86,25 @@ export const getCancellationPolicy = (id: string) =>
 export const cancelBooking = (id: string) =>
   request<any>(`/bookings/${id}/cancel`, { method: "PUT", headers: authHeaders() });
 
+// ── Recurring bookings ────────────────────────────────────────────────────────
+export const createRecurringBooking = (data: object) =>
+  request<any>("/recurring-bookings", { method: "POST", headers: authHeaders(), body: JSON.stringify(data) });
+
+export const getMyRecurringBookings = () =>
+  request<any>("/recurring-bookings/my", { headers: authHeaders() });
+
+export const pauseRecurringBooking = (id: string) =>
+  request<any>(`/recurring-bookings/${id}/pause`, { method: "PUT", headers: authHeaders() });
+
+export const resumeRecurringBooking = (id: string) =>
+  request<any>(`/recurring-bookings/${id}/resume`, { method: "PUT", headers: authHeaders() });
+
+export const cancelRecurringBooking = (id: string) =>
+  request<any>(`/recurring-bookings/${id}/cancel`, { method: "PUT", headers: authHeaders() });
+
+export const skipNextRecurringBooking = (id: string) =>
+  request<any>(`/recurring-bookings/${id}/skip-next`, { method: "PUT", headers: authHeaders() });
+
 // Provider
 export const getProviderBookings = () =>
   request<any>("/bookings/provider/mine", { headers: authHeaders() });

@@ -1,6 +1,7 @@
 const http    = require("http");
 const express = require("express");
 const cors    = require("cors");
+const cron    = require("node-cron");
 const { Server } = require("socket.io");
 
 const { ServerConfig } = require("./config");
@@ -109,6 +110,24 @@ io.on("connection", (socket) => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 connectDB();
+
+// ── Recurring bookings ────────────────────────────────────────────────────────
+// Generates real Booking documents for any active recurring plan whose next
+// occurrence is due. Runs hourly so a plan fires the same calendar day it's
+// due without needing a precise midnight cron; also exposed as an
+// admin-triggerable endpoint (POST /api/v1/recurring-bookings/run-due) for
+// ops and demo purposes.
+const recurringBookingService = require("./services/recurring-booking-service");
+cron.schedule("0 * * * *", async () => {
+  try {
+    const results = await recurringBookingService.runDueRecurringBookings();
+    if (results.generated || results.failed) {
+      console.log(`[recurring-bookings] generated=${results.generated} failed=${results.failed}`);
+    }
+  } catch (err) {
+    console.error("[recurring-bookings] cron run failed:", err.message);
+  }
+});
 
 server.listen(ServerConfig.PORT, () => {
   console.log(`Server started on PORT ${ServerConfig.PORT}`);

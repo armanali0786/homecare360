@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { ReviewModal }       from "@/app/components/ReviewModal";
 import { CancelBookingModal } from "@/app/components/CancelBookingModal";
 import { ChatDrawer }        from "@/app/components/ChatDrawer";
+import { RecurringPlansPanel } from "@/app/components/RecurringPlansPanel";
 import { useLocale } from "@/app/context/LocaleContext";
 
 export function MyBookings() {
@@ -123,6 +124,8 @@ export function MyBookings() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <RecurringPlansPanel />
+
         {/* Filter Tabs */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}

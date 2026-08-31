@@ -1,12 +1,12 @@
 import { motion } from "motion/react";
 import {
   ArrowLeft, Check, Calendar, Clock, MapPin, ShieldCheck, Star, Tag,
-  Home, Banknote, CheckCircle2, ChevronRight, X, CreditCard,
+  Home, Banknote, CheckCircle2, ChevronRight, X, CreditCard, Repeat,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { getProviderById, createBooking, createStripeSession } from "@/app/lib/api";
+import { getProviderById, createBooking, createStripeSession, createRecurringBooking } from "@/app/lib/api";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useUser } from "@/app/context/UserContext";
 import { useLocale } from "@/app/context/LocaleContext";
@@ -76,6 +76,15 @@ const PROMOS: Record<string, { type: "percent" | "flat"; value: number }> = {
   "WELCOME10": { type: "percent", value: 10 },
   "HC50":      { type: "flat",    value: 50 },
   "NEWUSER":   { type: "percent", value: 15 },
+};
+
+// Recurring plans stand in for repeat visits the customer would otherwise
+// have to manually re-book every time — the discount grows with frequency
+// since a weekly commitment is worth more to a provider than a monthly one.
+const RECURRING_DISCOUNTS: Record<"weekly" | "biweekly" | "monthly", number> = {
+  weekly: 0.10,
+  biweekly: 0.07,
+  monthly: 0.05,
 };
 
 const STEP_KEYS = ["serviceDetails", "schedule", "address", "reviewPay"];
@@ -201,6 +210,9 @@ export function BookingPage() {
   const [submitting, setSubmitting]       = useState(false);
   const [confirmed, setConfirmed]         = useState<any>(null);
 
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [recurringFrequency, setRecurringFrequency] = useState<"weekly" | "biweekly" | "monthly">("weekly");
+
   useEffect(() => {
     if (!providerId) return;
     getProviderById(providerId)
@@ -222,7 +234,9 @@ export function BookingPage() {
       ? Math.round((subtotal * appliedPromo.value) / 100)
       : Math.min(appliedPromo.value, subtotal)
     : 0;
-  const afterDiscount = subtotal - discountAmt;
+  const recurringDiscountPercent = isRecurring ? RECURRING_DISCOUNTS[recurringFrequency] : 0;
+  const recurringDiscountAmt     = Math.round(subtotal * recurringDiscountPercent);
+  const afterDiscount = subtotal - discountAmt - recurringDiscountAmt;
   const gstAmt        = Math.round(afterDiscount * regionConfig.vatRate);
   const totalAmount   = afterDiscount + gstAmt;
 
@@ -288,10 +302,39 @@ export function BookingPage() {
         floorLandmark,
         paymentMethod,
         promoCode: appliedPromo ? appliedPromo.code : "",
-        discountAmount: discountAmt,
+        discountAmount: discountAmt + recurringDiscountAmt,
         gstAmount: gstAmt,
         preferredStaffGender: requireFemaleStaff ? "female" : "any",
       });
+
+      if (isRecurring) {
+        try {
+          await createRecurringBooking({
+            providerId: provider._id,
+            serviceCategory: provider.serviceCategory,
+            date: selectedDate,
+            time: selectedSlot,
+            location: address,
+            floorLandmark,
+            totalAmount,
+            region,
+            currency: regionConfig.currency,
+            propertyType,
+            propertySize,
+            addOns: activeAddOns.map((a) => ({ name: a.label, price: a.price })),
+            specialInstructions,
+            preferredStaffGender: requireFemaleStaff ? "female" : "any",
+            paymentMethod,
+            frequency: recurringFrequency,
+            discountAmount: discountAmt + recurringDiscountAmt,
+            gstAmount: gstAmt,
+            discountPercent: Math.round(recurringDiscountPercent * 100),
+          });
+          toast.success(t("bookingPage.step4.recurringPlanCreated"));
+        } catch (err: any) {
+          toast.error(err.message || t("bookingPage.step4.recurringPlanFailed"));
+        }
+      }
 
       // For Stripe: redirect to checkout
       if (paymentMethod === "stripe") {
@@ -785,6 +828,15 @@ export function BookingPage() {
                       <span className="font-medium">−{formatCurrency(discountAmt)}</span>
                     </div>
                   )}
+                  {recurringDiscountAmt > 0 && (
+                    <div className="flex justify-between text-emerald-600">
+                      <span className="flex items-center gap-1">
+                        <Repeat className="w-3.5 h-3.5" />
+                        {t("bookingPage.step4.recurringDiscount", { percent: Math.round(recurringDiscountPercent * 100) })}
+                      </span>
+                      <span className="font-medium">−{formatCurrency(recurringDiscountAmt)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-gray-500">
                     <span>{t("bookingPage.step4.vatLabel", { label: regionConfig.vatLabel, rate: Math.round(regionConfig.vatRate * 100) })}</span>
                     <span>{formatCurrency(gstAmt)}</span>
@@ -799,6 +851,47 @@ export function BookingPage() {
                     {t("bookingPage.step4.noHiddenCharges")}
                   </p>
                 </div>
+              </div>
+
+              {/* Recurring plan */}
+              <div className="bg-white rounded-2xl border border-gray-100 p-6">
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={isRecurring}
+                    onChange={(e) => setIsRecurring(e.target.checked)}
+                    className="w-4 h-4 mt-0.5 rounded border-gray-300 accent-[#00B8A9] cursor-pointer flex-shrink-0"
+                  />
+                  <div>
+                    <span className="flex items-center gap-1.5 text-sm font-semibold text-gray-900">
+                      <Repeat className="w-4 h-4 text-[#00B8A9]" />
+                      {t("bookingPage.step4.makeRecurring")}
+                    </span>
+                    <p className="text-xs text-gray-500 mt-0.5">{t("bookingPage.step4.makeRecurringHint")}</p>
+                  </div>
+                </label>
+
+                {isRecurring && (
+                  <div className="mt-4 grid grid-cols-3 gap-2">
+                    {(["weekly", "biweekly", "monthly"] as const).map((freq) => (
+                      <button
+                        key={freq}
+                        type="button"
+                        onClick={() => setRecurringFrequency(freq)}
+                        className={`px-3 py-2.5 rounded-xl border text-left transition-all ${
+                          recurringFrequency === freq
+                            ? "border-[#00B8A9] bg-cyan-50"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      >
+                        <p className="text-sm font-semibold text-gray-900">{t(`bookingPage.step4.frequency.${freq}`)}</p>
+                        <p className="text-xs text-emerald-600 font-medium">
+                          {t("bookingPage.step4.savepercent", { percent: Math.round(RECURRING_DISCOUNTS[freq] * 100) })}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Promo code */}

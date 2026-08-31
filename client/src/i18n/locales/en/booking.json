@@ -93,9 +93,20 @@
     "step4": {
       "orderSummary": "Order summary",
       "promoPrefix": "Promo:",
+      "recurringDiscount": "Recurring plan ({{percent}}% off)",
       "vatLabel": "{{label}} ({{rate}}%)",
       "totalPayable": "Total payable",
       "noHiddenCharges": "No hidden charges — this is the final amount",
+      "makeRecurring": "Make this a recurring booking",
+      "makeRecurringHint": "Auto-schedule this service so you never have to book it again — pause, skip, or cancel anytime.",
+      "frequency": {
+        "weekly": "Weekly",
+        "biweekly": "Every 2 weeks",
+        "monthly": "Monthly"
+      },
+      "savepercent": "Save {{percent}}%",
+      "recurringPlanCreated": "Recurring plan created — we'll auto-book your next visit.",
+      "recurringPlanFailed": "Booking confirmed, but the recurring plan couldn't be set up. You can try again from My Bookings.",
       "promoTitle": "Promo / discount code",
       "promoPlaceholder": "Enter promo code",
       "apply": "Apply",
@@ -153,6 +164,28 @@
     "WELCOME10": "10% off for new users",
     "HC50": "{{amount}} instant discount",
     "NEWUSER": "15% off — welcome offer"
+  },
+  "recurring": {
+    "title": "Your recurring plans",
+    "nextOn": "Next on {{date}}",
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "pause": "Pause",
+      "resume": "Resume",
+      "skipNext": "Skip next",
+      "cancel": "Cancel plan"
+    },
+    "toast": {
+      "pause": "Plan paused",
+      "resume": "Plan resumed",
+      "cancel": "Plan cancelled",
+      "skip": "Next occurrence skipped",
+      "actionFailed": "Couldn't update the plan"
+    }
   },
   "quoteEstimator": {
     "seoTitle": "Instant Quote Estimator",
