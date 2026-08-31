@@ -1,17 +1,19 @@
 import { motion } from "motion/react";
 import {
   Calendar, Clock, MapPin, CheckCircle2, XCircle, AlertCircle,
-  Wallet, Star, TrendingUp, AlertTriangle, MessageSquare,
+  Wallet, Star, TrendingUp, AlertTriangle, MessageSquare, Navigation,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getProviderBookings, getMyProviderProfile, providerCancelBooking, providerAcceptBooking, updateMyProviderProfile } from "@/app/lib/api";
 import { toast } from "react-toastify";
 import { ChatDrawer } from "@/app/components/ChatDrawer";
+import { TrackingModal } from "@/app/components/TrackingModal";
 import { useLocale } from "@/app/context/LocaleContext";
 
 export function ProviderDashboard() {
   const { t } = useTranslation("provider");
+  const { t: tTrack } = useTranslation("tracking");
   const { formatCurrency, regionConfig } = useLocale();
   const [profile,   setProfile]   = useState<any>(null);
   const [bookings,  setBookings]  = useState<any[]>([]);
@@ -22,6 +24,7 @@ export function ProviderDashboard() {
   const [cancelling,  setCancelling]  = useState<string | null>(null);
   const [accepting,   setAccepting]   = useState<string | null>(null);
   const [togglingEmergency, setTogglingEmergency] = useState(false);
+  const [trackBooking, setTrackBooking] = useState<any>(null);
 
   const fetchAll = async () => {
     setLoading(true);
@@ -365,6 +368,15 @@ export function ProviderDashboard() {
                       {booking.status === "upcoming" && (
                         <>
                           <button
+                            onClick={() => setTrackBooking(booking)}
+                            className="flex items-center gap-1.5 px-4 py-2 border border-[#00B8A9] text-[#00B8A9] text-sm font-medium rounded-lg hover:bg-cyan-50 transition-colors"
+                          >
+                            <Navigation className="w-3.5 h-3.5" />
+                            {booking.tracking?.status && booking.tracking.status !== "not_started"
+                              ? tTrack("trackButton")
+                              : tTrack("startButton")}
+                          </button>
+                          <button
                             onClick={() => { setChatBooking(booking); setChatOpen(true); }}
                             className="flex items-center gap-1.5 px-4 py-2 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors"
                           >
@@ -401,6 +413,13 @@ export function ProviderDashboard() {
         onClose={() => { setChatOpen(false); setChatBooking(null); }}
         booking={chatBooking}
         myRole="provider"
+      />
+
+      <TrackingModal
+        bookingId={trackBooking?._id}
+        open={!!trackBooking}
+        onClose={() => setTrackBooking(null)}
+        role="provider"
       />
     </div>
   );

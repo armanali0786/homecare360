@@ -1,0 +1,32 @@
+{
+  "title": "Live Technician Tracking",
+  "subtitle": "Track your technician in real time and verify their identity before they enter",
+  "identityVerified": "Identity Verified",
+  "waitingForProvider": "Your technician will start sharing their live location once they're on the way.",
+  "minutesAway": "min away",
+  "safetyNotice": "Do not let anyone in until they read out the code shown on their own device, and it matches what you enter below.",
+  "showCodeHint": "Show or read this code to the customer at the door:",
+  "waitingForCustomerVerify": "Waiting for the customer to verify this code...",
+  "enterCodeLabel": "Enter the code your technician gives you",
+  "verifiedTitle": "Identity Verified",
+  "verifiedSubtitle": "You've confirmed this is your assigned technician. Enjoy your service!",
+  "steps": {
+    "onTheWay": "On the way",
+    "arrived": "Arrived",
+    "verified": "Verified"
+  },
+  "actions": {
+    "startJourney": "Start Journey",
+    "markArrived": "I've Arrived",
+    "confirm": "Confirm"
+  },
+  "toasts": {
+    "started": "Journey started — the customer can now track you live",
+    "arrived": "Marked as arrived — show the customer your code",
+    "verified": "Arrival verified",
+    "codeMismatch": "That code doesn't match",
+    "failed": "Something went wrong"
+  },
+  "trackButton": "Track Technician",
+  "startButton": "Start Journey"
+}

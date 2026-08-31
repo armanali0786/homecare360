@@ -89,6 +89,23 @@ export const getCancellationPolicy = (id: string) =>
 export const cancelBooking = (id: string) =>
   request<any>(`/bookings/${id}/cancel`, { method: "PUT", headers: authHeaders() });
 
+// ── Live tracking + arrival verification ──────────────────────────────────────
+export const getBookingTracking = (id: string) =>
+  request<any>(`/bookings/${id}/tracking`, { headers: authHeaders() });
+
+export const startJourney = (id: string) =>
+  request<any>(`/bookings/${id}/tracking/start`, { method: "POST", headers: authHeaders() });
+
+export const markArrived = (id: string) =>
+  request<any>(`/bookings/${id}/tracking/arrived`, { method: "POST", headers: authHeaders() });
+
+export const verifyArrival = (id: string, code: string) =>
+  request<any>(`/bookings/${id}/tracking/verify`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify({ code }),
+  });
+
 // ── Emergency / SOS ───────────────────────────────────────────────────────────
 export const bookEmergency = (data: object) =>
   request<any>("/emergency/book", { method: "POST", headers: authHeaders(), body: JSON.stringify(data) });

@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import {
   Calendar, Clock, MapPin, CheckCircle2, XCircle, AlertCircle,
-  MessageSquare, Star, CreditCard, Package,
+  MessageSquare, Star, CreditCard, Package, Navigation,
 } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useEffect, useState } from "react";
@@ -13,10 +13,12 @@ import { ReviewModal }       from "@/app/components/ReviewModal";
 import { CancelBookingModal } from "@/app/components/CancelBookingModal";
 import { ChatDrawer }        from "@/app/components/ChatDrawer";
 import { RecurringPlansPanel } from "@/app/components/RecurringPlansPanel";
+import { TrackingModal }     from "@/app/components/TrackingModal";
 import { useLocale } from "@/app/context/LocaleContext";
 
 export function MyBookings() {
   const { t } = useTranslation("booking");
+  const { t: tTrack } = useTranslation("tracking");
   const { formatCurrency } = useLocale();
   const [bookings,      setBookings]      = useState<any[]>([]);
   const [loading,       setLoading]       = useState(true);
@@ -26,6 +28,7 @@ export function MyBookings() {
   const [reviewBooking,  setReviewBooking]  = useState<any>(null);
   const [cancelBooking,  setCancelBooking]  = useState<any>(null);
   const [chatBooking,    setChatBooking]    = useState<any>(null);
+  const [trackBooking,   setTrackBooking]   = useState<any>(null);
 
   const fetchBookings = async () => {
     setLoading(true);
@@ -289,6 +292,13 @@ export function MyBookings() {
                         {booking.status === "upcoming" && (
                           <>
                             <button
+                              onClick={() => setTrackBooking(booking)}
+                              className="flex items-center gap-1.5 px-4 py-2 border border-[#00B8A9] text-[#00B8A9] text-sm font-medium rounded-lg hover:bg-cyan-50 transition-colors"
+                            >
+                              <Navigation className="w-3.5 h-3.5" />
+                              {tTrack("trackButton")}
+                            </button>
+                            <button
                               onClick={() => { setChatBooking(booking); }}
                               className="flex items-center gap-1.5 px-4 py-2 bg-[#00B8A9] text-white text-sm font-medium rounded-lg hover:bg-[#009e91] transition-colors"
                             >
@@ -365,6 +375,13 @@ export function MyBookings() {
         onClose={() => setChatBooking(null)}
         booking={chatBooking}
         myRole="customer"
+      />
+
+      <TrackingModal
+        bookingId={trackBooking?._id}
+        open={!!trackBooking}
+        onClose={() => setTrackBooking(null)}
+        role="customer"
       />
     </div>
   );

@@ -14,6 +14,7 @@ import enAdmin from "./locales/en/admin.json";
 import enCompliance from "./locales/en/compliance.json";
 import enGateway from "./locales/en/gateway.json";
 import enEmergency from "./locales/en/emergency.json";
+import enTracking from "./locales/en/tracking.json";
 
 import arCommon from "./locales/ar/common.json";
 import arNav from "./locales/ar/nav.json";
@@ -28,6 +29,7 @@ import arAdmin from "./locales/ar/admin.json";
 import arCompliance from "./locales/ar/compliance.json";
 import arGateway from "./locales/ar/gateway.json";
 import arEmergency from "./locales/ar/emergency.json";
+import arTracking from "./locales/ar/tracking.json";
 
 export const NAMESPACES = [
   "common",
@@ -43,6 +45,7 @@ export const NAMESPACES = [
   "compliance",
   "gateway",
   "emergency",
+  "tracking",
 ] as const;
 
 i18n.use(initReactI18next).init({
@@ -61,6 +64,7 @@ i18n.use(initReactI18next).init({
       compliance: enCompliance,
       gateway: enGateway,
       emergency: enEmergency,
+      tracking: enTracking,
     },
     ar: {
       common: arCommon,
@@ -76,6 +80,7 @@ i18n.use(initReactI18next).init({
       compliance: arCompliance,
       gateway: arGateway,
       emergency: arEmergency,
+      tracking: arTracking,
     },
   },
   lng: localStorage.getItem("hc360_lang") || "en",

@@ -65,6 +65,23 @@ const bookingSchema = new mongoose.Schema(
     // booking within the guaranteed window — enforces the "free if late" promise.
     slaBreached: { type: Boolean, default: false },
     feeWaived:   { type: Boolean, default: false },
+
+    // Live technician tracking + arrival verification (see tracking-service.js).
+    // verificationCode is only ever returned to the provider — the customer
+    // must get it from the technician in person, which is what actually
+    // proves the person at the door is the assigned provider.
+    tracking: {
+      status: {
+        type:    String,
+        enum:    ["not_started", "on_the_way", "arrived", "verified"],
+        default: "not_started",
+      },
+      etaMinutes:       { type: Number, default: 0 },
+      startedAt:        { type: Date },
+      arrivedAt:        { type: Date },
+      verifiedAt:       { type: Date },
+      verificationCode: { type: String, default: "" },
+    },
   },
   { timestamps: true }
 );
